@@ -84,8 +84,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
   <div class="profile">
     <div class="photo" id="lecturerPhoto">👨‍🏫</div>
     <div>
-      <h2 id="lecturerName">Lecturer</h2>
-      <div class="muted" id="lecturerEmail"></div>
+      <h2 id="lecturerName">Dr. Ahmed Ibrahim</h2>
       <div class="muted">Senior Lecturer • Staff ID: SHTMS-LEC-001</div>
       <div class="profile-meta">
         <div class="meta"><span class="muted">Faculty</span><strong id="faculty">Faculty of Computing</strong></div>
@@ -232,42 +231,12 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
 </div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 const firebaseConfig={apiKey:"AIzaSyDfHJaoVA7eQKWWq71zn2bQOpR4Vot9v8c",authDomain:"smsh-282c0.firebaseapp.com",projectId:"smsh-282c0",storageBucket:"smsh-282c0.firebasestorage.app",messagingSenderId:"477828256463",appId:"1:477828256463:web:80a6755b679f585c73ddba"};
-const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
-const profilePage="lecturer-profile.html";
-function normalizeAccess(value){
-  return Array.isArray(value) ? value.map(v=>String(v||"").trim()).filter(Boolean) : [];
-}
-onAuthStateChanged(auth,async user=>{
- if(!user){location.href="index.html";return}
- try{
-  const snap=await getDoc(doc(db,"users",user.uid));
-  if(!snap.exists()) throw new Error("Your Firebase account exists, but no user access record was found. Contact the administrator.");
-  const d=snap.data();
-  const role=String(d.role||"").trim().toLowerCase();
-  const access=normalizeAccess(d.access);
-  // During the build phase, page-level access lists are not enforced.
-  // The Firebase role is the only client-side portal check for now.
-  // Final page authorization will be restored after all modules are complete.
-  if(d.active===false || (role!=="lecturer" && role!=="admin")) {
-    throw new Error("Access denied. This Lecturer Profile is only available to active lecturer accounts or administrators.");
-  }
-
-  document.getElementById("lecturerName").textContent=d.fullName||d.name||"Lecturer";
-  document.getElementById("lecturerEmail").textContent=d.email||user.email||"";
-  if(d.faculty) document.getElementById("faculty").textContent=d.faculty;
-  if(d.department) document.getElementById("department").textContent=d.department;
- }catch(e){
-  console.error(e);
-  alert(e.message||"Unable to verify lecturer access.");
-  await signOut(auth);
-  location.href="index.html";
- }
-});
-document.getElementById("logoutBtn").addEventListener("click",async()=>{await signOut(auth);location.href="index.html"});
+const db=getFirestore(initializeApp(firebaseConfig));
+try{const ss=await getDocs(collection(db,"users"));const row=ss.docs.map(d=>({uid:d.id,...d.data()})).find(x=>String(x.role||"").toLowerCase()==="lecturer")||{};document.getElementById("lecturerName").textContent=row.fullName||row.name||"Development Lecturer";document.getElementById("lecturerEmail").textContent=row.email||"Development Mode";if(row.faculty)document.getElementById("faculty").textContent=row.faculty;if(row.department)document.getElementById("department").textContent=row.department;}catch(e){console.warn(e);document.getElementById("lecturerName").textContent="Development Lecturer";document.getElementById("lecturerEmail").textContent="Development Mode"}
+document.getElementById("logoutBtn").addEventListener("click",()=>location.href="index.html");
 </script>
 
 <script>

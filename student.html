@@ -85,18 +85,14 @@ table{width:100%;border-collapse:collapse}th,td{padding:11px 9px;border-bottom:1
 
 <script type="module">
 import {initializeApp,getApps,getApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import {getAuth,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
 import {getFirestore,collection,getDocs,doc,getDoc,setDoc,updateDoc,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 const firebaseConfig={apiKey:"AIzaSyDfHJaoVA7eQKWWq71zn2bQOpR4Vot9v8c",authDomain:"smsh-282c0.firebaseapp.com",projectId:"smsh-282c0",storageBucket:"smsh-282c0.firebasestorage.app",messagingSenderId:"477828256463",appId:"1:477828256463:web:80a6755b679f585c73ddba"};
-const app=getApps().length?getApp():initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
+const app=getApps().length?getApp():initializeApp(firebaseConfig),db=getFirestore(app);
 const $=id=>document.getElementById(id), esc=v=>String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 let records=[], editingId=null;
 
-async function verifyAdmin(u){
- const s=await getDoc(doc(db,"users",u.uid)); const d=s.exists()?s.data():{};
- if(!s.exists()||String(d.role||"").toLowerCase()!=="admin"||d.active===false) throw new Error("Access denied. Only an active administrator can use Student Management.");
-}
 
 function normalize(d,id){return {...d,_id:id,studentId:d.studentId||d.matricNo||d.matricNumber||id}}
 
@@ -147,7 +143,7 @@ async function save(e){
    level:$("level").value,semester:$("semester").value,session:$("session").value.trim(),
    admissionYear:$("admissionYear").value?Number($("admissionYear").value):"",graduationYear:$("graduationYear").value?Number($("graduationYear").value):"",
    address:$("address").value.trim(),adminNotes:$("adminNotes").value.trim(),active:$("active").value==="true",
-   updatedAt:serverTimestamp(),updatedBy:auth.currentUser.uid
+   updatedAt:serverTimestamp(),updatedBy:"development-mode"
   };
   if(!old)data.createdAt=serverTimestamp();
   await setDoc(doc(db,"users",uid),data);
@@ -157,8 +153,7 @@ async function save(e){
 }
 function closeModal(){$("modal").style.display="none"}
 $("newBtn").onclick=openNew;$("saveBtn").onclick=save;$("cancelBtn").onclick=closeModal;$("closeBtn").onclick=closeModal;$("refreshBtn").onclick=load;$("search").oninput=render;$("statusFilter").onchange=render;
-$("logoutBtn").onclick=async()=>{await signOut(auth);location.href="index.html"};
-onAuthStateChanged(auth,async u=>{if(!u){location.href="index.html";return}try{await verifyAdmin(u);await load()}catch(e){alert(e.message);await signOut(auth);location.href="index.html"}});
+$("logoutBtn").onclick=()=>location.href="index.html";load();
 </script>
 </body>
 </html>
