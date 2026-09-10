@@ -6,185 +6,95 @@
 <title>SHTMS | Master System</title>
 <style>
 :root{
-  --primary:#0b6b57;--dark:#073e34;--accent:#13a37f;
-  --bg:#f3f7f6;--card:#fff;--text:#172b2b;--muted:#667875;
-  --border:#dbe7e3;--danger:#b42318;--success:#067647;
+  --primary:#0b6b57;--primary2:#0f8a70;--dark:#073e34;--bg:#eef5f3;
+  --card:#fff;--text:#142b29;--muted:#6b7d79;--border:#dce8e5;
+  --shadow:0 14px 40px rgba(7,62,52,.09);--shadow2:0 8px 22px rgba(7,62,52,.12);
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
-header{background:linear-gradient(135deg,var(--dark),var(--primary));color:#fff;padding:20px}
-.header-inner{max-width:1050px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:15px}
-header h1{margin:0;font-size:24px}header p{margin:5px 0 0;color:#d7ebe5;font-size:14px}
-button{font:inherit;cursor:pointer}
-.logout{background:#fff;color:var(--danger);border:0;border-radius:8px;padding:10px 15px;font-weight:bold}
-main{max-width:1050px;margin:30px auto;padding:0 18px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px;box-shadow:0 5px 18px rgba(16,42,42,.06)}
-h2{margin-top:0;font-size:22px}label{display:block;font-size:14px;font-weight:bold;margin:15px 0 7px}
-input{width:100%;padding:13px;border:1px solid var(--border);border-radius:9px;font-size:15px;background:#fff;outline:none}
-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(19,163,127,.12)}
-.create{width:100%;margin-top:22px;padding:14px;background:var(--primary);color:#fff;border:0;border-radius:9px;font-size:16px;font-weight:bold}
-.create:hover{background:var(--dark)}.create:disabled{opacity:.6;cursor:not-allowed}
-.message{margin-top:16px;min-height:24px;font-size:14px;line-height:1.5}
-.portal-section{margin-top:28px}
-.portal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
-.portal-link{display:block;text-decoration:none;color:var(--text);background:#fff;border:1px solid var(--border);
-  border-radius:12px;padding:16px;font-weight:bold;transition:.2s}
-.portal-link small{display:block;color:var(--muted);font-weight:normal;margin-top:5px}
-.portal-link:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 8px 20px rgba(16,42,42,.08)}
-
-.section-title{display:flex;justify-content:space-between;align-items:center;gap:15px;margin:0 0 14px}
-.badge{background:#e2f4ee;color:var(--primary);padding:6px 10px;border-radius:20px;font-size:12px;font-weight:bold}
-@media(max-width:760px){.grid{grid-template-columns:1fr}.header-inner{align-items:flex-start;flex-direction:column}.logout{width:100%}}
-
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:linear-gradient(180deg,#f5f9f8 0%,var(--bg) 100%);color:var(--text)}
+a{text-decoration:none;color:inherit}
+.header{position:sticky;top:0;z-index:20;background:rgba(7,62,52,.94);backdrop-filter:blur(12px);color:#fff;border-bottom:1px solid rgba(255,255,255,.12)}
+.header-inner{max-width:1200px;margin:auto;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:14px}.brand-mark{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#19a882,#0b6b57);font-size:25px;box-shadow:0 8px 22px rgba(0,0,0,.16)}
+.brand h1{margin:0;font-size:21px;letter-spacing:.2px}.brand p{margin:4px 0 0;color:#cce4de;font-size:13px}
+.header-actions{display:flex;gap:10px;align-items:center}.top-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:11px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.09);color:#fff;font-weight:700;cursor:pointer}.top-btn:hover{background:rgba(255,255,255,.16)}
+main{max-width:1200px;margin:auto;padding:34px 22px 60px}
+.hero{display:grid;grid-template-columns:1.5fr .8fr;gap:22px;margin-bottom:25px}.hero-card{background:linear-gradient(135deg,#073e34,#0b6b57 70%,#0e8b70);color:#fff;border-radius:24px;padding:32px;box-shadow:var(--shadow);position:relative;overflow:hidden}.hero-card:after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;right:-70px;top:-85px;background:rgba(255,255,255,.07)}
+.hero-card h2{font-size:30px;margin:0 0 10px}.hero-card p{margin:0;color:#d9eee9;line-height:1.6;max-width:680px}.hero-buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:23px}.hero-btn{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--dark);padding:11px 16px;border-radius:11px;font-weight:800}.hero-btn:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(0,0,0,.15)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}.stat{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:22px;box-shadow:var(--shadow)}.stat-icon{font-size:23px}.stat strong{display:block;font-size:28px;margin-top:9px;color:var(--primary)}.stat span{font-size:13px;color:var(--muted)}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:15px;margin:28px 0 14px}.section-head h2{margin:0;font-size:22px}.section-head p{margin:5px 0 0;color:var(--muted);font-size:13px}.badge{background:#dff3ed;color:var(--primary);padding:7px 11px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}
+.portal-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.portal{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;min-height:142px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 5px 20px rgba(7,62,52,.05);transition:.2s ease;position:relative;overflow:hidden}.portal:before{content:"";position:absolute;left:0;top:0;right:0;height:3px;background:linear-gradient(90deg,var(--primary),#19a882);transform:scaleX(0);transform-origin:left;transition:.2s}.portal:hover{transform:translateY(-4px);border-color:#a8d5ca;box-shadow:var(--shadow2)}.portal:hover:before{transform:scaleX(1)}
+.portal-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.icon{width:43px;height:43px;border-radius:13px;display:grid;place-items:center;background:#e8f5f1;color:var(--primary);font-size:21px}.arrow{font-size:20px;color:#91a5a1;transition:.2s}.portal:hover .arrow{color:var(--primary);transform:translateX(3px)}.portal h3{font-size:15px;margin:14px 0 4px}.portal small{color:var(--muted);font-size:11px}.portal .open{margin-top:13px;font-size:12px;color:var(--primary);font-weight:800}
+footer{max-width:1200px;margin:0 auto;padding:0 22px 30px;color:var(--muted);font-size:12px;text-align:center}
+@media(max-width:1000px){.portal-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{grid-template-columns:1fr}}
+@media(max-width:700px){.header-inner{padding:14px 16px}.brand p{display:none}.header-actions .label{display:none}main{padding:22px 16px 45px}.portal-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.portal{min-height:132px;padding:15px}.hero-card{padding:25px}.hero-card h2{font-size:25px}.stats{grid-template-columns:1fr 1fr}}
+@media(max-width:430px){.portal-grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.header-actions{gap:6px}.top-btn{padding:9px 10px}}
 </style>
 </head>
 <body>
-
-<header>
+<header class="header">
   <div class="header-inner">
-    <div>
-      <h1>SHTMS Master System</h1>
-      <p>Development master page — free flow across the SHTMS system.</p>
+    <a class="brand" href="index.html" aria-label="SHTMS Master System">
+      <div class="brand-mark">✚</div>
+      <div><h1>SHTMS Master System</h1><p>School of Health & Technology Management System</p></div>
+    </a>
+    <div class="header-actions">
+      <a class="top-btn" href="admin.html">⚙ <span class="label">Admin Portal</span></a>
+      <button class="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">⌃ <span class="label">Top</span></button>
     </div>
-    <button class="logout" id="logoutBtn">Logout</button>
   </div>
 </header>
 
 <main>
-  <div class="grid">
-    <section class="card">
-      <h2>Create New User</h2>
-
-      <label for="fullName">Full Name</label>
-      <input id="fullName" type="text" placeholder="Enter full name">
-
-      <label for="email">Email Address</label>
-      <input id="email" type="email" placeholder="user@example.com">
-
-      <label for="role">System Role</label>
-      <select id="role" style="width:100%;padding:13px;border:1px solid var(--border);border-radius:9px;font-size:15px;background:#fff;outline:none">
-        <option value="">Select role</option>
-        <option value="student">Student</option>
-        <option value="lecturer">Lecturer</option>
-        <option value="hod">HOD</option>
-        <option value="registrar">Registrar</option>
-        <option value="bursary">Bursary</option>
-        <option value="admissions">Admissions</option>
-        <option value="admin">Administrator</option>
-      </select>
-
-      <button class="create" id="createBtn">Create User Account</button>
-      <div class="message" id="message"></div>
-    </section>
-
-
-  </div>
-
-  <section class="portal-section">
-    <div class="section-title">
-      <div>
-        <h2 style="margin:0">Master Admin Access</h2>
-        <p style="color:var(--muted);margin:6px 0 0">Quick access to every available SHTMS HTML portal and module.</p>
+  <section class="hero">
+    <div class="hero-card">
+      <h2>Welcome to SHTMS</h2>
+      <p>This is the master entry page for the fresh SHTMS rebuild. All available portals and management modules are open for development and ready to launch directly from this dashboard.</p>
+      <div class="hero-buttons">
+        <a class="hero-btn" href="admin.html">⚙ Open Admin Portal</a>
+        <a class="hero-btn" href="student.html">🎓 Open Student Portal</a>
+        <a class="hero-btn" href="lecturer.html">👨‍🏫 Open Lecturer Portal</a>
       </div>
-      <span class="badge">MASTER ADMIN</span>
     </div>
-
-    <div class="portal-grid">
-      <a class="portal-link" href="admin.html">Admin Portal<small>admin.html</small></a>
-      <a class="portal-link" href="student.html">Student Portal<small>student.html</small></a>
-      <a class="portal-link" href="lecturer.html">Lecturer Portal<small>lecturer.html</small></a>
-      <a class="portal-link" href="hod.html">HOD Portal<small>hod.html</small></a>
-      <a class="portal-link" href="registrar.html">Registrar Portal<small>registrar.html</small></a>
-      <a class="portal-link" href="bursary.html">Bursary Portal<small>bursary.html</small></a>
-      <a class="portal-link" href="admissions.html">Admissions Portal<small>admissions.html</small></a>
-      <a class="portal-link" href="students.html">Students Management<small>students.html</small></a>
-      <a class="portal-link" href="applicants.html">Applicants<small>applicants.html</small></a>
-      <a class="portal-link" href="departments.html">Departments<small>departments.html</small></a>
-      <a class="portal-link" href="programmes.html">Programmes<small>programmes.html</small></a>
-      <a class="portal-link" href="courses.html">Courses<small>courses.html</small></a>
-      <a class="portal-link" href="course-registration.html">Course Registration<small>course-registration.html</small></a>
-      <a class="portal-link" href="timetable.html">Timetable<small>timetable.html</small></a>
-      <a class="portal-link" href="attendance.html">Attendance<small>attendance.html</small></a>
-      <a class="portal-link" href="examinations.html">Examinations<small>examinations.html</small></a>
-      <a class="portal-link" href="result-entry.html">Result Entry<small>result-entry.html</small></a>
-      <a class="portal-link" href="results.html">Results<small>results.html</small></a>
-      <a class="portal-link" href="transcript.html">Transcript<small>transcript.html</small></a>
-      <a class="portal-link" href="fees.html">Fees<small>fees.html</small></a>
-      <a class="portal-link" href="payments.html">Payments<small>payments.html</small></a>
-      <a class="portal-link" href="receipts.html">Receipts<small>receipts.html</small></a>
-      <a class="portal-link" href="clinical.html">Clinical<small>clinical.html</small></a>
-      <a class="portal-link" href="medical.html">Medical<small>medical.html</small></a>
-      <a class="portal-link" href="library.html">Library<small>library.html</small></a>
-      <a class="portal-link" href="hostel.html">Hostel<small>hostel.html</small></a>
-      <a class="portal-link" href="announcements.html">Announcements<small>announcements.html</small></a>
-      <a class="portal-link" href="reports.html">Reports<small>reports.html</small></a>
-      <a class="portal-link" href="settings.html">Settings<small>settings.html</small></a>
-      <a class="portal-link" href="student-profile.html">Student Profile<small>student-profile.html</small></a>
-      <a class="portal-link" href="lecturer-profile.html">Lecturer Profile<small>lecturer-profile.html</small></a>
-    
-      <a class="portal-link" href="department.html">Department<small>department.html</small></a></div>
+    <div class="stats">
+      <div class="stat"><div class="stat-icon">▦</div><strong>33</strong><span>Portal & module links</span></div>
+      <div class="stat"><div class="stat-icon">↗</div><strong>1-Click</strong><span>Direct navigation</span></div>
+      <div class="stat"><div class="stat-icon">🔓</div><strong>Open</strong><span>Development flow</span></div>
+      <div class="stat"><div class="stat-icon">☁</div><strong>Firebase</strong><span>Project-connected modules</span></div>
+    </div>
   </section>
 
+  <div class="section-head"><div><h2>Core Portals</h2><p>Open each role-based portal directly.</p></div><span class="badge">READY TO CLICK</span></div>
+  <section class="portal-grid" id="core"></section>
+
+  <div class="section-head"><div><h2>Academic & Administration</h2><p>Management modules for the SHTMS workflow.</p></div><span class="badge">MODULES</span></div>
+  <section class="portal-grid" id="management"></section>
+
+  <div class="section-head"><div><h2>Student & Lecturer Services</h2><p>Profiles, registration, records and academic services.</p></div><span class="badge">SERVICES</span></div>
+  <section class="portal-grid" id="services"></section>
+
+  <div class="section-head"><div><h2>Finance, Welfare & Communication</h2><p>Operational services and supporting modules.</p></div><span class="badge">OPERATIONS</span></div>
+  <section class="portal-grid" id="operations"></section>
 </main>
+<footer>SHTMS Fresh Rebuild • Master dashboard • Development mode</footer>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import {
-  getFirestore, collection, addDoc, serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDfHJaoVA7eQKWWq71zn2bQOpR4Vot9v8c",
-  authDomain: "smsh-282c0.firebaseapp.com",
-  projectId: "smsh-282c0",
-  storageBucket: "smsh-282c0.firebasestorage.app",
-  messagingSenderId: "477828256463",
-  appId: "1:477828256463:web:80a6755b679f585c73ddba"
-};
-
-// DEVELOPMENT MODE: no Firebase Authentication is used on the master page.
-// We are rebuilding SHTMS from scratch. Authentication/security can be added later.
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-const fullName = document.getElementById("fullName");
-const email = document.getElementById("email");
-const role = document.getElementById("role");
-const createBtn = document.getElementById("createBtn");
-const message = document.getElementById("message");
-function showMessage(text,error=false){ message.textContent=text; message.style.color=error?"#b42318":"#067647"; }
-
-createBtn.addEventListener("click",async()=>{
-  try{
-    const name=fullName.value.trim();
-    const userEmail=email.value.trim().toLowerCase();
-    const selectedRole=role.value;
-    if(!name||!userEmail||!selectedRole) throw new Error("Please complete the name, email and system role.");
-
-    createBtn.disabled=true;
-    showMessage("Creating user record...");
-
-    // No password and no page-access list in this fresh development build.
-    // The account is a Firestore master record only for now.
-    const ref=await addDoc(collection(db,"users"),{
-      fullName:name,
-      email:userEmail,
-      role:selectedRole,
-      active:true,
-      developmentMode:true,
-      createdAt:serverTimestamp()
-    });
-
-    showMessage(`User created successfully. ${name} (${selectedRole}) — ID: ${ref.id}`);
-    fullName.value=""; email.value=""; role.value="";
-  }catch(error){
-    console.error(error);
-    showMessage(error.message||"Could not create the user record.",true);
-  }finally{createBtn.disabled=false;}
-});
-
-document.getElementById("logoutBtn").addEventListener("click",()=>{ location.reload(); });</script>
-
+<script>
+const groups={
+core:[
+ ['⚙','Admin Portal','admin.html'],['🎓','Student Portal','student.html'],['👨‍🏫','Lecturer Portal','lecturer.html'],['🏛','HOD Portal','hod.html'],['📋','Registrar Portal','registrar.html'],['💰','Bursary Portal','bursary.html'],['📝','Admissions Portal','admissions.html']
+],
+management:[
+ ['👥','Students Management','students.html'],['📄','Applicants','applicants.html'],['🏢','Departments','departments.html'],['🎓','Programmes','programmes.html'],['📚','Courses','courses.html'],['🗂','Department','department.html'],['🗓','Timetable','timetable.html'],['🧾','Examinations','examinations.html'],['📊','Result Entry','result-entry.html'],['🏆','Results','results.html'],['📑','Transcript','transcript.html'],['📈','Reports','reports.html'],['🔔','Announcements','announcements.html'],['⚙','Settings','settings.html']
+],
+services:[
+ ['📝','Course Registration','course-registration.html'],['🧑‍🎓','Student Profile','student-profile.html'],['👨‍🏫','Lecturer Profile','lecturer-profile.html'],['📚','Lecture Notes','lecture-notes.html'],['✍','Assignments','assignments.html'],['📅','Attendance','attendance.html'],['📖','Library','library.html']
+],
+operations:[
+ ['💳','Fees','fees.html'],['💵','Payments','payments.html'],['🧾','Receipts','receipts.html'],['🩺','Clinical','clinical.html'],['🏥','Medical','medical.html'],['🏠','Hostel','hostel.html']
+]};
+function render(id,items){document.getElementById(id).innerHTML=items.map(([icon,name,href])=>`<a class="portal" href="${href}" aria-label="Open ${name}"><div><div class="portal-top"><div class="icon">${icon}</div><span class="arrow">→</span></div><h3>${name}</h3><small>${href}</small></div><div class="open">OPEN MODULE →</div></a>`).join('')}
+Object.entries(groups).forEach(([id,items])=>render(id,items));
+</script>
 </body>
 </html>
