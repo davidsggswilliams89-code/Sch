@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHTMS | User Management</title>
+<style>
+:root{
+  --primary:#0b6b57;--dark:#073e34;--accent:#13a37f;
+  --bg:#f3f7f6;--card:#fff;--text:#172b2b;--muted:#667875;
+  --border:#dbe7e3;--danger:#b42318;--success:#067647;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+header{background:linear-gradient(135deg,var(--dark),var(--primary));color:#fff;padding:20px}
+.header-inner{max-width:1050px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:15px}
+header h1{margin:0;font-size:24px}header p{margin:5px 0 0;color:#d7ebe5;font-size:14px}
+button{font:inherit;cursor:pointer}
+.logout{background:#fff;color:var(--danger);border:0;border-radius:8px;padding:10px 15px;font-weight:bold}
+main{max-width:1050px;margin:30px auto;padding:0 18px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px;box-shadow:0 5px 18px rgba(16,42,42,.06)}
+h2{margin-top:0;font-size:22px}label{display:block;font-size:14px;font-weight:bold;margin:15px 0 7px}
+input,select{width:100%;padding:13px;border:1px solid var(--border);border-radius:9px;font-size:15px;background:#fff;outline:none}
+input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(19,163,127,.12)}
+.create{width:100%;margin-top:22px;padding:14px;background:var(--primary);color:#fff;border:0;border-radius:9px;font-size:16px;font-weight:bold}
+.create:hover{background:var(--dark)}.create:disabled{opacity:.6;cursor:not-allowed}
+.message{margin-top:16px;min-height:24px;font-size:14px;line-height:1.5}
+.info{background:#eef8f5;border:1px solid #cde8df;border-radius:12px;padding:18px;line-height:1.6;color:#28574d}
+.warning{margin-top:20px;background:#fff8dc;border:1px solid #f0e1a7;border-radius:12px;padding:15px;color:#6d5b10;line-height:1.6;font-size:14px}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:12px;border-bottom:1px solid var(--border)}
+th{color:var(--muted)}
+.role{display:inline-block;padding:5px 9px;background:#e2f4ee;color:var(--primary);border-radius:20px;font-size:12px;font-weight:bold}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.header-inner{align-items:flex-start;flex-direction:column}.logout{width:100%}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <h1>SHTMS User Management</h1>
+      <p>Create Firebase users and assign their portal roles.</p>
+    </div>
+    <button class="logout" id="logoutBtn">Logout</button>
+  </div>
+</header>
+
+<main>
+  <div class="grid">
+    <section class="card">
+      <h2>Create New User</h2>
+
+      <label for="fullName">Full Name</label>
+      <input id="fullName" type="text" placeholder="Enter full name">
+
+      <label for="email">Email Address</label>
+      <input id="email" type="email" placeholder="user@example.com">
+
+      <label for="password">Temporary Password</label>
+      <input id="password" type="password" minlength="6" placeholder="Minimum 6 characters">
+
+      <label for="role">Portal / User Role</label>
+      <select id="role">
+        <option value="">-- Select Role --</option>
+        <option value="student">Student → student.html</option>
+        <option value="lecturer">Lecturer → lecturer.html</option>
+        <option value="hod">HOD → hod.html</option>
+        <option value="registrar">Registrar → registrar.html</option>
+        <option value="bursary">Bursary → bursary.html</option>
+        <option value="admissions">Admissions → admissions.html</option>
+        <option value="admin">Administrator → admin.html</option>
+      </select>
+
+      <button class="create" id="createBtn">Create User Account</button>
+      <div class="message" id="message"></div>
+    </section>
+
+    <section class="card">
+      <h2>How It Works</h2>
+      <div class="info">
+        <strong>1.</strong> This page creates an Email/Password user in Firebase Authentication.<br><br>
+        <strong>2.</strong> The user's Firebase UID is used to create a document in Firestore.<br><br>
+        <strong>3.</strong> The selected role is saved in <code>users/UID</code>.<br><br>
+        <strong>4.</strong> When the user logs in through <code>index.html</code>, the system reads the role and opens the correct portal.
+      </div>
+
+      <h2 style="margin-top:25px">Role Routing</h2>
+      <table>
+        <tr><th>Role</th><th>Destination</th></tr>
+        <tr><td><span class="role">student</span></td><td>student.html</td></tr>
+        <tr><td><span class="role">lecturer</span></td><td>lecturer.html</td></tr>
+        <tr><td><span class="role">hod</span></td><td>hod.html</td></tr>
+        <tr><td><span class="role">registrar</span></td><td>registrar.html</td></tr>
+        <tr><td><span class="role">bursary</span></td><td>bursary.html</td></tr>
+        <tr><td><span class="role">admissions</span></td><td>admissions.html</td></tr>
+        <tr><td><span class="role">admin</span></td><td>admin.html</td></tr>
+      </table>
+
+      <div class="warning">
+        <strong>Important:</strong> This page checks that the currently logged-in user has the <code>admin</code> role. You should also configure Firestore Security Rules before using this in production.
+      </div>
+    </section>
+  </div>
+</main>
+
+<script type="module">
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {
+  getAuth, onAuthStateChanged, signOut,
+  createUserWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import {
+  getFirestore, doc, getDoc, setDoc, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDfHJaoVA7eQKWWq71zn2bQOpR4Vot9v8c",
+  authDomain: "smsh-282c0.firebaseapp.com",
+  projectId: "smsh-282c0",
+  storageBucket: "smsh-282c0.firebasestorage.app",
+  messagingSenderId: "477828256463",
+  appId: "1:477828256463:web:80a6755b679f585c73ddba"
+};
+
+// Primary app: current administrator.
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// Secondary Firebase app: creates the new account without logging out the admin.
+const secondaryApp = initializeApp(firebaseConfig, "SHTMSUserCreator");
+const secondaryAuth = getAuth(secondaryApp);
+
+const fullName = document.getElementById("fullName");
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const role = document.getElementById("role");
+const createBtn = document.getElementById("createBtn");
+const message = document.getElementById("message");
+
+function showMessage(text, error=false) {
+  message.textContent = text;
+  message.style.color = error ? "#b42318" : "#067647";
+}
+
+async function verifyAdmin(user) {
+  const snap = await getDoc(doc(db, "users", user.uid));
+  if (!snap.exists() || String(snap.data().role || "").toLowerCase() !== "admin") {
+    await signOut(auth);
+    throw new Error("Access denied. Only an administrator can use this page.");
+  }
+}
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = "index.html";
+    return;
+  }
+  try {
+    await verifyAdmin(user);
+  } catch (error) {
+    alert(error.message);
+    window.location.href = "index.html";
+  }
+});
+
+createBtn.addEventListener("click", async () => {
+  try {
+    const name = fullName.value.trim();
+    const userEmail = email.value.trim();
+    const userPassword = password.value;
+    const userRole = role.value;
+
+    if (!name || !userEmail || !userPassword || !userRole) {
+      throw new Error("Please complete all fields.");
+    }
+    if (userPassword.length < 6) {
+      throw new Error("Password must contain at least 6 characters.");
+    }
+
+    createBtn.disabled = true;
+    showMessage("Creating Firebase account...");
+
+    // Create authentication account with secondary app.
+    const credential = await createUserWithEmailAndPassword(
+      secondaryAuth, userEmail, userPassword
+    );
+
+    const uid = credential.user.uid;
+
+    // Save user profile and role in Firestore.
+    await setDoc(doc(db, "users", uid), {
+      fullName: name,
+      email: userEmail,
+      role: userRole,
+      active: true,
+      createdAt: serverTimestamp(),
+      createdBy: auth.currentUser.uid
+    });
+
+    // Sign out the newly-created user from the secondary app.
+    await signOut(secondaryAuth);
+
+    showMessage(
+      "User created successfully! " + name + " will be directed to " +
+      userRole + ".html after login."
+    );
+
+    fullName.value = "";
+    email.value = "";
+    password.value = "";
+    role.value = "";
+
+  } catch (error) {
+    console.error(error);
+    showMessage(error.message || "Could not create the user.", true);
+  } finally {
+    createBtn.disabled = false;
+  }
+});
+
+document.getElementById("logoutBtn").addEventListener("click", async () => {
+  await signOut(auth);
+  window.location.href = "index.html";
+});
+</script>
+
+</body>
+</html>
