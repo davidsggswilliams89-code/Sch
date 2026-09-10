@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHTMS Login | School of Health & Technology</title>
+  <style>
+    :root{
+      --primary:#0b6b57;
+      --primary-dark:#064d3f;
+      --accent:#13a37f;
+      --text:#17302d;
+      --muted:#687a76;
+      --border:#dbe7e3;
+      --danger:#b42318;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; min-height:100vh; font-family:Arial,Helvetica,sans-serif;
+      background:linear-gradient(135deg,#e9f4f0,#f8fbfa);
+      display:flex; align-items:center; justify-content:center; padding:20px;
+      color:var(--text);
+    }
+    .login-box{
+      width:100%; max-width:920px; min-height:540px; display:grid;
+      grid-template-columns:1fr 1fr; background:#fff; border-radius:24px;
+      overflow:hidden; box-shadow:0 20px 55px rgba(18,54,47,.16);
+    }
+    .brand{
+      background:linear-gradient(145deg,#102f2b,var(--primary));
+      color:white; padding:55px 48px; display:flex; flex-direction:column;
+      justify-content:center;
+    }
+    .logo{
+      width:68px;height:68px;border-radius:18px;background:#fff;color:var(--primary);
+      display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:bold;
+      margin-bottom:25px;
+    }
+    .brand h1{font-size:38px;line-height:1.12;margin:0 0 16px}
+    .brand p{color:#d7ebe5;font-size:16px;line-height:1.7}
+    .form-area{padding:55px 48px;display:flex;flex-direction:column;justify-content:center}
+    .form-area h2{font-size:30px;margin:0 0 8px}
+    .subtitle{color:var(--muted);margin:0 0 28px;line-height:1.5}
+    label{display:block;font-size:14px;font-weight:bold;margin:17px 0 7px}
+    input{
+      width:100%;padding:15px;border:1px solid var(--border);border-radius:10px;
+      font-size:16px;outline:none;
+    }
+    input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(19,163,127,.12)}
+    button{
+      width:100%;margin-top:22px;padding:15px;border:0;border-radius:10px;
+      background:var(--primary);color:white;font-size:16px;font-weight:bold;cursor:pointer;
+    }
+    button:hover{background:var(--primary-dark)}
+    button:disabled{opacity:.65;cursor:not-allowed}
+    .forgot{
+      background:none;color:var(--primary);padding:10px;margin-top:10px;
+    }
+    #message{min-height:24px;margin-top:15px;font-size:14px;line-height:1.5}
+    .help{font-size:12px;color:var(--muted);line-height:1.6;margin-top:20px}
+    @media(max-width:760px){
+      .login-box{grid-template-columns:1fr;max-width:500px}
+      .brand{padding:35px 30px}
+      .brand h1{font-size:30px}
+      .form-area{padding:35px 30px}
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-box">
+  <section class="brand">
+    <div class="logo">S</div>
+    <h1>School of Health & Technology</h1>
+    <p><strong>Management System Portal</strong></p>
+    <p>Secure access for Students, Lecturers, HODs, Registrar, Bursary, Admissions and Administrators.</p>
+  </section>
+
+  <section class="form-area">
+    <h2>Welcome Back</h2>
+    <p class="subtitle">Login and you will automatically be directed to your authorized portal.</p>
+
+    <label for="email">Email Address</label>
+    <input id="email" type="email" placeholder="name@example.com" autocomplete="email">
+
+    <label for="password">Password</label>
+    <input id="password" type="password" placeholder="Enter your password" autocomplete="current-password">
+
+    <button id="loginBtn">Login to Portal</button>
+    <button class="forgot" id="forgotBtn">Forgot Password?</button>
+
+    <div id="message"></div>
+
+    <p class="help">
+      Your destination is determined by the pages your administrator has authorized in Firestore.
+    </p>
+  </section>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+  import {
+    getFirestore,
+    doc,
+    getDoc
+  } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+  // Your Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDfHJaoVA7eQKWWq71zn2bQOpR4Vot9v8c",
+    authDomain: "smsh-282c0.firebaseapp.com",
+    projectId: "smsh-282c0",
+    storageBucket: "smsh-282c0.firebasestorage.app",
+    messagingSenderId: "477828256463",
+    appId: "1:477828256463:web:80a6755b679f585c73ddba"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Access-based login routing.
+  // The administrator stores allowed page filenames in users/UID.access
+  // and may store the preferred landing page in users/UID.defaultPage.
+  const ADMIN_PAGE = "user-management.html";
+
+  function normalizeAccess(value) {
+    if (!Array.isArray(value)) return [];
+    return value
+      .map(page => String(page || "").trim())
+      .filter(Boolean);
+  }
+
+  function chooseDestination(data) {
+    const access = normalizeAccess(data.access);
+    const defaultPage = String(data.defaultPage || "").trim();
+    const role = String(data.role || "").trim().toLowerCase();
+
+    // Admins may use the master user-management page even on older records
+    // that were created before the access array was introduced.
+    if (role === "admin" && !access.length) return ADMIN_PAGE;
+
+    // Repair/compatibility routing for older lecturer records.
+    // New lecturer accounts are also saved with lecturer-profile.html access.
+    if (role === "lecturer") {
+      if (access.includes("lecturer-profile.html")) return "lecturer-profile.html";
+      if (access.includes("lecturer.html")) return "lecturer-profile.html";
+    }
+
+    if (!access.length) {
+      throw new Error(
+        "Your account has been created, but no page access has been assigned. Contact the administrator."
+      );
+    }
+
+    if (defaultPage && access.includes(defaultPage)) return defaultPage;
+    return access[0];
+  }
+  
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+  const loginBtn = document.getElementById("loginBtn");
+  const forgotBtn = document.getElementById("forgotBtn");
+  const message = document.getElementById("message");
+
+  function showMessage(text, isError = false) {
+    message.textContent = text;
+    message.style.color = isError ? "#b42318" : "#067647";
+  }
+
+  async function getAccessAndRedirect(user) {
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists()) {
+      await signOut(auth);
+      throw new Error(
+        "Your Firebase account exists, but no user access record was found. Contact the administrator."
+      );
+    }
+
+    const data = userSnap.data();
+
+    if (data.active === false) {
+      await signOut(auth);
+      throw new Error("Your account is inactive. Contact the administrator.");
+    }
+
+    const destination = chooseDestination(data);
+
+    showMessage("Login successful. Redirecting...");
+    window.location.href = destination;
+  }
+
+  async function login() {
+    try {
+      const userEmail = email.value.trim();
+      const userPassword = password.value;
+
+      if (!userEmail || !userPassword) {
+        throw new Error("Please enter your email and password.");
+      }
+
+      loginBtn.disabled = true;
+      showMessage("Signing in...");
+
+      const credential = await signInWithEmailAndPassword(
+        auth,
+        userEmail,
+        userPassword
+      );
+
+      await getAccessAndRedirect(credential.user);
+
+    } catch (error) {
+      console.error(error);
+      showMessage(error.message || "Login failed.", true);
+      loginBtn.disabled = false;
+    }
+  }
+
+  loginBtn.addEventListener("click", login);
+
+  password.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") login();
+  });
+
+  forgotBtn.addEventListener("click", async () => {
+    try {
+      const userEmail = email.value.trim();
+
+      if (!userEmail) {
+        throw new Error("Enter your email address first.");
+      }
+
+      await sendPasswordResetEmail(auth, userEmail);
+      showMessage("Password reset email sent. Check your inbox.");
+
+    } catch (error) {
+      showMessage(error.message || "Could not send password reset email.", true);
+    }
+  });
+
+  // If the user is already logged in, automatically determine authorized page access.
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      try {
+        await getAccessAndRedirect(user);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

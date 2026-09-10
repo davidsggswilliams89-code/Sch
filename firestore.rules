@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function userDoc(uid) { return get(/databases/$(database)/documents/users/$(uid)); }
+    function activeAdmin() { return signedIn() && userDoc(request.auth.uid).data.role == 'admin' && userDoc(request.auth.uid).data.active != false; }
+    function activeLecturer() { return signedIn() && userDoc(request.auth.uid).data.role == 'lecturer' && userDoc(request.auth.uid).data.active != false; }
+
+    match /users/{userId} {
+      allow read: if signedIn() && (request.auth.uid == userId || activeAdmin());
+      allow create, update, delete: if activeAdmin();
+    }
+    match /courseRegistrations/{registrationId} {
+      allow read: if activeAdmin() || (activeLecturer() && resource.data.courseId in userDoc(request.auth.uid).data.assignedCourseIds) || (signedIn() && resource.data.studentId == request.auth.uid);
+      allow write: if activeAdmin();
+    }
+    match /courseAccess/{accessId} {
+      allow read: if activeAdmin() || (signedIn() && resource.data.studentId == request.auth.uid) || (activeLecturer() && resource.data.courseId in userDoc(request.auth.uid).data.assignedCourseIds);
+      allow write: if activeAdmin();
+    }
+    match /lectureNotes/{noteId} {
+      allow create: if activeLecturer() && request.resource.data.lecturerId == request.auth.uid && request.resource.data.courseId in userDoc(request.auth.uid).data.assignedCourseIds;
+      allow read: if activeAdmin() || (activeLecturer() && resource.data.lecturerId == request.auth.uid) || (signedIn() && exists(/databases/$(database)/documents/courseAccess/$(request.auth.uid + '__' + resource.data.courseId)));
+      allow update, delete: if activeAdmin() || (activeLecturer() && resource.data.lecturerId == request.auth.uid);
+    }
+    match /faculties/{id} { allow read: if signedIn(); allow write: if activeAdmin(); }
+    match /departments/{id} { allow read: if signedIn(); allow write: if activeAdmin(); }
+    match /programmes/{id} { allow read: if signedIn(); allow write: if activeAdmin(); }
+    match /levels/{id} { allow read: if signedIn(); allow write: if activeAdmin(); }
+    match /courses/{id} { allow read: if signedIn(); allow write: if activeAdmin(); }
+  }
+}

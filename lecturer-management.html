@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SHTMS — Manage Lecturers</title>
+<style>
+:root{--p:#176b59;--bg:#f5faf8;--border:#dce9e4;--muted:#60736e;--danger:#b42318}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#18332d}
+header{background:#fff;border-bottom:1px solid var(--border);padding:16px 20px}
+.head{max-width:1200px;margin:auto;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.brand{display:flex;gap:10px;align-items:center}.logo{width:42px;height:42px;border-radius:11px;background:#dff2eb;display:grid;place-items:center;font-weight:800;color:var(--p)}
+h1{font-size:20px;margin:0}.sub{margin:4px 0 0;color:var(--muted);font-size:12px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}button,a.btn{border:0;border-radius:9px;padding:10px 13px;text-decoration:none;cursor:pointer;font-weight:700;font-size:13px}
+.back{background:#edf3f1;color:#29463e}.primary{background:var(--p);color:#fff}.danger{background:#fff0ee;color:var(--danger)}
+main{max-width:1200px;margin:24px auto;padding:0 16px}.toolbar,.card{background:#fff;border:1px solid var(--border);border-radius:15px;padding:16px;margin-bottom:16px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap}input,select,textarea{width:100%;padding:11px;border:1px solid #cfded9;border-radius:9px;background:#fff;font:inherit}
+.search{flex:1;min-width:220px}.filter{width:190px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.lecturer{background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px}.avatar{width:54px;height:54px;border-radius:50%;object-fit:cover;background:#e5f4ef;display:grid;place-items:center;font-weight:800;color:var(--p);float:right}
+.name{font-size:17px;font-weight:800;margin-bottom:5px}.muted{color:var(--muted);font-size:12px;line-height:1.55}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.tag{background:#edf7f3;border-radius:20px;padding:5px 8px;font-size:11px}
+.card-actions{display:flex;gap:7px;margin-top:14px}.card-actions button{flex:1}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.38);align-items:center;justify-content:center;padding:15px;z-index:20}
+.modalbox{background:#fff;border-radius:17px;max-width:780px;width:100%;max-height:92vh;overflow:auto;padding:20px}
+.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}label{font-size:12px;font-weight:700}label span{display:block;margin-bottom:5px}
+.full{grid-column:1/-1}.message{margin-top:10px;font-size:12px;color:var(--p)}.empty{text-align:center;color:var(--muted);padding:40px}
+@media(max-width:650px){.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.head{align-items:flex-start;flex-direction:column}}
+</style></head><body>
+<header><div class="head"><div class="brand"><div class="logo">S</div><div><h1>Manage Lecturers</h1><p class="sub">Central lecturer master records and teaching assignments.</p></div></div>
+<div class="actions"><a class="btn back" href="admin.html">Admin Center</a><button class="primary" id="addBtn">+ Add Lecturer</button></div></div></header>
+<main><div class="toolbar"><input class="search" id="search" placeholder="Search name, staff ID, email, department...">
+<select class="filter" id="statusFilter"><option value="all">All Status</option><option value="active">Active</option><option value="inactive">Inactive</option></select>
+<select class="filter" id="deptFilter"><option value="">All Departments</option></select></div><div id="list" class="grid"></div></main>
+
+<div class="modal" id="modal"><div class="modalbox"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+<div><h2 id="modalTitle" style="margin:0">Add Lecturer</h2><p class="muted">Create the lecturer profile and connect teaching assignments.</p></div><button id="closeBtn">✕</button></div>
+<form id="form"><div class="formgrid">
+<label><span>Firebase User UID *</span><input id="uid" required></label><label><span>Staff ID *</span><input id="staffId" required placeholder="SHTMS-LEC-001"></label>
+<label><span>Full Name *</span><input id="fullName" required></label><label><span>Email</span><input id="email" type="email"></label>
+<label><span>Phone</span><input id="phone"></label><label><span>Profile Picture URL</span><input id="photoURL" placeholder="https://..."></label>
+<label><span>Faculty *</span><select id="faculty" required><option value="">Select faculty</option></select></label>
+<label><span>Department *</span><select id="department" required><option value="">Select department</option></select></label>
+<label><span>Programme</span><select id="programme"><option value="">Select programme</option></select></label>
+<label><span>Discipline / Specialization</span><input id="discipline"></label>
+<label><span>Academic Rank</span><select id="rank"><option>Lecturer II</option><option>Lecturer I</option><option>Senior Lecturer</option><option>Principal Lecturer</option><option>Chief Lecturer</option><option>Professor</option></select></label>
+<label><span>Status</span><select id="active"><option value="true">Active</option><option value="false">Inactive</option></select></label>
+<label class="full"><span>Assigned Courses (select one or more)</span><select id="courses" multiple size="7"></select></label>
+<label class="full"><span>Notes</span><textarea id="notes" rows="3"></textarea></label>
+</div><div class="card-actions"><button type="button" class="back" id="cancelBtn">Cancel</button><button class="primary" id="saveBtn">Save Lecturer</button></div>
+<div class="message" id="message"></div></form></div></div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {getAuth,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import {getFirestore,collection,getDocs,doc,getDoc,setDoc,deleteDoc,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+const firebaseConfig={apiKey:'AIzaSyDfHJaoV7eQKWWq71zn2bQOpR4Vot9v8c',authDomain:'smsh-282c0.firebaseapp.com',projectId:'smsh-282c0',storageBucket:'smsh-282c0.firebasestorage.app',messagingSenderId:'477828256463',appId:'1:80a6755b679f585c73ddba'};
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
+const $=id=>document.getElementById(id);
+let records=[],faculties=[],departments=[],programmes=[],courses=[],editingId=null;
+const esc=v=>String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+async function verifyAdmin(user){const s=await getDoc(doc(db,"users",user.uid));const d=s.exists()?s.data():{};if(!s.exists()||String(d.role||"").toLowerCase()!=="admin"||d.active===false)throw Error("Access denied. Only an active administrator can use this page.");}
+onAuthStateChanged(auth,async user=>{try{if(!user){location.href="index.html";return}await verifyAdmin(user);await loadStructure();await loadLecturers()}catch(e){alert(e.message);location.href="index.html"}});
+async function loadStructure(){
+ const [fa,de,pr,co]=await Promise.all([getDocs(collection(db,"faculties")),getDocs(collection(db,"departments")),getDocs(collection(db,"programmes")),getDocs(collection(db,"courses"))]);
+ faculties=fa.docs.map(x=>({_id:x.id,...x.data()}));departments=de.docs.map(x=>({_id:x.id,...x.data()}));programmes=pr.docs.map(x=>({_id:x.id,...x.data()}));courses=co.docs.map(x=>({_id:x.id,...x.data()}));
+ $("faculty").innerHTML='<option value="">Select faculty</option>'+faculties.map(x=>`<option value="${esc(x._id)}">${esc(x.name||x.title||x.code)}</option>`).join("");
+ $("deptFilter").innerHTML='<option value="">All Departments</option>'+departments.map(x=>`<option value="${esc(x._id)}">${esc(x.name||x.title||x.code)}</option>`).join("");
+ renderDepartments("");renderProgrammes("");renderCourses("");
+}
+function renderDepartments(fid){const a=departments.filter(x=>!fid||x.facultyId===fid);$("department").innerHTML='<option value="">Select department</option>'+a.map(x=>`<option value="${esc(x._id)}">${esc(x.name||x.title||x.code)}</option>`).join("");renderProgrammes("");}
+function renderProgrammes(did){const a=programmes.filter(x=>!did||x.departmentId===did);$("programme").innerHTML='<option value="">Select programme</option>'+a.map(x=>`<option value="${esc(x._id)}">${esc(x.name||x.title||x.code)}</option>`).join("");renderCourses("");}
+function renderCourses(pid){const a=courses.filter(x=>!pid||x.programmeId===pid);$("courses").innerHTML=a.map(x=>`<option value="${esc(x._id)}">${esc((x.code||"")+" — "+(x.name||x.title||"Course"))}${x.level?" • "+esc(x.level):""}</option>`).join("");}
+$("faculty").onchange=()=>renderDepartments($("faculty").value);$("department").onchange=()=>renderProgrammes($("department").value);$("programme").onchange=()=>renderCourses($("programme").value);
+async function loadLecturers(){const s=await getDocs(collection(db,"users"));records=s.docs.map(x=>({_id:x.id,...x.data()})).filter(x=>String(x.role||"").toLowerCase()==="lecturer");render();}
+function facultyName(id){return faculties.find(x=>x._id===id)?.name||id||"Not assigned"}function departmentName(id){return departments.find(x=>x._id===id)?.name||id||"Not assigned"}function programmeName(id){return programmes.find(x=>x._id===id)?.name||id||"Not assigned"}
+function render(){
+ const q=$("search").value.toLowerCase().trim(),st=$("statusFilter").value,dep=$("deptFilter").value;
+ const a=records.filter(x=>{const hay=[x.fullName,x.name,x.staffId,x.email,x.discipline,departmentName(x.departmentId||x.department),facultyName(x.facultyId||x.faculty)].join(" ").toLowerCase();return(!q||hay.includes(q))&&(st==="all"||(st==="active"?x.active!==false:x.active===false))&&(!dep||x.departmentId===dep||x.department===dep)});
+ $("list").innerHTML=a.length?a.map(x=>{const ids=Array.isArray(x.assignedCourseIds)?x.assignedCourseIds:[];const photo=x.photoURL||x.photoUrl||x.profilePicture||"";return `<article class="lecturer">${photo?`<img class="avatar" src="${esc(photo)}" alt="">`:`<div class="avatar">${esc((x.fullName||x.name||"L").slice(0,1).toUpperCase())}</div>`}<div class="name">${esc(x.fullName||x.name||"Lecturer")}</div><div class="muted">Staff ID: ${esc(x.staffId||"Not assigned")}</div><div class="muted">${esc(x.email||"")}</div><div class="tags"><span class="tag">${esc(facultyName(x.facultyId||x.faculty))}</span><span class="tag">${esc(departmentName(x.departmentId||x.department))}</span><span class="tag">${esc(programmeName(x.programmeId||x.programme))}</span></div><div class="muted"><b>Rank:</b> ${esc(x.rank||"Not set")}<br><b>Discipline:</b> ${esc(x.discipline||"Not set")}<br><b>Assigned courses:</b> ${ids.length}</div><div class="card-actions"><button class="back" onclick="editLecturer('${x._id}')">Edit</button><button class="danger" onclick="removeLecturer('${x._id}')">Delete</button></div></article>`}).join(""):'<div class="empty">No lecturer records found.</div>';
+}
+window.editLecturer=id=>{const x=records.find(r=>r._id===id);if(!x)return;editingId=id;$("modalTitle").textContent="Edit Lecturer";$("uid").value=id;$("uid").disabled=true;$("staffId").value=x.staffId||"";$("fullName").value=x.fullName||x.name||"";$("email").value=x.email||"";$("phone").value=x.phone||"";$("photoURL").value=x.photoURL||x.photoUrl||"";const fid=x.facultyId||"";$("faculty").value=fid;renderDepartments(fid);const did=x.departmentId||"";$("department").value=did;renderProgrammes(did);const pid=x.programmeId||"";$("programme").value=pid;renderCourses(pid);$("discipline").value=x.discipline||"";$("rank").value=x.rank||"Lecturer II";$("active").value=x.active===false?"false":"true";$("notes").value=x.notes||"";Array.from($("courses").options).forEach(o=>o.selected=(x.assignedCourseIds||[]).includes(o.value));$("message").textContent="";$("modal").style.display="flex";}
+window.removeLecturer=async id=>{if(!confirm("Delete this lecturer master record? This does not delete the Firebase Authentication account."))return;await deleteDoc(doc(db,"users",id));await loadLecturers();}
+$("addBtn").onclick=()=>{editingId=null;$("modalTitle").textContent="Add Lecturer";$("form").reset();$("uid").disabled=false;$("message").textContent="";renderDepartments("");$("modal").style.display="flex"};
+$("closeBtn").onclick=$("cancelBtn").onclick=()=>{$("modal").style.display="none"};$("search").oninput=render;$("statusFilter").onchange=render;$("deptFilter").onchange=render;
+$("form").onsubmit=async e=>{e.preventDefault();$("saveBtn").disabled=true;$("message").textContent="Saving...";try{const uid=$("uid").value.trim();if(!uid)throw Error("Firebase User UID is required.");const existing=await getDoc(doc(db,"users",uid));if(!existing.exists())throw Error("No Firebase users document exists for this UID. Create the lecturer account in User Management first.");const current=existing.data();if(String(current.role||"").toLowerCase()!=="lecturer")throw Error("This Firebase account is not a lecturer account.");const selected=Array.from($("courses").selectedOptions).map(o=>o.value);const data={...current,fullName:$("fullName").value.trim(),email:$("email").value.trim().toLowerCase()||current.email||"",staffId:$("staffId").value.trim(),phone:$("phone").value.trim(),photoURL:$("photoURL").value.trim(),facultyId:$("faculty").value,departmentId:$("department").value,programmeId:$("programme").value,discipline:$("discipline").value.trim(),rank:$("rank").value,active:$("active").value==="true",assignedCourseIds:selected,notes:$("notes").value.trim(),updatedAt:serverTimestamp(),updatedBy:auth.currentUser.uid};if(!editingId)data.createdAt=serverTimestamp();await setDoc(doc(db,"users",uid),data);$("message").textContent="Lecturer saved successfully.";await loadLecturers();setTimeout(()=>{$("modal").style.display="none"},500)}catch(e){console.error(e);$("message").textContent=e.message||"Could not save lecturer."}finally{$("saveBtn").disabled=false}};
+</script></body></html>

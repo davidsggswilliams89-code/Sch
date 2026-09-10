@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SHTMS — Student Management</title>
+<style>
+:root{--p:#0f766e;--p2:#115e59;--bg:#f4f7f8;--card:#fff;--text:#17323a;--muted:#64748b;--border:#dce5e8;--ok:#15803d;--bad:#b91c1c;--warn:#b45309}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
+header{background:linear-gradient(135deg,var(--p2),var(--p));color:#fff;padding:18px 20px;position:sticky;top:0;z-index:10}
+.head{max-width:1250px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:15px}.brand{display:flex;gap:12px;align-items:center}.logo{width:45px;height:45px;border-radius:12px;background:#ffffff20;display:grid;place-items:center;font-weight:800;font-size:20px}.brand h1{margin:0;font-size:20px}.brand p{margin:3px 0 0;font-size:12px;opacity:.85}
+button,a{font:inherit}.btn{border:0;border-radius:9px;padding:10px 14px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}.light{background:#fff;color:var(--p2)}.outline{background:transparent;color:#fff;border:1px solid #ffffff66}
+main{max-width:1250px;margin:22px auto;padding:0 20px}.notice{background:#e9f7f4;border:1px solid #cbe8e3;padding:13px 15px;border-radius:11px;margin-bottom:18px;color:#28574d;font-size:13px}
+.toolbar{display:grid;grid-template-columns:1fr 180px auto;gap:10px;margin-bottom:15px}input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:9px;background:#fff;font:inherit;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--p);box-shadow:0 0 0 3px #0f766e18}
+.card{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:18px;box-shadow:0 7px 22px #0f766e0b;margin-bottom:18px}.title{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}.title h2{margin:0;font-size:18px}.muted{color:var(--muted);font-size:12px}
+table{width:100%;border-collapse:collapse}th,td{padding:11px 9px;border-bottom:1px solid var(--border);text-align:left;font-size:13px}th{font-size:11px;text-transform:uppercase;color:var(--muted);background:#f8fbfb}.pill{display:inline-block;padding:4px 8px;border-radius:15px;font-size:11px;font-weight:800}.active{background:#dcfce7;color:var(--ok)}.inactive{background:#fee2e2;color:var(--bad)}
+.actions{display:flex;gap:6px;flex-wrap:wrap}.small{padding:7px 9px;font-size:12px}.primary{background:var(--p);color:#fff}.secondary{background:#e8f5f3;color:var(--p2)}.danger{background:#fee2e2;color:var(--bad)}
+.empty{text-align:center;padding:30px;color:var(--muted);border:1px dashed var(--border);border-radius:10px}
+.modal{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:15px;z-index:30}.box{background:#fff;width:min(900px,100%);max-height:92vh;overflow:auto;border-radius:16px;padding:22px}.boxhead{display:flex;justify-content:space-between;align-items:center}.close{background:none;border:0;font-size:27px;cursor:pointer}.form{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.field.full{grid-column:1/-1}.field label{display:block;font-size:12px;font-weight:800;margin-bottom:5px}.help{font-size:11px;color:var(--muted);margin-top:4px}.savebar{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.avatar{width:42px;height:42px;border-radius:50%;object-fit:cover;background:#dff4f0;display:grid;place-items:center;font-weight:800;color:var(--p)}
+.link{color:var(--p2);font-weight:700;text-decoration:none}.statusbox{padding:12px;border-radius:10px;background:#f8fafc;border:1px solid var(--border);font-size:12px}
+@media(max-width:800px){.toolbar{grid-template-columns:1fr}.form{grid-template-columns:1fr 1fr}}@media(max-width:550px){.head{align-items:flex-start;flex-direction:column}.form{grid-template-columns:1fr}.field.full{grid-column:auto}.card{padding:13px}table{display:block;overflow-x:auto;white-space:nowrap}}
+</style>
+</head>
+<body>
+<header>
+<div class="head">
+ <div class="brand"><div class="logo">S</div><div><h1>SHTMS Student Management</h1><p>Administrator control of student master records</p></div></div>
+ <div class="actions"><a class="btn outline" href="user-management.html">User Management</a><button class="btn light" id="logoutBtn">Logout</button></div>
+</div>
+</header>
+
+<main>
+<div class="notice"><b>Important:</b> This page stores the student's <b>master profile information</b>. Academic and operational information such as registered courses, failed/carryover courses, results, timetable, announcements, attendance, lecture notes, assignments and fee transactions should come from their respective SHTMS modules. The student profile displays those records rather than requiring duplicate entry.</div>
+
+<section class="card">
+ <div class="title"><div><h2>Student Records</h2><div class="muted">Create, search and update student master records.</div></div><button class="btn primary" id="newBtn">+ Add Student Details</button></div>
+ <div class="toolbar"><input id="search" placeholder="Search name, matric number, email, department..."><select id="statusFilter"><option value="">All statuses</option><option value="active">Active</option><option value="inactive">Inactive</option></select><button class="btn secondary" id="refreshBtn">Refresh</button></div>
+ <div id="tableWrap"><div class="empty">Loading student records...</div></div>
+</section>
+
+<section class="card">
+ <div class="title"><div><h2>How the Student Profile is Connected</h2><div class="muted">One student record, multiple SHTMS modules.</div></div></div>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">
+  <div class="statusbox"><b>Profile</b><br><span class="muted">This page → student-profile.html</span></div>
+  <div class="statusbox"><b>Registration</b><br><span class="muted">course-registration.html</span></div>
+  <div class="statusbox"><b>Results / GPA</b><br><span class="muted">results.html / result-entry.html</span></div>
+  <div class="statusbox"><b>Timetable</b><br><span class="muted">timetable.html / examinations.html</span></div>
+  <div class="statusbox"><b>Attendance</b><br><span class="muted">attendance.html</span></div>
+  <div class="statusbox"><b>Fees / Payments</b><br><span class="muted">fees.html / payments.html</span></div>
+  <div class="statusbox"><b>Announcements</b><br><span class="muted">announcements.html</span></div>
+  <div class="statusbox"><b>Learning</b><br><span class="muted">library.html / assignments</span></div>
+ </div>
+</section>
+</main>
+
+<div class="modal" id="modal">
+ <div class="box">
+  <div class="boxhead"><div><h2 id="modalTitle">Student Details</h2><div class="muted" id="modalSub">Create or edit master profile information.</div></div><button class="close" id="closeBtn">×</button></div>
+  <form id="studentForm">
+   <input type="hidden" id="docId">
+   <div class="form" style="margin-top:18px">
+    <div class="field"><label>Firebase User UID *</label><input id="uid" required placeholder="Paste student's Firebase Auth UID"><div class="help">Must be the Document ID in users.</div></div>
+    <div class="field"><label>Student / Matric Number *</label><input id="studentId" required placeholder="e.g. SHTMS/24/001"></div>
+    <div class="field"><label>Full Name *</label><input id="fullName" required placeholder="Student full name"></div>
+    <div class="field"><label>Email</label><input id="email" type="email" placeholder="student@example.com"></div>
+    <div class="field"><label>Phone</label><input id="phone" placeholder="080..."></div>
+    <div class="field"><label>Profile Picture URL</label><input id="photoURL" placeholder="https://..."><div class="help">Can be a Firebase Storage download URL.</div></div>
+    <div class="field"><label>Faculty</label><input id="faculty" placeholder="Faculty of ..."></div>
+    <div class="field"><label>Department</label><input id="department" placeholder="Department"></div>
+    <div class="field"><label>Programme</label><input id="programme" placeholder="Programme / course of study"></div>
+    <div class="field"><label>Level</label><select id="level"><option value="">Select level</option><option>100</option><option>200</option><option>300</option><option>400</option><option>500</option><option>600</option></select></div>
+    <div class="field"><label>Semester</label><select id="semester"><option value="">Select semester</option><option>First Semester</option><option>Second Semester</option><option>Both</option></select></div>
+    <div class="field"><label>Academic Session</label><input id="session" placeholder="2025/2026"></div>
+    <div class="field"><label>Admission Year</label><input id="admissionYear" type="number" placeholder="2025"></div>
+    <div class="field"><label>Expected Graduation</label><input id="graduationYear" type="number" placeholder="2029"></div>
+    <div class="field"><label>Status</label><select id="active"><option value="true">Active</option><option value="false">Inactive</option></select></div>
+    <div class="field full"><label>Address</label><textarea id="address" placeholder="Student address"></textarea></div>
+    <div class="field full"><label>Administrator Notes</label><textarea id="adminNotes" placeholder="Optional administrative notes"></textarea></div>
+   </div>
+   <div class="savebar"><button type="button" class="btn secondary" id="cancelBtn">Cancel</button><button class="btn primary" id="saveBtn">Save Student Record</button></div>
+   <div id="formMessage" class="muted" style="margin-top:10px"></div>
+  </form>
+ </div>
+</div>
+
+<script type="module">
+import {initializeApp,getApps,getApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {getAuth,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import {getFirestore,collection,getDocs,doc,getDoc,setDoc,updateDoc,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+const firebaseConfig={apiKey:"AIzaSyDfHJaoVA7eQKWWq71zn2bQOpR4Vot9v8c",authDomain:"smsh-282c0.firebaseapp.com",projectId:"smsh-282c0",storageBucket:"smsh-282c0.firebasestorage.app",messagingSenderId:"477828256463",appId:"1:477828256463:web:80a6755b679f585c73ddba"};
+const app=getApps().length?getApp():initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
+const $=id=>document.getElementById(id), esc=v=>String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+let records=[], editingId=null;
+
+async function verifyAdmin(u){
+ const s=await getDoc(doc(db,"users",u.uid)); const d=s.exists()?s.data():{};
+ if(!s.exists()||String(d.role||"").toLowerCase()!=="admin"||d.active===false) throw new Error("Access denied. Only an active administrator can use Student Management.");
+}
+
+function normalize(d,id){return {...d,_id:id,studentId:d.studentId||d.matricNo||d.matricNumber||id}}
+
+async function load(){
+ const snap=await getDocs(collection(db,"users"));
+ records=snap.docs.map(x=>normalize(x.data(),x.id)).filter(x=>String(x.role||"").toLowerCase()==="student");
+ render();
+}
+function render(){
+ const q=$("search").value.trim().toLowerCase(), st=$("statusFilter").value;
+ const list=records.filter(x=>{
+  const hay=[x.fullName,x.studentId,x.email,x.faculty,x.department,x.programme,x.level].join(" ").toLowerCase();
+  const active=x.active!==false;
+  return (!q||hay.includes(q))&&(!st||(st==="active"?active:!active));
+ });
+ if(!list.length){$("tableWrap").innerHTML='<div class="empty">No student records found. Click “Add Student Details” to create one.</div>';return}
+ $("tableWrap").innerHTML=`<div style="overflow-x:auto"><table><thead><tr><th>Student</th><th>Matric No.</th><th>Faculty / Department</th><th>Programme</th><th>Level</th><th>Status</th><th>Actions</th></tr></thead><tbody>${
+ list.map(x=>`<tr>
+ <td><div style="display:flex;align-items:center;gap:9px"><div class="avatar">${x.photoURL?`<img src="${esc(x.photoURL)}" style="width:42px;height:42px;border-radius:50%;object-fit:cover" onerror="this.style.display='none';this.parentElement.lastElementChild.textContent='${esc((x.fullName||"S").trim().split(/\\s+/).slice(0,2).map(z=>z[0]).join("").toUpperCase())}'">`:''}<span>${esc((x.fullName||"S").trim().split(/\s+/).slice(0,2).map(z=>z[0]).join("").toUpperCase())}</span></div><div><b>${esc(x.fullName||"—")}</b><div class="muted">${esc(x.email||"")}</div></div></div></td>
+ <td><b>${esc(x.studentId)}</b></td><td>${esc(x.faculty||"—")}<br><span class="muted">${esc(x.department||"—")}</span></td><td>${esc(x.programme||"—")}</td><td>${esc(x.level||"—")}</td>
+ <td><span class="pill ${x.active===false?"inactive":"active"}">${x.active===false?"Inactive":"Active"}</span></td>
+ <td><div class="actions"><button class="btn small secondary" onclick="editStudent('${esc(x._id)}')">Edit</button><a class="btn small secondary" href="student-profile.html?uid=${encodeURIComponent(x._id)}">Profile</a></div></td>
+ </tr>`).join("")}</tbody></table></div>`;
+}
+function openNew(){
+ editingId=null;$("modalTitle").textContent="Add Student Details";$("modalSub").textContent="Create the master profile record for an existing Firebase student account.";
+ $("studentForm").reset();$("active").value="true";$("docId").value="";$("formMessage").textContent="";$("modal").style.display="flex";$("uid").disabled=false;
+}
+window.editStudent=async id=>{
+ const x=records.find(r=>r._id===id);if(!x)return;
+ editingId=id;$("modalTitle").textContent="Edit Student Details";$("modalSub").textContent="Update the student's master profile record.";
+ const fields=["uid","studentId","fullName","email","phone","photoURL","faculty","department","programme","level","semester","session","admissionYear","graduationYear","address","adminNotes"];
+ $("uid").value=id;fields.slice(1).forEach(k=>$(k).value=x[k]??"");$("active").value=x.active===false?"false":"true";$("uid").disabled=true;$("formMessage").textContent="";$("modal").style.display="flex";
+};
+async function save(e){
+ e.preventDefault();$("saveBtn").disabled=true;$("formMessage").textContent="Saving...";
+ try{
+  const uid=$("uid").value.trim(), old=editingId;
+  if(!uid)throw new Error("Firebase User UID is required.");
+  const existing=await getDoc(doc(db,"users",uid));
+  if(!existing.exists())throw new Error("No Firebase users document exists for this UID. Create the student's account first in User Management, then return here.");
+  const current=existing.data(), role=String(current.role||"").toLowerCase();
+  if(role!=="student")throw new Error("The selected Firebase account is not a student account. Its role is: "+(current.role||"not set"));
+  const data={
+   ...current,fullName:$("fullName").value.trim(),email:$("email").value.trim().toLowerCase()||current.email||"",
+   studentId:$("studentId").value.trim(),phone:$("phone").value.trim(),photoURL:$("photoURL").value.trim(),
+   faculty:$("faculty").value.trim(),department:$("department").value.trim(),programme:$("programme").value.trim(),
+   level:$("level").value,semester:$("semester").value,session:$("session").value.trim(),
+   admissionYear:$("admissionYear").value?Number($("admissionYear").value):"",graduationYear:$("graduationYear").value?Number($("graduationYear").value):"",
+   address:$("address").value.trim(),adminNotes:$("adminNotes").value.trim(),active:$("active").value==="true",
+   updatedAt:serverTimestamp(),updatedBy:auth.currentUser.uid
+  };
+  if(!old)data.createdAt=serverTimestamp();
+  await setDoc(doc(db,"users",uid),data);
+  $("formMessage").textContent="Student record saved successfully.";await load();setTimeout(closeModal,500);
+ }catch(e){console.error(e);$("formMessage").textContent=e.message||"Could not save student record."}
+ finally{$("saveBtn").disabled=false}
+}
+function closeModal(){$("modal").style.display="none"}
+$("newBtn").onclick=openNew;$("saveBtn").onclick=save;$("cancelBtn").onclick=closeModal;$("closeBtn").onclick=closeModal;$("refreshBtn").onclick=load;$("search").oninput=render;$("statusFilter").onchange=render;
+$("logoutBtn").onclick=async()=>{await signOut(auth);location.href="index.html"};
+onAuthStateChanged(auth,async u=>{if(!u){location.href="index.html";return}try{await verifyAdmin(u);await load()}catch(e){alert(e.message);await signOut(auth);location.href="index.html"}});
+</script>
+</body>
+</html>
