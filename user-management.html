@@ -193,13 +193,14 @@ const pageAccess = [
   ["Result Entry","result-entry.html"],["Results","results.html"],["Transcript","transcript.html"],["Fees","fees.html"],["Payments","payments.html"],
   ["Receipts","receipts.html"],["Clinical","clinical.html"],["Medical","medical.html"],["Library","library.html"],["Hostel","hostel.html"],
   ["Announcements","announcements.html"],["Reports","reports.html"],["Settings","settings.html"],["Student Profile","student-profile.html"],
-  ["Lecturer Profile","lecturer-profile.html"],["Department","department.html"]
+  ["Lecturer Profile","lecturer-profile.html"],
+  ["Lecture Notes","lecture-notes.html"], ["Assignments","assignments.html"],["Department","department.html"]
 ];
 
 const roleDefaults = {
   admin: pageAccess.map(x => x[1]),
   student: ["student.html","student-profile.html","course-registration.html","timetable.html","results.html","fees.html","payments.html","receipts.html","announcements.html","library.html"],
-  lecturer: ["lecturer-profile.html","courses.html","timetable.html","attendance.html","result-entry.html","results.html","announcements.html"],
+  lecturer: ["lecturer.html","lecturer-profile.html","lecture-notes.html","courses.html","timetable.html","attendance.html","assignments.html","result-entry.html","results.html","announcements.html"],
   hod: ["hod.html","lecturer.html","departments.html","programmes.html","courses.html","timetable.html","attendance.html","result-entry.html","results.html","reports.html","announcements.html"],
   registrar: ["registrar.html","students.html","applicants.html","departments.html","programmes.html","courses.html","course-registration.html","timetable.html","examinations.html","results.html","transcript.html","reports.html","announcements.html"],
   bursary: ["bursary.html","fees.html","payments.html","receipts.html","reports.html"],

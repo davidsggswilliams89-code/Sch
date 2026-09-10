@@ -249,13 +249,11 @@ onAuthStateChanged(auth,async user=>{
   const d=snap.data();
   const role=String(d.role||"").trim().toLowerCase();
   const access=normalizeAccess(d.access);
-  const hasProfileAccess=access.includes(profilePage);
-  const hasLecturerPortalAccess=access.includes("lecturer.html");
-
-  // Backward compatible: older lecturer accounts may not yet contain the
-  // new lecturer-profile.html permission. The role itself grants the profile.
-  if(d.active===false || role!=="lecturer" || (!hasProfileAccess && !hasLecturerPortalAccess && access.length)) {
-    throw new Error("Access denied. This Lecturer Profile is only available to active lecturer accounts.");
+  // During the build phase, page-level access lists are not enforced.
+  // The Firebase role is the only client-side portal check for now.
+  // Final page authorization will be restored after all modules are complete.
+  if(d.active===false || (role!=="lecturer" && role!=="admin")) {
+    throw new Error("Access denied. This Lecturer Profile is only available to active lecturer accounts or administrators.");
   }
 
   document.getElementById("lecturerName").textContent=d.fullName||d.name||"Lecturer";
