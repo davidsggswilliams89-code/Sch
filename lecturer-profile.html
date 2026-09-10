@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHTMS | Lecturer Profile</title>
+<style>
+:root{
+  --primary:#0b6b57;--dark:#073e34;--accent:#13a37f;
+  --bg:#f3f7f6;--card:#fff;--text:#172b2b;--muted:#667875;
+  --border:#dbe7e3;--danger:#b42318;--success:#067647;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+header{background:linear-gradient(135deg,var(--dark),var(--primary));color:#fff;padding:20px}
+.header-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:18px}
+.brand{display:flex;align-items:center;gap:13px}
+.logo{width:48px;height:48px;border-radius:12px;background:#fff;color:var(--primary);display:grid;place-items:center;font-size:25px;font-weight:800}
+header h1{margin:0;font-size:24px} header p{margin:5px 0 0;color:#d7ebe5;font-size:14px}
+.logout{background:#fff;color:var(--danger);border:0;border-radius:8px;padding:10px 15px;font-weight:bold;cursor:pointer}
+main{max-width:1200px;margin:28px auto;padding:0 18px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:0 5px 18px rgba(16,42,42,.06)}
+.stat{font-size:28px;font-weight:800;margin-top:8px;color:var(--primary)}
+.muted{color:var(--muted);font-size:13px}
+.profile{display:grid;grid-template-columns:180px 1fr;gap:24px;align-items:center}
+.photo{width:160px;height:160px;border-radius:18px;background:#e2f4ee;border:2px solid var(--border);display:grid;place-items:center;font-size:65px}
+.profile h2{margin:0 0 7px;font-size:27px}
+.profile-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+.meta{background:#f7faf9;border:1px solid var(--border);padding:12px;border-radius:10px}
+.meta strong{display:block;margin-top:4px}
+.section{margin-top:22px}
+.section-title{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.section-title h2{margin:0;font-size:21px}
+.btn{border:0;border-radius:8px;padding:10px 14px;font-weight:bold;cursor:pointer}
+.btn-primary{background:var(--primary);color:white}.btn-secondary{background:#eef8f5;color:var(--primary)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:13px 10px;border-bottom:1px solid var(--border)}
+th{color:var(--muted);font-size:12px;text-transform:uppercase}
+.badge{display:inline-block;padding:5px 9px;border-radius:20px;background:#e2f4ee;color:var(--primary);font-size:12px;font-weight:bold}
+.course-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
+.course-card{border:1px solid var(--border);border-radius:13px;padding:18px;background:#fff}
+.course-top{display:flex;justify-content:space-between;gap:10px}
+.course-card h3{margin:0 0 5px;font-size:17px}
+.course-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}
+.assignment-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.form-group{margin-bottom:14px}
+label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px}
+input,select,textarea{width:100%;padding:11px;border:1px solid var(--border);border-radius:9px;font:inherit;outline:none;background:#fff}
+textarea{min-height:100px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(19,163,127,.1)}
+.student{display:flex;align-items:center;gap:12px}
+.avatar{width:42px;height:42px;border-radius:50%;background:#e2f4ee;display:grid;place-items:center;font-weight:bold;color:var(--primary)}
+.attendance-present{color:var(--success);font-weight:bold}
+.attendance-absent{color:var(--danger);font-weight:bold}
+.note{padding:13px;background:#eef8f5;border:1px solid #cde8df;border-radius:10px;color:#28574d;line-height:1.5}
+.hidden{display:none}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:18px;z-index:20}
+.modal-box{background:#fff;border-radius:16px;padding:22px;max-width:520px;width:100%}
+.modal-box h2{margin-top:0}
+.close{float:right;border:0;background:none;font-size:22px;cursor:pointer}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.profile{grid-template-columns:1fr}.course-grid,.assignment-grid{grid-template-columns:1fr}.profile-meta{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.header-inner{align-items:flex-start;flex-direction:column}.logout{width:100%}.profile-meta{grid-template-columns:1fr}table{font-size:12px;display:block;overflow-x:auto;white-space:nowrap}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="logo">S</div>
+      <div>
+        <h1>SHTMS Lecturer Profile</h1>
+        <p>Lecturer academic workspace and course management</p>
+      </div>
+    </div>
+    <button class="logout" id="logoutBtn">Logout</button>
+  </div>
+</header>
+
+<main>
+
+<section class="card">
+  <div class="profile">
+    <div class="photo" id="lecturerPhoto">👨‍🏫</div>
+    <div>
+      <h2 id="lecturerName">Lecturer</h2>
+      <div class="muted" id="lecturerEmail"></div>
+      <div class="muted">Senior Lecturer • Staff ID: SHTMS-LEC-001</div>
+      <div class="profile-meta">
+        <div class="meta"><span class="muted">Faculty</span><strong id="faculty">Faculty of Computing</strong></div>
+        <div class="meta"><span class="muted">Department</span><strong id="department">Computer Science</strong></div>
+        <div class="meta"><span class="muted">Academic Session</span><strong>2026 / 2027</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="grid">
+    <div class="card"><div class="muted">Assigned Courses</div><div class="stat">4</div><div class="muted">This session</div></div>
+    <div class="card"><div class="muted">Total Registered Students</div><div class="stat">186</div><div class="muted">Across all courses</div></div>
+    <div class="card"><div class="muted">Assignments</div><div class="stat">12</div><div class="muted">Created this session</div></div>
+    <div class="card"><div class="muted">Attendance Records</div><div class="stat">96%</div><div class="muted">Average attendance</div></div>
+  </div>
+</section>
+
+<section class="section card">
+  <div class="section-title">
+    <h2>My Courses</h2>
+    <span class="badge">4 Courses</span>
+  </div>
+  <div class="course-grid">
+    <div class="course-card">
+      <div class="course-top"><div><h3>CSC 301</h3><div class="muted">Data Structures & Algorithms</div></div><span class="badge">300 Level</span></div>
+      <p class="muted">Registered students: <strong>54</strong></p>
+      <div class="course-actions">
+        <button class="btn btn-primary" onclick="openStudents('CSC 301','Data Structures & Algorithms',54)">Students</button>
+        <button class="btn btn-secondary" onclick="openAssignment('CSC 301')">Assignment</button>
+        <button class="btn btn-secondary" onclick="openNotes('CSC 301')">Lecture Note</button>
+        <button class="btn btn-secondary" onclick="openAttendance('CSC 301')">Attendance</button>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-top"><div><h3>CSC 305</h3><div class="muted">Database Management Systems</div></div><span class="badge">300 Level</span></div>
+      <p class="muted">Registered students: <strong>47</strong></p>
+      <div class="course-actions">
+        <button class="btn btn-primary" onclick="openStudents('CSC 305','Database Management Systems',47)">Students</button>
+        <button class="btn btn-secondary" onclick="openAssignment('CSC 305')">Assignment</button>
+        <button class="btn btn-secondary" onclick="openNotes('CSC 305')">Lecture Note</button>
+        <button class="btn btn-secondary" onclick="openAttendance('CSC 305')">Attendance</button>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-top"><div><h3>CSC 401</h3><div class="muted">Software Engineering</div></div><span class="badge">400 Level</span></div>
+      <p class="muted">Registered students: <strong>42</strong></p>
+      <div class="course-actions">
+        <button class="btn btn-primary" onclick="openStudents('CSC 401','Software Engineering',42)">Students</button>
+        <button class="btn btn-secondary" onclick="openAssignment('CSC 401')">Assignment</button>
+        <button class="btn btn-secondary" onclick="openNotes('CSC 401')">Lecture Note</button>
+        <button class="btn btn-secondary" onclick="openAttendance('CSC 401')">Attendance</button>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-top"><div><h3>CSC 405</h3><div class="muted">Web Application Development</div></div><span class="badge">400 Level</span></div>
+      <p class="muted">Registered students: <strong>43</strong></p>
+      <div class="course-actions">
+        <button class="btn btn-primary" onclick="openStudents('CSC 405','Web Application Development',43)">Students</button>
+        <button class="btn btn-secondary" onclick="openAssignment('CSC 405')">Assignment</button>
+        <button class="btn btn-secondary" onclick="openNotes('CSC 405')">Lecture Note</button>
+        <button class="btn btn-secondary" onclick="openAttendance('CSC 405')">Attendance</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section card">
+  <div class="section-title">
+    <h2>My Timetable</h2>
+    <span class="badge">Weekly</span>
+  </div>
+  <table>
+    <thead><tr><th>Day</th><th>Time</th><th>Course</th><th>Level</th><th>Venue</th></tr></thead>
+    <tbody>
+      <tr><td>Monday</td><td>09:00 – 11:00</td><td>CSC 301</td><td>300</td><td>ICT Lecture Hall 1</td></tr>
+      <tr><td>Tuesday</td><td>11:00 – 13:00</td><td>CSC 305</td><td>300</td><td>ICT Lecture Hall 2</td></tr>
+      <tr><td>Wednesday</td><td>09:00 – 11:00</td><td>CSC 401</td><td>400</td><td>ICT Lecture Hall 1</td></tr>
+      <tr><td>Thursday</td><td>13:00 – 15:00</td><td>CSC 405</td><td>400</td><td>ICT Lab 2</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="section">
+  <div class="assignment-grid">
+    <div class="card">
+      <div class="section-title"><h2>Create Assignment</h2><span class="badge">Lecturer</span></div>
+      <div class="form-group"><label>Course</label><select id="assignmentCourse"><option>CSC 301 — Data Structures & Algorithms</option><option>CSC 305 — Database Management Systems</option><option>CSC 401 — Software Engineering</option><option>CSC 405 — Web Application Development</option></select></div>
+      <div class="form-group"><label>Assignment Title</label><input id="assignmentTitle" placeholder="e.g. Linked List Implementation"></div>
+      <div class="form-group"><label>Instructions</label><textarea id="assignmentInstructions" placeholder="Write assignment instructions..."></textarea></div>
+      <div class="form-group"><label>Due Date</label><input id="dueDate" type="date"></div>
+      <button class="btn btn-primary" onclick="createAssignment()">Publish Assignment</button>
+      <div id="assignmentMessage" class="muted" style="margin-top:10px"></div>
+    </div>
+
+    <div class="card">
+      <div class="section-title"><h2>Upload Lecture Note</h2><span class="badge">PDF / DOCX / PPTX</span></div>
+      <div class="form-group"><label>Course</label><select id="noteCourse"><option>CSC 301</option><option>CSC 305</option><option>CSC 401</option><option>CSC 405</option></select></div>
+      <div class="form-group"><label>Lecture Topic</label><input id="noteTopic" placeholder="e.g. Arrays and Linked Lists"></div>
+      <div class="form-group"><label>Lecture Note File</label><input id="noteFile" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx"></div>
+      <button class="btn btn-primary" onclick="uploadNote()">Upload Lecture Note</button>
+      <div id="noteMessage" class="muted" style="margin-top:10px"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section card">
+  <div class="section-title">
+    <h2>Students Registered for My Courses</h2>
+    <span class="badge">Student Records</span>
+  </div>
+  <table>
+    <thead><tr><th>Student</th><th>Matric Number</th><th>Course</th><th>Level</th><th>Attendance</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td><div class="student"><div class="avatar">AM</div><div><strong>Aisha Mohammed</strong><div class="muted">aisha@example.com</div></div></div></td><td>SHTMS/CS/001</td><td>CSC 301</td><td>300</td><td class="attendance-present">92%</td><td><button class="btn btn-secondary" onclick="markAttendance('Aisha Mohammed')">Mark Attendance</button></td></tr>
+      <tr><td><div class="student"><div class="avatar">YA</div><div><strong>Yusuf Abdullahi</strong><div class="muted">yusuf@example.com</div></div></div></td><td>SHTMS/CS/002</td><td>CSC 301</td><td>300</td><td class="attendance-present">88%</td><td><button class="btn btn-secondary" onclick="markAttendance('Yusuf Abdullahi')">Mark Attendance</button></td></tr>
+      <tr><td><div class="student"><div class="avatar">FM</div><div><strong>Fatima Musa</strong><div class="muted">fatima@example.com</div></div></div></td><td>SHTMS/CS/003</td><td>CSC 305</td><td>300</td><td class="attendance-present">96%</td><td><button class="btn btn-secondary" onclick="markAttendance('Fatima Musa')">Mark Attendance</button></td></tr>
+      <tr><td><div class="student"><div class="avatar">IB</div><div><strong>Ibrahim Bello</strong><div class="muted">ibrahim@example.com</div></div></div></td><td>SHTMS/CS/004</td><td>CSC 401</td><td>400</td><td class="attendance-absent">74%</td><td><button class="btn btn-secondary" onclick="markAttendance('Ibrahim Bello')">Mark Attendance</button></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="section card">
+  <div class="section-title"><h2>Quick Actions</h2></div>
+  <div class="course-actions">
+    <button class="btn btn-primary" onclick="document.getElementById('assignmentTitle').focus()">Create Assignment</button>
+    <button class="btn btn-secondary" onclick="document.getElementById('noteFile').click()">Upload Lecture Note</button>
+    <button class="btn btn-secondary" onclick="openAttendance('All Courses')">Take Attendance</button>
+    <button class="btn btn-secondary" onclick="window.location.href='courses.html'">Course Management</button>
+    <button class="btn btn-secondary" onclick="window.location.href='results.html'">Student Results</button>
+    <button class="btn btn-secondary" onclick="window.location.href='timetable.html'">Full Timetable</button>
+  </div>
+</section>
+
+</main>
+
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal()">×</button>
+    <h2 id="modalTitle">Course</h2>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyDfHJaoVA7eQKWWq71zn2bQOpR4Vot9v8c",authDomain:"smsh-282c0.firebaseapp.com",projectId:"smsh-282c0",storageBucket:"smsh-282c0.firebasestorage.app",messagingSenderId:"477828256463",appId:"1:477828256463:web:80a6755b679f585c73ddba"};
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
+const profilePage="lecturer-profile.html";
+function normalizeAccess(value){
+  return Array.isArray(value) ? value.map(v=>String(v||"").trim()).filter(Boolean) : [];
+}
+onAuthStateChanged(auth,async user=>{
+ if(!user){location.href="index.html";return}
+ try{
+  const snap=await getDoc(doc(db,"users",user.uid));
+  if(!snap.exists()) throw new Error("Your Firebase account exists, but no user access record was found. Contact the administrator.");
+  const d=snap.data();
+  const role=String(d.role||"").trim().toLowerCase();
+  const access=normalizeAccess(d.access);
+  const hasProfileAccess=access.includes(profilePage);
+  const hasLecturerPortalAccess=access.includes("lecturer.html");
+
+  // Backward compatible: older lecturer accounts may not yet contain the
+  // new lecturer-profile.html permission. The role itself grants the profile.
+  if(d.active===false || role!=="lecturer" || (!hasProfileAccess && !hasLecturerPortalAccess && access.length)) {
+    throw new Error("Access denied. This Lecturer Profile is only available to active lecturer accounts.");
+  }
+
+  document.getElementById("lecturerName").textContent=d.fullName||d.name||"Lecturer";
+  document.getElementById("lecturerEmail").textContent=d.email||user.email||"";
+  if(d.faculty) document.getElementById("faculty").textContent=d.faculty;
+  if(d.department) document.getElementById("department").textContent=d.department;
+ }catch(e){
+  console.error(e);
+  alert(e.message||"Unable to verify lecturer access.");
+  await signOut(auth);
+  location.href="index.html";
+ }
+});
+document.getElementById("logoutBtn").addEventListener("click",async()=>{await signOut(auth);location.href="index.html"});
+</script>
+
+<script>
+function openModal(title,content){
+  document.getElementById("modalTitle").textContent=title;
+  document.getElementById("modalContent").innerHTML=content;
+  document.getElementById("modal").style.display="flex";
+}
+function closeModal(){document.getElementById("modal").style.display="none"}
+
+function openStudents(code,name,count){
+  openModal(code+" — "+name,`
+    <div class="note"><strong>${count} students</strong> are currently registered for this course.</div>
+    <p class="muted">The full student list will be loaded from the SHTMS student/course-registration records when Firestore course data is connected.</p>
+    <button class="btn btn-primary" onclick="closeModal();openAttendance('${code}')">Take Attendance</button>
+  `);
+}
+function openAssignment(code){
+  document.getElementById("assignmentCourse").value=[...document.getElementById("assignmentCourse").options].find(o=>o.text.startsWith(code))?.text||document.getElementById("assignmentCourse").options[0].text;
+  document.getElementById("assignmentTitle").focus();
+  window.scrollTo({top:document.getElementById("assignmentTitle").getBoundingClientRect().top+window.scrollY-120,behavior:"smooth"});
+}
+function openNotes(code){
+  document.getElementById("noteCourse").value=code;
+  document.getElementById("noteFile").click();
+}
+function openAttendance(code){
+  openModal("Attendance — "+code,`
+    <p>Select the attendance action for this course.</p>
+    <div class="course-actions">
+      <button class="btn btn-primary" onclick="alert('Attendance session opened for ${code}.');closeModal()">Start Attendance</button>
+      <button class="btn btn-secondary" onclick="alert('Attendance records will be connected to Firestore.');closeModal()">View Records</button>
+    </div>
+  `);
+}
+function markAttendance(name){
+  alert("Attendance marked for "+name+".\n\nThis button is ready for Firebase/Firestore attendance storage.");
+}
+function createAssignment(){
+  const title=document.getElementById("assignmentTitle").value.trim();
+  const msg=document.getElementById("assignmentMessage");
+  if(!title){msg.textContent="Please enter an assignment title.";return}
+  msg.textContent="Assignment prepared: "+title+". Connect Firestore to publish it to students.";
+}
+function uploadNote(){
+  const file=document.getElementById("noteFile").files[0];
+  const msg=document.getElementById("noteMessage");
+  if(!file){msg.textContent="Please select a lecture note file.";return}
+  msg.textContent=file.name+" selected. Connect Firebase Storage to upload it securely.";
+}
+</script>
+
+</body>
+</html>
