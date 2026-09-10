@@ -31,7 +31,17 @@ input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(19
 table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:12px;border-bottom:1px solid var(--border)}
 th{color:var(--muted)}
 .role{display:inline-block;padding:5px 9px;background:#e2f4ee;color:var(--primary);border-radius:20px;font-size:12px;font-weight:bold}
+
+.portal-section{margin-top:28px}
+.portal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.portal-link{display:block;text-decoration:none;color:var(--text);background:#fff;border:1px solid var(--border);
+  border-radius:12px;padding:16px;font-weight:bold;transition:.2s}
+.portal-link small{display:block;color:var(--muted);font-weight:normal;margin-top:5px}
+.portal-link:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 8px 20px rgba(16,42,42,.08)}
+.section-title{display:flex;justify-content:space-between;align-items:center;gap:15px;margin:0 0 14px}
+.badge{background:#e2f4ee;color:var(--primary);padding:6px 10px;border-radius:20px;font-size:12px;font-weight:bold}
 @media(max-width:760px){.grid{grid-template-columns:1fr}.header-inner{align-items:flex-start;flex-direction:column}.logout{width:100%}}
+
 </style>
 </head>
 <body>
@@ -39,8 +49,8 @@ th{color:var(--muted)}
 <header>
   <div class="header-inner">
     <div>
-      <h1>SHTMS User Management</h1>
-      <p>Create Firebase users and assign their portal roles.</p>
+      <h1>SHTMS Master Admin Portal</h1>
+      <p>Manage users, create administrators, and access all SHTMS portal pages.</p>
     </div>
     <button class="logout" id="logoutBtn">Logout</button>
   </div>
@@ -69,7 +79,7 @@ th{color:var(--muted)}
         <option value="registrar">Registrar → registrar.html</option>
         <option value="bursary">Bursary → bursary.html</option>
         <option value="admissions">Admissions → admissions.html</option>
-        <option value="admin">Administrator → admin.html</option>
+        <option value="admin">Master Administrator → user-management.html</option>
       </select>
 
       <button class="create" id="createBtn">Create User Account</button>
@@ -94,7 +104,7 @@ th{color:var(--muted)}
         <tr><td><span class="role">registrar</span></td><td>registrar.html</td></tr>
         <tr><td><span class="role">bursary</span></td><td>bursary.html</td></tr>
         <tr><td><span class="role">admissions</span></td><td>admissions.html</td></tr>
-        <tr><td><span class="role">admin</span></td><td>admin.html</td></tr>
+        <tr><td><span class="role">admin</span></td><td>user-management.html (Master Admin)</td></tr>
       </table>
 
       <div class="warning">
@@ -102,6 +112,50 @@ th{color:var(--muted)}
       </div>
     </section>
   </div>
+
+  <section class="portal-section">
+    <div class="section-title">
+      <div>
+        <h2 style="margin:0">Master Admin Access</h2>
+        <p style="color:var(--muted);margin:6px 0 0">Quick access to every available SHTMS HTML portal and module.</p>
+      </div>
+      <span class="badge">MASTER ADMIN</span>
+    </div>
+
+    <div class="portal-grid">
+      <a class="portal-link" href="admin.html">Admin Portal<small>admin.html</small></a>
+      <a class="portal-link" href="student.html">Student Portal<small>student.html</small></a>
+      <a class="portal-link" href="lecturer.html">Lecturer Portal<small>lecturer.html</small></a>
+      <a class="portal-link" href="hod.html">HOD Portal<small>hod.html</small></a>
+      <a class="portal-link" href="registrar.html">Registrar Portal<small>registrar.html</small></a>
+      <a class="portal-link" href="bursary.html">Bursary Portal<small>bursary.html</small></a>
+      <a class="portal-link" href="admissions.html">Admissions Portal<small>admissions.html</small></a>
+      <a class="portal-link" href="students.html">Students Management<small>students.html</small></a>
+      <a class="portal-link" href="applicants.html">Applicants<small>applicants.html</small></a>
+      <a class="portal-link" href="departments.html">Departments<small>departments.html</small></a>
+      <a class="portal-link" href="programmes.html">Programmes<small>programmes.html</small></a>
+      <a class="portal-link" href="courses.html">Courses<small>courses.html</small></a>
+      <a class="portal-link" href="course-registration.html">Course Registration<small>course-registration.html</small></a>
+      <a class="portal-link" href="timetable.html">Timetable<small>timetable.html</small></a>
+      <a class="portal-link" href="attendance.html">Attendance<small>attendance.html</small></a>
+      <a class="portal-link" href="examinations.html">Examinations<small>examinations.html</small></a>
+      <a class="portal-link" href="result-entry.html">Result Entry<small>result-entry.html</small></a>
+      <a class="portal-link" href="results.html">Results<small>results.html</small></a>
+      <a class="portal-link" href="transcript.html">Transcript<small>transcript.html</small></a>
+      <a class="portal-link" href="fees.html">Fees<small>fees.html</small></a>
+      <a class="portal-link" href="payments.html">Payments<small>payments.html</small></a>
+      <a class="portal-link" href="receipts.html">Receipts<small>receipts.html</small></a>
+      <a class="portal-link" href="clinical.html">Clinical<small>clinical.html</small></a>
+      <a class="portal-link" href="medical.html">Medical<small>medical.html</small></a>
+      <a class="portal-link" href="library.html">Library<small>library.html</small></a>
+      <a class="portal-link" href="hostel.html">Hostel<small>hostel.html</small></a>
+      <a class="portal-link" href="announcements.html">Announcements<small>announcements.html</small></a>
+      <a class="portal-link" href="reports.html">Reports<small>reports.html</small></a>
+      <a class="portal-link" href="settings.html">Settings<small>settings.html</small></a>
+      <a class="portal-link" href="student-profile.html">Student Profile<small>student-profile.html</small></a>
+    </div>
+  </section>
+
 </main>
 
 <script type="module">
@@ -202,9 +256,18 @@ createBtn.addEventListener("click", async () => {
     // Sign out the newly-created user from the secondary app.
     await signOut(secondaryAuth);
 
+    const destinationMap = {
+      student: "student.html",
+      lecturer: "lecturer.html",
+      hod: "hod.html",
+      registrar: "registrar.html",
+      bursary: "bursary.html",
+      admissions: "admissions.html",
+      admin: "user-management.html"
+    };
     showMessage(
-      "User created successfully! " + name + " will be directed to " +
-      userRole + ".html after login."
+      "User created successfully! " + name + " has role " + userRole +
+      " and will be directed to " + destinationMap[userRole] + " after login."
     );
 
     fullName.value = "";
