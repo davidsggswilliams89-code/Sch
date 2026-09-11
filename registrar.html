@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Registrar Portal | GGCHST SMS</title>
+<style>
+:root{
+  --bg:#f3f8f4;--card:#fff;--text:#173024;--muted:#617268;--line:#dfe9e2;
+  --brand:#16834b;--brand-dark:#0d6337;--brand-light:#e8f6ee;--gold:#c9a227;
+  --good:#087443;--warn:#a66a00;--danger:#b42318;--side:#0d3b24;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit}
+.app{display:flex;min-height:100vh}
+.sidebar{width:245px;background:var(--side);color:#fff;position:fixed;inset:0 auto 0 0;overflow:auto;padding:20px 14px;z-index:40}
+.logo{display:flex;align-items:center;gap:11px;padding:4px 8px 20px;border-bottom:1px solid #ffffff20}
+.logo-icon{width:42px;height:42px;border-radius:12px;background:var(--brand);display:grid;place-items:center;font-weight:900;font-size:21px;border:2px solid #ffffff30}
+.logo b{display:block;font-size:15px}.logo small{color:#c8d9cf;font-size:10px}
+.menu-title{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#9fc1ae;font-weight:800;margin:20px 8px 8px}
+.menu button{width:100%;display:flex;align-items:center;gap:10px;border:0;background:transparent;color:#dcece3;padding:11px 10px;border-radius:9px;text-align:left;cursor:pointer;font-size:12px;font-weight:750;margin:2px 0}
+.menu button:hover,.menu button.active{background:#ffffff14;color:#fff}
+.menu button.active{box-shadow:inset 3px 0 var(--gold)}
+.icon{width:22px;text-align:center;font-size:15px}
+.main{margin-left:245px;width:calc(100% - 245px);padding:0 28px 45px}
+.topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:0 -28px 22px;padding:14px 28px;background:#fffffff5;border-bottom:1px solid var(--line);box-shadow:0 2px 8px #1018280a}
+.titleblock{flex:1;min-width:240px}.titleblock h1{margin:0 0 3px;font-size:20px}.titleblock p{margin:0;color:var(--muted);font-size:11px}
+.top-actions{display:flex;align-items:center;gap:8px}
+.badge{display:inline-block;background:var(--brand-light);color:var(--brand-dark);border:1px solid #b7e4c8;padding:7px 10px;border-radius:999px;font-size:11px;font-weight:800}
+.logout{border:1px solid var(--line);background:#fff;padding:8px 12px;border-radius:8px;cursor:pointer}
+.view{display:none}.view.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.card,.panel{background:#fff;border:1px solid var(--line);border-radius:13px;box-shadow:0 1px 2px #1018280d}
+.card{padding:18px}.stat{font-size:29px;font-weight:850;margin-top:7px}.small,.mini{color:var(--muted)}.small{font-size:13px}.mini{font-size:11px}
+.section{margin-top:20px}.section-title{font-size:18px;margin:0 0 12px}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.quick button,.btn{border:0;background:var(--brand);color:#fff;padding:9px 13px;border-radius:8px;cursor:pointer;font-weight:700}
+.quick button:hover,.btn:hover{background:var(--brand-dark)}
+.panel{padding:18px}.toolbar{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-bottom:14px}
+.toolbar input,.toolbar select,.field input,.field select,.field textarea{border:1px solid #cddbd2;border-radius:8px;padding:9px 10px;background:#fff}
+.toolbar input{min-width:220px}.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{border:1px solid #cddbd2;background:#fff;padding:8px 11px;border-radius:8px;cursor:pointer;font-weight:700;font-size:12px}
+.tab.active{background:var(--brand-light);border-color:#b7e4c8;color:var(--brand-dark)}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px}
+table{width:100%;border-collapse:collapse;min-width:850px}
+th,td{padding:11px 12px;border-bottom:1px solid var(--line);text-align:left;font-size:12px}
+th{background:#f4f8f5;color:#506257;font-size:10px;text-transform:uppercase;letter-spacing:.4px}
+tr:last-child td{border-bottom:0}
+.status{display:inline-block;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:800}
+.approved,.active-status,.verified,.eligible{background:#e8f6ee;color:#087443}
+.pending,.review,.warning{background:#fff8df;color:#956300}
+.rejected,.inactive,.expired{background:#fef3f2;color:#b42318}
+.info{background:#eaf7ef;border:1px solid #b7dfc7;border-radius:9px;color:#145c36;padding:12px 14px;font-size:12px;margin-bottom:14px}
+.notice{background:#fffaf0;border:1px solid #ead89c;border-radius:9px;color:#765700;padding:12px 14px;font-size:12px}
+.action{border:1px solid #cddbd2;background:#fff;padding:6px 9px;border-radius:7px;cursor:pointer;margin-right:4px;font-size:11px}
+.action:hover{background:#f3f8f4}.approve{border-color:#b7e4c8;color:#087443}.reject{border-color:#fecdca;color:#b42318}
+.form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.field label{display:block;font-size:11px;font-weight:750;margin-bottom:5px}.field input,.field select,.field textarea{width:100%}
+.empty{text-align:center;padding:25px;color:var(--muted)}
+.profile{display:flex;gap:9px;align-items:center}.avatar{width:37px;height:37px;border-radius:50%;display:grid;place-items:center;background:#dff1e6;color:#145c36;font-weight:850}
+.progress{height:8px;background:#edf2ee;border-radius:99px;overflow:hidden}.progress span{display:block;height:100%;background:var(--brand)}
+.kpi-note{font-size:10px;color:var(--muted);margin-top:6px}
+.settings-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.check{display:flex;align-items:center;gap:9px;padding:10px 0;font-size:12px}.check input{accent-color:var(--brand)}
+.modal{position:fixed;inset:0;background:#0d3b2480;display:none;place-items:center;z-index:60;padding:18px}.modal.show{display:grid}.modalbox{background:#fff;border-radius:13px;max-width:720px;width:100%;padding:20px;max-height:90vh;overflow:auto}
+.close{border:0;background:#f2f4f7;border-radius:50%;width:32px;height:32px;cursor:pointer}
+.footer{margin-top:25px;color:var(--muted);font-size:10px;text-align:center}
+@media(max-width:1050px){.sidebar{width:205px}.main{margin-left:205px;width:calc(100% - 205px)}.grid{grid-template-columns:repeat(2,1fr)}.quick{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){.sidebar{position:relative;width:100%;height:auto;max-height:none}.app{display:block}.main{margin-left:0;width:100%;padding:0 14px 30px}.topbar{margin:0 -14px 18px;padding:12px 14px}.grid,.quick,.form-grid,.settings-grid{grid-template-columns:1fr}.menu{display:grid;grid-template-columns:1fr 1fr}.menu-title{grid-column:1/-1}.titleblock h1{font-size:18px}.top-actions .badge{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-icon">G</div>
+    <div><b>GGCHST SMS</b><small>Registrar Portal</small></div>
+  </div>
+  <div class="menu-title">Registrar Menu</div>
+  <nav class="menu" id="menu">
+    <button class="active" data-view="dashboard"><span class="icon">▦</span>Dashboard</button>
+    <button data-view="admissions"><span class="icon">🎓</span>Admissions</button>
+    <button data-view="students"><span class="icon">👥</span>Students</button>
+    <button data-view="academics"><span class="icon">📚</span>Academics</button>
+    <button data-view="graduation"><span class="icon">🏅</span>Graduation</button>
+    <button data-view="staff"><span class="icon">👨‍🏫</span>Staff</button>
+    <button data-view="registry"><span class="icon">📁</span>Registry</button>
+    <button data-view="accreditation"><span class="icon">✓</span>Accreditation</button>
+    <button data-view="reports"><span class="icon">▧</span>Reports</button>
+    <button data-view="audit"><span class="icon">⌕</span>Audit Log</button>
+    <button data-view="settings"><span class="icon">⚙</span>Settings</button>
+  </nav>
+</aside>
+
+<main class="main">
+<div class="topbar">
+  <div class="titleblock"><h1 id="pageTitle">Registrar Dashboard</h1><p>Green Garden College of Health Sciences & Technology — Registry & Academic Administration</p></div>
+  <div class="top-actions"><span class="badge">Academic Session 2026/2027</span><span class="badge">Registrar</span><button class="logout" id="logoutBtn">Logout</button></div>
+</div>
+
+<section id="dashboard" class="view active">
+  <div class="grid">
+    <div class="card"><div class="small">Total Students</div><div class="stat">428</div><div class="kpi-note">Active institutional records</div></div>
+    <div class="card"><div class="small">New Applications</div><div class="stat">76</div><div class="kpi-note">Awaiting processing</div></div>
+    <div class="card"><div class="small">Registered Students</div><div class="stat">391</div><div class="kpi-note">2026/2027 session</div></div>
+    <div class="card"><div class="small">Graduation Candidates</div><div class="stat">63</div><div class="kpi-note">Clearance in progress</div></div>
+  </div>
+  <div class="section"><h2 class="section-title">Quick Access</h2><div class="quick">
+    <div class="card"><h3>Admissions</h3><p class="small">Review applications, verify applicants and issue admission letters.</p><button data-go="admissions">Open Admissions</button></div>
+    <div class="card"><h3>Student Registry</h3><p class="small">Search institutional student records and manage registration.</p><button data-go="students">Open Students</button></div>
+    <div class="card"><h3>Academic Records</h3><p class="small">Manage programmes, sessions, courses and result records.</p><button data-go="academics">Open Academics</button></div>
+    <div class="card"><h3>Graduation</h3><p class="small">Review final-year candidates, clearance and certificates.</p><button data-go="graduation">Open Graduation</button></div>
+    <div class="card"><h3>Registry Requests</h3><p class="small">Process student requests and official registry documents.</p><button data-go="registry">Open Registry</button></div>
+    <div class="card"><h3>Reports</h3><p class="small">Institution-wide admission, student and academic reports.</p><button data-go="reports">Open Reports</button></div>
+  </div></div>
+  <div class="section panel"><h2>Attention Required</h2>
+    <div class="info">12 admission applications have completed document uploads and are ready for Registrar review.</div>
+    <div class="notice">8 student registry requests are awaiting action. 5 graduation candidates still have outstanding clearance items.</div>
+  </div>
+</section>
+
+<section id="admissions" class="view">
+  <div class="panel"><h2>Admissions</h2><div class="small">Application processing, verification, admission lists and letters.</div><br>
+  <div class="tabs"><button class="tab active" data-adm="applications">Applications</button><button class="tab" data-adm="verification">Verification</button><button class="tab" data-adm="admitted">Admission List</button></div>
+  <div id="admApplications" class="subview"><br><div class="toolbar"><input id="admSearch" placeholder="Search application no., name or programme"><select id="admStatus"><option value="">All statuses</option><option>Pending</option><option>Under Review</option><option>Verified</option><option>Admitted</option><option>Rejected</option></select></div>
+  <div class="table-wrap"><table><thead><tr><th>Application No.</th><th>Applicant</th><th>Programme</th><th>Phone</th><th>O'Level</th><th>Applied</th><th>Status</th><th>Action</th></tr></thead><tbody id="admRows"></tbody></table></div></div>
+  <div id="admVerification" class="subview" style="display:none"><br><div class="info">Verify applicant documents before admission approval. Verification actions are recorded in the audit log.</div><div class="table-wrap"><table><thead><tr><th>Applicant</th><th>Programme</th><th>Passport</th><th>O'Level</th><th>Birth Document</th><th>Overall</th><th>Action</th></tr></thead><tbody id="verifyRows"></tbody></table></div></div>
+  <div id="admAdmitted" class="subview" style="display:none"><br><div class="toolbar"><select><option>2026/2027</option><option>2025/2026</option></select><button class="btn" onclick="alert('Admission list prepared for printing.')">Print Admission List</button></div><div class="table-wrap"><table><thead><tr><th>Admission No.</th><th>Student</th><th>Programme</th><th>Session</th><th>Letter</th><th>Status</th></tr></thead><tbody id="admittedRows"></tbody></table></div></div>
+  </div>
+</section>
+
+<section id="students" class="view">
+<div class="panel"><h2>Student Registry</h2><div class="small">Institution-wide student biodata, registration, documents and status.</div><br>
+<div class="toolbar"><input id="studentSearch" placeholder="Search matric no., name, programme..."><select id="studentProgramme"><option value="">All programmes</option><option>Health Information Management</option><option>Community Health Extension Worker</option><option>Medical Laboratory Technician</option><option>Dental Therapy</option><option>Dental Surgery Technology</option><option>Pharmacy Technician</option></select><select id="studentStatus"><option value="">All status</option><option>Active</option><option>Graduating</option><option>Deferred</option></select><button class="btn" id="addStudent">+ Register Student</button></div>
+<div class="table-wrap"><table><thead><tr><th>Matric No.</th><th>Student</th><th>Programme</th><th>Level</th><th>Session</th><th>Phone</th><th>Status</th><th>Action</th></tr></thead><tbody id="studentRows"></tbody></table></div></div>
+</section>
+
+<section id="academics" class="view">
+<div class="panel"><h2>Academics</h2><div class="small">Programmes, departments, sessions, courses, results and academic records.</div><br>
+<div class="tabs"><button class="tab active" data-ac="programmes">Programmes</button><button class="tab" data-ac="departments">Departments</button><button class="tab" data-ac="sessions">Sessions</button><button class="tab" data-ac="courses">Courses</button><button class="tab" data-ac="results">Results</button></div>
+<div id="acProgrammes" class="subview"><br><div class="table-wrap"><table><thead><tr><th>Programme</th><th>Code</th><th>Duration</th><th>Department</th><th>Regulatory Body</th><th>Status</th></tr></thead><tbody id="programmeRows"></tbody></table></div></div>
+<div id="acDepartments" class="subview" style="display:none"><br><div class="table-wrap"><table><thead><tr><th>Department</th><th>HOD</th><th>Programmes</th><th>Students</th><th>Staff</th><th>Status</th></tr></thead><tbody id="departmentRows"></tbody></table></div></div>
+<div id="acSessions" class="subview" style="display:none"><br><div class="grid"><div class="card"><b>2026/2027</b><p class="small">Current academic session</p><span class="status active-status">ACTIVE</span></div><div class="card"><b>First Semester</b><p class="small">Registration window</p><span class="status approved">OPEN</span></div><div class="card"><b>Second Semester</b><p class="small">Planned semester</p><span class="status pending">UPCOMING</span></div><div class="card"><b>2025/2026</b><p class="small">Previous session</p><span class="status verified">ARCHIVED</span></div></div></div>
+<div id="acCourses" class="subview" style="display:none"><br><div class="table-wrap"><table><thead><tr><th>Code</th><th>Course Title</th><th>Unit</th><th>Level</th><th>Programme</th><th>Semester</th></tr></thead><tbody id="courseRows"></tbody></table></div></div>
+<div id="acResults" class="subview" style="display:none"><br><div class="info">Results flow from departmental/HOD verification. Registrar finalization should be auditable.</div><div class="table-wrap"><table><thead><tr><th>Student</th><th>Matric</th><th>Course</th><th>Score</th><th>Grade</th><th>HOD Status</th><th>Registrar Status</th></tr></thead><tbody id="academicResultRows"></tbody></table></div></div>
+</div>
+</section>
+
+<section id="graduation" class="view">
+<div class="panel"><h2>Graduation</h2><div class="small">Final-year review, clearance, graduation list, certificates and transcripts.</div><br>
+<div class="grid"><div class="card"><div class="small">Candidates</div><div class="stat">63</div></div><div class="card"><div class="small">Eligible</div><div class="stat">48</div></div><div class="card"><div class="small">Pending Clearance</div><div class="stat">12</div></div><div class="card"><div class="small">Not Eligible</div><div class="stat">3</div></div></div>
+<br><div class="toolbar"><input id="gradSearch" placeholder="Search graduating student..."><select id="gradStatus"><option value="">All</option><option>Eligible</option><option>Pending Clearance</option><option>Not Eligible</option></select><button class="btn" onclick="alert('Graduation list prepared.')">Generate Graduation List</button></div>
+<div class="table-wrap"><table><thead><tr><th>Matric No.</th><th>Student</th><th>Programme</th><th>CGPA</th><th>Academic</th><th>Bursary</th><th>Library</th><th>Overall</th><th>Action</th></tr></thead><tbody id="gradRows"></tbody></table></div>
+</div>
+</section>
+
+<section id="staff" class="view">
+<div class="panel"><h2>Staff Registry</h2><div class="small">Academic and non-academic staff records.</div><br>
+<div class="tabs"><button class="tab active" data-st="academic">Academic Staff</button><button class="tab" data-st="nonacademic">Non-Academic Staff</button><button class="tab" data-st="establishment">Establishment</button></div>
+<div id="staffAcademic" class="subview"><br><div class="toolbar"><input id="staffSearch" placeholder="Search staff name, ID or department"><button class="btn" id="addStaff">+ Add Staff</button></div><div class="table-wrap"><table><thead><tr><th>Staff ID</th><th>Staff</th><th>Department</th><th>Rank</th><th>Qualification</th><th>Phone</th><th>Status</th></tr></thead><tbody id="staffRows"></tbody></table></div></div>
+<div id="staffNonacademic" class="subview" style="display:none"><br><div class="table-wrap"><table><thead><tr><th>Staff ID</th><th>Name</th><th>Unit</th><th>Role</th><th>Phone</th><th>Status</th></tr></thead><tbody id="nonStaffRows"></tbody></table></div></div>
+<div id="staffEstablishment" class="subview" style="display:none"><br><div class="grid"><div class="card"><div class="small">Academic Staff</div><div class="stat">31</div></div><div class="card"><div class="small">Non-Academic</div><div class="stat">19</div></div><div class="card"><div class="small">Vacancies</div><div class="stat">6</div></div><div class="card"><div class="small">On Leave</div><div class="stat">4</div></div></div></div>
+</div></section>
+
+<section id="registry" class="view">
+<div class="panel"><h2>Registry</h2><div class="small">Official documents, student requests, clearance and announcements.</div><br>
+<div class="tabs"><button class="tab active" data-rg="requests">Requests</button><button class="tab" data-rg="letters">Official Letters</button><button class="tab" data-rg="documents">Documents</button><button class="tab" data-rg="clearance">Clearance</button><button class="tab" data-rg="announcements">Announcements</button></div>
+<div id="rgRequests" class="subview"><br><div class="toolbar"><input id="requestSearch" placeholder="Search request or student"><select id="requestStatus"><option value="">All statuses</option><option>Pending</option><option>Under Review</option><option>Approved</option><option>Completed</option><option>Rejected</option></select></div><div class="table-wrap"><table><thead><tr><th>Request ID</th><th>Student</th><th>Request Type</th><th>Date</th><th>Status</th><th>Action</th></tr></thead><tbody id="requestRows"></tbody></table></div></div>
+<div id="rgLetters" class="subview" style="display:none"><br><div class="grid"><div class="card"><h3>Admission Letter</h3><p class="small">Generate from approved admission.</p><button class="btn" onclick="alert('Template ready.')">Generate</button></div><div class="card"><h3>Student Confirmation</h3><p class="small">Official confirmation of student status.</p><button class="btn" onclick="alert('Template ready.')">Generate</button></div><div class="card"><h3>Good Standing</h3><p class="small">Registry confirmation letter.</p><button class="btn" onclick="alert('Template ready.')">Generate</button></div><div class="card"><h3>Statement of Result</h3><p class="small">Generate verified academic statement.</p><button class="btn" onclick="alert('Template ready.')">Generate</button></div></div></div>
+<div id="rgDocuments" class="subview" style="display:none"><br><div class="table-wrap"><table><thead><tr><th>Document</th><th>Student</th><th>Type</th><th>Uploaded</th><th>Verification</th><th>Action</th></tr></thead><tbody id="documentRows"></tbody></table></div></div>
+<div id="rgClearance" class="subview" style="display:none"><br><div class="info">Clearance can be tracked across Registrar, HOD, Bursary, Library and other required units.</div><div class="table-wrap"><table><thead><tr><th>Student</th><th>HOD</th><th>Bursary</th><th>Library</th><th>Registrar</th><th>Overall</th></tr></thead><tbody id="clearanceRows"></tbody></table></div></div>
+<div id="rgAnnouncements" class="subview" style="display:none"><br><div class="grid"><div class="card"><b>2026/2027 Registration Deadline</b><p class="small">Students should complete registration before the published deadline.</p><span class="status approved">PUBLISHED</span></div><div class="card"><b>Final-Year Clearance</b><p class="small">Eligible final-year students should complete clearance.</p><span class="status approved">PUBLISHED</span></div></div></div>
+</div></section>
+
+<section id="accreditation" class="view">
+<div class="panel"><h2>Accreditation & Compliance</h2><div class="small">Programme accreditation records, regulatory bodies, documents and review dates.</div><br>
+<div class="info">The sample records below are pre-filled for the SMS prototype. Confirm official accreditation dates/statuses before using them as institutional records.</div>
+<div class="table-wrap"><table><thead><tr><th>Programme</th><th>Regulatory Body</th><th>Status</th><th>Last Review</th><th>Next Review</th><th>Documents</th><th>Compliance</th></tr></thead><tbody id="accreditationRows"></tbody></table></div>
+</div></section>
+
+<section id="reports" class="view">
+<div class="panel"><h2>Registrar Reports</h2><div class="small">Institution-wide reports and statistical summaries.</div><br>
+<div class="toolbar"><select id="reportSession"><option>2026/2027</option><option>2025/2026</option></select><select id="reportType"><option>Student Summary</option><option>Admissions</option><option>Programme Enrollment</option><option>Graduation</option><option>Academic Results</option><option>Registry Requests</option></select><button class="btn" onclick="alert('Report generated for preview.')">Generate Report</button><button class="action" onclick="window.print()">Print</button></div>
+<div class="grid"><div class="card"><div class="small">Students</div><div class="stat">428</div></div><div class="card"><div class="small">Applications</div><div class="stat">76</div></div><div class="card"><div class="small">Programmes</div><div class="stat">6</div></div><div class="card"><div class="small">Staff</div><div class="stat">50</div></div></div>
+<br><div class="table-wrap"><table><thead><tr><th>Programme</th><th>Students</th><th>New Admissions</th><th>Registered</th><th>Graduating</th></tr></thead><tbody id="reportProgrammeRows"></tbody></table></div>
+</div></section>
+
+<section id="audit" class="view">
+<div class="panel"><h2>Audit Log</h2><div class="small">A record of important registry and academic-administration actions.</div><br>
+<div class="toolbar"><input id="auditSearch" placeholder="Search user, action, record..."><select id="auditModule"><option value="">All modules</option><option>Admissions</option><option>Students</option><option>Academics</option><option>Graduation</option><option>Registry</option></select></div>
+<div class="table-wrap"><table><thead><tr><th>Date/Time</th><th>User</th><th>Module</th><th>Action</th><th>Record</th><th>Result</th></tr></thead><tbody id="auditRows"></tbody></table></div>
+</div></section>
+
+<section id="settings" class="view">
+<div class="panel"><h2>Registrar Settings</h2><div class="small">Configure registry rules, sessions, numbering, templates and notifications.</div><br>
+<div class="settings-grid">
+<div class="card"><h3>Academic Session</h3><div class="field"><label>Current Session</label><select><option>2026/2027</option><option>2025/2026</option></select></div><br><div class="field"><label>Current Semester</label><select><option>First Semester</option><option>Second Semester</option></select></div></div>
+<div class="card"><h3>Registration Control</h3><label class="check"><input type="checkbox" checked> Student registration enabled</label><label class="check"><input type="checkbox" checked> Course registration enabled</label><label class="check"><input type="checkbox"> Require Registrar approval</label></div>
+<div class="card"><h3>Numbering</h3><div class="field"><label>Matric Prefix</label><input value="GGCHST"></div><br><div class="field"><label>Admission Prefix</label><input value="GGCHST/ADM"></div></div>
+<div class="card"><h3>Notifications</h3><label class="check"><input type="checkbox" checked> Admission notifications</label><label class="check"><input type="checkbox" checked> Registration reminders</label><label class="check"><input type="checkbox" checked> Graduation alerts</label></div>
+<div class="card"><h3>Document Templates</h3><p class="small">Admission letters, confirmation letters, statements of result, transcripts and certificates.</p><button class="btn" onclick="alert('Template manager placeholder.')">Manage Templates</button></div>
+<div class="card"><h3>Security</h3><p class="small">Registrar actions should require authenticated staff accounts and role permissions.</p><button class="btn" onclick="alert('Security settings placeholder.')">Review Permissions</button></div>
+</div><br><button class="btn" onclick="alert('Settings saved for this prototype.')">Save Settings</button>
+</div>
+</section>
+
+<div class="footer">GGCHST SMS • Registrar Portal • Prototype interface — connect Firebase Authentication, Firestore and Storage for production use.</div>
+</main>
+</div>
+
+<div class="modal" id="modal"><div class="modalbox"><div style="display:flex;justify-content:space-between;align-items:center"><h2 id="modalTitle">Register</h2><button class="close" id="closeModal">×</button></div><div id="modalContent"></div></div></div>
+
+<script>
+const programmes=[
+ ["Health Information Management","HIM","3 Years","Health Information Management","HRORBN","Active"],
+ ["Community Health Extension Worker","CHEW","3 Years","Community Health","CHPRBN","Active"],
+ ["Medical Laboratory Technician","MLT","3 Years","Medical Laboratory Science","MLCN","Active"],
+ ["Dental Therapy","DT","3 Years","Dental Health Sciences","DTRBN","Active"],
+ ["Dental Surgery Technology","DST","3 Years","Dental Health Sciences","DTRBN","Active"],
+ ["Pharmacy Technician","PT","3 Years","Pharmacy","PCN","Active"]
+];
+const students=[
+ ["GGCHST/HIM/001","Aisha Bello","Health Information Management","100","2026/2027","08031234567","Active"],
+ ["GGCHST/HIM/002","Musa Abdullahi","Health Information Management","100","2026/2027","08032345678","Active"],
+ ["GGCHST/CHEW/014","Fatima Ibrahim","Community Health Extension Worker","200","2026/2027","08033456789","Active"],
+ ["GGCHST/MLT/021","Yusuf Umar","Medical Laboratory Technician","200","2026/2027","08034567890","Active"],
+ ["GGCHST/DT/033","Zainab Sani","Dental Therapy","300","2026/2027","08035678901","Graduating"],
+ ["GGCHST/DST/040","Abdulrahman Lawal","Dental Surgery Technology","300","2026/2027","08036789012","Active"],
+ ["GGCHST/PT/055","Maryam Hassan","Pharmacy Technician","300","2026/2027","08037890123","Graduating"],
+ ["GGCHST/HIM/061","Bashir Ahmed","Health Information Management","300","2026/2027","08038901234","Active"]
+];
+const applications=[
+ ["GGCHST/ADM/2026/001","Hauwa Sani","Health Information Management","08040000001","5 Credits","2026-09-08","Under Review"],
+ ["GGCHST/ADM/2026/002","Ibrahim Musa","Community Health Extension Worker","08040000002","6 Credits","2026-09-08","Verified"],
+ ["GGCHST/ADM/2026/003","Amina Bello","Medical Laboratory Technician","08040000003","5 Credits","2026-09-07","Pending"],
+ ["GGCHST/ADM/2026/004","Kabiru Umar","Pharmacy Technician","08040000004","5 Credits","2026-09-07","Admitted"],
+ ["GGCHST/ADM/2026/005","Maryam Aliyu","Dental Therapy","08040000005","6 Credits","2026-09-06","Verified"],
+ ["GGCHST/ADM/2026/006","Sani Abdullahi","Dental Surgery Technology","08040000006","4 Credits","2026-09-05","Rejected"]
+];
+const staff=[
+ ["GGCHST/STAFF/001","Dr. Halima Yusuf","Health Information Management","Senior Lecturer","MSc Health Informatics","08030000001","Active"],
+ ["GGCHST/STAFF/002","Mr. Ibrahim Musa","Health Information Management","Principal Lecturer","BSc Health Records","08030000002","Active"],
+ ["GGCHST/STAFF/003","Dr. Amina Sani","Medical Laboratory Science","Lecturer I","MSc Biostatistics","08030000003","Active"],
+ ["GGCHST/STAFF/004","Mr. Kabiru Bello","Community Health","Lecturer II","BSc Public Health","08030000004","Active"],
+ ["GGCHST/STAFF/005","Dr. Fatima Umar","Pharmacy","Senior Lecturer","MPharm","08030000005","On Leave"]
+];
+const nonStaff=[
+ ["GGCHST/STAFF/021","Usman Ahmed","Registry","Registry Officer","08031111111","Active"],
+ ["GGCHST/STAFF/022","Zainab Umar","Bursary","Accounts Officer","08032222222","Active"],
+ ["GGCHST/STAFF/023","Sadiq Bello","Library","Librarian","08033333333","Active"],
+ ["GGCHST/STAFF/024","Aisha Yusuf","Student Affairs","Student Affairs Officer","08034444444","Active"]
+];
+const requests=[
+ ["REG-2026-001","Aisha Bello","Statement of Result","2026-09-09","Pending"],
+ ["REG-2026-002","Musa Abdullahi","Change of Biodata","2026-09-09","Under Review"],
+ ["REG-2026-003","Fatima Ibrahim","Transcript Request","2026-09-08","Approved"],
+ ["REG-2026-004","Yusuf Umar","Introduction Letter","2026-09-08","Completed"],
+ ["REG-2026-005","Zainab Sani","Name Correction","2026-09-07","Pending"]
+];
+const docs=[
+ ["DOC-001","Aisha Bello","O'Level Result","2026-09-08","Verified"],
+ ["DOC-002","Musa Abdullahi","Birth Certificate","2026-09-08","Pending"],
+ ["DOC-003","Fatima Ibrahim","Passport Photograph","2026-09-07","Verified"],
+ ["DOC-004","Yusuf Umar","Admission Letter","2026-09-07","Verified"],
+ ["DOC-005","Zainab Sani","O'Level Result","2026-09-06","Rejected"]
+];
+const audits=[
+ ["2026-09-11 14:20","Registrar","Admissions","Verified applicant documents","GGCHST/ADM/2026/002","Success"],
+ ["2026-09-11 13:42","Registrar","Students","Updated student biodata","GGCHST/HIM/002","Success"],
+ ["2026-09-11 12:18","HOD-HIM","Academics","Approved submitted result batch","HIM/2026/09","Success"],
+ ["2026-09-10 16:05","Registrar","Registry","Approved transcript request","REG-2026-003","Success"],
+ ["2026-09-10 11:31","Admin","Students","Created student account","GGCHST/PT/055","Success"],
+ ["2026-09-09 15:40","Registrar","Graduation","Reviewed clearance record","GGCHST/DT/033","Pending"]
+];
+const grad=[
+ ["GGCHST/DT/033","Zainab Sani","Dental Therapy","3.42","Cleared","Cleared","Cleared","Eligible"],
+ ["GGCHST/PT/055","Maryam Hassan","Pharmacy Technician","3.61","Cleared","Pending","Cleared","Pending Clearance"],
+ ["GGCHST/DST/071","Aliyu Ibrahim","Dental Surgery Technology","2.91","Cleared","Cleared","Pending","Pending Clearance"],
+ ["GGCHST/MLT/082","Rukayya Bello","Medical Laboratory Technician","2.44","Outstanding","Cleared","Cleared","Not Eligible"]
+];
+const courses=[
+ ["HIM101","Introduction to Health Information Management",3,"100","Health Information Management","First"],
+ ["CHEW201","Community Health Practice",3,"200","Community Health Extension Worker","First"],
+ ["MLT202","Clinical Chemistry",3,"200","Medical Laboratory Technician","First"],
+ ["DT301","Dental Materials",3,"300","Dental Therapy","First"],
+ ["DST302","Oral Surgery Technology",3,"300","Dental Surgery Technology","First"],
+ ["PT301","Pharmacology",3,"300","Pharmacy Technician","First"]
+];
+const academicResults=[
+ ["Aisha Bello","GGCHST/HIM/001","HIM101",78,"A","Approved","Finalized"],
+ ["Musa Abdullahi","GGCHST/HIM/002","HIM101",64,"B","Approved","Pending"],
+ ["Zainab Sani","GGCHST/DT/033","DT301",82,"A","Approved","Finalized"],
+ ["Maryam Hassan","GGCHST/PT/055","PT301",69,"B","Approved","Pending"]
+];
+const clearances=[
+ ["Zainab Sani","Cleared","Cleared","Cleared","Cleared","Cleared"],
+ ["Maryam Hassan","Cleared","Pending","Cleared","Pending","Pending"],
+ ["Aliyu Ibrahim","Cleared","Cleared","Pending","Pending","Pending"]
+];
+const acc=[
+ ["Health Information Management","HRORBN","Active","2025","2028","4 files","Compliant"],
+ ["Community Health Extension Worker","CHPRBN","Active","2025","2028","5 files","Compliant"],
+ ["Medical Laboratory Technician","MLCN","Active","2025","2028","4 files","Review Due"],
+ ["Dental Therapy","DTRBN","Active","2025","2028","4 files","Compliant"],
+ ["Dental Surgery Technology","DTRBN","Active","2025","2028","4 files","Compliant"],
+ ["Pharmacy Technician","PCN","Active","2025","2028","5 files","Compliant"]
+];
+
+const $=id=>document.getElementById(id);
+const esc=v=>String(v).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+function status(s){let c={"Active":"active-status","Approved":"approved","Verified":"verified","Eligible":"eligible","Pending":"pending","Under Review":"review","Pending Clearance":"warning","Rejected":"rejected","Not Eligible":"rejected","Completed":"approved","Admitted":"approved","On Leave":"pending"}[s]||"pending";return `<span class="status ${c}">${esc(s)}</span>`}
+
+const pageNames={dashboard:"Registrar Dashboard",admissions:"Admissions",students:"Student Registry",academics:"Academics",graduation:"Graduation",staff:"Staff Registry",registry:"Registry",accreditation:"Accreditation & Compliance",reports:"Registrar Reports",audit:"Audit Log",settings:"Registrar Settings"};
+function show(v){
+ document.querySelectorAll(".view").forEach(x=>x.classList.remove("active")); $(v).classList.add("active");
+ document.querySelectorAll("#menu button").forEach(b=>b.classList.toggle("active",b.dataset.view===v));
+ $("pageTitle").textContent=pageNames[v];
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll("#menu button").forEach(b=>b.onclick=()=>show(b.dataset.view));
+document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>show(b.dataset.go));
+
+function renderApplications(){
+ let q=$("admSearch").value.toLowerCase(),s=$("admStatus").value;
+ let r=applications.filter(x=>(!q||x.join(" ").toLowerCase().includes(q))&&(!s||x[6]===s));
+ $("admRows").innerHTML=r.map((x,i)=>`<tr><td><b>${x[0]}</b></td><td>${esc(x[1])}</td><td>${esc(x[2])}</td><td>${x[3]}</td><td>${x[4]}</td><td>${x[5]}</td><td>${status(x[6])}</td><td><button class="action" onclick="reviewApplication(${i})">Review</button></td></tr>`).join("")||`<tr><td colspan="8" class="empty">No applications found.</td></tr>`;
+ $("verifyRows").innerHTML=applications.filter(x=>["Under Review","Verified"].includes(x[6])).map((x,i)=>`<tr><td>${esc(x[1])}</td><td>${esc(x[2])}</td><td>${status("Verified")}</td><td>${x[4].includes("5")||x[4].includes("6")?status("Verified"):status("Pending")}</td><td>${status("Verified")}</td><td>${status(x[6])}</td><td><button class="action approve" onclick="alert('Applicant verification saved.')">Verify</button></td></tr>`).join("");
+ $("admittedRows").innerHTML=applications.filter(x=>x[6]==="Admitted").map(x=>`<tr><td>${x[0]}</td><td>${esc(x[1])}</td><td>${esc(x[2])}</td><td>2026/2027</td><td><button class="action" onclick="alert('Admission letter preview opened.')">Preview</button></td><td>${status("Admitted")}</td></tr>`).join("");
+}
+function reviewApplication(i){openModal("Application Review",`<div class="info"><b>${esc(applications[i][1])}</b><br>${esc(applications[i][2])}<br>${applications[i][0]}</div><div class="form-grid"><div class="field"><label>Decision</label><select id="appDecision"><option>Under Review</option><option>Verified</option><option>Admitted</option><option>Rejected</option></select></div><div class="field"><label>Note</label><input id="appNote" value="Documents reviewed by Registrar"></div></div><br><button class="btn" onclick="applications[${i}][6]=$('appDecision').value;renderApplications();addAudit('Admissions','Updated application status',applications[${i}][0]);closeModal()">Save Decision</button>`)}
+
+function renderStudents(){
+ let q=$("studentSearch").value.toLowerCase(),p=$("studentProgramme").value,s=$("studentStatus").value;
+ let r=students.filter(x=>(!q||x.join(" ").toLowerCase().includes(q))&&(!p||x[2]===p)&&(!s||x[6]===s));
+ $("studentRows").innerHTML=r.map((x,i)=>`<tr><td><b>${x[0]}</b></td><td><div class="profile"><div class="avatar">${x[1].split(" ").map(a=>a[0]).slice(0,2).join("")}</div><div><b>${esc(x[1])}</b><div class="mini">Registry record</div></div></div></td><td>${esc(x[2])}</td><td>${x[3]}</td><td>${x[4]}</td><td>${x[5]}</td><td>${status(x[6])}</td><td><button class="action" onclick="viewStudent(${i})">View</button><button class="action" onclick="printStudent(${i})">Print</button></td></tr>`).join("")||`<tr><td colspan="8" class="empty">No students found.</td></tr>`;
+}
+function viewStudent(i){let x=students[i];openModal("Student Profile",`<div class="profile"><div class="avatar">${x[1].split(" ").map(a=>a[0]).slice(0,2).join("")}</div><div><h3 style="margin:0">${esc(x[1])}</h3><div class="small">${x[0]}</div></div></div><br><div class="form-grid"><div class="field"><label>Programme</label><input value="${esc(x[2])}" readonly></div><div class="field"><label>Level</label><input value="${x[3]}" readonly></div><div class="field"><label>Session</label><input value="${x[4]}" readonly></div><div class="field"><label>Phone</label><input value="${x[5]}" readonly></div><div class="field"><label>Status</label><input value="${x[6]}" readonly></div></div>`)}
+function printStudent(i){alert("Student registry record prepared for printing: "+students[i][0])}
+
+function renderAcademics(){
+ $("programmeRows").innerHTML=programmes.map(x=>`<tr>${x.map((v,i)=>`<td>${i===5?status(v):esc(v)}</td>`).join("")}</tr>`).join("");
+ const deps=[["Health Information Management","Dr. Halima Yusuf","1","74","4","Active"],["Community Health","Mr. Kabiru Bello","1","82","5","Active"],["Medical Laboratory Science","Dr. Amina Sani","1","91","6","Active"],["Dental Health Sciences","Mr. Ibrahim Musa","2","96","7","Active"],["Pharmacy","Dr. Fatima Umar","1","85","5","Active"]];
+ $("departmentRows").innerHTML=deps.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td>${x[4]}</td><td>${status(x[5])}</td></tr>`).join("");
+ $("courseRows").innerHTML=courses.map(x=>`<tr><td><b>${x[0]}</b></td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td>${x[4]}</td><td>${x[5]}</td></tr>`).join("");
+ $("academicResultRows").innerHTML=academicResults.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td><b>${x[4]}</b></td><td>${status(x[5])}</td><td>${status(x[6])}</td></tr>`).join("");
+}
+
+function renderGraduation(){
+ let q=$("gradSearch").value.toLowerCase(),s=$("gradStatus").value;
+ let r=grad.filter(x=>(!q||x.join(" ").toLowerCase().includes(q))&&(!s||x[7]===s));
+ $("gradRows").innerHTML=r.map((x,i)=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td><b>${x[3]}</b></td><td>${x[4]}</td><td>${x[5]}</td><td>${x[6]}</td><td>${status(x[7])}</td><td><button class="action" onclick="alert('Graduation candidate reviewed.')">Review</button></td></tr>`).join("");
+}
+
+function renderStaff(){
+ let q=$("staffSearch").value.toLowerCase();
+ let r=staff.filter(x=>!q||x.join(" ").toLowerCase().includes(q));
+ $("staffRows").innerHTML=r.map(x=>`<tr><td>${x[0]}</td><td><b>${x[1]}</b></td><td>${x[2]}</td><td>${x[3]}</td><td>${x[4]}</td><td>${x[5]}</td><td>${status(x[6])}</td></tr>`).join("");
+ $("nonStaffRows").innerHTML=nonStaff.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td>${x[4]}</td><td>${status(x[5])}</td></tr>`).join("");
+}
+
+function renderRegistry(){
+ let q=$("requestSearch").value.toLowerCase(),s=$("requestStatus").value;
+ let r=requests.filter(x=>(!q||x.join(" ").toLowerCase().includes(q))&&(!s||x[4]===s));
+ $("requestRows").innerHTML=r.map((x,i)=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td>${status(x[4])}</td><td><button class="action" onclick="alert('Request opened.')">Open</button></td></tr>`).join("");
+ $("documentRows").innerHTML=docs.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td>${status(x[4])}</td><td><button class="action" onclick="alert('Document preview opened.')">View</button></td></tr>`).join("");
+ $("clearanceRows").innerHTML=clearances.map(x=>`<tr><td>${x[0]}</td><td>${status(x[1])}</td><td>${status(x[2])}</td><td>${status(x[3])}</td><td>${status(x[4])}</td><td>${status(x[5])}</td></tr>`).join("");
+}
+function renderAcc(){ $("accreditationRows").innerHTML=acc.map(x=>`<tr><td><b>${x[0]}</b></td><td>${x[1]}</td><td>${status(x[2])}</td><td>${x[3]}</td><td>${x[4]}</td><td>${x[5]}</td><td>${status(x[6])}</td></tr>`).join("");}
+function renderReports(){ $("reportProgrammeRows").innerHTML=programmes.map((x,i)=>`<tr><td>${x[0]}</td><td>${[74,82,91,48,48,85][i]}</td><td>${[18,16,14,9,8,11][i]}</td><td>${[69,77,85,45,44,79][i]}</td><td>${[8,10,13,7,9,16][i]}</td></tr>`).join("");}
+function renderAudit(){let q=$("auditSearch").value.toLowerCase(),m=$("auditModule").value;let r=audits.filter(x=>(!q||x.join(" ").toLowerCase().includes(q))&&(!m||x[2]===m));$("auditRows").innerHTML=r.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td>${x[4]}</td><td>${status(x[5]==="Success"?"Approved":"Pending")}</td></tr>`).join("");}
+function addAudit(module,action,record){audits.unshift([new Date().toLocaleString(),"Registrar",module,action,record,"Success"]);renderAudit();}
+
+function setupTabs(){
+ document.querySelectorAll("[data-adm]").forEach(b=>b.onclick=()=>switchGroup("[data-adm]","adm",b.dataset.adm));
+ document.querySelectorAll("[data-ac]").forEach(b=>b.onclick=()=>switchGroup("[data-ac]","ac",b.dataset.ac));
+ document.querySelectorAll("[data-st]").forEach(b=>b.onclick=()=>switchGroup("[data-st]","staff",b.dataset.st));
+ document.querySelectorAll("[data-rg]").forEach(b=>b.onclick=()=>switchGroup("[data-rg]","rg",b.dataset.rg));
+}
+function switchGroup(selector,prefix,name){
+ document.querySelectorAll(selector).forEach(b=>b.classList.toggle("active",b.dataset[prefix==="staff"?"st":prefix]===name));
+ document.querySelectorAll(`[id^="${prefix}"]`).forEach(x=>{if(x.classList.contains("subview"))x.style.display="none"});
+ const el=$(prefix+name.charAt(0).toUpperCase()+name.slice(1));if(el)el.style.display="block";
+}
+const modal=$("modal");
+function openModal(title,content){$("modalTitle").textContent=title;$("modalContent").innerHTML=content;modal.classList.add("show")}
+function closeModal(){modal.classList.remove("show")}
+$("closeModal").onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};
+$("logoutBtn").onclick=()=>alert("Demo logout. Connect Firebase Authentication for production use.");
+
+$("admSearch").oninput=renderApplications;$("admStatus").onchange=renderApplications;
+$("studentSearch").oninput=renderStudents;$("studentProgramme").onchange=renderStudents;$("studentStatus").onchange=renderStudents;
+$("gradSearch").oninput=renderGraduation;$("gradStatus").onchange=renderGraduation;
+$("staffSearch").oninput=renderStaff;$("requestSearch").oninput=renderRegistry;$("requestStatus").onchange=renderRegistry;
+$("auditSearch").oninput=renderAudit;$("auditModule").onchange=renderAudit;
+
+$("addStudent").onclick=()=>openModal("Register New Student",`<div class="form-grid"><div class="field"><label>Full Name</label><input id="newName" required></div><div class="field"><label>Matric No.</label><input id="newMatric" value="GGCHST/NEW/"></div><div class="field"><label>Programme</label><select id="newProgramme">${programmes.map(x=>`<option>${x[0]}</option>`).join("")}</select></div><div class="field"><label>Level</label><select id="newLevel"><option>100</option><option>200</option><option>300</option></select></div><div class="field"><label>Session</label><input value="2026/2027" readonly></div><div class="field"><label>Phone</label><input id="newPhone"></div></div><br><button class="btn" onclick="saveStudent()">Create Student Record</button>`);
+function saveStudent(){let name=$("newName").value.trim();if(!name){alert("Enter student name.");return}students.push([$("newMatric").value+String(students.length+1).padStart(3,"0"),name,$("newProgramme").value,$("newLevel").value,"2026/2027",$("newPhone").value||"Not provided","Active"]);closeModal();renderStudents();addAudit("Students","Created student registry record",students[students.length-1][0]);alert("Student record created successfully.");}
+
+$("addStaff").onclick=()=>openModal("Add Staff",`<div class="form-grid"><div class="field"><label>Full Name</label><input id="staffName"></div><div class="field"><label>Staff ID</label><input id="staffId" value="GGCHST/STAFF/"></div><div class="field"><label>Department</label><input id="staffDept"></div><div class="field"><label>Rank / Role</label><input id="staffRank"></div><div class="field"><label>Qualification</label><input id="staffQual"></div><div class="field"><label>Phone</label><input id="staffPhone"></div></div><br><button class="btn" onclick="saveStaff()">Save Staff</button>`);
+function saveStaff(){staff.push([$("staffId").value+String(staff.length+1).padStart(3,"0"),$("staffName").value||"New Staff",$("staffDept").value||"Unassigned",$("staffRank").value||"Staff",$("staffQual").value||"Not provided",$("staffPhone").value||"Not provided","Active"]);closeModal();renderStaff();addAudit("Registry","Created staff record",staff[staff.length-1][0]);alert("Staff record saved.");}
+
+setupTabs();renderApplications();renderStudents();renderAcademics();renderGraduation();renderStaff();renderRegistry();renderAcc();renderReports();renderAudit();
+</script>
+</body>
+</html>
