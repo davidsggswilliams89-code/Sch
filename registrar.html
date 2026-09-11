@@ -73,6 +73,10 @@ tr:last-child td{border-bottom:0}
 .detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}.detail-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px}.detail-card h3{margin:0 0 10px;font-size:14px}.detail-card h4{margin:13px 0 7px;font-size:11px;text-transform:uppercase;color:var(--muted);letter-spacing:.4px}.detail-list{display:grid;gap:7px}.detail-row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px dashed var(--line);font-size:11px}.detail-row:last-child{border-bottom:0}.detail-row b{font-weight:800}.full{grid-column:1/-1}.checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.checkitem{padding:8px;border:1px solid var(--line);border-radius:8px;font-size:11px;background:#fbfdfb}.checkitem input{accent-color:var(--brand);margin-right:6px}.workflow{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.step{padding:7px 9px;border-radius:8px;background:#f2f6f3;font-size:10px;font-weight:800}.step.done{background:#e8f6ee;color:#087443}.danger-btn{border:1px solid #fecdca;background:#fff5f4;color:#b42318;padding:7px 10px;border-radius:8px;cursor:pointer}.muted-btn{border:1px solid var(--line);background:#fff;padding:7px 10px;border-radius:8px;cursor:pointer}.detail-card .btn{font-size:11px}.mini-table{width:100%;min-width:0}.mini-table th,.mini-table td{font-size:10px;padding:8px}.metric-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-top:12px}.metric{border:1px solid var(--line);border-radius:10px;padding:10px;background:#fbfdfb}.metric b{font-size:19px;display:block}.metric span{font-size:9px;color:var(--muted)}
 @media(max-width:900px){.detail-grid{grid-template-columns:1fr 1fr}.metric-strip{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.detail-grid{grid-template-columns:1fr}.full{grid-column:auto}.checklist{grid-template-columns:1fr}}
 </style>
+
+<style>
+.tm-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:14px}.tm-toolbar .field{min-width:145px;flex:1}.tm-toolbar .field label{display:block}.tm-actions{display:flex;gap:6px;flex-wrap:wrap}.tm-pill{display:inline-flex;padding:5px 9px;border-radius:999px;background:var(--brand-light);color:var(--brand-dark);font-size:12px;font-weight:700}.tm-conflict{background:#fff0f0!important}.tm-ok{background:#eefaf2!important}.tm-grid{display:grid;grid-template-columns:repeat(7,minmax(125px,1fr));gap:8px;overflow:auto}.tm-day{min-width:125px;background:#f7faf8;border:1px solid #dfe9e3;border-radius:10px;padding:8px}.tm-day h4{margin:0 0 8px;color:var(--brand-dark);font-size:13px}.tm-slot{background:white;border-left:4px solid var(--brand);border-radius:8px;padding:8px;margin-bottom:8px;box-shadow:0 2px 8px #0000000b}.tm-slot strong{display:block;font-size:13px}.tm-slot small{display:block;color:#68756e;margin-top:3px}.tm-slot.conflict{border-left-color:#c0392b;background:#fff4f4}.tm-status{font-size:11px;font-weight:800;text-transform:uppercase}.tm-legend{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.tm-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px}.tm-kpi{padding:13px;border:1px solid #e2ebe5;border-radius:10px;background:#fff}.tm-kpi b{display:block;font-size:22px;color:var(--brand-dark)}.tm-kpi span{font-size:12px;color:#6b776f}@media(max-width:1000px){.tm-grid{grid-template-columns:repeat(3,minmax(170px,1fr));}.tm-kpis{grid-template-columns:repeat(3,1fr)}}@media(max-width:650px){.tm-grid{grid-template-columns:1fr}.tm-kpis{grid-template-columns:repeat(2,1fr)}}
+</style>
 </head>
 <body>
 <div class="app">
@@ -103,6 +107,36 @@ tr:last-child td{border-bottom:0}
   <div class="top-actions"><span class="badge">Academic Session 2026/2027</span><span class="badge">Registrar</span><button class="logout" id="logoutBtn">Logout</button></div>
 </div>
 
+
+<section id="timetable" class="view">
+  <div class="section detail-grid">
+    <div class="detail-card full">
+      <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
+        <div><h3 style="margin-bottom:4px">Timetable Management</h3><div class="small">Institution-wide timetable planning, conflict detection, approval and publication.</div></div>
+        <div class="tm-actions"><button class="btn" id="tmAdd">+ Add Timetable Entry</button><button class="muted-btn" id="tmPrint">Print Timetable</button><button class="muted-btn" id="tmPublish">Publish Current Timetable</button></div>
+      </div>
+      <div class="tm-kpis" style="margin-top:15px">
+        <div class="tm-kpi"><b id="tmTotal">0</b><span>Total entries</span></div><div class="tm-kpi"><b id="tmDraft">0</b><span>Draft</span></div><div class="tm-kpi"><b id="tmReview">0</b><span>Under review</span></div><div class="tm-kpi"><b id="tmApproved">0</b><span>Approved</span></div><div class="tm-kpi"><b id="tmConflicts">0</b><span>Conflicts</span></div>
+      </div>
+      <div class="notice"><b>Workflow:</b> HOD/Timetable Officer prepares → conflict check → Registrar reviews → Approve → Publish. Published timetables are visible to students and staff.</div>
+      <br>
+      <div class="tm-toolbar">
+        <div class="field"><label>Session</label><select id="tmSession"><option>2026/2027</option><option>2025/2026</option></select></div>
+        <div class="field"><label>Semester</label><select id="tmSemester"><option>First</option><option>Second</option></select></div>
+        <div class="field"><label>Programme</label><select id="tmProgramme"><option value="">All programmes</option></select></div>
+        <div class="field"><label>Level</label><select id="tmLevel"><option value="">All levels</option><option>100</option><option>200</option><option>300</option></select></div>
+        <div class="field"><label>Day</label><select id="tmDay"><option value="">All days</option><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option></select></div>
+        <div class="field"><label>Room</label><select id="tmRoom"><option value="">All rooms</option></select></div>
+        <div class="field"><label>Status</label><select id="tmStatus"><option value="">All statuses</option><option>Draft</option><option>Under Review</option><option>Approved</option><option>Published</option></select></div>
+      </div>
+      <div class="tm-legend"><span class="tm-pill">✓ No conflict</span><span class="tm-pill">⚠ Conflict detected</span><span class="tm-pill">Registrar approval required</span></div>
+      <div class="table-wrap"><table class="mini-table"><thead><tr><th>Day</th><th>Time</th><th>Course</th><th>Programme</th><th>Level</th><th>Lecturer</th><th>Venue</th><th>Type</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tmRows"></tbody></table></div>
+    </div>
+    <div class="detail-card full"><h3>Weekly Timetable View</h3><div id="tmWeek" class="tm-grid"></div></div>
+    <div class="detail-card"><h3>Conflict & Resource Checks</h3><div id="tmChecks"></div></div>
+    <div class="detail-card"><h3>Timetable Governance</h3><div class="detail-list"><div class="detail-row"><b>Prepared by</b><span>Timetable Officer / HOD</span></div><div class="detail-row"><b>Reviewed by</b><span>Registrar</span></div><div class="detail-row"><b>Publication</b><span>Registrar only</span></div><div class="detail-row"><b>Change control</b><span>All edits logged</span></div><div class="detail-row"><b>Student access</b><span>Published only</span></div><div class="detail-row"><b>Staff access</b><span>Published + assigned teaching</span></div></div></div>
+  </div>
+</section>
 <section id="dashboard" class="view active">
   <div class="grid">
     <div class="card"><div class="small">Total Students</div><div class="stat">428</div><div class="kpi-note">Active institutional records</div></div>
@@ -451,5 +485,50 @@ function saveStaff(){staff.push([$("staffId").value+String(staff.length+1).padSt
 
 setupTabs();renderApplications();renderStudents();renderAcademics();renderGraduation();renderStaff();renderRegistry();renderAcc();renderReports();renderAudit();
 </script>
+
+<script>
+(function(){
+ const dayOrder=['Monday','Tuesday','Wednesday','Thursday','Friday'];
+ const tmData=[
+  {id:'TT-001',session:'2026/2027',semester:'First',day:'Monday',start:'08:00',end:'10:00',course:'HIM101 — Introduction to Health Information Management',programme:'Health Information Management',level:'100',lecturer:'Dr. Halima Yusuf',room:'Lecture Hall A',type:'Lecture',status:'Approved'},
+  {id:'TT-002',session:'2026/2027',semester:'First',day:'Monday',start:'10:00',end:'12:00',course:'CHEW201 — Community Health Practice',programme:'Community Health Extension Worker',level:'200',lecturer:'Mr. Ibrahim Musa',room:'Lecture Hall B',type:'Lecture',status:'Published'},
+  {id:'TT-003',session:'2026/2027',semester:'First',day:'Tuesday',start:'08:00',end:'10:00',course:'MLT202 — Clinical Chemistry',programme:'Medical Laboratory Technician',level:'200',lecturer:'Dr. Sadiq Bello',room:'Laboratory 1',type:'Practical',status:'Under Review'},
+  {id:'TT-004',session:'2026/2027',semester:'First',day:'Tuesday',start:'10:00',end:'12:00',course:'DT301 — Dental Materials',programme:'Dental Therapy',level:'300',lecturer:'Dr. Zainab Umar',room:'Dental Lab',type:'Practical',status:'Draft'},
+  {id:'TT-005',session:'2026/2027',semester:'First',day:'Wednesday',start:'08:00',end:'10:00',course:'DST302 — Oral Surgery Technology',programme:'Dental Surgery Technology',level:'300',lecturer:'Dr. Aliyu Hassan',room:'Clinical Room 2',type:'Clinical',status:'Approved'},
+  {id:'TT-006',session:'2026/2027',semester:'First',day:'Thursday',start:'10:00',end:'12:00',course:'PT301 — Pharmacology',programme:'Pharmacy Technician',level:'300',lecturer:'Mr. Usman Ahmed',room:'Lecture Hall A',type:'Lecture',status:'Published'},
+  {id:'TT-007',session:'2026/2027',semester:'First',day:'Friday',start:'08:00',end:'10:00',course:'HIM201 — Health Records Practice',programme:'Health Information Management',level:'200',lecturer:'Dr. Halima Yusuf',room:'Lecture Hall A',type:'Lecture',status:'Draft'}
+ ];
+ const $=id=>document.getElementById(id);
+ const esc2=v=>String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+ function overlaps(a,b){return a.day===b.day && a.start<b.end && b.start<a.end;}
+ function conflicts(x){return tmData.filter(y=>y.id!==x.id && y.session===x.session && y.semester===x.semester && overlaps(x,y) && (y.room===x.room || y.lecturer===x.lecturer || (y.programme===x.programme && y.level===x.level))).map(y=>y.id);}
+ function conflictReason(x){let c=tmData.filter(y=>y.id!==x.id && y.session===x.session && y.semester===x.semester && overlaps(x,y));let r=[];if(c.some(y=>y.room===x.room))r.push('room');if(c.some(y=>y.lecturer===x.lecturer))r.push('lecturer');if(c.some(y=>y.programme===x.programme&&y.level===x.level))r.push('same class');return r;}
+ function fillFilters(){
+  $('tmProgramme').innerHTML='<option value="">All programmes</option>'+programmes.map(x=>`<option>${esc2(x[0])}</option>`).join('');
+  const rooms=[...new Set(tmData.map(x=>x.room))];$('tmRoom').innerHTML='<option value="">All rooms</option>'+rooms.map(x=>`<option>${esc2(x)}</option>`).join('');
+ }
+ function renderTM(){
+  const f={session:$('tmSession').value,semester:$('tmSemester').value,programme:$('tmProgramme').value,level:$('tmLevel').value,day:$('tmDay').value,room:$('tmRoom').value,status:$('tmStatus').value};
+  const rows=tmData.filter(x=>x.session===f.session&&x.semester===f.semester&&(!f.programme||x.programme===f.programme)&&(!f.level||x.level===f.level)&&(!f.day||x.day===f.day)&&(!f.room||x.room===f.room)&&(!f.status||x.status===f.status));
+  $('tmRows').innerHTML=rows.map(x=>{let c=conflicts(x);return `<tr class="${c.length?'tm-conflict':'tm-ok'}"><td>${x.day}</td><td><b>${x.start}–${x.end}</b></td><td>${esc2(x.course)}</td><td>${esc2(x.programme)}</td><td>${x.level}</td><td>${esc2(x.lecturer)}</td><td>${esc2(x.room)}</td><td>${x.type}</td><td>${status(x.status)}${c.length?'<br><span class="status tm-status" style="color:#b33">⚠ conflict</span>':''}</td><td><button class="action" onclick="tmEdit('${x.id}')">Edit</button> <button class="action" onclick="tmApprove('${x.id}')">Approve</button> <button class="action reject" onclick="tmDelete('${x.id}')">Delete</button></td></tr>`}).join('')||'<tr><td colspan="10" class="empty">No timetable entries match the selected filters.</td></tr>';
+  $('tmTotal').textContent=tmData.length;$('tmDraft').textContent=tmData.filter(x=>x.status==='Draft').length;$('tmReview').textContent=tmData.filter(x=>x.status==='Under Review').length;$('tmApproved').textContent=tmData.filter(x=>x.status==='Approved').length;$('tmConflicts').textContent=tmData.filter(x=>conflicts(x).length).length;
+  $('tmWeek').innerHTML=dayOrder.map(d=>`<div class="tm-day"><h4>${d}</h4>${rows.filter(x=>x.day===d).sort((a,b)=>a.start.localeCompare(b.start)).map(x=>{let c=conflicts(x);return `<div class="tm-slot ${c.length?'conflict':''}"><strong>${x.start}–${x.end}</strong><span>${esc2(x.course.split(' — ')[0])}</span><small>${esc2(x.programme)} • L${x.level}</small><small>${esc2(x.room)} • ${esc2(x.lecturer)}</small><small class="tm-status">${esc2(x.status)}${c.length?' • CONFLICT':''}</small></div>`}).join('')||'<div class="small">No classes</div>'}</div>`).join('');
+  $('tmChecks').innerHTML=tmData.filter(x=>conflicts(x).length).map(x=>`<div class="notice" style="margin-bottom:8px"><b>${esc2(x.id)}</b> — ${esc2(x.course)}<br><span class="mini">${conflictReason(x).join(', ')} conflict at ${x.day} ${x.start}–${x.end}.</span></div>`).join('')||'<div class="notice">✓ No room, lecturer or same-class timetable conflicts detected.</div>';
+ }
+ function modalForm(item={}){
+  const vals={day:'Monday',start:'08:00',end:'10:00',type:'Lecture',status:'Draft',...item};
+  return `<div class="form-grid"><div class="field"><label>Session</label><select id="tmFSession"><option>2026/2027</option><option>2025/2026</option></select></div><div class="field"><label>Semester</label><select id="tmFSem"><option>First</option><option>Second</option></select></div><div class="field"><label>Course</label><input id="tmFCourse" value="${esc2(vals.course||'')}"></div><div class="field"><label>Programme</label><select id="tmFProg">${programmes.map(x=>`<option ${x[0]===vals.programme?'selected':''}>${esc2(x[0])}</option>`).join('')}</select></div><div class="field"><label>Level</label><select id="tmFLevel">${['100','200','300'].map(x=>`<option ${x===vals.level?'selected':''}>${x}</option>`).join('')}</select></div><div class="field"><label>Day</label><select id="tmFDay">${dayOrder.map(x=>`<option ${x===vals.day?'selected':''}>${x}</option>`).join('')}</select></div><div class="field"><label>Start</label><input type="time" id="tmFStart" value="${vals.start}"></div><div class="field"><label>End</label><input type="time" id="tmFEnd" value="${vals.end}"></div><div class="field"><label>Lecturer</label><input id="tmFLect" value="${esc2(vals.lecturer||'')}"></div><div class="field"><label>Venue / Room</label><input id="tmFRoom" value="${esc2(vals.room||'')}"></div><div class="field"><label>Class Type</label><select id="tmFType">${['Lecture','Practical','Clinical','Seminar','Examination'].map(x=>`<option ${x===vals.type?'selected':''}>${x}</option>`).join('')}</select></div><div class="field"><label>Status</label><select id="tmFStatus"><option>Draft</option><option>Under Review</option><option>Approved</option><option>Published</option></select></div></div><br><div class="info">Conflict detection checks room, lecturer and same programme/level overlaps before saving.</div><br><button class="btn" onclick="tmSave('${vals.id||''}')">Save Timetable Entry</button>`;
+ }
+ window.tmAdd=()=>openModal('Add Timetable Entry',modalForm());
+ window.tmEdit=id=>{let x=tmData.find(y=>y.id===id);openModal('Edit Timetable Entry',modalForm(x));setTimeout(()=>{$('tmFSession').value=x.session;$('tmFSem').value=x.semester;$('tmFStatus').value=x.status},0)};
+ window.tmSave=id=>{let x={id:id||'TT-'+String(Date.now()).slice(-6),session:$('tmFSession').value,semester:$('tmFSem').value,course:$('tmFCourse').value.trim(),programme:$('tmFProg').value,level:$('tmFLevel').value,day:$('tmFDay').value,start:$('tmFStart').value,end:$('tmFEnd').value,lecturer:$('tmFLect').value.trim(),room:$('tmFRoom').value.trim(),type:$('tmFType').value,status:$('tmFStatus').value};if(!x.course||!x.lecturer||!x.room||!x.start||!x.end){alert('Please complete course, lecturer, venue and time.');return}if(x.start>=x.end){alert('End time must be later than start time.');return}let old=tmData.find(y=>y.id===id);if(old)Object.assign(old,x);else tmData.push(x);let c=conflicts(x);if(c.length)alert('Saved with a conflict warning. Review the conflict panel before approval.');else alert('Timetable entry saved successfully.');closeModal();fillFilters();renderTM();addAudit('Timetable',id?'Edited timetable entry':'Created timetable entry',x.id)};
+ window.tmApprove=id=>{let x=tmData.find(y=>y.id===id);let c=conflicts(x);if(c.length){alert('Cannot approve this entry until timetable conflicts are resolved.');return}x.status='Approved';renderTM();addAudit('Timetable','Approved timetable entry',id);alert('Timetable entry approved.');};
+ window.tmDelete=id=>{if(!confirm('Delete this timetable entry?'))return;let i=tmData.findIndex(x=>x.id===id);if(i>=0){tmData.splice(i,1);renderTM();addAudit('Timetable','Deleted timetable entry',id)}};
+ $('tmAdd').onclick=window.tmAdd;$('tmPrint').onclick=()=>window.print();$('tmPublish').onclick=()=>{let filtered=tmData.filter(x=>x.session===$('tmSession').value&&x.semester===$('tmSemester').value);let bad=filtered.filter(x=>conflicts(x).length);if(bad.length){alert('Publishing blocked: resolve '+bad.length+' conflict(s) first.');return}filtered.forEach(x=>x.status='Published');renderTM();addAudit('Timetable','Published timetable',$('tmSession').value+' '+$('tmSemester').value);alert('Current timetable published successfully.');};
+ ['tmSession','tmSemester','tmProgramme','tmLevel','tmDay','tmRoom','tmStatus'].forEach(id=>$(id).onchange=renderTM);
+ fillFilters();renderTM();
+})();
+</script>
+<script>document.addEventListener('DOMContentLoaded',function(){var m=document.getElementById('menu');if(m&&!document.querySelector('#menu button[data-view=\"timetable\"]')){var b=document.createElement('button');b.dataset.view='timetable';b.innerHTML='<span class=\"icon\">🗓</span>Timetable';m.insertBefore(b,m.children[4]||null);b.onclick=function(){show('timetable')};} pageNames.timetable='Timetable Management';});</script>
 </body>
 </html>
