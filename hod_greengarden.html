@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HOD Portal | GGCHST SMS</title>
+<style>
+:root{--bg:#f3f8f4;--card:#fff;--text:#173024;--muted:#617268;--line:#dfe9e2;--brand:#16834b;--brand-dark:#0d6337;--brand-light:#e8f6ee;--gold:#c9a227;--good:#087443;--warn:#a66a00;--danger:#b42318;--side:#0d3b24}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit}.app{display:block;min-height:100vh}.main{width:100%;padding:0 28px 45px}.topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:0 -28px 22px;padding:14px 28px;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);box-shadow:0 2px 8px #1018280a}.brand{display:flex;gap:10px;align-items:center;flex:0 0 auto}.brand-icon{width:40px;height:40px;border-radius:11px;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;font-size:20px}.brand-title{font-weight:800;font-size:17px;line-height:1}.brand small{color:var(--muted);font-size:10px}.nav{display:flex;align-items:center;justify-content:center;gap:6px;flex:1;min-width:0;overflow-x:auto;padding:2px}.nav-label{display:none}.nav a{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;color:#475467;text-decoration:none;padding:9px 11px;border-radius:8px;font-size:12px;font-weight:700;border:1px solid transparent}.nav a:hover,.nav a.active{background:var(--brand-light);color:var(--brand-dark);border-color:#bfe5cd}.topbar .titleblock{min-width:190px;flex:0 0 auto}.topbar h1{margin:0 0 3px;font-size:20px}.topbar p{margin:0;color:var(--muted);font-size:11px}.top-actions{display:flex;align-items:center;gap:6px;flex:0 0 auto}.logout{margin-left:0}.badge{display:inline-block;background:#e8f6ee;color:#087443;border:1px solid #b7e4c8;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:700}.logout{border:1px solid var(--line);background:#fff;padding:8px 12px;border-radius:8px;margin-left:8px;cursor:pointer}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.card,.panel{background:#fff;border:1px solid var(--line);border-radius:13px;box-shadow:0 1px 2px #1018280d}.card{padding:18px}.stat{font-size:30px;font-weight:800;margin-top:7px}.small,.mini{color:var(--muted)}.small{font-size:13px}.mini{font-size:11px}.section{margin-top:20px}.section-title{font-size:18px;margin:0 0 12px}.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.quick button,.btn{border:0;background:var(--brand);color:#fff;padding:9px 13px;border-radius:8px;cursor:pointer}.panel{padding:18px}.toolbar{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-bottom:14px}.toolbar input,.toolbar select{border:1px solid #d0d5dd;border-radius:8px;padding:9px 10px;background:#fff}.toolbar input{min-width:230px}.tabs{display:flex;gap:6px}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px}table{width:100%;border-collapse:collapse;min-width:850px}th,td{padding:11px 12px;border-bottom:1px solid var(--line);text-align:left;font-size:13px}th{background:#f8fafc;color:#475467;font-size:12px;text-transform:uppercase}tr:last-child td{border-bottom:0}.status{display:inline-block;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:700}.approved{background:#ecfdf3;color:#027a48}.pending{background:#fffaeb;color:#b54708}.rejected{background:#fef3f2;color:#b42318}.action{border:1px solid #d0d5dd;background:#fff;padding:6px 9px;border-radius:7px;cursor:pointer;margin-right:4px}.approve{border-color:#abefc6;color:#027a48}.reject{border-color:#fecdca;color:#b42318}.form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.field label{display:block;font-size:12px;font-weight:700;margin-bottom:5px}.field input,.field select{width:100%;border:1px solid #d0d5dd;border-radius:8px;padding:9px}.notice{padding:12px 14px;border:1px solid #b7dfc7;background:#eaf7ef;border-radius:9px;color:#145c36;font-size:13px}.hidden{display:none!important}.empty{text-align:center;padding:25px;color:var(--muted)}.profile{display:flex;gap:10px;align-items:center}.avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#dff1e6;color:#145c36;font-weight:800}.calendar{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.day{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:10px;min-height:150px}.slot{background:#fff;border-left:3px solid var(--brand);border-radius:7px;padding:8px;margin-top:8px;font-size:11px}.modal{position:fixed;inset:0;background:#10182880;display:none;place-items:center;z-index:50;padding:18px}.modal.show{display:grid}.modalbox{background:#fff;border-radius:13px;max-width:620px;width:100%;padding:20px}.close{border:0;background:#f2f4f7;border-radius:50%;width:32px;height:32px;cursor:pointer}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}.quick{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:1fr 1fr}.calendar{grid-template-columns:repeat(2,1fr)}}@media(max-width:720px){.main{padding:0 14px 30px}.topbar{margin:0 -14px 18px;padding:12px 14px;gap:10px}.nav{order:3;flex-basis:100%;justify-content:flex-start}.titleblock{order:4;flex:1 1 100%!important}.top-actions{order:2;margin-left:auto}.grid,.quick,.form-grid,.calendar{grid-template-columns:1fr}.topbar h1{font-size:18px}.top-actions .badge{display:none}.nav a{padding:8px 9px;font-size:11px}}
+</style>
+
+<style>
+:root{
+  --brand-hover:#116b3d;
+}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{
+  outline:3px solid #bfe5cd;
+  outline-offset:2px;
+}
+.btn:hover,.quick button:hover{background:var(--brand-hover)}
+.action:hover{background:#f3f8f4}
+</style>
+</head>
+<body>
+<div class="app">
+
+<main class="main">
+<div class="topbar">
+ <div class="brand"><div class="brand-icon">G</div><div><div class="brand-title">GGCHST SMS</div><small>HOD Portal</small></div></div>
+ <nav class="nav"><div class="nav-label">Navigation</div>
+<a class="active" href="#" data-view="dashboard">▦ Dashboard</a>
+<a href="#" data-view="students">👥 Students</a>
+<a href="#" data-view="lecturers">◉ Lecturers</a>
+<a href="#" data-view="courses">▤ Courses</a>
+<a href="#" data-view="results">✓ Result Verification</a>
+<a href="#" data-view="timetable">▣ Timetable</a>
+<a href="#" data-view="reports">▧ Reports</a></nav>
+ <div class="titleblock"><span class="badge">Academic Session 2025/2026</span><h1 id="pageTitle">HOD Dashboard</h1><p>Green Garden College of Health Sciences & Technology</p></div>
+ <div class="top-actions"><span class="badge">HOD • Department</span><button class="logout" id="logoutBtn">Logout</button></div>
+</div>
+<div id="views">
+<section id="dashboard" class="view">
+<div class="grid">
+<div class="card"><div class="small">Department Students</div><div class="stat" id="studentCount">8</div><div class="mini">Active students</div></div>
+<div class="card"><div class="small">Lecturers</div><div class="stat" id="lecturerCount">5</div><div class="mini">Teaching staff</div></div>
+<div class="card"><div class="small">Pending Verification</div><div class="stat" id="pendingCount">4</div><div class="mini">Submitted results</div></div>
+<div class="card"><div class="small">Active Courses</div><div class="stat" id="courseCount">8</div><div class="mini">Department courses</div></div>
+</div>
+<div class="section"><h2 class="section-title">Quick Access</h2><div class="quick">
+<div class="card"><h3>Students</h3><p class="small">View student biodata, levels and registration details.</p><button data-go="students">Open Students</button></div>
+<div class="card"><h3>Lecturers</h3><p class="small">Create lecturer profiles and assign courses.</p><button data-go="lecturers">Manage Lecturers</button></div>
+<div class="card"><h3>Courses</h3><p class="small">Filter courses by level, semester and lecturer.</p><button data-go="courses">View Courses</button></div>
+<div class="card"><h3>Result Approval</h3><p class="small">Review, approve or reject submitted results.</p><button data-go="results">Review Results</button></div>
+<div class="card"><h3>Timetable</h3><p class="small">View the pre-filled weekly teaching timetable.</p><button data-go="timetable">View Timetable</button></div>
+<div class="card"><h3>Reports</h3><p class="small">Department summaries and result statistics.</p><button data-go="reports">Open Reports</button></div>
+</div></div>
+</section>
+
+<section id="students" class="view hidden"><div class="panel"><h2>Department Students</h2>
+<div class="toolbar"><input id="studentSearch" placeholder="Search name, matric no. or programme..."><select id="studentLevel"><option value="">All levels</option><option>100</option><option>200</option><option>300</option><option>400</option></select></div>
+<div class="table-wrap"><table><thead><tr><th>Matric No.</th><th>Student</th><th>Level</th><th>Programme</th><th>Phone</th><th>Email</th><th>Status</th></tr></thead><tbody id="studentRows"></tbody></table></div></div></section>
+
+<section id="lecturers" class="view hidden"><div class="panel"><div class="toolbar"><div><h2 style="margin:0">Lecturer Profiles</h2><div class="small">Create profiles and manage course assignments.</div></div><span style="flex:1"></span><button class="btn" id="addLecturer">+ Create Lecturer Profile</button></div>
+<div class="table-wrap"><table><thead><tr><th>Staff ID</th><th>Lecturer</th><th>Rank</th><th>Email</th><th>Phone</th><th>Assigned Courses</th><th>Action</th></tr></thead><tbody id="lecturerRows"></tbody></table></div></div></section>
+
+<section id="courses" class="view hidden"><div class="panel"><h2>Courses & Lecturer Assignments</h2>
+<div class="toolbar"><input id="courseSearch" placeholder="Search course code or title..."><select id="courseLevel"><option value="">All levels</option><option>100</option><option>200</option><option>300</option><option>400</option></select><select id="courseLecturer"><option value="">All lecturers</option></select></div>
+<div class="table-wrap"><table><thead><tr><th>Code</th><th>Course Title</th><th>Unit</th><th>Level</th><th>Semester</th><th>Lecturer</th><th>Students</th></tr></thead><tbody id="courseRows"></tbody></table></div></div></section>
+
+<section id="results" class="view hidden"><div class="panel"><h2>Submitted Results • Approval Queue</h2>
+<div class="notice" style="margin-bottom:14px">Filter submitted results by course and lecturer, then approve or reject each submission.</div>
+<div class="toolbar"><input id="resultSearch" placeholder="Search student, matric no. or course..."><select id="resultCourse"><option value="">All courses</option></select><select id="resultLecturer"><option value="">All lecturers</option></select><select id="resultStatus"><option value="">All statuses</option><option>Pending</option><option>Approved</option><option>Rejected</option></select></div>
+<div class="table-wrap"><table><thead><tr><th>Student</th><th>Matric</th><th>Course</th><th>Lecturer</th><th>Score</th><th>Grade</th><th>Submitted</th><th>Status</th><th>Action</th></tr></thead><tbody id="resultRows"></tbody></table></div></div></section>
+
+<section id="timetable" class="view hidden"><div class="panel"><div class="toolbar"><div><h2 style="margin:0">Department Timetable</h2><div class="small">Pre-filled sample timetable for 2025/2026.</div></div><span style="flex:1"></span><select id="ttLevel"><option>All levels</option><option>100</option><option>200</option><option>300</option><option>400</option></select></div><div class="calendar" id="calendar"></div></div></section>
+
+<section id="reports" class="view hidden"><div class="grid">
+<div class="card"><div class="small">Results Submitted</div><div class="stat" id="reportSubmitted">8</div></div>
+<div class="card"><div class="small">Approval Rate</div><div class="stat" id="reportApproval">38%</div></div>
+<div class="card"><div class="small">Courses Assigned</div><div class="stat" id="reportAssigned">8</div></div>
+<div class="card"><div class="small">Students Registered</div><div class="stat" id="reportStudents">8</div></div>
+</div><div class="section panel"><h2>Department Summary</h2><div class="table-wrap"><table><thead><tr><th>Level</th><th>Students</th><th>Courses</th><th>Pending Results</th><th>Approved Results</th></tr></thead><tbody id="reportRows"></tbody></table></div></div></section>
+</div></main></div>
+<script>
+const DB={
+students:[
+["SHT/2023/001","Aisha Bello","100","Health Information Management","08031234567","aisha.bello@example.com","Active"],
+["SHT/2023/002","Musa Abdullahi","100","Health Information Management","08032345678","musa.abdullahi@example.com","Active"],
+["SHT/2022/014","Fatima Ibrahim","200","Health Information Management","08033456789","fatima.ibrahim@example.com","Active"],
+["SHT/2022/021","Yusuf Umar","200","Health Information Management","08034567890","yusuf.umar@example.com","Active"],
+["SHT/2021/033","Zainab Sani","300","Health Information Management","08035678901","zainab.sani@example.com","Active"],
+["SHT/2021/040","Abdulrahman Lawal","300","Health Information Management","08036789012","abdulrahman.lawal@example.com","Active"],
+["SHT/2020/055","Maryam Hassan","400","Health Information Management","08037890123","maryam.hassan@example.com","Active"],
+["SHT/2020/061","Bashir Ahmed","400","Health Information Management","08038901234","bashir.ahmed@example.com","Active"]],
+lecturers:[
+{id:"SHT-001",name:"Dr. Halima Yusuf",rank:"Senior Lecturer",email:"halima.yusuf@example.com",phone:"08030000001",spec:"Health Informatics"},
+{id:"SHT-002",name:"Mr. Ibrahim Musa",rank:"Principal Lecturer",email:"ibrahim.musa@example.com",phone:"08030000002",spec:"Health Records"},
+{id:"SHT-003",name:"Dr. Amina Sani",rank:"Lecturer I",email:"amina.sani@example.com",phone:"08030000003",spec:"Biostatistics"},
+{id:"SHT-004",name:"Mr. Kabiru Bello",rank:"Lecturer II",email:"kabiru.bello@example.com",phone:"08030000004",spec:"Public Health"},
+{id:"SHT-005",name:"Dr. Fatima Umar",rank:"Senior Lecturer",email:"fatima.umar@example.com",phone:"08030000005",spec:"Information Systems"}],
+courses:[
+["HIM101","Introduction to Health Information Management",3,"100","First","Dr. Halima Yusuf",8],
+["HIM102","Medical Terminology",2,"100","First","Mr. Ibrahim Musa",8],
+["HIM201","Health Records Management",3,"200","First","Mr. Ibrahim Musa",8],
+["HIM202","Biostatistics I",3,"200","First","Dr. Amina Sani",8],
+["HIM301","Health Information Systems",3,"300","First","Dr. Halima Yusuf",8],
+["HIM302","Public Health Practice",2,"300","First","Mr. Kabiru Bello",8],
+["HIM401","Health Data Analysis",3,"400","First","Dr. Amina Sani",8],
+["HIM402","Hospital Administration",2,"400","First","Dr. Fatima Umar",8]],
+results:[
+["Aisha Bello","SHT/2023/001","HIM101","Dr. Halima Yusuf",78,"A","2026-09-08","Pending"],
+["Musa Abdullahi","SHT/2023/002","HIM101","Dr. Halima Yusuf",64,"B","2026-09-08","Pending"],
+["Fatima Ibrahim","SHT/2022/014","HIM201","Mr. Ibrahim Musa",71,"A","2026-09-07","Approved"],
+["Yusuf Umar","SHT/2022/021","HIM201","Mr. Ibrahim Musa",56,"C","2026-09-07","Pending"],
+["Zainab Sani","SHT/2021/033","HIM301","Dr. Halima Yusuf",82,"A","2026-09-06","Approved"],
+["Abdulrahman Lawal","SHT/2021/040","HIM302","Mr. Kabiru Bello",48,"D","2026-09-06","Rejected"],
+["Maryam Hassan","SHT/2020/055","HIM401","Dr. Amina Sani",69,"B","2026-09-05","Pending"],
+["Bashir Ahmed","SHT/2020/061","HIM402","Dr. Fatima Umar",74,"A","2026-09-05","Approved"]],
+timetable:[
+["Monday","08:00 - 10:00","HIM101","100","Dr. Halima Yusuf","Room A1"],
+["Monday","10:00 - 12:00","HIM201","200","Mr. Ibrahim Musa","Room A2"],
+["Tuesday","08:00 - 10:00","HIM202","200","Dr. Amina Sani","Lab 1"],
+["Tuesday","12:00 - 14:00","HIM301","300","Dr. Halima Yusuf","Room B1"],
+["Wednesday","09:00 - 11:00","HIM302","300","Mr. Kabiru Bello","Room B2"],
+["Wednesday","12:00 - 14:00","HIM401","400","Dr. Amina Sani","Lab 2"],
+["Thursday","08:00 - 10:00","HIM102","100","Mr. Ibrahim Musa","Room A1"],
+["Thursday","12:00 - 14:00","HIM402","400","Dr. Fatima Umar","Room C1"],
+["Friday","10:00 - 12:00","HIM301","300","Dr. Halima Yusuf","Room B1"]]};
+const $=id=>document.getElementById(id);
+function esc(v){return String(v).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function badge(s){return `<span class="status ${s.toLowerCase()}">${s}</span>`}
+function refreshStats(){ $("studentCount").textContent=DB.students.length;$("lecturerCount").textContent=DB.lecturers.length;$("pendingCount").textContent=DB.results.filter(x=>x[7]=="Pending").length;$("courseCount").textContent=DB.courses.length;$("reportSubmitted").textContent=DB.results.length;$("reportApproval").textContent=Math.round(DB.results.filter(x=>x[7]=="Approved").length/DB.results.length*100)+"%";$("reportAssigned").textContent=DB.courses.length;$("reportStudents").textContent=DB.students.length}
+function renderStudents(){let q=$("studentSearch").value.toLowerCase(),l=$("studentLevel").value;let r=DB.students.filter(x=>(!q||x.join(" ").toLowerCase().includes(q))&&(!l||x[2]==l));$("studentRows").innerHTML=r.map(x=>`<tr>${x.map((v,i)=>`<td>${i==6?badge(v):esc(v)}</td>`).join("")}</tr>`).join("")||`<tr><td colspan="7" class="empty">No students found.</td></tr>`}
+function lecturerOptions(){$("courseLecturer").innerHTML='<option value="">All lecturers</option>'+DB.lecturers.map(x=>`<option>${esc(x.name)}</option>`).join("");$("resultLecturer").innerHTML='<option value="">All lecturers</option>'+DB.lecturers.map(x=>`<option>${esc(x.name)}</option>`).join("")}
+function courseOptions(){$("resultCourse").innerHTML='<option value="">All courses</option>'+DB.courses.map(x=>`<option>${x[0]}</option>`).join("")}
+function renderLecturers(){$("lecturerRows").innerHTML=DB.lecturers.map(x=>{let n=DB.courses.filter(c=>c[5]==x.name).length;return `<tr><td>${esc(x.id)}</td><td><div class="profile"><div class="avatar">${esc(x.name.split(" ").map(a=>a[0]).slice(-2).join(""))}</div><div><b>${esc(x.name)}</b><div class="mini">${esc(x.spec)}</div></div></div></td><td>${esc(x.rank)}</td><td>${esc(x.email)}</td><td>${esc(x.phone)}</td><td>${n}</td><td><button class="action" onclick="alert('Profile: ${esc(x.name)}\\nSpecialization: ${esc(x.spec)}\\nAssigned courses: ${n}')">View</button></td></tr>`}).join("")}
+function renderCourses(){let q=$("courseSearch").value.toLowerCase(),l=$("courseLevel").value,t=$("courseLecturer").value;let r=DB.courses.filter(x=>(!q||(x[0]+" "+x[1]).toLowerCase().includes(q))&&(!l||x[3]==l)&&(!t||x[5]==t));$("courseRows").innerHTML=r.map(x=>`<tr><td><b>${x[0]}</b></td><td>${esc(x[1])}</td><td>${x[2]}</td><td>${x[3]}</td><td>${x[4]}</td><td>${esc(x[5])}</td><td>${x[6]}</td></tr>`).join("")||`<tr><td colspan="7" class="empty">No courses found.</td></tr>`}
+function renderResults(){let q=$("resultSearch").value.toLowerCase(),c=$("resultCourse").value,l=$("resultLecturer").value,s=$("resultStatus").value;let r=DB.results.filter(x=>(!q||x.join(" ").toLowerCase().includes(q))&&(!c||x[2]==c)&&(!l||x[3]==l)&&(!s||x[7]==s));$("resultRows").innerHTML=r.map(x=>{let i=DB.results.indexOf(x);let a=x[7]=="Pending"?`<button class="action approve" onclick="updateResult(${i},'Approved')">Approve</button><button class="action reject" onclick="updateResult(${i},'Rejected')">Reject</button>`:`<button class="action" onclick="updateResult(${i},'Pending')">Reopen</button>`;return `<tr><td>${esc(x[0])}</td><td>${esc(x[1])}</td><td><b>${x[2]}</b></td><td>${esc(x[3])}</td><td>${x[4]}</td><td><b>${x[5]}</b></td><td>${x[6]}</td><td>${badge(x[7])}</td><td>${a}</td></tr>`}).join("")||`<tr><td colspan="9" class="empty">No submitted results match your filters.</td></tr>`}
+function updateResult(i,s){DB.results[i][7]=s;localStorage.setItem("hodDemoDB",JSON.stringify(DB));renderResults();refreshStats();renderReports()}
+function renderTimetable(){let l=$("ttLevel").value,d=["Monday","Tuesday","Wednesday","Thursday","Friday"];$("calendar").innerHTML=d.map(day=>`<div class="day"><b>${day}</b>${DB.timetable.filter(x=>x[0]==day&&(l=="All levels"||x[3]==l)).map(x=>`<div class="slot"><b>${x[1]}</b><br>${x[2]} • Level ${x[3]}<br>${esc(x[4])}<br><span class="mini">${x[5]}</span></div>`).join("")||'<div class="mini" style="margin-top:12px">No class</div>'}</div>`).join("")}
+function renderReports(){let levels=["100","200","300","400"];$("reportRows").innerHTML=levels.map(l=>{let st=DB.students.filter(x=>x[2]==l).length,co=DB.courses.filter(x=>x[3]==l).length,rs=DB.results.filter(x=>DB.students.find(s=>s[0]==x[1])?.[2]==l);return `<tr><td>${l}</td><td>${st}</td><td>${co}</td><td>${rs.filter(x=>x[7]=="Pending").length}</td><td>${rs.filter(x=>x[7]=="Approved").length}</td></tr>`}).join("")}
+function show(v){document.querySelectorAll(".view").forEach(x=>x.classList.add("hidden"));$(v).classList.remove("hidden");document.querySelectorAll(".nav a").forEach(a=>a.classList.toggle("active",a.dataset.view==v));$("pageTitle").textContent={dashboard:"HOD Dashboard",students:"Department Students",lecturers:"Lecturer Profiles",courses:"Courses & Assignments",results:"Result Verification",timetable:"Department Timetable",reports:"Department Reports"}[v]}
+document.querySelectorAll(".nav a").forEach(a=>a.onclick=e=>{e.preventDefault();show(a.dataset.view)});document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>show(b.dataset.go));
+["studentSearch","studentLevel"].forEach(i=>$(i).addEventListener("input",renderStudents));["courseSearch","courseLevel","courseLecturer"].forEach(i=>$(i).addEventListener("input",renderCourses));["resultSearch","resultCourse","resultLecturer","resultStatus"].forEach(i=>$(i).addEventListener("input",renderResults));$("ttLevel").addEventListener("change",renderTimetable);$("logoutBtn").onclick=()=>alert("Demo logout. Connect authentication for production use.");
+const modal=document.createElement("div");modal.className="modal";modal.innerHTML=`<div class="modalbox"><div style="display:flex;justify-content:space-between;align-items:center"><h2>Create Lecturer Profile</h2><button class="close" id="closeModal">×</button></div><form id="lecturerForm"><div class="form-grid"><div class="field"><label>Full Name</label><input name="name" required></div><div class="field"><label>Staff ID</label><input name="id" required></div><div class="field"><label>Rank</label><select name="rank"><option>Lecturer II</option><option>Lecturer I</option><option>Senior Lecturer</option><option>Principal Lecturer</option></select></div><div class="field"><label>Email</label><input name="email" type="email" required></div><div class="field"><label>Phone</label><input name="phone" required></div><div class="field"><label>Specialization</label><input name="specialization"></div></div><br><button class="btn">Create Profile</button></form></div>`;document.body.appendChild(modal);
+$("addLecturer").onclick=()=>modal.classList.add("show");$("closeModal").onclick=()=>modal.classList.remove("show");$("lecturerForm").onsubmit=e=>{e.preventDefault();let f=new FormData(e.target);DB.lecturers.push({id:f.get("id"),name:f.get("name"),rank:f.get("rank"),email:f.get("email"),phone:f.get("phone"),spec:f.get("specialization")||"General"});modal.classList.remove("show");e.target.reset();lecturerOptions();renderLecturers();refreshStats();alert("Lecturer profile created successfully.")};
+try{let s=JSON.parse(localStorage.getItem("hodDemoDB"));if(s)Object.assign(DB,s)}catch(e){}
+lecturerOptions();courseOptions();refreshStats();renderStudents();renderLecturers();renderCourses();renderResults();renderTimetable();renderReports();
+</script>
+</body></html>
