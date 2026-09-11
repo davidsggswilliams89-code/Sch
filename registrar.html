@@ -77,35 +77,34 @@ tr:last-child td{border-bottom:0}
 <style>
 .tm-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:14px}.tm-toolbar .field{min-width:145px;flex:1}.tm-toolbar .field label{display:block}.tm-actions{display:flex;gap:6px;flex-wrap:wrap}.tm-pill{display:inline-flex;padding:5px 9px;border-radius:999px;background:var(--brand-light);color:var(--brand-dark);font-size:12px;font-weight:700}.tm-conflict{background:#fff0f0!important}.tm-ok{background:#eefaf2!important}.tm-grid{display:grid;grid-template-columns:repeat(7,minmax(125px,1fr));gap:8px;overflow:auto}.tm-day{min-width:125px;background:#f7faf8;border:1px solid #dfe9e3;border-radius:10px;padding:8px}.tm-day h4{margin:0 0 8px;color:var(--brand-dark);font-size:13px}.tm-slot{background:white;border-left:4px solid var(--brand);border-radius:8px;padding:8px;margin-bottom:8px;box-shadow:0 2px 8px #0000000b}.tm-slot strong{display:block;font-size:13px}.tm-slot small{display:block;color:#68756e;margin-top:3px}.tm-slot.conflict{border-left-color:#c0392b;background:#fff4f4}.tm-status{font-size:11px;font-weight:800;text-transform:uppercase}.tm-legend{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.tm-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px}.tm-kpi{padding:13px;border:1px solid #e2ebe5;border-radius:10px;background:#fff}.tm-kpi b{display:block;font-size:22px;color:var(--brand-dark)}.tm-kpi span{font-size:12px;color:#6b776f}@media(max-width:1000px){.tm-grid{grid-template-columns:repeat(3,minmax(170px,1fr));}.tm-kpis{grid-template-columns:repeat(3,1fr)}}@media(max-width:650px){.tm-grid{grid-template-columns:1fr}.tm-kpis{grid-template-columns:repeat(2,1fr)}}
 </style>
+
+<style id="hod-topbar-format">
+.app{display:block;min-height:100vh}.main{width:100%;margin-left:0;padding:0 28px 45px}.topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:0 -28px 22px;padding:14px 28px;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);box-shadow:0 2px 8px #1018280a}.brand{display:flex;gap:10px;align-items:center;flex:0 0 auto}.brand-icon{width:40px;height:40px;border-radius:11px;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;font-size:20px}.brand-title{font-weight:800;font-size:17px;line-height:1}.brand small{color:var(--muted);font-size:10px}.nav{display:flex;align-items:center;justify-content:center;gap:6px;flex:1;min-width:0;overflow-x:auto;padding:2px}.nav-label{display:none}.nav a,.nav button{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;color:#475467;text-decoration:none;padding:9px 11px;border-radius:8px;font-size:12px;font-weight:700;border:1px solid transparent;background:transparent;cursor:pointer}.nav a:hover,.nav a.active,.nav button:hover,.nav button.active{background:var(--brand-light);color:var(--brand-dark);border-color:#bfe5cd}.topbar .titleblock{min-width:190px;flex:0 0 auto}.topbar h1{margin:0 0 3px;font-size:20px}.topbar p{margin:0;color:var(--muted);font-size:11px}.top-actions{display:flex;align-items:center;gap:6px;flex:0 0 auto}.top-actions .logout{margin-left:8px}.badge{display:inline-block;background:#e8f6ee;color:#087443;border:1px solid #b7e4c8;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:700}.logout{border:1px solid var(--line);background:#fff;padding:8px 12px;border-radius:8px;cursor:pointer}@media(max-width:1000px){.main{width:100%}}@media(max-width:720px){.main{padding:0 14px 30px}.topbar{margin:0 -14px 18px;padding:12px 14px;gap:10px}.nav{order:3;flex-basis:100%;justify-content:flex-start}.topbar .titleblock{order:4;flex:1 1 100%!important}.top-actions{order:2;margin-left:auto}.top-actions .badge{display:none}.nav a,.nav button{padding:8px 9px;font-size:11px}.topbar h1{font-size:18px}}
+</style>
 </head>
 <body>
 <div class="app">
-<aside class="sidebar">
-  <div class="logo">
-    <div class="logo-icon">G</div>
-    <div><b>GGCHST SMS</b><small>Registrar Portal</small></div>
-  </div>
-  <div class="menu-title">Registrar Menu</div>
-  <nav class="menu" id="menu">
-    <button class="active" data-view="dashboard"><span class="icon">▦</span>Dashboard</button>
-    <button data-view="admissions"><span class="icon">🎓</span>Admissions</button>
-    <button data-view="students"><span class="icon">👥</span>Students</button>
-    <button data-view="academics"><span class="icon">📚</span>Academics</button>
-    <button data-view="graduation"><span class="icon">🏅</span>Graduation</button>
-    <button data-view="staff"><span class="icon">👨‍🏫</span>Staff</button>
-    <button data-view="registry"><span class="icon">📁</span>Registry</button>
-    <button data-view="accreditation"><span class="icon">✓</span>Accreditation</button>
-    <button data-view="reports"><span class="icon">▧</span>Reports</button>
-    <button data-view="audit"><span class="icon">⌕</span>Audit Log</button>
-    <button data-view="settings"><span class="icon">⚙</span>Settings</button>
-  </nav>
-</aside>
+
 
 <main class="main">
 <div class="topbar">
-  <div class="titleblock"><h1 id="pageTitle">Registrar Dashboard</h1><p>Green Garden College of Health Sciences & Technology — Registry & Academic Administration</p></div>
-  <div class="top-actions"><span class="badge">Academic Session 2026/2027</span><span class="badge">Registrar</span><button class="logout" id="logoutBtn">Logout</button></div>
-</div>
+  <div class="brand"><div class="brand-icon">G</div><div><div class="brand-title">GGCHST SMS</div><small>Registrar Portal</small></div></div>
+  <nav class="nav" id="menu"><div class="nav-label">Navigation</div>
+    <a class="active" href="#" data-view="dashboard">▦ Dashboard</a>
+    <a href="#" data-view="admissions">🎓 Admissions</a>
+    <a href="#" data-view="students">👥 Students</a>
+    <a href="#" data-view="academics">📚 Academics</a>
+    <a href="#" data-view="graduation">🏅 Graduation</a>
+    <a href="#" data-view="staff">👨‍🏫 Staff</a>
+    <a href="#" data-view="registry">📁 Registry</a>
+    <a href="#" data-view="accreditation">✓ Accreditation</a>
+    <a href="#" data-view="reports">▧ Reports</a>
+    <a href="#" data-view="audit">⌕ Audit Log</a>
+    <a href="#" data-view="settings">⚙ Settings</a>
+  </nav>
+  <div class="titleblock"><span class="badge">Academic Session 2026/2027</span><h1 id="pageTitle">Registrar Dashboard</h1><p>Green Garden College of Health Sciences & Technology</p></div>
+  <div class="top-actions"><span class="badge">Registrar</span><button class="logout" id="logoutBtn">Logout</button></div>
+ </div>
 
 
 <section id="timetable" class="view">
@@ -281,9 +280,9 @@ const menu=document.getElementById('menu');
 const extras=[['registration','📝','Student Registration'],['sessions','🗓️','Academic Sessions'],['courseReg','📋','Course Registration'],['results','📊','Results & Academic Records'],['transcripts','📜','Transcripts & Certificates'],['establishment','🏢','Staff Establishment'],['letters','✉️','Official Letters'],['documents','🗂️','Document Management'],['clearance','☑️','Clearance Management'],['calendar','📅','Academic Calendar'],['announcements','📢','Announcements']];
 const titleMap={registration:'Student Registration',sessions:'Academic Sessions',courseReg:'Course Registration',results:'Results & Academic Records',transcripts:'Transcripts & Certificates',establishment:'Staff Establishment',letters:'Official Letters',documents:'Document Management',clearance:'Clearance Management',calendar:'Academic Calendar',announcements:'Announcements'};
 const main=document.querySelector('.main');
-extras.forEach(([id,ic,label])=>{const b=document.createElement('button');b.dataset.view=id;b.innerHTML=`<span class="icon">${ic}</span>${label}`;menu.appendChild(b);const sec=document.createElement('section');sec.id=id;sec.className='view';sec.innerHTML=`<div class="panel"><h2>${label}</h2><div class="small">Registrar administration and controls.</div></div>`;main.insertBefore(sec,main.querySelector('.footer'));const temp=document.createElement('div');temp.innerHTML=D[id]||'';sec.appendChild(temp);});
+extras.forEach(([id,ic,label])=>{const b=document.createElement('a');b.href='#';b.dataset.view=id;b.innerHTML=`${ic} ${label}`;menu.appendChild(b);const sec=document.createElement('section');sec.id=id;sec.className='view';sec.innerHTML=`<div class="panel"><h2>${label}</h2><div class="small">Registrar administration and controls.</div></div>`;main.insertBefore(sec,main.querySelector('.footer'));const temp=document.createElement('div');temp.innerHTML=D[id]||'';sec.appendChild(temp);});
 Object.assign(pageNames,titleMap);
-document.querySelectorAll('#menu button').forEach(b=>{b.onclick=()=>show(b.dataset.view)});
+document.querySelectorAll('#menu [data-view]').forEach(b=>{b.onclick=()=>show(b.dataset.view)});
 document.querySelectorAll('[data-go2]').forEach(b=>b.onclick=()=>show(b.dataset.go2));
 })();
 </script>
@@ -397,11 +396,11 @@ function status(s){let c={"Active":"active-status","Approved":"approved","Verifi
 const pageNames={dashboard:"Registrar Dashboard",admissions:"Admissions",students:"Student Registry",academics:"Academics",graduation:"Graduation",staff:"Staff Registry",registry:"Registry",accreditation:"Accreditation & Compliance",reports:"Registrar Reports",audit:"Audit Log",settings:"Registrar Settings"};
 function show(v){
  document.querySelectorAll(".view").forEach(x=>x.classList.remove("active")); $(v).classList.add("active");
- document.querySelectorAll("#menu button").forEach(b=>b.classList.toggle("active",b.dataset.view===v));
+ document.querySelectorAll("#menu [data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===v));
  $("pageTitle").textContent=pageNames[v];
  window.scrollTo({top:0,behavior:"smooth"});
 }
-document.querySelectorAll("#menu button").forEach(b=>b.onclick=()=>show(b.dataset.view));
+document.querySelectorAll("#menu [data-view]").forEach(b=>b.onclick=()=>show(b.dataset.view));
 document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>show(b.dataset.go));
 
 function renderApplications(){
