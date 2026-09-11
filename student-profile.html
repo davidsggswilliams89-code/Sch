@@ -27,21 +27,19 @@ main{max-width:1250px;margin:24px auto;padding:0 20px}.crumb{font-size:13px;colo
   /* Keep the page itself fixed; only individual content areas scroll. */
   main{overflow-x:hidden}
 }
-</style></head><body><div class="loading" id="loading"><div><div class="spinner"></div><p>Loading student profile...</p></div></div>
-<header><div class="hi">
+/* HOD topbar format */.topbar{background:linear-gradient(135deg,var(--p2),var(--p));color:#fff;position:sticky;top:0;z-index:50;box-shadow:0 4px 16px #0002}.topbar .hi{max-width:1400px;margin:auto;padding:10px 18px;display:flex;align-items:center;gap:14px}.topbar .nav{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;scrollbar-width:none}.topbar .nav::-webkit-scrollbar{display:none}.topbar .nav a{font:inherit;font-size:11px;font-weight:700;color:#fff;text-decoration:none;border:1px solid transparent;border-radius:8px;padding:8px 10px;white-space:nowrap}.topbar .nav a:hover,.topbar .nav a.top-active{background:#fff;color:var(--p2);border-color:#fff}.topbar .actions{display:flex;gap:6px;align-items:center;flex-wrap:nowrap}.topbar .brand h1{font-size:17px}.topbar .brand p{font-size:10px}.topbar .mark{width:40px;height:40px}.topbar .actions a,.topbar .actions button{padding:8px 10px}@media(max-width:700px){.topbar .hi{overflow-x:auto;flex-wrap:wrap}.topbar .nav{order:3;flex-basis:100%}.topbar .brand{min-width:max-content}.topbar .actions{margin-left:auto}}</style></head><body><div class="loading" id="loading"><div><div class="spinner"></div><p>Loading student profile...</p></div></div>
+<header class="topbar"><div class="hi">
 <div class="brand"><div class="mark">GG</div><div><h1>Green Garden Student Portal</h1><p>Green Garden School Management System</p></div></div>
-<div class="actions no-print">
-<a class="top-active" href="student.html">Dashboard</a>
-<a class="outline" href="student-profile.html">Profile</a>
-<a class="outline" href="course-registration.html">Registration</a>
-<a class="outline" href="results.html">Results</a>
-<a class="outline" href="timetable.html">Timetable</a>
-<a class="outline" href="fees.html">Fees</a>
+<nav class="nav no-print" id="menu"><a class="top-active" href="student.html">Dashboard</a><a href="student-profile.html">Profile</a><a href="course-registration.html">Registration</a><a href="results.html">Results</a><a href="timetable.html">Timetable</a><a href="fees.html">Fees</a></nav><div class="actions no-print">
+
+
+
+
+
+
 <button class="light" id="print">Print</button>
 <button class="outline" id="logout">Logout</button>
-</div></div></header>
-<main><div class="crumb">Student Portal / <b>My Profile</b></div><section class="hero"><div><img id="photo" class="photo hide"><div id="fallback" class="fallback">GG</div></div><div><h2 class="name" id="name">Student Name</h2><p class="sub"><span id="sid">Student ID</span> • <span id="prog">Programme</span></p><div class="pills"><span class="pill" id="fp">Faculty</span><span class="pill" id="dp">Department</span><span class="pill" id="lp">Level</span><span class="pill" id="sp">Session</span></div></div><div><span id="status" class="status">ACTIVE STUDENT</span></div></section>
-<div class="stats"><div class="stat"><small>Current CGPA</small><b id="cgpa">—</b><span>Cumulative Grade Point Average</span></div><div class="stat"><small>Current GPA</small><b id="gpa">—</b><span>Current semester GPA</span></div><div class="stat"><small>Registered Courses</small><b id="count">0</b><span>This session</span></div><div class="stat"><small>Attendance</small><b id="attRate">—</b><span>Overall recorded attendance</span></div></div>
+Registered Courses</small><b id="count">0</b><span>This session</span></div><div class="stat"><small>Attendance</small><b id="attRate">—</b><span>Overall recorded attendance</span></div></div>
 <section class="card"><div class="title"><div><h2>Personal & Academic Information</h2><p>Official student information</p></div></div><div class="info" id="info"></div></section>
 <section class="card"><div class="title"><div><h2>Courses Registered This Session</h2><p>Current academic registration</p></div><span class="badge" id="regBadge">0 COURSES</span></div><div id="courses"></div></section>
 <div class="two"><section class="card"><div class="title"><div><h2>Carryover Courses</h2><p>Outstanding courses</p></div></div><div id="carry"></div></section><section class="card"><div class="title"><div><h2>Grade Summary</h2><p>Current academic performance</p></div></div><div id="grades"></div></section></div>
