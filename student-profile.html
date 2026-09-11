@@ -121,5 +121,26 @@ function list(a,type){if(!a.length)return empty(type==="note"?"No lecture notes 
 function attendance(a,overall){if(!a.length&&overall===undefined)return empty("No attendance records available.");let rate=overall!==undefined?overall:(a.length?Math.round(a.reduce((s,x)=>s+Number(x.percentage||x.rate||0),0)/a.length):0);return`<div class="payment"><b>Overall attendance</b><strong class="${Number(rate)>=75?"paid":"bad"}">${esc(rate)}%</strong></div>${a.length?`<div class="scroll"><table><tr><th>Course</th><th>Classes</th><th>Present</th><th>Absent</th><th>Rate</th></tr>${a.map(x=>`<tr><td>${esc(x.course||x.code)}</td><td>${esc(x.classes)}</td><td>${esc(x.present)}</td><td>${esc(x.absent)}</td><td><b>${esc(x.percentage??x.rate)}%</b></td></tr>`).join("")}</table></div>`:""}`}
 function fees(f){if(!f||typeof f!=="object")return empty("No school fee information available.");let total=Number(f.total||f.amount||0),paid=Number(f.paid||f.amountPaid||0),bal=f.balance!==undefined?Number(f.balance):Math.max(total-paid,0),st=String(f.status||((bal<=0&&total>0)?"Paid":paid>0?"Part Payment":"Pending"));return`<div class="item"><div><h3>${esc(f.session||"Current Academic Session")}</h3><p>Total: ₦${total.toLocaleString()} • Paid: ₦${paid.toLocaleString()} • Balance: ₦${bal.toLocaleString()}</p></div><b class="${st.toLowerCase().includes("paid")&&!st.toLowerCase().includes("part")?"paid":st.toLowerCase().includes("pending")?"pending":"bad"}">${esc(st)}</b></div>`}
 function render(d){let n=d.fullName,sid=d.studentId,faculty=d.faculty,dep=d.department,prog=d.programme;$('name').textContent=n;$('sid').textContent=sid;$('prog').textContent=prog;$('fp').textContent=faculty;$('dp').textContent=dep;$('lp').textContent=val(d.level,"Level");$('sp').textContent=val(d.session,"Session");$('cgpa').textContent=val(d.cgpa);$('gpa').textContent=val(d.gpa);$('count').textContent=arr(d.registeredCourses).length;let fields={"Full Name":n,"Student ID / Matric No.":sid,"Email":d.email,"Phone":d.phone,"Faculty":faculty,"Department":dep,"Programme":prog,"Level":d.level,"Semester":d.semester,"Academic Session":d.session,"Admission Year":d.admissionYear,"Expected Graduation":d.graduationYear};$('info').innerHTML=Object.entries(fields).map(([k,v])=>`<div class="field"><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join("");let c=arr(d.registeredCourses),ca=arr(d.carryoverCourses),g=arr(d.grades),att=arr(d.attendance),rate=d.attendanceRate;$('courses').innerHTML=courses(c);$('regBadge').textContent=`${c.length} COURSE${c.length===1?"":"S"}`;$('carry').innerHTML=carry(ca);$('grades').innerHTML=grades(g);table(arr(d.timetable),"tt");table(arr(d.examTimetable),"exam",true);$('ann').innerHTML=notices(arr(d.announcements));$('notes').innerHTML=list(arr(d.lectureNotes),"note");$('assign').innerHTML=list(arr(d.assignments),"assignment");$('attendance').innerHTML=attendance(att,rate);$('attRate').textContent=rate+"%";$('fees').innerHTML=fees(d.fees);$('fallback').textContent=initials(n);$('loading').classList.add('hide')}
-render(STUDENT);$('logout').onclick=()=>location.href="index.html";$('print').onclick=()=>print();
+function initStudentProfile(){
+  try{
+    render(STUDENT);
+    const logout=$("logout");
+    const printBtn=$("print");
+    if(logout) logout.onclick=()=>location.href="index.html";
+    if(printBtn) printBtn.onclick=()=>window.print();
+  }catch(err){
+    console.error("Student profile render error:",err);
+    const loading=$("loading");
+    if(loading) loading.classList.add("hide");
+    const main=document.querySelector("main");
+    if(main){
+      const box=document.createElement("div");
+      box.className="notice";
+      box.innerHTML="<strong>Unable to load student profile.</strong><small>Please refresh the page and try again.</small>";
+      main.prepend(box);
+    }
+  }
+}
+if(document.readyState === "loading") document.addEventListener("DOMContentLoaded",initStudentProfile);
+else initStudentProfile();
 </script></body></html>
