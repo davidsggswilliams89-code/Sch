@@ -46,6 +46,19 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{
 }
 </style>
 
+
+<style>
+/* Header adjustment: place Logout in the upper-right shaded area of the reference. */
+.topbar{position:sticky;position:relative;min-height:118px;padding-right:150px}
+.top-actions{position:absolute;top:18px;right:28px;display:flex;align-items:center;z-index:2}
+.top-actions .badge{display:none}
+.logout{margin-left:0;padding:10px 18px;font-size:14px}
+@media(max-width:720px){
+  .topbar{min-height:128px;padding-right:105px}
+  .top-actions{top:16px;right:14px}
+  .logout{padding:9px 14px;font-size:13px}
+}
+</style>
 </head>
 <body>
 <div class="app">
@@ -174,8 +187,8 @@ function renderReports(){let levels=["100","200","300","400"];$("reportRows").in
 function show(v){document.querySelectorAll(".view").forEach(x=>x.classList.add("hidden"));$(v).classList.remove("hidden");document.querySelectorAll(".nav a").forEach(a=>a.classList.toggle("active",a.dataset.view==v));$("pageTitle").textContent={dashboard:"HOD Dashboard",students:"Department Students",lecturers:"Lecturer Profiles",courses:"Courses & Assignments",results:"Result Verification",timetable:"Department Timetable",reports:"Department Reports"}[v]}
 document.querySelectorAll(".nav a").forEach(a=>a.onclick=e=>{e.preventDefault();show(a.dataset.view)});document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>show(b.dataset.go));
 ["studentSearch","studentLevel"].forEach(i=>$(i).addEventListener("input",renderStudents));["courseSearch","courseLevel","courseLecturer"].forEach(i=>$(i).addEventListener("input",renderCourses));["resultSearch","resultCourse","resultLecturer","resultStatus"].forEach(i=>$(i).addEventListener("input",renderResults));$("ttLevel").addEventListener("change",renderTimetable);$("logoutBtn").onclick=()=>alert("Demo logout. Connect authentication for production use.");
-const modal=document.createElement("div");modal.className="modal";modal.innerHTML=`<div class="modalbox"><div style="display:flex;justify-content:space-between;align-items:center"><h2>Create Lecturer Profile</h2><button class="close" id="closeModal">×</button></div><form id="lecturerForm"><div class="form-grid"><div class="field"><label>Full Name</label><input name="name" required></div><div class="field"><label>Staff ID</label><input name="id" required></div><div class="field"><label>Rank</label><select name="rank"><option>Lecturer II</option><option>Lecturer I</option><option>Senior Lecturer</option><option>Principal Lecturer</option></select></div><div class="field"><label>Email</label><input name="email" type="email" required></div><div class="field"><label>Phone</label><input name="phone" required></div><div class="field"><label>Specialization</label><input name="specialization"></div></div><br><button class="btn">Create Profile</button></form></div>`;document.body.appendChild(modal);
-$("addLecturer").onclick=()=>modal.classList.add("show");$("closeModal").onclick=()=>modal.classList.remove("show");$("lecturerForm").onsubmit=e=>{e.preventDefault();let f=new FormData(e.target);DB.lecturers.push({id:f.get("id"),name:f.get("name"),rank:f.get("rank"),email:f.get("email"),phone:f.get("phone"),spec:f.get("specialization")||"General"});modal.classList.remove("show");e.target.reset();lecturerOptions();renderLecturers();refreshStats();alert("Lecturer profile created successfully.")};
+const modal=document.createElement("div");modal.className="modal";modal.innerHTML=`<div class="modalbox"><div style="display:flex;justify-content:space-between;align-items:center"><h2>Create Lecturer Profile</h2><button class="close" id="closeModal">×</button></div><form id="lecturerForm"><div class="form-grid"><div class="field"><label>Full Name</label><input name="name" required></div><div class="field"><label>Staff ID</label><input name="id" required></div><div class="field"><label>Rank</label><select name="rank"><option>Lecturer II</option><option>Lecturer I</option><option>Senior Lecturer</option><option>Principal Lecturer</option></select></div><div class="field"><label>Email</label><input name="email" type="email" required></div><div class="field"><label>Phone</label><input name="phone" required></div><div class="field"><label>Specialization</label><input name="specialization"></div><div class="field"><label>Assign Lecturer Course</label><select name="course" id="lecturerCourse" required><option value="">Select course</option>${DB.courses.map(x=>`<option value="${esc(x[0])}">${esc(x[0]+" — "+x[1])}</option>`).join("")}</select></div></div><br><button class="btn">Create Profile</button></form></div>`;document.body.appendChild(modal);
+$("addLecturer").onclick=()=>modal.classList.add("show");$("closeModal").onclick=()=>modal.classList.remove("show");$("lecturerForm").onsubmit=e=>{e.preventDefault();let f=new FormData(e.target),assigned=f.get("course");let lecturer={id:f.get("id"),name:f.get("name"),rank:f.get("rank"),email:f.get("email"),phone:f.get("phone"),spec:f.get("specialization")||"General"};DB.lecturers.push(lecturer);let course=DB.courses.find(x=>x[0]===assigned);if(course)course[5]=lecturer.name;localStorage.setItem("hodDemoDB",JSON.stringify(DB));modal.classList.remove("show");e.target.reset();lecturerOptions();renderLecturers();renderCourses();refreshStats();alert("Lecturer profile created and course assigned successfully.")};
 try{let s=JSON.parse(localStorage.getItem("hodDemoDB"));if(s)Object.assign(DB,s)}catch(e){}
 lecturerOptions();courseOptions();refreshStats();renderStudents();renderLecturers();renderCourses();renderResults();renderTimetable();renderReports();
 </script>
