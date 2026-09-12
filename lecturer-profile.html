@@ -157,6 +157,98 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
 }
 </style>
 
+
+<style id="header-visibility-fix">
+.topbar{
+  display:block !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+  position:sticky !important;
+  top:0 !important;
+  z-index:30 !important;
+}
+.header-top-layer{
+  display:flex !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:16px !important;
+  min-height:76px !important;
+}
+.header-middle-layer{
+  display:flex !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+  align-items:center !important;
+  justify-content:center !important;
+  min-height:74px !important;
+}
+.header-middle-layer .titleblock{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  flex:none !important;
+  min-width:0 !important;
+  text-align:center !important;
+}
+.header-middle-layer .titleblock h1,
+.header-middle-layer .titleblock p{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+}
+.header-bottom-layer{
+  display:flex !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+.header-bottom-layer .nav{
+  display:flex !important;
+  visibility:visible !important;
+  opacity:1 !important;
+}
+.header-top-layer .top-actions{
+  display:flex !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  align-items:center !important;
+  flex-shrink:0 !important;
+}
+#logoutBtn,
+.topbar .logout{
+  display:inline-flex !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:#138a4a !important;
+  color:#ffffff !important;
+  border:1px solid #138a4a !important;
+}
+#logoutBtn:hover,
+.topbar .logout:hover{
+  background:#0f6f3b !important;
+  color:#ffffff !important;
+}
+@media(max-width:720px){
+  .header-top-layer{
+    min-height:auto !important;
+  }
+  .header-top-layer .brand{
+    min-width:0;
+  }
+  .header-top-layer .top-actions{
+    margin-left:auto !important;
+  }
+  .header-middle-layer{
+    min-height:auto !important;
+  }
+}
+</style>
+
 </head>
 <body>
 
