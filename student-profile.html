@@ -27,19 +27,28 @@ main{max-width:1250px;margin:24px auto;padding:0 20px}.crumb{font-size:13px;colo
   /* Keep the page itself fixed; only individual content areas scroll. */
   main{overflow-x:hidden}
 }
-/* HOD topbar format */.topbar{background:linear-gradient(135deg,var(--p2),var(--p));color:#fff;position:sticky;top:0;z-index:50;box-shadow:0 4px 16px #0002}.topbar .hi{max-width:1400px;margin:auto;padding:10px 18px;display:flex;align-items:center;gap:14px}.topbar .nav{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;scrollbar-width:none}.topbar .nav::-webkit-scrollbar{display:none}.topbar .nav a{font:inherit;font-size:11px;font-weight:700;color:#fff;text-decoration:none;border:1px solid transparent;border-radius:8px;padding:8px 10px;white-space:nowrap}.topbar .nav a:hover,.topbar .nav a.top-active{background:#fff;color:var(--p2);border-color:#fff}.topbar .actions{display:flex;gap:6px;align-items:center;flex-wrap:nowrap}.topbar .brand h1{font-size:17px}.topbar .brand p{font-size:10px}.topbar .mark{width:40px;height:40px}.topbar .actions a,.topbar .actions button{padding:8px 10px}@media(max-width:700px){.topbar .hi{overflow-x:auto;flex-wrap:wrap}.topbar .nav{order:3;flex-basis:100%}.topbar .brand{min-width:max-content}.topbar .actions{margin-left:auto}}</style></head><body><div class="loading" id="loading"><div><div class="spinner"></div><p>Loading student profile...</p></div></div>
+
+/* HOD-style horizontal topbar */
+.topbar{background:linear-gradient(135deg,var(--p2),var(--p));color:#fff;position:sticky;top:0;z-index:50;box-shadow:0 4px 16px #0002}
+.topbar .hi{max-width:1400px;margin:auto;padding:10px 18px;display:flex;align-items:center;gap:14px}
+.topbar .brand{display:flex;gap:10px;align-items:center;flex:0 0 auto}
+.topbar .mark{width:40px;height:40px;border-radius:11px;background:#fff2;display:grid;place-items:center;font-weight:800}
+.topbar .brand h1{font-size:17px;margin:0}.topbar .brand p{font-size:10px;margin:2px 0;opacity:.82}
+.topbar .nav{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;scrollbar-width:none}
+.topbar .nav::-webkit-scrollbar{display:none}
+.topbar .nav a{font:inherit;font-size:11px;font-weight:700;color:#fff;text-decoration:none;border:1px solid transparent;border-radius:8px;padding:8px 10px;white-space:nowrap}
+.topbar .nav a:hover,.topbar .nav a.top-active{background:#fff;color:var(--p2);border-color:#fff}
+.topbar .actions{display:flex;gap:6px;align-items:center;flex-wrap:nowrap;margin-left:auto}
+.topbar .actions button{padding:8px 10px}
+@media(max-width:700px){.topbar .hi{overflow-x:auto;flex-wrap:wrap}.topbar .nav{order:3;flex-basis:100%}.topbar .brand{min-width:max-content}.topbar .actions{margin-left:auto}}
+</style></head><body><div class="loading" id="loading"><div><div class="spinner"></div><p>Loading student profile...</p></div></div>
 <header class="topbar"><div class="hi">
 <div class="brand"><div class="mark">GG</div><div><h1>Green Garden Student Portal</h1><p>Green Garden School Management System</p></div></div>
-<nav class="nav no-print" id="menu"><a class="top-active" href="student.html">Dashboard</a><a href="student-profile.html">Profile</a><a href="course-registration.html">Registration</a><a href="results.html">Results</a><a href="timetable.html">Timetable</a><a href="fees.html">Fees</a></nav><div class="actions no-print">
-
-
-
-
-
-
-<button class="light" id="print">Print</button>
-<button class="outline" id="logout">Logout</button>
-Registered Courses</small><b id="count">0</b><span>This session</span></div><div class="stat"><small>Attendance</small><b id="attRate">—</b><span>Overall recorded attendance</span></div></div>
+<nav class="nav no-print" id="menu"><a href="student.html">Dashboard</a><a class="top-active" href="student-profile.html">Profile</a><a href="course-registration.html">Registration</a><a href="results.html">Results</a><a href="timetable.html">Timetable</a><a href="fees.html">Fees</a></nav>
+<div class="actions no-print"><button class="light" id="print">Print</button><button class="outline" id="logout">Logout</button></div>
+</div></header>
+<main><div class="crumb">Student Portal / <b>My Profile</b></div><section class="hero"><div><img id="photo" class="photo hide"><div id="fallback" class="fallback">GG</div></div><div><h2 class="name" id="name">Student Name</h2><p class="sub"><span id="sid">Student ID</span> • <span id="prog">Programme</span></p><div class="pills"><span class="pill" id="fp">Faculty</span><span class="pill" id="dp">Department</span><span class="pill" id="lp">Level</span><span class="pill" id="sp">Session</span></div></div><div><span id="status" class="status">ACTIVE STUDENT</span></div></section>
+<div class="stats"><div class="stat"><small>Current CGPA</small><b id="cgpa">—</b><span>Cumulative Grade Point Average</span></div><div class="stat"><small>Current GPA</small><b id="gpa">—</b><span>Current semester GPA</span></div><div class="stat"><small>Registered Courses</small><b id="count">0</b><span>This session</span></div><div class="stat"><small>Attendance</small><b id="attRate">—</b><span>Overall recorded attendance</span></div></div>
 <section class="card"><div class="title"><div><h2>Personal & Academic Information</h2><p>Official student information</p></div></div><div class="info" id="info"></div></section>
 <section class="card"><div class="title"><div><h2>Courses Registered This Session</h2><p>Current academic registration</p></div><span class="badge" id="regBadge">0 COURSES</span></div><div id="courses"></div></section>
 <div class="two"><section class="card"><div class="title"><div><h2>Carryover Courses</h2><p>Outstanding courses</p></div></div><div id="carry"></div></section><section class="card"><div class="title"><div><h2>Grade Summary</h2><p>Current academic performance</p></div></div><div id="grades"></div></section></div>
@@ -121,26 +130,5 @@ function list(a,type){if(!a.length)return empty(type==="note"?"No lecture notes 
 function attendance(a,overall){if(!a.length&&overall===undefined)return empty("No attendance records available.");let rate=overall!==undefined?overall:(a.length?Math.round(a.reduce((s,x)=>s+Number(x.percentage||x.rate||0),0)/a.length):0);return`<div class="payment"><b>Overall attendance</b><strong class="${Number(rate)>=75?"paid":"bad"}">${esc(rate)}%</strong></div>${a.length?`<div class="scroll"><table><tr><th>Course</th><th>Classes</th><th>Present</th><th>Absent</th><th>Rate</th></tr>${a.map(x=>`<tr><td>${esc(x.course||x.code)}</td><td>${esc(x.classes)}</td><td>${esc(x.present)}</td><td>${esc(x.absent)}</td><td><b>${esc(x.percentage??x.rate)}%</b></td></tr>`).join("")}</table></div>`:""}`}
 function fees(f){if(!f||typeof f!=="object")return empty("No school fee information available.");let total=Number(f.total||f.amount||0),paid=Number(f.paid||f.amountPaid||0),bal=f.balance!==undefined?Number(f.balance):Math.max(total-paid,0),st=String(f.status||((bal<=0&&total>0)?"Paid":paid>0?"Part Payment":"Pending"));return`<div class="item"><div><h3>${esc(f.session||"Current Academic Session")}</h3><p>Total: ₦${total.toLocaleString()} • Paid: ₦${paid.toLocaleString()} • Balance: ₦${bal.toLocaleString()}</p></div><b class="${st.toLowerCase().includes("paid")&&!st.toLowerCase().includes("part")?"paid":st.toLowerCase().includes("pending")?"pending":"bad"}">${esc(st)}</b></div>`}
 function render(d){let n=d.fullName,sid=d.studentId,faculty=d.faculty,dep=d.department,prog=d.programme;$('name').textContent=n;$('sid').textContent=sid;$('prog').textContent=prog;$('fp').textContent=faculty;$('dp').textContent=dep;$('lp').textContent=val(d.level,"Level");$('sp').textContent=val(d.session,"Session");$('cgpa').textContent=val(d.cgpa);$('gpa').textContent=val(d.gpa);$('count').textContent=arr(d.registeredCourses).length;let fields={"Full Name":n,"Student ID / Matric No.":sid,"Email":d.email,"Phone":d.phone,"Faculty":faculty,"Department":dep,"Programme":prog,"Level":d.level,"Semester":d.semester,"Academic Session":d.session,"Admission Year":d.admissionYear,"Expected Graduation":d.graduationYear};$('info').innerHTML=Object.entries(fields).map(([k,v])=>`<div class="field"><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join("");let c=arr(d.registeredCourses),ca=arr(d.carryoverCourses),g=arr(d.grades),att=arr(d.attendance),rate=d.attendanceRate;$('courses').innerHTML=courses(c);$('regBadge').textContent=`${c.length} COURSE${c.length===1?"":"S"}`;$('carry').innerHTML=carry(ca);$('grades').innerHTML=grades(g);table(arr(d.timetable),"tt");table(arr(d.examTimetable),"exam",true);$('ann').innerHTML=notices(arr(d.announcements));$('notes').innerHTML=list(arr(d.lectureNotes),"note");$('assign').innerHTML=list(arr(d.assignments),"assignment");$('attendance').innerHTML=attendance(att,rate);$('attRate').textContent=rate+"%";$('fees').innerHTML=fees(d.fees);$('fallback').textContent=initials(n);$('loading').classList.add('hide')}
-function initStudentProfile(){
-  try{
-    render(STUDENT);
-    const logout=$("logout");
-    const printBtn=$("print");
-    if(logout) logout.onclick=()=>location.href="index.html";
-    if(printBtn) printBtn.onclick=()=>window.print();
-  }catch(err){
-    console.error("Student profile render error:",err);
-    const loading=$("loading");
-    if(loading) loading.classList.add("hide");
-    const main=document.querySelector("main");
-    if(main){
-      const box=document.createElement("div");
-      box.className="notice";
-      box.innerHTML="<strong>Unable to load student profile.</strong><small>Please refresh the page and try again.</small>";
-      main.prepend(box);
-    }
-  }
-}
-if(document.readyState === "loading") document.addEventListener("DOMContentLoaded",initStudentProfile);
-else initStudentProfile();
+render(STUDENT);$('logout').onclick=()=>location.href="index.html";$('print').onclick=()=>print();
 </script></body></html>
