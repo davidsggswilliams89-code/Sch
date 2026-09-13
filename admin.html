@@ -73,7 +73,7 @@ main{max-width:1250px;margin:22px auto;padding:0 18px}.intro{background:linear-g
 <script type="module">
 import{initializeApp,getApps,getApp}from"https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import{getAuth,signOut,setPersistence,browserLocalPersistence,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-const firebaseConfig={apiKey:"AIzaSyDfHJaoVA7eQKWWq71zn2bQOpR4Vot9v8c",authDomain:"smsh-282c0.firebaseapp.com",projectId:"smsh-282c0",storageBucket:"smsh-282c0.firebasestorage.app",messagingSenderId:"477828256463",appId:"1:477828256463:web:80a6755b679f585c73ddba"};
+const firebaseConfig={apiKey:"AIzaSyAoT3LGcdw3A0FzHDrPEuhTNCnfiTklGXY",authDomain:"ggchst-sms-new.firebaseapp.com",projectId:"ggchst-sms-new",storageBucket:"ggchst-sms-new.firebasestorage.app",messagingSenderId:"942770190211",appId:"1:942770190211:web:aa9a085a38aaa517b368b6"};
 const app=getApps().length?getApp():initializeApp(firebaseConfig),auth=getAuth(app);
 await setPersistence(auth,browserLocalPersistence).catch(e=>console.warn("Auth persistence:",e));
 try{await auth.authStateReady()}catch(e){console.warn("Auth state restore:",e)}
