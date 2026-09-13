@@ -127,13 +127,25 @@ footer{text-align:center;color:#7b8b83;font-size:10px;padding:0 15px 25px}
 <footer>GGCHST SMS • Green Garden College of Health Sciences &amp; Technology, Gusau</footer>
 <script type="module">
 import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 const firebaseConfig={apiKey:"AIzaSyDfHJaoVA7eQKWWq71zn2bQOpR4Vot9v8c",authDomain:"smsh-282c0.firebaseapp.com",projectId:"smsh-282c0",storageBucket:"smsh-282c0.firebasestorage.app",messagingSenderId:"477828256463",appId:"1:477828256463:web:80a6755b679f585c73ddba"};
 const app=getApps().length?getApp():initializeApp(firebaseConfig);
 const auth=getAuth(app);
 const db=getFirestore(app);
+
+// Keep the page itself free of role/authentication guards, but silently wait
+// for Firebase to restore the existing login session before using Firestore.
+// Firestore Rules still require an authenticated Admin/Registrar for writes.
+const authReady=new Promise(resolve=>onAuthStateChanged(auth,user=>resolve(user)));
+async function requireSignedIn(){
+  const user=await authReady;
+  if(!user){
+    throw new Error("Please sign in through the school login first. Your login session could not be restored.");
+  }
+  return user;
+}
 
 const departments={
   'Faculty of Health Sciences':['Health Information Management','Community Health','Public Health'],
@@ -165,20 +177,21 @@ function renderCourses(){
   if(!list.length){rows.innerHTML='<tr><td colspan="9" class="empty">No matching courses found.</td></tr>';return;}
   rows.innerHTML=list.map((c,i)=>`<tr><td>${i+1}</td><td>${esc(c.courseName)}</td><td>${esc(c.courseCode)}</td><td>${esc(c.creditUnit)}</td><td>${esc(c.faculty)}</td><td>${esc(c.department)}</td><td>${esc(c.level)}</td><td>${esc(c.session)}</td><td><button type="button" class="course-action course-edit" data-edit="${esc(c.id)}">Edit</button> <button type="button" class="course-action course-delete" data-delete="${esc(c.id)}">Delete</button></td></tr>`).join('');
 }
-async function loadCourses(){try{rows.innerHTML='<tr><td colspan="9" class="empty">Loading courses…</td></tr>';const snap=await getDocs(collection(db,'courses'));allCourses=snap.docs.map(d=>({id:d.id,...d.data()}));populateFilterOptions();renderCourses();message('Courses loaded from the shared Firebase database.');}catch(e){console.error(e);message(e.message||'Could not load courses from Firebase.',true);rows.innerHTML='<tr><td colspan="9" class="empty">Could not load courses.</td></tr>';}}
+async function loadCourses(){try{await requireSignedIn();rows.innerHTML='<tr><td colspan="9" class="empty">Loading courses…</td></tr>';const snap=await getDocs(collection(db,'courses'));allCourses=snap.docs.map(d=>({id:d.id,...d.data()}));populateFilterOptions();renderCourses();message('Courses loaded from the shared Firebase database.');}catch(e){console.error(e);message(e.message||'Could not load courses from Firebase.',true);rows.innerHTML='<tr><td colspan="9" class="empty">Could not load courses.</td></tr>';}}
 function setSelectOptions(id,items,selected=''){const el=$(id);el.innerHTML=items.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');if(selected)el.value=selected;}
 function prepareEditForm(c){$("editCourseId").value=c.id;$("editCourseName").value=c.courseName||'';$("editCourseCode").value=c.courseCode||'';$("editCreditUnit").value=c.creditUnit||'';const faculties=Object.keys(departments);setSelectOptions('editFaculty',faculties,c.faculty);setSelectOptions('editDepartment',departments[c.faculty]||[],c.department);setSelectOptions('editLevel',['100 Level','200 Level','300 Level','400 Level','500 Level'],c.level);setSelectOptions('editSession',['2026/2027','2025/2026','2024/2025'],c.session);$("courseEditModal").classList.add('show');$("courseEditModal").setAttribute('aria-hidden','false');}
 function closeEditModal(){$("courseEditModal").classList.remove('show');$("courseEditModal").setAttribute('aria-hidden','true');}
 $("editFaculty").addEventListener('change',()=>setSelectOptions('editDepartment',departments[$("editFaculty").value]||[]));
 $("closeCourseModal").onclick=closeEditModal;$("cancelCourseEdit").onclick=closeEditModal;$("courseEditModal").addEventListener('click',e=>{if(e.target.id==='courseEditModal')closeEditModal()});
-rows.addEventListener('click',async e=>{const editId=e.target.dataset.edit,deleteId=e.target.dataset.delete;if(editId){const c=allCourses.find(x=>x.id===editId);if(c)prepareEditForm(c);}if(deleteId){const c=allCourses.find(x=>x.id===deleteId);if(!c)return;if(!confirm(`Delete "${c.courseName}" (${c.courseCode})? This cannot be undone.`))return;try{await deleteDoc(doc(db,'courses',deleteId));message('Course deleted successfully.');await loadCourses();}catch(e){console.error(e);message(e.message||'Could not delete course.',true);}}});
-$("courseEditForm").addEventListener('submit',async e=>{e.preventDefault();const id=$("editCourseId").value,course={courseName:$("editCourseName").value.trim(),courseCode:$("editCourseCode").value.trim().toUpperCase(),creditUnit:Number($("editCreditUnit").value),faculty:$("editFaculty").value,department:$("editDepartment").value,level:$("editLevel").value,session:$("editSession").value,updatedAt:serverTimestamp()};if(!course.courseName||!course.courseCode||!course.creditUnit||!course.faculty||!course.department||!course.level||!course.session){message('Please complete all course fields.',true);return;}const btn=$("updateCourseBtn");btn.disabled=true;btn.textContent='Updating…';try{const duplicate=allCourses.find(c=>c.id!==id&&String(c.courseCode||'').toUpperCase()===course.courseCode&&c.department===course.department&&c.level===course.level&&c.session===course.session);if(duplicate){message('Another course already uses this code for the same department, level and session.',true);return;}await updateDoc(doc(db,'courses',id),course);closeEditModal();message('Course updated successfully.');await loadCourses();}catch(e){console.error(e);message(e.message||'Could not update course.',true);}finally{btn.disabled=false;btn.textContent='Update Course';}});
+rows.addEventListener('click',async e=>{const editId=e.target.dataset.edit,deleteId=e.target.dataset.delete;if(editId){const c=allCourses.find(x=>x.id===editId);if(c)prepareEditForm(c);}if(deleteId){const c=allCourses.find(x=>x.id===deleteId);if(!c)return;if(!confirm(`Delete "${c.courseName}" (${c.courseCode})? This cannot be undone.`))return;try{await requireSignedIn();await deleteDoc(doc(db,'courses',deleteId));message('Course deleted successfully.');await loadCourses();}catch(e){console.error(e);message(e.message||'Could not delete course.',true);}}});
+$("courseEditForm").addEventListener('submit',async e=>{e.preventDefault();const id=$("editCourseId").value,course={courseName:$("editCourseName").value.trim(),courseCode:$("editCourseCode").value.trim().toUpperCase(),creditUnit:Number($("editCreditUnit").value),faculty:$("editFaculty").value,department:$("editDepartment").value,level:$("editLevel").value,session:$("editSession").value,updatedAt:serverTimestamp()};if(!course.courseName||!course.courseCode||!course.creditUnit||!course.faculty||!course.department||!course.level||!course.session){message('Please complete all course fields.',true);return;}const btn=$("updateCourseBtn");btn.disabled=true;btn.textContent='Updating…';try{await requireSignedIn();const duplicate=allCourses.find(c=>c.id!==id&&String(c.courseCode||'').toUpperCase()===course.courseCode&&c.department===course.department&&c.level===course.level&&c.session===course.session);if(duplicate){message('Another course already uses this code for the same department, level and session.',true);return;}await updateDoc(doc(db,'courses',id),course);closeEditModal();message('Course updated successfully.');await loadCourses();}catch(e){console.error(e);message(e.message||'Could not update course.',true);}finally{btn.disabled=false;btn.textContent='Update Course';}});
 form.addEventListener('submit',async e=>{e.preventDefault();saveBtn.disabled=true;saveBtn.textContent='Saving…';try{const course={courseName:$("courseName").value.trim(),courseCode:$("courseCode").value.trim().toUpperCase(),creditUnit:Number($("creditUnit").value),faculty:$("faculty").value,department:$("department").value,level:$("level").value,session:$("session").value,createdAt:serverTimestamp(),updatedAt:serverTimestamp()};if(!course.courseName||!course.courseCode||!course.creditUnit||!course.faculty||!course.department||!course.level||!course.session){message('Please complete all required fields.',true);return;}const duplicate=allCourses.find(c=>String(c.courseCode||'').toUpperCase()===course.courseCode&&c.department===course.department&&c.level===course.level&&c.session===course.session);if(duplicate){message('A course with this code already exists for the same department, level and session.',true);return;}await addDoc(collection(db,'courses'),course);form.reset();window.resetDepartments();message('Course saved successfully to Firebase.');await loadCourses();}catch(e){console.error(e);message(e.message||'Could not save course to Firebase. If Firebase says permission-denied, sign in through your normal school login because Firestore rules still protect course writes.',true);}finally{saveBtn.disabled=false;saveBtn.textContent='Save Course';}});
 $("courseSearch").addEventListener('input',renderCourses);['filterFaculty','filterDepartment','filterLevel','filterSession'].forEach(id=>$(id).addEventListener('change',renderCourses));$("clearFilters").onclick=()=>{$("courseSearch").value='';['filterFaculty','filterDepartment','filterLevel','filterSession'].forEach(id=>$(id).value='');renderCourses();};
 
-// No page-level authentication guard. The form stays open and usable.
-// Firebase Security Rules still protect the courses collection on the server.
-loadCourses();
+// No page-level authentication/role guard. The form stays open and usable.
+// We only wait silently for Firebase to restore the existing session because
+// the Firestore Security Rules still require authentication for course writes.
+loadCourses().catch(e=>message(e.message||'Could not load courses.',true));
 </script>
 </body>
 </html>
