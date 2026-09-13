@@ -168,6 +168,123 @@ button,input,select,textarea{max-width:100%}
   h1{font-size:22px!important} h2{font-size:18px!important} h3{font-size:16px!important}
 }
 </style>
+
+<style id="fixed-mobile-header">
+/* Fixed three-layer header: page content scrolls underneath it. */
+.topbar{
+  position:fixed !important;
+  top:0 !important;
+  left:0 !important;
+  right:0 !important;
+  width:100% !important;
+  z-index:1000 !important;
+  background:#fff !important;
+  color:#162033 !important;
+  border-bottom:1px solid #e5e7eb !important;
+  box-shadow:0 4px 18px rgba(16,24,40,.10) !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+.header-top-layer,.header-middle-layer,.header-bottom-layer{
+  background:#fff !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+}
+.header-top-layer{
+  min-height:145px !important;
+  padding:18px 28px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:18px !important;
+  border-bottom:1px solid #eef0f2 !important;
+}
+.header-top-layer .brand{display:flex !important;align-items:center !important;gap:18px !important;min-width:0 !important;}
+.header-top-layer .brand-logo{width:105px !important;height:105px !important;border-radius:0 !important;object-fit:contain !important;background:transparent !important;flex:none !important;}
+.header-top-layer .brand-title{color:#162033 !important;font-size:42px !important;font-weight:800 !important;line-height:1.05 !important;}
+.header-top-layer .brand small{display:block !important;color:#64748b !important;font-size:24px !important;margin-top:7px !important;}
+.header-top-layer .top-actions{display:flex !important;align-items:center !important;gap:12px !important;flex-shrink:0 !important;}
+.header-top-layer .badge{display:none !important;}
+.header-top-layer .logout{background:#15803d !important;color:#fff !important;border:0 !important;border-radius:22px !important;padding:20px 34px !important;font-size:24px !important;font-weight:800 !important;min-width:170px !important;cursor:pointer !important;}
+.header-middle-layer{
+  min-height:150px !important;
+  padding:24px 28px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  text-align:left !important;
+  border-bottom:1px solid #eef0f2 !important;
+}
+.header-middle-layer .titleblock{min-width:0 !important;text-align:left !important;}
+.header-middle-layer .titleblock h1{margin:0 0 8px !important;color:#162033 !important;font-size:42px !important;line-height:1.1 !important;}
+.header-middle-layer .titleblock p{margin:0 !important;color:#64748b !important;font-size:26px !important;line-height:1.3 !important;}
+.header-bottom-layer{
+  min-height:78px !important;
+  padding:10px 28px 12px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  overflow:hidden !important;
+}
+.header-bottom-layer .nav{
+  width:100% !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  gap:8px !important;
+  overflow-x:auto !important;
+  overflow-y:hidden !important;
+  flex-wrap:nowrap !important;
+  scrollbar-width:none !important;
+  -webkit-overflow-scrolling:touch !important;
+}
+.header-bottom-layer .nav::-webkit-scrollbar{display:none !important;}
+.header-bottom-layer .nav a{
+  flex:0 0 auto !important;
+  white-space:nowrap !important;
+  color:#162033 !important;
+  background:#fff !important;
+  border:1px solid transparent !important;
+  border-radius:18px !important;
+  padding:13px 18px !important;
+  font-size:15px !important;
+  font-weight:800 !important;
+  text-decoration:none !important;
+}
+.header-bottom-layer .nav a:hover,.header-bottom-layer .nav a.active{
+  color:#15803d !important;
+  background:#f0fdf4 !important;
+  border-color:#b7e4c7 !important;
+}
+/* Keep the document at the top so content can naturally pass behind the fixed header. */
+.layout{min-height:100vh !important;}
+
+@media(max-width:720px){
+  .header-top-layer{min-height:82px !important;padding:10px 12px !important;gap:10px !important;}
+  .header-top-layer .brand{gap:10px !important;}
+  .header-top-layer .brand-logo{width:54px !important;height:54px !important;}
+  .header-top-layer .brand-title{font-size:24px !important;line-height:1 !important;}
+  .header-top-layer .brand small{font-size:14px !important;margin-top:5px !important;}
+  .header-top-layer .logout{min-width:92px !important;padding:12px 15px !important;border-radius:16px !important;font-size:15px !important;}
+  .header-middle-layer{min-height:88px !important;padding:14px 12px !important;}
+  .header-middle-layer .titleblock h1{font-size:24px !important;margin-bottom:5px !important;}
+  .header-middle-layer .titleblock p{font-size:14px !important;line-height:1.35 !important;}
+  .header-bottom-layer{min-height:58px !important;padding:7px 10px 9px !important;}
+  .header-bottom-layer .nav{gap:5px !important;}
+  .header-bottom-layer .nav a{font-size:12px !important;padding:10px 12px !important;border-radius:14px !important;}
+  main{padding:18px 12px !important;}
+}
+
+@media(max-width:420px){
+  .header-top-layer .brand-logo{width:46px !important;height:46px !important;}
+  .header-top-layer .brand-title{font-size:20px !important;}
+  .header-top-layer .brand small{font-size:12px !important;}
+  .header-top-layer .logout{min-width:78px !important;padding:10px 12px !important;font-size:13px !important;}
+  .header-middle-layer{min-height:82px !important;}
+  .header-middle-layer .titleblock h1{font-size:21px !important;}
+  .header-middle-layer .titleblock p{font-size:12px !important;}
+}
+</style>
 </head>
 <body>
 <div class="app">
