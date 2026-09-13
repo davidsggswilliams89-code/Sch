@@ -140,6 +140,34 @@
   .topbar .badge{display:none;}
 }
 </style>
+
+<style id="mobile-responsive-fix">
+*{box-sizing:border-box}
+html,body{max-width:100%;overflow-x:hidden}
+img{max-width:100%;height:auto}
+button,input,select,textarea{max-width:100%}
+.table-wrap,.table-container,.table-responsive{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+@media(max-width:720px){
+  body{font-size:14px}
+  .app,.main,.content,.container{width:100%;max-width:100%;}
+  .main{padding:0 12px 24px!important}
+  .topbar{margin-left:-12px!important;margin-right:-12px!important;padding:12px!important;gap:10px!important;flex-wrap:wrap!important}
+  .brand{min-width:0;flex:1 1 auto}.brand-title{font-size:18px!important}.titleblock{order:4!important;flex:1 1 100%!important}.top-actions{order:2!important;margin-left:auto!important}
+  .nav{order:3!important;flex:1 1 100%!important;overflow-x:auto!important;flex-wrap:nowrap!important;justify-content:flex-start!important;-webkit-overflow-scrolling:touch}
+  .nav a{white-space:nowrap;font-size:11px!important;padding:8px 9px!important}
+  .grid,.cards,.quick,.form-grid,.detail-grid{grid-template-columns:1fr!important}
+  .section,.card{min-width:0!important}
+  .section-head{align-items:flex-start!important;flex-direction:column!important}
+  .actions,.toolbar{width:100%;display:flex;flex-wrap:wrap;gap:8px}
+  .actions button,.toolbar button{flex:1 1 auto}
+  .modal-box{width:calc(100% - 24px)!important;max-height:90vh!important;margin:12px!important}
+  .modal-content{overflow-x:hidden}
+  .form-grid{gap:12px!important}
+  table{min-width:720px}
+  .table-wrap{margin-left:0;margin-right:0}
+  h1{font-size:22px!important} h2{font-size:18px!important} h3{font-size:16px!important}
+}
+</style>
 </head>
 <body>
 <div class="app">
