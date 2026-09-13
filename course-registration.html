@@ -136,6 +136,10 @@ const auth=getAuth(app),db=getFirestore(app);
 
 // Keep the Firebase login available after page refreshes.
 await setPersistence(auth,browserLocalPersistence).catch(e=>console.warn('Auth persistence:',e));
+
+// Wait until Firebase has finished restoring the saved login before checking access.
+// Do not redirect to index.html while Firebase is still restoring the session.
+try{ await auth.authStateReady(); }catch(e){ console.warn('Auth state restore:',e); }
 const departments={
   'Faculty of Health Sciences':['Health Information Management','Community Health','Public Health'],
   'Faculty of Health Technology':['Environmental Health','Health Education','Dental Therapy'],
@@ -346,21 +350,41 @@ $("clearFilters").onclick=()=>{
   renderCourses();
 };
 
-onAuthStateChanged(auth,async user=>{
-  if(!user){location.href='index.html';return;}
+async function handleCourseAuth(user){
+  if(!user){
+    currentRole='';
+    form.style.display='none';
+    message('Please log in first. The Course Registration page is open, but course management requires an authenticated Admin or Registrar account.',true);
+    rows.innerHTML='<tr><td colspan="9" class="empty">Please log in to view and manage courses.</td></tr>';
+    count.textContent='0 COURSES';
+    return;
+  }
   try{
     const userSnap=await getDoc(doc(db,'users',user.uid));
-    if(!userSnap.exists()){message('Your Firebase user profile was not found.',true);form.style.display='none';return;}
+    if(!userSnap.exists()){
+      message('Your Firebase user profile was not found. Contact the administrator.',true);
+      form.style.display='none';
+      rows.innerHTML='<tr><td colspan="9" class="empty">No Firebase user profile was found.</td></tr>';
+      return;
+    }
     const profile=userSnap.data();
-    currentRole=String(profile.role||'').toLowerCase();
+    currentRole=String(profile.role||'').trim().toLowerCase();
     if(!['admin','administrator','registrar'].includes(currentRole)){
       message('Access denied. Only Admin and Registrar users can create or manage courses.',true);
-      form.style.display='none';return;
+      form.style.display='none';
+      rows.innerHTML='<tr><td colspan="9" class="empty">Your account does not have Course Management permission.</td></tr>';
+      return;
     }
+    form.style.display='block';
     message(`Signed in as ${currentRole}. Courses are shared in the Firestore "courses" collection.`);
     await loadCourses();
   }catch(e){console.error(e);message(e.message||'Could not connect to Firebase.',true);}
-});
+}
+
+// Firebase authStateReady() above ensures the first check happens only after
+// the saved session has been restored. The listener also handles later changes.
+onAuthStateChanged(auth,handleCourseAuth);
+if(auth.currentUser) handleCourseAuth(auth.currentUser);
 
 </script>
 </body>
