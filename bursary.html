@@ -629,6 +629,191 @@ main.container > section[id]{
 }
 
 </style>
+<style id="ggchst-shared-mobile-header">
+/* ===== GGCHST SHARED MOBILE HEADER BEHAVIOUR =====
+   Same three-layer mobile header on Registrar, HOD, Lecturer and Bursary.
+   Fixed header; page content scrolls underneath; inner tables/panels scroll independently.
+*/
+@media (max-width:760px){
+  html,body{width:100%;max-width:100%;overflow-x:hidden;}
+
+  .topbar{
+    position:fixed !important;
+    inset:0 0 auto 0 !important;
+    width:100% !important;
+    height:auto !important;
+    margin:0 !important;
+    z-index:1000 !important;
+    background:#fff !important;
+    box-shadow:0 2px 10px rgba(15,23,42,.08) !important;
+  }
+  .header-top-layer,.header-middle-layer,.header-bottom-layer{
+    width:100%;box-sizing:border-box;
+  }
+  .header-top-layer{
+    min-height:0 !important;
+    padding:10px 12px !important;
+    gap:10px !important;
+    align-items:center !important;
+  }
+  .brand{gap:8px !important;min-width:0 !important;flex:1 1 auto !important;}
+  .brand-icon{
+    width:58px !important;height:58px !important;flex:0 0 58px !important;
+    border:0 !important;border-radius:0 !important;background:transparent !important;
+  }
+  .brand-icon img{width:100%;height:100%;object-fit:contain;}
+  .brand-title{font-size:20px !important;line-height:1.05 !important;white-space:nowrap;}
+  .brand small{font-size:12px !important;line-height:1.15 !important;margin-top:3px !important;}
+  .top-actions{margin-left:auto !important;flex:0 0 auto !important;}
+  .logout{
+    min-width:auto !important;padding:10px 14px !important;border-radius:12px !important;
+    font-size:14px !important;line-height:1 !important;
+  }
+  .header-middle-layer{
+    display:flex !important;align-items:center !important;justify-content:center !important;
+    text-align:center !important;padding:11px 12px 10px !important;
+    border-top:0 !important;border-bottom:1px solid #e5e7eb !important;
+  }
+  .header-middle-layer .titleblock{width:100% !important;min-width:0 !important;text-align:center !important;}
+  .titleblock h1{font-size:22px !important;line-height:1.15 !important;margin:0 0 3px !important;}
+  .titleblock p{font-size:13px !important;line-height:1.25 !important;margin:0 !important;}
+  .header-bottom-layer{padding:0 10px 7px !important;}
+  .header-bottom-layer .nav{
+    width:100% !important;max-width:100% !important;margin:0 !important;
+    justify-content:flex-start !important;gap:3px !important;padding:0 0 5px !important;
+    overflow-x:auto !important;overflow-y:hidden !important;scrollbar-width:none !important;
+    -webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
+  }
+  .header-bottom-layer .nav::-webkit-scrollbar{display:none;}
+  .nav a{font-size:13px !important;padding:8px 10px !important;border-radius:10px !important;flex:0 0 auto !important;white-space:nowrap;}
+  .nav a:hover,.nav a.active{padding:6px 8px !important;border-width:2px !important;}
+
+  /* Fixed header occupies no document space, so reserve exactly its measured height. */
+  .main{padding-top:var(--header-height,190px) !important;}
+  main.container{padding-top:var(--header-height,190px) !important;}
+  .container{width:100%;max-width:100%;}
+
+  /* Never let wide data force the entire page wider than the phone. */
+  .table-wrap,.table-responsive,.data-table-wrap{width:100%;max-width:100%;overflow:auto !important;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
+  .table-wrap table,.table-responsive table,.data-table-wrap table{min-width:720px;}
+
+  /* Panels/sections can scroll internally instead of stretching the page. */
+  .panel-scroll,.section-scroll,.content-scroll,.inner-scroll{max-height:calc(100vh - var(--header-height,190px) - 24px);overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
+}
+@media (max-width:390px){
+  .brand-icon{width:54px !important;height:54px !important;flex-basis:54px !important;}
+  .brand-title{font-size:19px !important;}
+  .brand small{font-size:11px !important;}
+  .logout{padding:9px 12px !important;font-size:13px !important;}
+  .titleblock h1{font-size:21px !important;}
+  .titleblock p{font-size:12px !important;}
+  .nav a{font-size:12px !important;padding:7px 9px !important;}
+  .nav a:hover,.nav a.active{padding:5px 7px !important;}
+}
+</style>
+
+<style id="mobile-scroll-fix">
+/* ===== MOBILE SCROLL FIX =====
+   The document/page owns vertical scrolling.
+   Data tables only scroll horizontally when their columns are wider than the phone.
+   This prevents a finger swipe from getting trapped inside a table/container.
+*/
+@media (max-width:760px){
+  html, body{
+    height:auto !important;
+    min-height:100% !important;
+    overflow-x:hidden !important;
+    overflow-y:auto !important;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  /* Let the main document move vertically instead of trapping it in panels. */
+  main,
+  main.container,
+  .container,
+  .content,
+  .content-area,
+  .dashboard-content,
+  .page-content{
+    height:auto !important;
+    max-height:none !important;
+    overflow:visible !important;
+    overflow-x:visible !important;
+    overflow-y:visible !important;
+  }
+
+  /* Section/card containers must not become competing vertical scroll areas. */
+  main.container > section,
+  main.container section,
+  .section,
+  .panel,
+  .card,
+  .dashboard-card,
+  .content-card{
+    max-height:none !important;
+    overflow:visible !important;
+    overflow-x:visible !important;
+    overflow-y:visible !important;
+    overscroll-behavior:initial !important;
+  }
+
+  /* Tables: horizontal scrolling only. Vertical page scrolling stays on body. */
+  .table-wrap,
+  .table-responsive,
+  .table-container,
+  .data-table-wrap{
+    width:100% !important;
+    max-width:100% !important;
+    max-height:none !important;
+    height:auto !important;
+    overflow-x:auto !important;
+    overflow-y:visible !important;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior-x:contain !important;
+    overscroll-behavior-y:auto !important;
+    touch-action:auto !important;
+  }
+
+  .table-wrap table,
+  .table-responsive table,
+  .table-container table,
+  .data-table-wrap table{
+    min-width:720px;
+  }
+
+  /* Do not create a second vertical scrollbar on common dashboard sections. */
+  #students,
+  #fees,
+  #payments,
+  #outstanding,
+  #receipts,
+  #record-payment,
+  #reports,
+  #settings,
+  #courses,
+  #lecturers,
+  #students-section,
+  #results,
+  #timetable,
+  #users{
+    max-height:none !important;
+    height:auto !important;
+    overflow:visible !important;
+    overflow-y:visible !important;
+    overscroll-behavior:initial !important;
+  }
+
+  /* Forms and grids should grow naturally with the page. */
+  .form-grid,
+  .grid,
+  .stats,
+  .cards,
+  .chart-grid{
+    min-height:0 !important;
+    max-height:none !important;
+  }
+}
+</style>
 </head>
 <body>
 <header class="topbar">
@@ -895,5 +1080,21 @@ document.getElementById("paymentStudent").innerHTML=records.map(r=>`<option>${r.
 document.getElementById("logoutBtn").onclick=()=>alert("You have been logged out of the Bursary Portal.");
 renderRecords();
 </script>
+
+<script id="ggchst-shared-mobile-header-js">
+(function(){
+  function syncHeaderHeight(){
+    var header=document.querySelector('.topbar, .mobile-portal-header');
+    if(!header) return;
+    document.documentElement.style.setProperty('--header-height', Math.ceil(header.getBoundingClientRect().height)+'px');
+  }
+  window.addEventListener('load', syncHeaderHeight);
+  window.addEventListener('resize', syncHeaderHeight);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(syncHeaderHeight);
+  setTimeout(syncHeaderHeight,100);
+  setTimeout(syncHeaderHeight,500);
+})();
+</script>
+
 </body>
 </html>
