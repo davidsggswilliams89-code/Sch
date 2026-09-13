@@ -159,9 +159,20 @@ let authReady=false;
 // Keep the course-creation form visible at all times. Authentication controls
 // whether saving is enabled; the form is never removed during Firebase state restoration.
 function setCourseFormEnabled(enabled){
-  form.querySelectorAll('input,select').forEach(el=>el.disabled=!enabled);
-  saveBtn.disabled=!enabled;
-  saveBtn.textContent=enabled?'Save Course':'Save Course';
+  // Keep the form controls usable at all times. Firebase authentication may
+  // take a moment to restore after navigation/refresh, but that must never
+  // make the form look or behave like a disabled form.
+  form.querySelectorAll('input,select').forEach(el=>{
+    // Department is controlled separately by the faculty selection.
+    if(el.id!=='department') el.disabled=false;
+  });
+  saveBtn.disabled=false;
+  saveBtn.textContent='Save Course';
+}
+
+function setDepartmentEnabled(enabled){
+  const d=$("department");
+  d.disabled=!enabled;
 }
 
 function message(text,error=false){
@@ -313,9 +324,24 @@ $("courseEditForm").addEventListener('submit',async e=>{
 
 form.addEventListener('submit',async e=>{
   e.preventDefault();
-  if(!auth.currentUser)return;
   try{
-    const userSnap=await getDoc(doc(db,'users',auth.currentUser.uid));
+    // Wait briefly for Firebase to restore the existing login instead of
+    // silently ignoring the button click.
+    let user=auth.currentUser;
+    if(!user){
+      user=await new Promise(resolve=>{
+        let settled=false;
+        const unsub=onAuthStateChanged(auth,u=>{
+          if(u && !settled){settled=true;unsub();resolve(u);}
+        });
+        setTimeout(()=>{if(!settled){settled=true;unsub();resolve(null);}},5000);
+      });
+    }
+    if(!user){
+      message('Your login session is not available yet. Please log out and sign in again, then return to Course Registration.',true);
+      return;
+    }
+    const userSnap=await getDoc(doc(db,'users',user.uid));
     const role=String(userSnap.data()?.role||'').toLowerCase();
     if(!['admin','administrator','registrar'].includes(role)){
       message('Access denied. Only Admin and Registrar users can create courses.',true);return;
@@ -328,7 +354,7 @@ form.addEventListener('submit',async e=>{
       department:$("department").value,
       level:$("level").value,
       session:$("session").value,
-      createdBy:auth.currentUser.uid,
+      createdBy:user.uid,
       createdByRole:role,
       createdAt:serverTimestamp(),
       updatedAt:serverTimestamp()
