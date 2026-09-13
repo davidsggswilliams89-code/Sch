@@ -127,19 +127,14 @@ footer{text-align:center;color:#7b8b83;font-size:10px;padding:0 15px 25px}
 <footer>GGCHST SMS • Green Garden College of Health Sciences &amp; Technology, Gusau</footer>
 <script type="module">
 import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, getDocs, doc, getDoc, updateDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
-const firebaseConfig={apiKey:"AIzaSyDfHJaoV7eQKWWq71zn2bQOpR4Vot9v8c",authDomain:"smsh-282c0.firebaseapp.com",projectId:"smsh-282c0",storageBucket:"smsh-282c0.firebasestorage.app",messagingSenderId:"477828256463",appId:"1:477828256463:web:80a6755b679f585c73ddba"};
+const firebaseConfig={apiKey:"AIzaSyDfHJaoVA7eQKWWq71zn2bQOpR4Vot9v8c",authDomain:"smsh-282c0.firebaseapp.com",projectId:"smsh-282c0",storageBucket:"smsh-282c0.firebasestorage.app",messagingSenderId:"477828256463",appId:"1:477828256463:web:80a6755b679f585c73ddba"};
 const app=getApps().length?getApp():initializeApp(firebaseConfig);
-const auth=getAuth(app),db=getFirestore(app);
+const auth=getAuth(app);
+const db=getFirestore(app);
 
-// Keep the Firebase login available after page refreshes.
-await setPersistence(auth,browserLocalPersistence).catch(e=>console.warn('Auth persistence:',e));
-
-// Wait until Firebase has finished restoring the saved login before checking access.
-// Do not redirect to index.html while Firebase is still restoring the session.
-try{ await auth.authStateReady(); }catch(e){ console.warn('Auth state restore:',e); }
 const departments={
   'Faculty of Health Sciences':['Health Information Management','Community Health','Public Health'],
   'Faculty of Health Technology':['Environmental Health','Health Education','Dental Therapy'],
@@ -149,292 +144,41 @@ const departments={
 const $=id=>document.getElementById(id);
 window.updateDepartments=()=>{const f=$("faculty"),d=$("department");d.innerHTML='<option value="">Select department</option>'; (departments[f.value]||[]).forEach(x=>{const o=document.createElement('option');o.value=x;o.textContent=x;d.appendChild(o)});d.disabled=!f.value};
 window.resetDepartments=()=>setTimeout(()=>{const d=$("department");d.innerHTML='<option value="">Select faculty first</option>';d.disabled=true},0);
-window.logout=async()=>{try{await signOut(auth)}finally{location.href='index.html'}};
+window.logout=async()=>{try{await signOut(auth)}finally{location.href='index.html';}};
 
 const form=$("courseForm"),saveBtn=$("saveBtn"),statusText=$("statusText"),statusTitle=$("statusTitle"),rows=$("courseRows"),count=$("courseCount");
 let allCourses=[];
-let currentRole='';
-let authReady=false;
 
-// Keep the course-creation form visible at all times. Authentication controls
-// whether saving is enabled; the form is never removed during Firebase state restoration.
-function setCourseFormEnabled(enabled){
-  // Keep the form controls usable at all times. Firebase authentication may
-  // take a moment to restore after navigation/refresh, but that must never
-  // make the form look or behave like a disabled form.
-  form.querySelectorAll('input,select').forEach(el=>{
-    // Department is controlled separately by the faculty selection.
-    if(el.id!=='department') el.disabled=false;
-  });
-  saveBtn.disabled=false;
-  saveBtn.textContent='Save Course';
-}
-
-function setDepartmentEnabled(enabled){
-  const d=$("department");
-  d.disabled=!enabled;
-}
-
-function message(text,error=false){
-  statusText.textContent=text;
-  statusTitle.textContent=error?'Firebase Error':'Firebase Course Management';
-  statusTitle.style.color=error?'#991b1b':'var(--deep)';
-}
-function esc(v){
-  return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
-}
-function timeValue(v){return v?.seconds||0}
-
+function setDepartmentEnabled(enabled){ $("department").disabled=!enabled; }
+function message(text,error=false){statusText.textContent=text;statusTitle.textContent=error?'Firebase Error':'Firebase Course Management';statusTitle.style.color=error?'#991b1b':'var(--deep)';}
+function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+function timeValue(v){return v?.seconds||0;}
 function populateFilterOptions(){
   const values=(key)=>[...new Set(allCourses.map(c=>String(c[key]||'')).filter(Boolean))].sort();
-  const fill=(id,items,label)=>{
-    const el=$(id), old=el.value;
-    el.innerHTML=`<option value="">${label}</option>`+items.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');
-    if(items.includes(old)) el.value=old;
-  };
-  fill('filterFaculty',values('faculty'),'All Faculties');
-  fill('filterDepartment',values('department'),'All Departments');
-  fill('filterLevel',values('level'),'All Levels');
-  fill('filterSession',values('session'),'All Sessions');
+  const fill=(id,items,label)=>{const el=$(id),old=el.value;el.innerHTML=`<option value="">${label}</option>`+items.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');if(items.includes(old))el.value=old;};
+  fill('filterFaculty',values('faculty'),'All Faculties');fill('filterDepartment',values('department'),'All Departments');fill('filterLevel',values('level'),'All Levels');fill('filterSession',values('session'),'All Sessions');
 }
-
 function renderCourses(){
-  const q=$("courseSearch").value.trim().toLowerCase();
-  const faculty=$("filterFaculty").value;
-  const department=$("filterDepartment").value;
-  const level=$("filterLevel").value;
-  const session=$("filterSession").value;
-
-  const list=allCourses.filter(c=>{
-    const hay=`${c.courseName||''} ${c.courseCode||''}`.toLowerCase();
-    return (!q||hay.includes(q)) &&
-      (!faculty||c.faculty===faculty) &&
-      (!department||c.department===department) &&
-      (!level||c.level===level) &&
-      (!session||c.session===session);
-  }).sort((a,b)=>timeValue(b.createdAt)-timeValue(a.createdAt));
-
+  const q=$("courseSearch").value.trim().toLowerCase(),faculty=$("filterFaculty").value,department=$("filterDepartment").value,level=$("filterLevel").value,session=$("filterSession").value;
+  const list=allCourses.filter(c=>{const hay=`${c.courseName||''} ${c.courseCode||''}`.toLowerCase();return(!q||hay.includes(q))&&(!faculty||c.faculty===faculty)&&(!department||c.department===department)&&(!level||c.level===level)&&(!session||c.session===session);}).sort((a,b)=>timeValue(b.createdAt)-timeValue(a.createdAt));
   count.textContent=`${list.length} COURSE${list.length===1?'':'S'}`;
-  if(!list.length){
-    rows.innerHTML='<tr><td colspan="9" class="empty">No matching courses found.</td></tr>';
-    return;
-  }
-  rows.innerHTML=list.map((c,i)=>`<tr>
-    <td>${i+1}</td><td>${esc(c.courseName)}</td><td>${esc(c.courseCode)}</td><td>${esc(c.creditUnit)}</td>
-    <td>${esc(c.faculty)}</td><td>${esc(c.department)}</td><td>${esc(c.level)}</td><td>${esc(c.session)}</td>
-    <td><button type="button" class="course-action course-edit" data-edit="${esc(c.id)}">Edit</button>
-    <button type="button" class="course-action course-delete" data-delete="${esc(c.id)}">Delete</button></td>
-  </tr>`).join('');
+  if(!list.length){rows.innerHTML='<tr><td colspan="9" class="empty">No matching courses found.</td></tr>';return;}
+  rows.innerHTML=list.map((c,i)=>`<tr><td>${i+1}</td><td>${esc(c.courseName)}</td><td>${esc(c.courseCode)}</td><td>${esc(c.creditUnit)}</td><td>${esc(c.faculty)}</td><td>${esc(c.department)}</td><td>${esc(c.level)}</td><td>${esc(c.session)}</td><td><button type="button" class="course-action course-edit" data-edit="${esc(c.id)}">Edit</button> <button type="button" class="course-action course-delete" data-delete="${esc(c.id)}">Delete</button></td></tr>`).join('');
 }
+async function loadCourses(){try{rows.innerHTML='<tr><td colspan="9" class="empty">Loading courses…</td></tr>';const snap=await getDocs(collection(db,'courses'));allCourses=snap.docs.map(d=>({id:d.id,...d.data()}));populateFilterOptions();renderCourses();message('Courses loaded from the shared Firebase database.');}catch(e){console.error(e);message(e.message||'Could not load courses from Firebase.',true);rows.innerHTML='<tr><td colspan="9" class="empty">Could not load courses.</td></tr>';}}
+function setSelectOptions(id,items,selected=''){const el=$(id);el.innerHTML=items.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');if(selected)el.value=selected;}
+function prepareEditForm(c){$("editCourseId").value=c.id;$("editCourseName").value=c.courseName||'';$("editCourseCode").value=c.courseCode||'';$("editCreditUnit").value=c.creditUnit||'';const faculties=Object.keys(departments);setSelectOptions('editFaculty',faculties,c.faculty);setSelectOptions('editDepartment',departments[c.faculty]||[],c.department);setSelectOptions('editLevel',['100 Level','200 Level','300 Level','400 Level','500 Level'],c.level);setSelectOptions('editSession',['2026/2027','2025/2026','2024/2025'],c.session);$("courseEditModal").classList.add('show');$("courseEditModal").setAttribute('aria-hidden','false');}
+function closeEditModal(){$("courseEditModal").classList.remove('show');$("courseEditModal").setAttribute('aria-hidden','true');}
+$("editFaculty").addEventListener('change',()=>setSelectOptions('editDepartment',departments[$("editFaculty").value]||[]));
+$("closeCourseModal").onclick=closeEditModal;$("cancelCourseEdit").onclick=closeEditModal;$("courseEditModal").addEventListener('click',e=>{if(e.target.id==='courseEditModal')closeEditModal()});
+rows.addEventListener('click',async e=>{const editId=e.target.dataset.edit,deleteId=e.target.dataset.delete;if(editId){const c=allCourses.find(x=>x.id===editId);if(c)prepareEditForm(c);}if(deleteId){const c=allCourses.find(x=>x.id===deleteId);if(!c)return;if(!confirm(`Delete "${c.courseName}" (${c.courseCode})? This cannot be undone.`))return;try{await deleteDoc(doc(db,'courses',deleteId));message('Course deleted successfully.');await loadCourses();}catch(e){console.error(e);message(e.message||'Could not delete course.',true);}}});
+$("courseEditForm").addEventListener('submit',async e=>{e.preventDefault();const id=$("editCourseId").value,course={courseName:$("editCourseName").value.trim(),courseCode:$("editCourseCode").value.trim().toUpperCase(),creditUnit:Number($("editCreditUnit").value),faculty:$("editFaculty").value,department:$("editDepartment").value,level:$("editLevel").value,session:$("editSession").value,updatedAt:serverTimestamp()};if(!course.courseName||!course.courseCode||!course.creditUnit||!course.faculty||!course.department||!course.level||!course.session){message('Please complete all course fields.',true);return;}const btn=$("updateCourseBtn");btn.disabled=true;btn.textContent='Updating…';try{const duplicate=allCourses.find(c=>c.id!==id&&String(c.courseCode||'').toUpperCase()===course.courseCode&&c.department===course.department&&c.level===course.level&&c.session===course.session);if(duplicate){message('Another course already uses this code for the same department, level and session.',true);return;}await updateDoc(doc(db,'courses',id),course);closeEditModal();message('Course updated successfully.');await loadCourses();}catch(e){console.error(e);message(e.message||'Could not update course.',true);}finally{btn.disabled=false;btn.textContent='Update Course';}});
+form.addEventListener('submit',async e=>{e.preventDefault();saveBtn.disabled=true;saveBtn.textContent='Saving…';try{const course={courseName:$("courseName").value.trim(),courseCode:$("courseCode").value.trim().toUpperCase(),creditUnit:Number($("creditUnit").value),faculty:$("faculty").value,department:$("department").value,level:$("level").value,session:$("session").value,createdAt:serverTimestamp(),updatedAt:serverTimestamp()};if(!course.courseName||!course.courseCode||!course.creditUnit||!course.faculty||!course.department||!course.level||!course.session){message('Please complete all required fields.',true);return;}const duplicate=allCourses.find(c=>String(c.courseCode||'').toUpperCase()===course.courseCode&&c.department===course.department&&c.level===course.level&&c.session===course.session);if(duplicate){message('A course with this code already exists for the same department, level and session.',true);return;}await addDoc(collection(db,'courses'),course);form.reset();window.resetDepartments();message('Course saved successfully to Firebase.');await loadCourses();}catch(e){console.error(e);message(e.message||'Could not save course to Firebase. If Firebase says permission-denied, sign in through your normal school login because Firestore rules still protect course writes.',true);}finally{saveBtn.disabled=false;saveBtn.textContent='Save Course';}});
+$("courseSearch").addEventListener('input',renderCourses);['filterFaculty','filterDepartment','filterLevel','filterSession'].forEach(id=>$(id).addEventListener('change',renderCourses));$("clearFilters").onclick=()=>{$("courseSearch").value='';['filterFaculty','filterDepartment','filterLevel','filterSession'].forEach(id=>$(id).value='');renderCourses();};
 
-async function loadCourses(){
-  rows.innerHTML='<tr><td colspan="9" class="empty">Loading courses…</td></tr>';
-  const snap=await getDocs(collection(db,'courses'));
-  allCourses=snap.docs.map(d=>({id:d.id,...d.data()}));
-  populateFilterOptions();
-  renderCourses();
-}
-
-function setSelectOptions(id,items,selected=''){
-  const el=$(id);
-  el.innerHTML=items.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');
-  if(selected) el.value=selected;
-}
-
-function prepareEditForm(c){
-  $("editCourseId").value=c.id;
-  $("editCourseName").value=c.courseName||'';
-  $("editCourseCode").value=c.courseCode||'';
-  $("editCreditUnit").value=c.creditUnit||'';
-
-  const faculties=Object.keys(departments);
-  setSelectOptions('editFaculty',faculties,c.faculty);
-  const deps=departments[c.faculty]||[];
-  setSelectOptions('editDepartment',deps,c.department);
-  setSelectOptions('editLevel',['100 Level','200 Level','300 Level','400 Level','500 Level'],c.level);
-  setSelectOptions('editSession',['2026/2027','2025/2026','2024/2025'],c.session);
-
-  $("courseEditModal").classList.add('show');
-  $("courseEditModal").setAttribute('aria-hidden','false');
-}
-
-function closeEditModal(){
-  $("courseEditModal").classList.remove('show');
-  $("courseEditModal").setAttribute('aria-hidden','true');
-}
-
-$("editFaculty").addEventListener('change',()=>{
-  setSelectOptions('editDepartment',departments[$("editFaculty").value]||[]);
-});
-
-$("closeCourseModal").onclick=closeEditModal;
-$("cancelCourseEdit").onclick=closeEditModal;
-$("courseEditModal").addEventListener('click',e=>{if(e.target.id==='courseEditModal')closeEditModal()});
-
-rows.addEventListener('click',async e=>{
-  const editId=e.target.dataset.edit, deleteId=e.target.dataset.delete;
-  if(editId){
-    const c=allCourses.find(x=>x.id===editId);
-    if(c) prepareEditForm(c);
-  }
-  if(deleteId){
-    const c=allCourses.find(x=>x.id===deleteId);
-    if(!c)return;
-    if(!confirm(`Delete "${c.courseName}" (${c.courseCode})? This cannot be undone.`))return;
-    try{
-      await deleteDoc(doc(db,'courses',deleteId));
-      message('Course deleted successfully.');
-      await loadCourses();
-    }catch(e){
-      console.error(e); message(e.message||'Could not delete course.',true);
-    }
-  }
-});
-
-$("courseEditForm").addEventListener('submit',async e=>{
-  e.preventDefault();
-  const id=$("editCourseId").value;
-  const course={
-    courseName:$("editCourseName").value.trim(),
-    courseCode:$("editCourseCode").value.trim().toUpperCase(),
-    creditUnit:Number($("editCreditUnit").value),
-    faculty:$("editFaculty").value,
-    department:$("editDepartment").value,
-    level:$("editLevel").value,
-    session:$("editSession").value,
-    updatedAt:serverTimestamp()
-  };
-  if(!course.courseName||!course.courseCode||!course.creditUnit||!course.faculty||!course.department||!course.level||!course.session){
-    message('Please complete all course fields.',true);return;
-  }
-  const btn=$("updateCourseBtn");btn.disabled=true;btn.textContent='Updating…';
-  try{
-    const duplicate=allCourses.find(c=>c.id!==id &&
-      String(c.courseCode||'').toUpperCase()===course.courseCode &&
-      c.department===course.department && c.level===course.level && c.session===course.session);
-    if(duplicate){message('Another course already uses this code for the same department, level and session.',true);return;}
-    await updateDoc(doc(db,'courses',id),course);
-    closeEditModal();
-    message('Course updated successfully.');
-    await loadCourses();
-  }catch(e){
-    console.error(e);message(e.message||'Could not update course.',true);
-  }finally{btn.disabled=false;btn.textContent='Update Course';}
-});
-
-form.addEventListener('submit',async e=>{
-  e.preventDefault();
-  try{
-    // Wait briefly for Firebase to restore the existing login instead of
-    // silently ignoring the button click.
-    let user=auth.currentUser;
-    if(!user){
-      user=await new Promise(resolve=>{
-        let settled=false;
-        const unsub=onAuthStateChanged(auth,u=>{
-          if(u && !settled){settled=true;unsub();resolve(u);}
-        });
-        setTimeout(()=>{if(!settled){settled=true;unsub();resolve(null);}},5000);
-      });
-    }
-    if(!user){
-      message('Your login session is not available yet. Please log out and sign in again, then return to Course Registration.',true);
-      return;
-    }
-    const userSnap=await getDoc(doc(db,'users',user.uid));
-    const role=String(userSnap.data()?.role||'').toLowerCase();
-    if(!['admin','administrator','registrar'].includes(role)){
-      message('Access denied. Only Admin and Registrar users can create courses.',true);return;
-    }
-    const course={
-      courseName:$("courseName").value.trim(),
-      courseCode:$("courseCode").value.trim().toUpperCase(),
-      creditUnit:Number($("creditUnit").value),
-      faculty:$("faculty").value,
-      department:$("department").value,
-      level:$("level").value,
-      session:$("session").value,
-      createdBy:user.uid,
-      createdByRole:role,
-      createdAt:serverTimestamp(),
-      updatedAt:serverTimestamp()
-    };
-    if(!course.courseName||!course.courseCode||!course.creditUnit||!course.faculty||!course.department||!course.level||!course.session){
-      message('Please complete all required fields.',true);return;
-    }
-    const duplicate=allCourses.find(c=>
-      String(c.courseCode||'').toUpperCase()===course.courseCode &&
-      c.department===course.department && c.level===course.level && c.session===course.session);
-    if(duplicate){message('A course with this code already exists for the same department, level and session.',true);return;}
-
-    saveBtn.disabled=true;saveBtn.textContent='Saving…';
-    await addDoc(collection(db,'courses'),course);
-    form.reset();window.resetDepartments();
-    message('Course saved successfully to Firebase.');
-    await loadCourses();
-  }catch(e){
-    console.error(e);message(e.message||'Could not save course to Firebase.',true);
-  }finally{saveBtn.disabled=false;saveBtn.textContent='Save Course';}
-});
-
-$("courseSearch").addEventListener('input',renderCourses);
-['filterFaculty','filterDepartment','filterLevel','filterSession'].forEach(id=>$(id).addEventListener('change',renderCourses));
-$("clearFilters").onclick=()=>{
-  $("courseSearch").value='';
-  ['filterFaculty','filterDepartment','filterLevel','filterSession'].forEach(id=>$(id).value='');
-  renderCourses();
-};
-
-async function handleCourseAuth(user){
-  // Never hide the form. During auth restoration or logout, keep the UI stable
-  // and simply disable saving until a valid Admin/Registrar is confirmed.
-  if(!user){
-    currentRole='';
-    setCourseFormEnabled(false);
-    message('Waiting for a signed-in Admin or Registrar account. The course creation form will remain open.',true);
-    rows.innerHTML='<tr><td colspan="9" class="empty">Sign in as Admin or Registrar to load and manage courses.</td></tr>';
-    count.textContent='0 COURSES';
-    return;
-  }
-  try{
-    setCourseFormEnabled(false);
-    message('Checking your course-management permission…');
-    const userSnap=await getDoc(doc(db,'users',user.uid));
-    if(!userSnap.exists()){
-      currentRole='';
-      setCourseFormEnabled(false);
-      message('Your Firebase user profile was not found. Contact the administrator.',true);
-      rows.innerHTML='<tr><td colspan="9" class="empty">No Firebase user profile was found.</td></tr>';
-      return;
-    }
-    const profile=userSnap.data();
-    currentRole=String(profile.role||'').trim().toLowerCase();
-    if(!['admin','administrator','registrar'].includes(currentRole)){
-      setCourseFormEnabled(false);
-      message('Access denied. Only Admin and Registrar users can create or manage courses.',true);
-      rows.innerHTML='<tr><td colspan="9" class="empty">Your account can view the page but cannot create or manage courses.</td></tr>';
-      return;
-    }
-    setCourseFormEnabled(true);
-    message(`Signed in as ${currentRole}. Courses are shared in the Firestore "courses" collection.`);
-    await loadCourses();
-  }catch(e){
-    console.error(e);
-    setCourseFormEnabled(false);
-    message(e.message||'Could not connect to Firebase.',true);
-  }
-}
-
-// Wait for Firebase to restore the existing session before handling access.
-// Use one listener only to prevent competing auth handlers from changing the form.
-onAuthStateChanged(auth,user=>{
-  if(!authReady){ return; }
-  handleCourseAuth(user);
-});
-// authStateReady() has already completed above; process the current user once.
-authReady=true;
-handleCourseAuth(auth.currentUser);
-
+// No page-level authentication guard. The form stays open and usable.
+// Firebase Security Rules still protect the courses collection on the server.
+loadCourses();
 </script>
 </body>
 </html>
