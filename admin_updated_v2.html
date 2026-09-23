@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin Home | GGCHST Admin</title>
+<style>
+:root{
+  --green:#087b43;--green2:#0b8b4b;--dark:#075c38;
+  --text:#124b32;--muted:#e5f4eb;--white:#fff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif}
+body{
+  background:#f3f7f4;
+  color:var(--text);
+}
+body:before{
+  content:"";position:fixed;inset:0;z-index:-2;
+  background:linear-gradient(150deg,#f7faf8 0%,#eaf4ee 100%);
+}
+.page{
+  width:min(100%,760px);min-height:100vh;margin:0 auto;
+  background:
+    radial-gradient(circle at 100% 2%,rgba(255,255,255,.10) 0 20%,transparent 20.3%),
+    radial-gradient(circle at 105% 18%,rgba(255,255,255,.09) 0 22%,transparent 22.3%),
+    linear-gradient(145deg,#075d35 0%,#078044 48%,#07934d 100%);
+  position:relative;overflow:hidden;padding:42px 28px 42px;
+  box-shadow:0 0 35px rgba(0,0,0,.08);
+}
+.page:before{
+  content:"";position:absolute;width:570px;height:570px;
+  right:-330px;top:-260px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.09);
+  box-shadow:0 0 0 80px rgba(255,255,255,.025),0 0 0 160px rgba(255,255,255,.018);
+  pointer-events:none;
+}
+.page:after{
+  content:"";position:absolute;width:420px;height:220px;
+  left:-280px;bottom:30px;border-radius:50%;
+  background:rgba(255,255,255,.045);transform:rotate(-12deg);
+  pointer-events:none;
+}
+.content{position:relative;z-index:2}
+.top-images{
+  width:250px;height:250px;margin:0 auto 22px;position:relative;
+}
+.campus{
+  width:205px;height:205px;border-radius:50%;object-fit:cover;
+  display:block;margin:auto;border:9px solid rgba(255,255,255,.96);
+  box-shadow:0 4px 16px rgba(0,0,0,.16);
+}
+.crest{
+  position:absolute;width:92px;height:92px;border-radius:50%;
+  object-fit:cover;left:50%;bottom:0;transform:translateX(-50%);
+  border:6px solid #fff;background:#fff;
+  box-shadow:0 3px 12px rgba(0,0,0,.16);
+}
+.school-name{
+  text-align:center;color:#fff;font-size:20px;line-height:1.25;
+  letter-spacing:2.1px;font-weight:800;text-transform:uppercase;
+  margin:0 auto 22px;max-width:680px;
+}
+.system-title{
+  text-align:center;color:#fff;font-size:40px;line-height:1.08;
+  font-weight:900;margin:0 auto 24px;max-width:650px;
+}
+.welcome{
+  text-align:center;color:#f5fff8;font-size:22px;line-height:1.45;
+  max-width:640px;margin:0 auto 28px;
+}
+.quality{
+  max-width:680px;margin:0 auto 28px;padding:13px 18px;
+  border:1px solid rgba(255,255,255,.30);border-radius:40px;
+  background:rgba(255,255,255,.10);color:#fff;text-align:center;
+  font-size:17px;font-weight:800;line-height:1.35;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+}
+.quality span{font-size:20px}
+.section-title{
+  color:#fff;text-align:center;font-size:13px;font-weight:800;
+  letter-spacing:1.5px;margin:0 0 12px;opacity:.9;
+}
+.portal-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;
+}
+.portal-btn{
+  min-height:105px;background:#fff;border-radius:22px;
+  display:flex;align-items:center;padding:13px 14px;
+  text-decoration:none;color:#124b32;
+  box-shadow:0 5px 14px rgba(0,0,0,.12);
+  border:1px solid rgba(0,0,0,.04);
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+.portal-btn:hover{
+  transform:translateY(-2px);box-shadow:0 9px 18px rgba(0,0,0,.17);
+}
+.portal-icon{
+  width:56px;height:56px;min-width:56px;border-radius:18px;
+  display:grid;place-items:center;background:#edf9f3;font-size:29px;
+  margin-right:13px;
+}
+.portal-text{min-width:0}
+.portal-text strong{
+  display:block;font-size:18px;line-height:1.15;font-weight:900;
+}
+.portal-text span{
+  display:block;margin-top:5px;font-size:10px;color:#6c8578;line-height:1.25;
+}
+.arrow{
+  margin-left:auto;font-size:24px;color:#087b43;font-weight:900;padding-left:5px;
+}
+.footer{
+  color:rgba(255,255,255,.72);font-size:10px;text-align:center;
+  margin-top:28px;
+}
+@media(max-width:600px){
+  .page{padding:30px 18px 34px}
+  .top-images{width:215px;height:215px;margin-bottom:17px}
+  .campus{width:175px;height:175px;border-width:8px}
+  .crest{width:82px;height:82px;border-width:5px}
+  .school-name{font-size:15px;letter-spacing:1.4px;margin-bottom:18px}
+  .system-title{font-size:32px;margin-bottom:20px}
+  .welcome{font-size:18px;margin-bottom:22px}
+  .quality{font-size:14px;margin-bottom:23px;padding:12px 14px}
+  .quality span{font-size:16px}
+  .portal-grid{gap:10px}
+  .portal-btn{min-height:91px;border-radius:18px;padding:10px}
+  .portal-icon{width:45px;height:45px;min-width:45px;border-radius:14px;font-size:23px;margin-right:9px}
+  .portal-text strong{font-size:14px}
+  .portal-text span{font-size:9px}
+  .arrow{font-size:20px}
+}
+@media(max-width:390px){
+  .page{padding-left:12px;padding-right:12px}
+  .portal-grid{gap:8px}
+  .portal-btn{min-height:84px;padding:8px}
+  .portal-icon{width:39px;height:39px;min-width:39px;font-size:20px;margin-right:7px}
+  .portal-text strong{font-size:12px}
+  .portal-text span{display:none}
+  .arrow{font-size:18px}
+}
+</style>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getFirestore,collection,addDoc,doc,setDoc,updateDoc,deleteDoc,onSnapshot,getDocs,query,orderBy,limit} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
+  authDomain: "ggchst-sms-new.firebaseapp.com",
+  projectId: "ggchst-sms-new",
+  storageBucket: "ggchst-sms-new.firebasestorage.app",
+  messagingSenderId: "942770190211",
+  appId: "1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+
+const app=initializeApp(firebaseConfig); const db=getFirestore(app);
+window.GG={app,db,collection,addDoc,doc,setDoc,updateDoc,deleteDoc,onSnapshot,getDocs,query,orderBy,limit};
+window.toast=(m)=>{const e=document.getElementById('toast');if(!e)return;e.textContent=m;e.style.display='block';setTimeout(()=>e.style.display='none',2600)};
+window.esc=(s='')=>String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+</script>
+<script>
+/*
+  Cloudinary configuration for GGCHST admin uploads.
+  IMPORTANT: Obaestate must be an UNSIGNED upload preset.
+  Never place the Cloudinary API secret in this file.
+*/
+window.GG_CLOUDINARY = {
+  cloudName: "hjdnytcb",
+  uploadPreset: "Obaestate"
+};
+
+window.uploadToCloudinary = async function(file, options = {}){
+  if(!file) throw new Error("Please select a file.");
+
+  const isVideo = file.type && file.type.startsWith("video/");
+  const resourceType = options.resourceType || (isVideo ? "video" : "image");
+  const folder = options.folder || "ggchst";
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", window.GG_CLOUDINARY.uploadPreset);
+  formData.append("folder", folder);
+
+  const endpoint =
+    `https://api.cloudinary.com/v1_1/${window.GG_CLOUDINARY.cloudName}/${resourceType}/upload`;
+
+  const response = await fetch(endpoint, {
+    method: "POST",
+    body: formData
+  });
+
+  const data = await response.json().catch(()=>({}));
+
+  if(!response.ok || !data.secure_url){
+    console.error("Cloudinary upload error:", data);
+    throw new Error(
+      data?.error?.message ||
+      `Cloudinary ${resourceType} upload failed (${response.status}).`
+    );
+  }
+
+  return data.secure_url;
+};
+
+window.uploadAdminImage = (file, folder="ggchst/admin-images") =>
+  window.uploadToCloudinary(file,{resourceType:"image",folder});
+
+window.uploadAdminVideo = (file, folder="ggchst/admin-videos") =>
+  window.uploadToCloudinary(file,{resourceType:"video",folder});
+</script>
+</head><body>
+<div class="page">
+  <div class="content">
+    <div class="top-images">
+      <img class="campus" src="logo.jpeg" alt="GGCHST campus">
+      <img class="crest" src="logo.png" alt="GGCHST crest">
+    </div>
+
+    <div class="school-name">
+      GREEN GARDEN COLLEGE OF HEALTH SCIENCES &amp; TECHNOLOGY, GUSAU
+    </div>
+
+    <h1 class="system-title">GGCHST Administration Portal</h1>
+
+    <p class="welcome">
+      Welcome to the official school management portal.
+      Select the administration workspace you need to continue.
+    </p>
+
+    <div class="quality">
+      <span>🌿</span> Quality Education • Practical Training • Professional Excellence
+    </div>
+
+    <div class="section-title">ADMINISTRATION WORKSPACES</div>
+
+    <div class="portal-grid">
+      
+       <a class="portal-btn" href="hod-profile.html">
+      <div class="portal-icon">👨‍🏫</div>
+      <div class="portal-text"><strong>HOD PROFILE</strong><span>Applications & decisions</span></div>
+      <div class="arrow">›</div>
+    </a> 
+
+      <a class="portal-btn" href="results.html">
+      <div class="portal-icon">🏆</div>
+      <div class="portal-text"><strong>Results</strong><span>Academic results</span></div>
+      <div class="arrow">›</div>
+    </a>
+
+<a class="portal-btn" href="student.html">
+      <div class="portal-icon">🎓</div>
+      <div class="portal-text"><strong>Students</strong><span>Student records</span></div>
+      <div class="arrow">›</div>
+    </a>
+<a class="portal-btn" href="examination.html">
+      <div class="portal-icon">📝</div>
+      <div class="portal-text"><strong>Examinations</strong><span>Exam management</span></div>
+      <div class="arrow">›</div>
+    </a>
+
+<a class="portal-btn" href="hod-management.html">
+      <div class="portal-icon">👨‍🏫</div>
+      <div class="portal-text"><strong>H.O.D Management</strong><span>Automatic student course allocation</span></div>
+      <div class="arrow">›</div>
+    </a>
+
+<a class="portal-btn" href="attendance.html">
+      <div class="portal-icon">✅</div>
+      <div class="portal-text"><strong>Attendance</strong><span>Attendance records</span></div>
+      <div class="arrow">›</div>
+    </a>
+
+<a class="portal-btn" href="create-access.html">
+      <div class="portal-icon">⚙️</div>
+      <div class="portal-text"><strong>Create User</strong><span>Users, roles & permissions</span></div>
+      <div class="arrow">›</div>
+    </a>
+<a class="portal-btn" href="venue.html">
+      <div class="portal-icon">🏫</div>
+      <div class="portal-text"><strong>Venues</strong><span>Rooms & locations</span></div>
+      <div class="arrow">›</div>
+    </a>
+<a class="portal-btn" href="create-course.html">
+      <div class="portal-icon">📚</div>
+      <div class="portal-text"><strong>Create Course</strong><span>Course selections</span></div>
+      <div class="arrow">›</div>
+    </a>
+<a class="portal-btn" href="academic-session.html">
+      <div class="portal-icon">📅</div>
+      <div class="portal-text"><strong>Session & Semester</strong><span>Academic years & sessions</span></div>
+      <div class="arrow">›</div>
+    </a>
+ <a class="portal-btn" href="curriculum-mapping.html">
+      <div class="portal-icon">🗂️</div>
+      <div class="portal-text"><strong>Course Allocation</strong><span>Programme course mapping</span></div>
+      <div class="arrow">›</div>
+    </a>     
+  <a class="portal-btn" href="admin-assignments-and-notes.html">
+      <div class="portal-icon">📖</div>
+      <div class="portal-text"><strong>Lecture Notes <br> Assignments</strong><span>Deadlines & marks</span></div>
+      <div class="arrow">›</div>
+    </a>    
+<a class="portal-btn" href="admin-calendar.html">
+      <div class="portal-icon">🗓️</div>
+      <div class="portal-text"><strong>Academic Calendar</strong><span>Dates & deadlines</span></div>
+      <div class="arrow">›</div>
+    </a>
+<a class="portal-btn" href="grade-settings.html">
+      <div class="portal-icon">📈</div>
+      <div class="portal-text"><strong>Grade Settings</strong><span>Grading rules</span></div>
+      <div class="arrow">›</div>
+    </a>
+<a class="portal-btn" href="admin-notices.html">
+      <div class="portal-icon">📢</div>
+      <div class="portal-text"><strong>Announcements</strong><span>School notices</span></div>
+      <div class="arrow">›</div>
+    </a>
+<a class="portal-btn" href="lecturer-course-assignment.html">
+      <div class="portal-icon">👨‍🏫</div>
+      <div class="portal-text"><strong>Assign Course</strong><span>Automatic student course allocation</span></div>
+      <div class="arrow">›</div>
+    </a>
+
+
+      
+      
+      
+<a class="portal-btn" href="admin-dashboard.html">
+      <div class="portal-icon">📊</div>
+      <div class="portal-text"><strong>Admin Dashboard</strong><span>Overview & recent activity</span></div>
+      <div class="arrow">›</div>
+    </a>
+
+<a class="portal-btn" href="admin-finance.html">
+      <div class="portal-icon">💰</div>
+      <div class="portal-text"><strong>Finance & Fees</strong><span>Payments & balances</span></div>
+      <div class="arrow">›</div>
+    </a>
+
+
+<a class="portal-btn" href="admin-settings.html">
+      <div class="portal-icon">⚙️</div>
+      <div class="portal-text"><strong>System Settings</strong><span>School & system setup</span></div>
+      <div class="arrow">›</div>
+    </a>
+<a class="portal-btn" href="admin-audit.html">
+      <div class="portal-icon">🔐</div>
+      <div class="portal-text"><strong>Audit & Activity Logs</strong><span>Security records</span></div>
+      <div class="arrow">›</div>
+    </a>
+<a class="portal-btn" href="admin-reports.html">
+      <div class="portal-icon">📑</div>
+      <div class="portal-text"><strong>Reports & Export</strong><span>Reports & CSV export</span></div>
+      <div class="arrow">›</div>
+      </a>
+<a class="portal-btn" href="user-management.html">
+      <div class="portal-icon">🔑</div>
+      <div class="portal-text"><strong>Existing User Management</strong><span>Existing account records</span></div>
+      <div class="arrow">›</div>
+    </a>
+<a class="portal-btn" href="timetable.html">
+      <div class="portal-icon">🕐</div>
+      <div class="portal-text"><strong>Timetable Management</strong><span>Classes & lecture times</span></div>
+      <div class="arrow">›</div>
+    </a>
+
+
+<a class="portal-btn" href="bulk-student-registration.html">
+      <div class="portal-icon"></div>
+      <div class="portal-text"><strong>Bulk Registration</strong><span>Automatic student course allocation</span></div>
+      <div class="arrow">›</div>
+    </a>
+<a class="portal-btn" href="assign-hod.html">
+      <div class="portal-icon">👨‍🏫</div>
+      <div class="portal-text"><strong>HOD Course Assignment</strong><span>Automatic student course allocation</span></div>
+      <div class="arrow">›</div>
+    </a>
+<a class="portal-btn" href="assign-hod.html">
+      <div class="portal-icon">👨‍🏫</div>
+      <div class="portal-text"><strong>HOD Course Assignment</strong><span>Automatic student course allocation</span></div>
+      <div class="arrow">›</div>
+    </a>
+<a class="portal-btn" href="assign-hod.html">
+      <div class="portal-icon">👨‍🏫</div>
+      <div class="portal-text"><strong>HOD Course Assignment</strong><span>Automatic student course allocation</span></div>
+      <div class="arrow">›</div>
+      </a>
+
+      
+<a class="portal-btn" href="applicant-portal.html">
+      <div class="portal-icon">📝</div>
+      <div class="portal-text"><strong>Applicant Portal</strong><span>Applicant applications</span></div>
+      <div class="arrow">›</div>
+    </a>
+    </div>
+
+    <div class="footer">GGCHST Student &amp; Management System • Gusau, Zamfara State</div>
+  </div>
+</div>
+</body></html>
