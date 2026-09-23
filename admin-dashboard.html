@@ -42,220 +42,169 @@ a{
    ========================================================= */
 
 .school-header{
-  display:block !important;
-  width:100% !important;
-  max-width:none !important;
-  margin:0 !important;
-  padding:0 !important;
-  background:linear-gradient(135deg,#075c45,#087443) !important;
-  color:#fff !important;
-  position:sticky !important;
-  top:0 !important;
-  left:0 !important;
-  right:0 !important;
-  z-index:9999 !important;
-  box-shadow:0 3px 14px rgba(0,0,0,.14) !important;
+  width:100%;
+  background:linear-gradient(135deg,#075c45,#087443);
+  color:#fff;
+  position:sticky;
+  top:0;
+  z-index:9999;
+  box-shadow:0 3px 14px rgba(0,0,0,.14);
 }
 
-.school-header *{
-  box-sizing:border-box !important;
-}
-
-/* TOP SCHOOL BAR */
+/* PART 1 - SCHOOL HEADER */
 
 .school-header-top{
-  display:block !important;
-  width:100% !important;
-  min-height:74px !important;
-  margin:0 !important;
-  padding:0 !important;
-  border-bottom:1px solid rgba(255,255,255,.15) !important;
+  width:100%;
+  min-height:74px;
+  border-bottom:1px solid rgba(255,255,255,.15);
 }
 
 .school-header-inner{
-  width:100% !important;
-  max-width:1250px !important;
-  min-height:74px !important;
-  margin:0 auto !important;
-  padding:10px 16px !important;
-  display:flex !important;
-  align-items:center !important;
-  gap:14px !important;
+  width:100%;
+  max-width:1250px;
+  min-height:74px;
+  margin:0 auto;
+  padding:10px 16px;
+  display:flex;
+  align-items:center;
+  gap:14px;
 }
 
 /* LOGO */
 
-.school-header .school-logo{
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  width:50px !important;
-  height:50px !important;
-  min-width:50px !important;
-  max-width:50px !important;
-  min-height:50px !important;
-  max-height:50px !important;
-  flex:0 0 50px !important;
-  margin:0 !important;
-  padding:4px !important;
-  background:#fff !important;
-  border-radius:10px !important;
-  overflow:hidden !important;
-  box-shadow:0 2px 8px rgba(0,0,0,.18) !important;
+.school-logo{
+  width:50px;
+  height:50px;
+  min-width:50px;
+  flex:0 0 50px;
+  padding:3px;
+  background:#fff;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  box-shadow:0 2px 8px rgba(0,0,0,.18);
 }
 
-.school-header .school-logo img{
-  display:block !important;
-  width:100% !important;
-  height:100% !important;
-  min-width:0 !important;
-  max-width:100% !important;
-  min-height:0 !important;
-  max-height:100% !important;
-  margin:0 !important;
-  padding:0 !important;
-  object-fit:contain !important;
-  border:0 !important;
+.school-logo img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
 }
 
 /* SCHOOL NAME */
 
-.school-header .school-name{
-  display:block !important;
-  flex:1 1 auto !important;
-  width:auto !important;
-  min-width:0 !important;
-  max-width:none !important;
-  margin:0 !important;
-  padding:0 !important;
-  color:#fff !important;
-  font-size:17px !important;
-  font-weight:800 !important;
-  line-height:1.25 !important;
+.school-name{
+  flex:1;
+  min-width:0;
+  font-size:17px;
+  font-weight:800;
+  line-height:1.25;
 }
 
-.school-header .school-name span{
-  display:block !important;
-  margin:3px 0 0 !important;
-  padding:0 !important;
-  color:#fff !important;
-  font-size:11px !important;
-  font-weight:500 !important;
-  opacity:.82 !important;
+.school-name span{
+  display:block;
+  margin-top:3px;
+  font-size:11px;
+  font-weight:500;
+  opacity:.82;
 }
 
 /* BACK BUTTON */
 
-.school-header .school-back{
-  display:inline-flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  flex:0 0 auto !important;
-  width:auto !important;
-  max-width:none !important;
-  margin:0 !important;
-  padding:9px 12px !important;
-  color:#fff !important;
-  background:rgba(255,255,255,.08) !important;
-  border:1px solid rgba(255,255,255,.25) !important;
-  border-radius:9px !important;
-  text-decoration:none !important;
-  font-size:12px !important;
-  font-weight:800 !important;
-  white-space:nowrap !important;
+.school-back{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 auto;
+  padding:9px 12px;
+  color:#fff;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:9px;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:800;
+  white-space:nowrap;
 }
 
-.school-header .school-back:hover{
-  background:rgba(255,255,255,.17) !important;
+.school-back:hover{
+  background:rgba(255,255,255,.17);
 }
 
-/* PORTAL TITLE */
+/* PART 2 - PORTAL TITLE */
 
 .portal-title-row{
-  display:block !important;
-  width:100% !important;
-  margin:0 !important;
-  padding:0 !important;
-  background:#075c45 !important;
-  border-bottom:1px solid rgba(255,255,255,.10) !important;
+  width:100%;
+  background:#075c45;
+  border-bottom:1px solid rgba(255,255,255,.10);
 }
 
 .portal-title-inner{
-  width:100% !important;
-  max-width:1250px !important;
-  margin:0 auto !important;
-  padding:11px 16px !important;
+  width:100%;
+  max-width:1250px;
+  margin:0 auto;
+  padding:10px 16px;
 }
 
-.school-header .portal-title{
-  display:block !important;
-  margin:0 !important;
-  padding:0 !important;
-  color:#fff !important;
-  font-size:18px !important;
-  font-weight:800 !important;
-  line-height:1.25 !important;
+.portal-title{
+  margin:0;
+  font-size:18px;
+  font-weight:800;
+  line-height:1.25;
 }
 
-.school-header .portal-subtitle{
-  display:block !important;
-  margin:3px 0 0 !important;
-  padding:0 !important;
-  color:#fff !important;
-  font-size:11px !important;
-  opacity:.78 !important;
+.portal-subtitle{
+  margin:3px 0 0;
+  font-size:11px;
+  opacity:.78;
 }
 
-/* NAVIGATION */
+/* PART 3 - NAVIGATION */
 
 .portal-nav{
-  display:block !important;
-  width:100% !important;
-  margin:0 !important;
-  padding:0 !important;
-  background:#064b39 !important;
+  width:100%;
+  background:#064b39;
 }
 
 .portal-nav-inner{
-  width:100% !important;
-  max-width:1250px !important;
-  margin:0 auto !important;
-  padding:7px 12px !important;
-  display:flex !important;
-  align-items:center !important;
-  gap:4px !important;
-  overflow-x:auto !important;
-  overflow-y:hidden !important;
-  scrollbar-width:none !important;
+  width:100%;
+  max-width:1250px;
+  margin:0 auto;
+  padding:7px 12px;
+  display:flex;
+  gap:4px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scrollbar-width:none;
 }
 
 .portal-nav-inner::-webkit-scrollbar{
-  display:none !important;
+  display:none;
 }
 
 .portal-nav a{
-  display:block !important;
-  width:auto !important;
-  min-width:max-content !important;
-  margin:0 !important;
-  padding:8px 11px !important;
-  color:#fff !important;
-  background:transparent !important;
-  border-radius:8px !important;
-  text-decoration:none !important;
-  font-size:12px !important;
-  font-weight:600 !important;
-  white-space:nowrap !important;
+  display:block;
+  min-width:max-content;
+  padding:8px 11px;
+  color:#fff;
+  border-radius:8px;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:600;
+  white-space:nowrap;
 }
 
 .portal-nav a:hover{
-  background:rgba(255,255,255,.12) !important;
+  background:rgba(255,255,255,.12);
 }
 
 .portal-nav a.active{
-  color:#075c45 !important;
-  background:#fff !important;
-  font-weight:800 !important;
+  background:#fff;
+  color:#075c45;
+  font-weight:800;
 }
 
 /* =========================================================
@@ -317,7 +266,7 @@ h1{
 }
 
 /* =========================================================
-   SECTION
+   SECTION TITLE
    ========================================================= */
 
 .section-title{
@@ -608,7 +557,7 @@ tr:last-child td{
 }
 
 /* =========================================================
-   RESPONSIVE
+   RESPONSIVE GUSAU HEADER
    ========================================================= */
 
 @media(max-width:900px){
@@ -620,61 +569,58 @@ tr:last-child td{
   .dashboard-grid{
     grid-template-columns:1fr;
   }
+
 }
 
 @media(max-width:700px){
 
   .school-header-inner{
-    min-height:64px !important;
-    padding:9px 11px !important;
-    gap:9px !important;
+    min-height:64px;
+    padding:9px 11px;
+    gap:9px;
   }
 
-  .school-header .school-logo{
-    width:44px !important;
-    height:44px !important;
-    min-width:44px !important;
-    max-width:44px !important;
-    min-height:44px !important;
-    max-height:44px !important;
-    flex-basis:44px !important;
-    padding:3px !important;
-    border-radius:8px !important;
+  .school-logo{
+    width:44px;
+    height:44px;
+    min-width:44px;
+    flex-basis:44px;
+    border-radius:8px;
   }
 
-  .school-header .school-name{
-    font-size:14px !important;
-    line-height:1.2 !important;
+  .school-name{
+    font-size:14px;
+    line-height:1.2;
   }
 
-  .school-header .school-name span{
-    font-size:10px !important;
+  .school-name span{
+    font-size:10px;
   }
 
-  .school-header .school-back{
-    padding:7px 9px !important;
-    font-size:11px !important;
+  .school-back{
+    padding:7px 9px;
+    font-size:11px;
   }
 
   .portal-title-inner{
-    padding:10px 12px !important;
+    padding:10px 12px;
   }
 
-  .school-header .portal-title{
-    font-size:16px !important;
+  .portal-title{
+    font-size:16px;
   }
 
-  .school-header .portal-subtitle{
-    font-size:10px !important;
+  .portal-subtitle{
+    font-size:10px;
   }
 
   .portal-nav-inner{
-    padding:6px 8px !important;
+    padding:6px 8px;
   }
 
   .portal-nav a{
-    padding:8px 10px !important;
-    font-size:11px !important;
+    padding:8px 10px;
+    font-size:11px;
   }
 
   .main{
@@ -706,67 +652,67 @@ tr:last-child td{
   .quick-grid{
     grid-template-columns:1fr;
   }
+
 }
 
 @media(max-width:480px){
 
   .school-header-inner{
-    gap:8px !important;
+    gap:8px;
   }
 
-  .school-header .school-logo{
-    width:40px !important;
-    height:40px !important;
-    min-width:40px !important;
-    max-width:40px !important;
-    min-height:40px !important;
-    max-height:40px !important;
-    flex-basis:40px !important;
+  .school-logo{
+    width:40px;
+    height:40px;
+    min-width:40px;
+    flex-basis:40px;
   }
 
-  .school-header .school-name{
-    font-size:12px !important;
+  .school-name{
+    font-size:12px;
   }
 
-  .school-header .school-name span{
-    font-size:9px !important;
+  .school-name span{
+    font-size:9px;
   }
 
-  .school-header .school-back{
-    padding:7px 8px !important;
-    font-size:10px !important;
+  .school-back{
+    padding:7px 8px;
+    font-size:10px;
   }
 
-  .school-header .portal-title{
-    font-size:15px !important;
+  .portal-title{
+    font-size:15px;
   }
+
 }
 
 @media(max-width:390px){
 
-  .school-header .school-back{
-    width:34px !important;
-    height:34px !important;
-    padding:0 !important;
-    font-size:0 !important;
+  .school-back{
+    width:34px;
+    height:34px;
+    padding:0;
+    font-size:0;
   }
 
-  .school-header .school-back::before{
+  .school-back::before{
     content:"←";
-    font-size:16px !important;
+    font-size:16px;
   }
 
-  .school-header .school-name{
-    font-size:11px !important;
+  .school-name{
+    font-size:11px;
   }
 
-  .school-header .school-name span{
-    font-size:8px !important;
+  .school-name span{
+    font-size:8px;
   }
 
   .stats{
     grid-template-columns:1fr;
   }
+
 }
 </style>
 
@@ -823,8 +769,7 @@ window.GG = {
 
 window.toast = (message) => {
 
-  const element =
-    document.getElementById("toast");
+  const element = document.getElementById("toast");
 
   if(!element) return;
 
@@ -865,32 +810,24 @@ window.esc = (value = "") =>
 
 <header class="school-header">
 
-  <!-- PART 1 — SCHOOL HEADER -->
+  <!-- 1. SCHOOL HEADER -->
 
   <div class="school-header-top">
 
     <div class="school-header-inner">
 
       <div class="school-logo">
-
         <img
           src="logo.png"
           alt="Gusau College of Health Sciences & Technology"
+          onerror="this.style.display='none';"
         >
-
       </div>
-
 
       <div class="school-name">
-
         Gusau College of Health Sciences &amp; Technology
-
-        <span>
-          Gusau, Zamfara State
-        </span>
-
+        <span>Gusau, Zamfara State</span>
       </div>
-
 
       <a
         class="school-back"
@@ -904,26 +841,26 @@ window.esc = (value = "") =>
   </div>
 
 
-  <!-- PART 2 — PORTAL TITLE -->
+  <!-- 2. PORTAL TITLE -->
 
   <div class="portal-title-row">
 
     <div class="portal-title-inner">
 
-      <h2 class="portal-title">
+      <div class="portal-title">
         Admin Dashboard
-      </h2>
+      </div>
 
-      <p class="portal-subtitle">
+      <div class="portal-subtitle">
         GGCHST Administration Portal
-      </p>
+      </div>
 
     </div>
 
   </div>
 
 
-  <!-- PART 3 — NAVIGATION -->
+  <!-- 3. NAVIGATION -->
 
   <nav class="portal-nav">
 
@@ -988,7 +925,7 @@ window.esc = (value = "") =>
 
 
 <!-- =======================================================
-     MAIN DASHBOARD
+     MAIN
      ======================================================= -->
 
 <main class="main">
@@ -1010,7 +947,6 @@ window.esc = (value = "") =>
       </p>
 
     </div>
-
 
     <button
       class="refresh-btn"
@@ -1048,8 +984,7 @@ window.esc = (value = "") =>
 
   <div class="dashboard-grid">
 
-
-    <!-- RECENT AUDIT ACTIVITY -->
+    <!-- RECENT AUDIT -->
 
     <section class="panel">
 
@@ -1066,7 +1001,6 @@ window.esc = (value = "") =>
           </small>
 
         </div>
-
 
         <div class="activity-tools">
 
@@ -1119,7 +1053,6 @@ window.esc = (value = "") =>
 
           </thead>
 
-
           <tbody id="audit">
 
             <tr>
@@ -1169,119 +1102,64 @@ window.esc = (value = "") =>
           class="quick"
           href="admin-users.html"
         >
-          <strong>
-            User Management
-          </strong>
-
-          <span>
-            Accounts and login access
-          </span>
-
+          <strong>User Management</strong>
+          <span>Accounts and login access</span>
         </a>
-
 
         <a
           class="quick"
           href="student.html"
         >
-          <strong>
-            Students
-          </strong>
-
-          <span>
-            Student master records
-          </span>
-
+          <strong>Students</strong>
+          <span>Student master records</span>
         </a>
-
 
         <a
           class="quick"
           href="academic-session.html"
         >
-          <strong>
-            Academic Sessions
-          </strong>
-
-          <span>
-            Sessions and academic periods
-          </span>
-
+          <strong>Academic Sessions</strong>
+          <span>Sessions and academic periods</span>
         </a>
-
 
         <a
           class="quick"
           href="course-registration.html"
         >
-          <strong>
-            Course Registration
-          </strong>
-
-          <span>
-            Student course registration
-          </span>
-
+          <strong>Course Registration</strong>
+          <span>Student course registration</span>
         </a>
-
 
         <a
           class="quick"
           href="results.html"
         >
-          <strong>
-            Results
-          </strong>
-
-          <span>
-            Academic result records
-          </span>
-
+          <strong>Results</strong>
+          <span>Academic result records</span>
         </a>
-
 
         <a
           class="quick"
           href="timetable.html"
         >
-          <strong>
-            Timetable
-          </strong>
-
-          <span>
-            Classes and schedules
-          </span>
-
+          <strong>Timetable</strong>
+          <span>Classes and schedules</span>
         </a>
-
 
         <a
           class="quick"
           href="admissions.html"
         >
-          <strong>
-            Admissions
-          </strong>
-
-          <span>
-            Applicant processing
-          </span>
-
+          <strong>Admissions</strong>
+          <span>Applicant processing</span>
         </a>
-
 
         <a
           class="quick"
           href="admin-reports.html"
         >
-          <strong>
-            Reports
-          </strong>
-
-          <span>
-            Administrative reporting
-          </span>
-
+          <strong>Reports</strong>
+          <span>Administrative reporting</span>
         </a>
 
       </div>
@@ -1315,13 +1193,9 @@ window.esc = (value = "") =>
   </div>
 
 
-  <!-- FOOTER NOTE -->
-
   <div class="footer-note">
 
-    <strong>
-      Access model:
-    </strong>
+    <strong>Access model:</strong>
 
     account roles define the permitted functions, while course assignments,
     registrations, departments and other school records determine which data
@@ -1339,7 +1213,7 @@ window.esc = (value = "") =>
 
 
 <!-- =======================================================
-     DASHBOARD SCRIPT
+     DASHBOARD JAVASCRIPT
      ======================================================= -->
 
 <script type="module">
@@ -1396,8 +1270,7 @@ function niceTime(value){
 
   if(typeof value?.toDate === "function"){
     date = value.toDate();
-  }
-  else{
+  }else{
     date = new Date(value);
   }
 
@@ -1419,7 +1292,6 @@ function niceTime(value){
 function renderStats(data){
 
   statsEl.innerHTML = "";
-
 
   const first = [
 
@@ -1532,9 +1404,7 @@ async function loadCollections(){
 
       });
 
-    }
-
-    catch(error){
+    }catch(error){
 
       console.error(
         `Unable to load ${key}:`,
@@ -1692,17 +1562,13 @@ async function loadAudit(){
 
         auditRows = [];
 
-
         snapshot.forEach(
           document => {
-
             auditRows.push(
               document.data()
             );
-
           }
         );
-
 
         renderAudit();
 
@@ -1735,9 +1601,7 @@ async function loadAudit(){
 
     );
 
-  }
-
-  catch(error){
+  }catch(error){
 
     console.error(
       "Audit query error:",
@@ -1774,9 +1638,7 @@ document
     async () => {
 
       const button =
-        document.getElementById(
-          "refreshBtn"
-        );
+        document.getElementById("refreshBtn");
 
 
       button.disabled = true;
@@ -1793,9 +1655,7 @@ document
           "Dashboard data refreshed"
         );
 
-      }
-
-      finally{
+      }finally{
 
         button.disabled = false;
 
@@ -1808,7 +1668,7 @@ document
   );
 
 
-/* AUDIT FILTER */
+/* FILTER */
 
 auditFilter.addEventListener(
   "change",
