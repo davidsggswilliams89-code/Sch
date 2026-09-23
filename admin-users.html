@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>User & Role Management | GGCHST Admin</title>
+<style>
+:root{--bg:#f3f8f5;--card:#fff;--text:#15352b;--muted:#668078;--line:#dce9e3;--brand:#087443;--brand2:#075c45;--soft:#e7f4ee;--danger:#b42318;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{
+  background:#fff;color:var(--brand2);
+  padding:7px 14px;
+  position:sticky;top:0;z-index:10;
+  border-bottom:1px solid var(--line);
+  box-shadow:0 2px 8px rgba(7,92,69,.08);
+}
+.head{
+  max-width:1200px;height:52px;margin:auto;
+  display:grid;grid-template-columns:120px 1fr 120px;
+  align-items:center;gap:10px;
+}
+.school-logo{
+  width:44px;height:44px;object-fit:contain;
+  display:block;justify-self:start;
+}
+.header-title{
+  margin:0;text-align:center;
+  font-size:19px;font-weight:800;
+  color:var(--brand2);line-height:1.2;
+}
+.back-btn{
+  justify-self:end;
+  display:inline-flex;align-items:center;justify-content:center;gap:5px;
+  min-width:76px;padding:8px 11px;
+  border-radius:9px;background:var(--brand);
+  color:#fff;text-decoration:none;
+  font-size:12px;font-weight:700;
+}
+.back-btn:hover{background:var(--brand2)}
+main{max-width:1200px;margin:22px auto;padding:0 14px}
+.hero{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
+h2{margin:0 0 6px;font-size:20px}h3{margin:0 0 8px}.muted{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 4px 16px #12321a0b}
+form,.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+label{font-size:12px;font-weight:700;display:block;margin-bottom:5px}
+input,select,textarea{width:100%;padding:10px;border:1px solid #cfded7;border-radius:9px;background:#fff;font:inherit}
+textarea{min-height:100px;resize:vertical}
+.full{grid-column:1/-1}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+button,.btn{border:0;border-radius:9px;padding:10px 13px;background:var(--brand);color:white;text-decoration:none;cursor:pointer;font-weight:700}
+.secondary{background:#e8f0ed;color:var(--text)}.danger{background:var(--danger)}
+table{width:100%;border-collapse:collapse;background:#fff}
+th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left;font-size:12px;vertical-align:top}
+th{background:#f1f7f4}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+.stat{font-size:28px;font-weight:800;color:var(--brand)}
+.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:var(--soft);color:var(--brand2);font-size:11px;font-weight:700}
+.toast{position:fixed;right:15px;bottom:15px;background:#15352b;color:#fff;padding:12px 15px;border-radius:10px;display:none;z-index:30}
+@media(max-width:650px){
+  .head{height:48px;grid-template-columns:55px 1fr 70px;gap:5px}
+  header{padding:6px 10px}
+  .school-logo{width:40px;height:40px}
+  .header-title{font-size:13px}
+  .back-btn{min-width:62px;padding:7px 8px;font-size:11px}
+  .fields{grid-template-columns:1fr}
+}
+
+.login-access{border:2px solid #dcefe5;background:#fbfefc}
+.login-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px}
+.login-title h2{margin:0;color:#075c45}
+.login-badge{display:inline-block;background:#e7f4ee;color:#075c45;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:800}
+.password-wrap{position:relative}
+.password-wrap input{padding-right:72px}
+.show-pass{position:absolute;right:7px;top:6px;padding:7px 9px!important;background:#e8f0ed!important;color:#15352b!important;font-size:11px!important}
+.hint{font-size:11px;color:#668078;margin-top:5px}
+
+.account-note{background:#f1f8f4;border-radius:10px;padding:10px 12px;margin-top:10px;font-size:11px;color:#47695b}.message{min-height:18px;margin-top:10px;font-size:12px}.ok{color:#087443}.bad{color:#b42318}
+.table-tools{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin:18px 0 10px}.table-tools-grid{display:grid;grid-template-columns:2fr repeat(3,1fr) auto;gap:10px;align-items:end}.table-tools label{margin-bottom:5px}.table-tools input,.table-tools select{padding:10px}.filter-actions{display:flex;gap:7px}.filter-actions button{white-space:nowrap}.result-count{margin-top:9px;color:var(--muted);font-size:11px;font-weight:700}.empty{text-align:center;color:var(--muted);padding:24px!important}.table-title{margin:18px 0 8px;font-size:16px;color:var(--brand2)}
+@media(max-width:850px){.table-tools-grid{grid-template-columns:1fr 1fr}.table-tools-grid .search-field{grid-column:1/-1}.filter-actions{grid-column:1/-1}}
+
+
+</style>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getFirestore,collection,addDoc,doc,setDoc,updateDoc,deleteDoc,onSnapshot,getDocs,query,orderBy,limit} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import {getAuth,onAuthStateChanged,createUserWithEmailAndPassword,signOut} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
+  authDomain: "ggchst-sms-new.firebaseapp.com",
+  projectId: "ggchst-sms-new",
+  storageBucket: "ggchst-sms-new.firebasestorage.app",
+  messagingSenderId: "942770190211",
+  appId: "1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+
+const app=initializeApp(firebaseConfig); const db=getFirestore(app); const auth=getAuth(app);
+window.GG={app,db,auth,collection,addDoc,doc,setDoc,updateDoc,deleteDoc,onSnapshot,getDocs,query,orderBy,limit};
+window.toast=(m)=>{const e=document.getElementById('toast');if(!e)return;e.textContent=m;e.style.display='block';setTimeout(()=>e.style.display='none',2600)};
+window.esc=(s='')=>String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+</script>
+</head><body>
+<header>
+<div class="head">
+  <img class="school-logo" src="data:image/png;base64,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" alt="Green Garden College logo">
+  <h1 class="header-title">Green Garden College of Health Sciences &amp; Technology</h1>
+  <a class="back-btn" href="admin.html">← Back</a>
+</div>
+</header>
+
+<main>
+<section class="hero"><h2>1. User & Role Management</h2><p class="muted">Create login access for students and authorized school users, then link each Firebase Authentication UID to the correct school record. Access is controlled automatically by role and school data relationships.</p></section>
+<form id="f" class="login-access">
+<div class="login-title"><div><h2>Create Login Access</h2><p class="muted">Create a Firebase login and link its UID to the correct school record.</p></div><span class="login-badge">PRODUCTION WORKFLOW</span></div>
+<div class="fields">
+<div><label>Account type *</label><select id="accountType" required>
+<option value="Student">Student</option><option value="Staff">Staff / Lecturer</option><option value="HOD">HOD</option><option value="Registrar">Registrar</option><option value="Bursar">Bursar</option><option value="Admissions Officer">Admissions Officer</option><option value="Examination Officer">Examination Officer</option><option value="Admin">Administrator</option>
+</select></div>
+<div><label>Role *</label><select id="role" required>
+<option>Student</option><option>Provost</option><option>Deputy Provost</option><option>Registrar</option><option>Bursar</option><option>Director/Dean</option><option>HOD</option><option>Lecturer/Staff</option><option>Admissions Officer</option><option>Examination Officer</option><option>Admin</option>
+</select></div>
+
+<div id="studentIdentity" class="full"><div class="identity"><div class="identity-title">Student identity verification</div><p>For a Student account, both Student ID and Admission Number must match the same existing student record. The Admission Number is not created here.</p></div></div>
+
+<div id="studentIdField"><label>Student ID *</label><input id="studentId" placeholder="e.g. GGCHST/2026/001" autocomplete="off"></div>
+<div id="admissionNoField"><label>Admission Number *</label><input id="admissionNo" placeholder="Enter existing admission number" autocomplete="off"></div>
+<div id="staffIdField" style="display:none"><label>Staff ID</label><input id="schoolId" placeholder="e.g. STAFF/2026/001"></div>
+
+<div id="nameField"><label>Full name *</label><input id="name" required placeholder="e.g. Amina Musa"></div>
+<div><label>Email / Login email *</label><input id="email" type="email" required placeholder="user@ggchst.edu.ng" autocomplete="email"></div>
+<div><label>Account status</label><select id="status"><option>Active</option><option>Pending</option><option>Suspended</option></select></div>
+
+<div><label>Temporary password *</label><div class="password-wrap"><input id="password" type="password" minlength="6" required placeholder="Minimum 6 characters" autocomplete="new-password"><button type="button" class="show-pass" id="showPass">Show</button></div><div class="hint">Used only for Firebase Authentication. Never stored in Firestore.</div></div>
+<div><label>Confirm password *</label><input id="password2" type="password" minlength="6" required placeholder="Repeat password" autocomplete="new-password"></div>
+
+<div class="full">
+  <div class="account-note"><strong>Access control:</strong> access is assigned automatically from the user's role/profile and the school records connected to that account. Course-based access is controlled by course assignments and registrations. No manual permission selection is required here.</div>
+</div>
+<div id="verifiedStudent" class="full" style="display:none"><div class="account-note"><strong>Verified student:</strong> <span id="verifiedStudentText"></span></div></div>
+</div>
+<div id="formMessage" class="message"></div>
+<div class="actions"><button id="verifyBtn" type="button">Verify Student</button><button id="createBtn" type="submit">Create Login Access</button><button type="button" class="secondary" id="clear">Clear</button></div>
+</form>
+<div class="table-title">User Accounts</div>
+<div class="table-tools">
+  <div class="table-tools-grid">
+    <div class="search-field"><label for="userSearch">Search accounts</label><input id="userSearch" type="search" placeholder="Name, email, Student/Staff ID, Admission No., role or UID..."></div>
+    <div><label for="filterType">Account Type</label><select id="filterType"><option value="">All account types</option><option>Student</option><option>Staff</option><option>Lecturer</option><option>HOD</option><option>Registrar</option><option>Bursar</option><option>Admin</option></select></div>
+    <div><label for="filterRole">Role</label><select id="filterRole"><option value="">All roles</option><option>Student</option><option>Provost</option><option>Deputy Provost</option><option>Registrar</option><option>Bursar</option><option>Director/Dean</option><option>HOD</option><option>Lecturer/Staff</option><option>Admissions Officer</option><option>Examination Officer</option><option>Admin</option></select></div>
+    <div><label for="filterStatus">Status</label><select id="filterStatus"><option value="">All statuses</option><option>Active</option><option>Pending</option><option>Suspended</option></select></div>
+    <div class="filter-actions"><button type="button" class="secondary" id="resetFilters">Reset</button></div>
+  </div>
+  <div class="result-count" id="resultCount">0 accounts shown</div>
+</div>
+<div class="tablewrap"><table><thead><tr>
+<th>Name</th><th>Account Type</th><th>Student/Staff ID</th><th>Admission No.</th><th>Email</th><th>Role</th><th>UID</th><th>Status</th><th>Actions</th>
+</tr></thead><tbody id="rows"></tbody></table></div>
+<script type="module">
+import {initializeApp,getApps,getApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getFirestore,collection,addDoc,doc,updateDoc,deleteDoc,onSnapshot,getDocs} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import {getAuth,onAuthStateChanged,createUserWithEmailAndPassword,signOut} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+const firebaseConfig={
+ apiKey:"AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
+ authDomain:"ggchst-sms-new.firebaseapp.com",
+ projectId:"ggchst-sms-new",
+ storageBucket:"ggchst-sms-new.firebasestorage.app",
+ messagingSenderId:"942770190211",
+ appId:"1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+const app=initializeApp(firebaseConfig),db=getFirestore(app),auth=getAuth(app);
+window.GG={app,db,auth,collection,addDoc,doc,updateDoc,deleteDoc,onSnapshot,getDocs};
+window.toast=m=>{const e=document.getElementById("toast");if(!e)return;e.textContent=m;e.style.display="block";clearTimeout(window.__t);window.__t=setTimeout(()=>e.style.display="none",3200)};
+window.esc=(s="")=>String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+
+const $=id=>document.getElementById(id);
+const f=$("f"),rows=$("rows"),accountType=$("accountType"),role=$("role"),name=$("name"),email=$("email");
+const studentId=$("studentId"),admissionNo=$("admissionNo"),schoolId=$("schoolId"),status=$("status");
+const password=$("password"),password2=$("password2"),createBtn=$("createBtn"),verifyBtn=$("verifyBtn");
+const formMessage=$("formMessage"),verifiedStudent=$("verifiedStudent"),verifiedStudentText=$("verifiedStudentText");
+const userSearch=$("userSearch"),filterType=$("filterType"),filterRole=$("filterRole"),filterStatus=$("filterStatus"),resultCount=$("resultCount");
+let verifiedStudentRecord=null,primaryAdminUser=null,allUsers=[],editId=null;
+
+const norm=v=>String(v??"").trim().toLowerCase();
+const val=(s,...keys)=>{for(const k of keys)if(s?.[k]!=null&&String(s[k]).trim())return String(s[k]).trim();return""};
+const sid=s=>val(s,"studentId","studentID","matricNo","matricNumber");
+const adm=s=>val(s,"admissionNo","admissionNumber","admission_number");
+const uid=s=>val(s,"studentUid","authUid","firebaseUid","uid");
+const full=s=>val(s,"fullName","name","studentName");
+
+function msg(t,bad=false){formMessage.textContent=t;formMessage.className="message "+(bad?"bad":"ok")}
+
+function setMode(){
+ const st=accountType.value==="Student";
+ $("studentIdentity").style.display=st?"block":"none";
+ $("studentIdField").style.display=st?"block":"none";
+ $("admissionNoField").style.display=st?"block":"none";
+ $("staffIdField").style.display=st?"none":"block";
+ $("nameField").style.display=st?"none":"block";
+ verifyBtn.style.display=(st&&!editId)?"inline-flex":"none";
+ password.required=!editId;password2.required=!editId;
+ createBtn.textContent=editId?"Update User":"Create Login Access";
+ if(!st){verifiedStudentRecord=null;verifiedStudent.style.display="none";if(!editId)formMessage.textContent=""}
+}
+accountType.onchange=setMode;
+
+$("showPass").onclick=()=>{
+ const v=password.type==="text";password.type=v?"password":"text";password2.type=v?"password":"text";$("showPass").textContent=v?"Show":"Hide";
+};
+$("clear").onclick=()=>{resetForm();msg("Form cleared.")};
+
+async function users(){
+ const s=await getDocs(collection(db,"users"));return s.docs.map(d=>({id:d.id,...d.data()}));
+}
+async function students(){
+ const s=await getDocs(collection(db,"students"));return s.docs.map(d=>({id:d.id,...d.data()}));
+}
+
+async function verifyStudent(){
+ const a=studentId.value.trim(),b=admissionNo.value.trim();
+ if(!a||!b){msg("Enter both Student ID and Admission Number.",true);return null}
+ verifyBtn.disabled=true;verifyBtn.textContent="Verifying...";
+ try{
+  const list=await students();
+  const matches=list.filter(x=>norm(sid(x))===norm(a)&&norm(adm(x))===norm(b));
+  if(matches.length===0){verifiedStudentRecord=null;verifiedStudent.style.display="none";msg("Student ID and Admission Number do not match an existing student record.",true);return null}
+  if(matches.length>1){verifiedStudentRecord=null;msg("Duplicate Student ID + Admission Number records were found. Correct the student master records first.",true);return null}
+  const st=matches[0];
+  if(uid(st)){verifiedStudentRecord=null;msg("This student already has a Firebase UID/login linked. An additional login cannot be created.",true);return null}
+  const us=await users();
+  if(us.some(x=>norm(x.studentId)===norm(a)||norm(x.admissionNo)===norm(b))){
+    verifiedStudentRecord=null;msg("This Student ID or Admission Number already has a login account.",true);return null
+  }
+  verifiedStudentRecord=st;
+  name.value=full(st);
+  if(!email.value.trim())email.value=val(st,"email","emailAddress","studentEmail");
+  verifiedStudentText.textContent=`${full(st)||"Student"} • Student ID: ${sid(st)} • Admission No.: ${adm(st)}`;
+  verifiedStudent.style.display="block";msg("Student identity verified. You can now create the login.");
+  toast("Student identity verified.");return st;
+ }catch(e){console.error(e);msg(e.message||"Could not verify the student record.",true);return null}
+ finally{verifyBtn.disabled=false;verifyBtn.textContent="Verify Student"}
+}
+verifyBtn.onclick=verifyStudent;
+
+function resetForm(){
+ editId=null;f.reset();email.readOnly=false;accountType.value="Student";role.value="Student";status.value="Active";verifiedStudentRecord=null;verifiedStudent.style.display="none";password.required=true;password2.required=true;setMode();
+}
+
+function authError(e){
+ const c=e?.code||"";
+ if(c.includes("email-already-in-use"))return"This email already has a Firebase login account.";
+ if(c.includes("invalid-email"))return"Please enter a valid email address.";
+ if(c.includes("weak-password"))return"Password is too weak. Use at least 6 characters.";
+ if(c.includes("operation-not-allowed"))return"Email/Password Authentication is not enabled in Firebase.";
+ if(c.includes("network-request-failed"))return"Network error. Check your internet connection.";
+ return e?.message||"Unable to create login account.";
+}
+
+async function createAuth(emailVal,passwordVal){
+ const cfg=window.GG.app.options;
+ const sa=getApps().some(a=>a.name==="GGCHSTAccountCreator")?getApp("GGCHSTAccountCreator"):initializeApp(cfg,"GGCHSTAccountCreator");
+ const secondary=getAuth(sa);
+ const c=await createUserWithEmailAndPassword(secondary,emailVal,passwordVal);
+ const id=c.user.uid;await signOut(secondary);return id;
+}
+
+f.onsubmit=async e=>{
+ e.preventDefault();
+ if(!auth.currentUser){msg("Sign in through the Admin login before creating accounts.",true);return}
+ const type=accountType.value,emailVal=email.value.trim().toLowerCase(),pv=password.value,p2=password2.value;
+
+ if(editId){
+  if(!emailVal){msg("Email / Login email is required.",true);return}
+  if(type!=="Student"&&!name.value.trim()){msg("Full name is required for non-student accounts.",true);return}
+  createBtn.disabled=true;createBtn.textContent="Updating user...";
+  try{
+   const existing=(await users()).find(x=>x.id===editId);
+   if(!existing)throw new Error("User account record was not found.");
+   const us=await users();
+   if(us.some(x=>x.id!==editId&&norm(x.email||x.authEmail)===norm(emailVal)))throw new Error("This email already belongs to another school user.");
+   const now=new Date().toISOString();
+   const data={
+    name:type==="Student"?(existing.name||name.value.trim()):name.value.trim(),
+    email:existing.email||existing.authEmail||emailVal,authEmail:existing.authEmail||existing.email||emailVal,accountType:type,role:role.value,status:status.value,
+    updatedAt:now
+   };
+   if(type==="Student"){
+    data.studentId=existing.studentId||studentId.value.trim();data.admissionNo=existing.admissionNo||admissionNo.value.trim();data.studentRefId=existing.studentRefId||"";
+   }else data.schoolId=schoolId.value.trim();
+   await updateDoc(doc(db,"users",editId),data);
+   await addDoc(collection(db,"auditLogs"),{action:"update_user_profile",module:"users",entityType:"user",entityId:editId,uid:existing.uid||existing.authUid||existing.firebaseUid||"",performedByUid:auth.currentUser.uid,performedByEmail:auth.currentUser.email||"",timestamp:now,result:"success"});
+   resetForm();msg("User profile updated successfully.");toast("User profile updated successfully.");
+  }catch(e){console.error(e);msg(e.message||"Could not update user profile.",true)}
+  finally{createBtn.disabled=false;createBtn.textContent="Create Login Access";setMode()}
+  return;
+ }
+
+ if(!emailVal||!pv){msg("Complete the required login fields.",true);return}
+ if(pv!==p2){msg("Passwords do not match.",true);return}
+ if(pv.length<6){msg("Password must contain at least 6 characters.",true);return}
+
+ let st=null;
+ if(type==="Student"){
+  st=await verifyStudent();if(!st)return;
+ }else if(!name.value.trim()){msg("Full name is required for non-student accounts.",true);return}
+
+ createBtn.disabled=true;createBtn.textContent="Creating account...";
+ try{
+  const us=await users();
+  if(us.some(x=>norm(x.email||x.authEmail)===norm(emailVal)))throw new Error("This email already exists in the school users collection.");
+  if(type==="Student"&&us.some(x=>norm(x.studentId)===norm(sid(st))||norm(x.admissionNo)===norm(adm(st))))throw new Error("This Student ID or Admission Number already has a login account.");
+
+  const newUid=await createAuth(emailVal,pv),now=new Date().toISOString();
+  const data={
+   uid:newUid,authUid:newUid,authEmail:emailVal,name:type==="Student"?full(st):name.value.trim(),email:emailVal,
+   accountType:type,role:role.value,status:status.value,
+   profileCompleted:false,createdAt:now,updatedAt:now
+  };
+  if(type==="Student"){
+   data.studentId=sid(st);data.admissionNo=adm(st);data.studentRefId=st.id;
+   await updateDoc(doc(db,"students",st.id),{studentUid:newUid,authUid:newUid,firebaseUid:newUid,authEmail:emailVal,accountLinked:true,accountLinkedAt:now,updatedAt:now});
+  }else data.schoolId=schoolId.value.trim();
+
+  const ref=await addDoc(collection(db,"users"),data);
+  await addDoc(collection(db,"auditLogs"),{
+   action:"create_login_access",module:"users",entityType:"user",entityId:ref.id,uid:newUid,accountType:type,role:role.value,
+   studentId:type==="Student"?sid(st):"",admissionNo:type==="Student"?adm(st):"",
+   performedByUid:auth.currentUser.uid,performedByEmail:auth.currentUser.email||"",timestamp:now,result:"success"
+  });
+
+  resetForm();
+  msg("Login access created successfully. Firebase UID has been linked to the school record.");toast("Login access created successfully.");
+ }catch(e){console.error(e);msg(authError(e),true)}
+ finally{createBtn.disabled=false;createBtn.textContent="Create Login Access"}
+};
+
+function accountMatches(d){
+ const q=norm(userSearch.value);
+ const type=norm(filterType.value),r=norm(filterRole.value),st=norm(filterStatus.value);
+ if(type && norm(d.accountType)!==type)return false;
+ if(r && norm(d.role)!==r)return false;
+ if(st && norm(d.status)!==st)return false;
+ if(!q)return true;
+ const hay=[d.name,d.accountType,d.studentId,d.schoolId,d.admissionNo,d.admissionNumber,d.email,d.authEmail,d.role,d.status,d.uid,d.authUid,d.firebaseUid].map(norm).join(' ');
+ return hay.includes(q);
+}
+function renderUsers(){
+ const list=allUsers.filter(accountMatches).sort((a,b)=>String(a.name||"").localeCompare(String(b.name||"")));
+ resultCount.textContent=`${list.length} account${list.length===1?'':'s'} shown${list.length!==allUsers.length?` of ${allUsers.length}`:''}`;
+ rows.innerHTML="";
+ if(!list.length){rows.innerHTML='<tr><td colspan="9" class="empty">No accounts match the current search or filters.</td></tr>';return}
+ list.forEach(d=>{
+  const u=d.uid||d.authUid||d.firebaseUid||"—",short=u.length>18?u.slice(0,18)+"…":u;
+  rows.innerHTML+=`<tr><td><strong>${esc(d.name||"—")}</strong></td><td><span class="badge">${esc(d.accountType||"—")}</span></td><td>${esc(d.studentId||d.schoolId||"—")}</td><td>${esc(d.admissionNo||d.admissionNumber||"—")}</td><td>${esc(d.email||d.authEmail||"—")}</td><td><span class="badge">${esc(d.role||"—")}</span></td><td title="${esc(u)}">${esc(short)}</td><td>${esc(d.status||"—")}</td><td><button onclick="editUser('${d.id}')">Edit</button> <button class="danger" onclick="delUser('${d.id}')">Delete</button></td></tr>`;
+ });
+}
+[userSearch,filterType,filterRole,filterStatus].forEach(el=>{el.addEventListener('input',renderUsers);el.addEventListener('change',renderUsers)});
+$("resetFilters").onclick=()=>{userSearch.value="";filterType.value="";filterRole.value="";filterStatus.value="";renderUsers();userSearch.focus()};
+
+onSnapshot(collection(db,"users"),s=>{
+ allUsers=s.docs.map(d=>({id:d.id,...d.data()}));
+ renderUsers();
+});
+
+window.editUser=async id=>{
+ const us=await users(),d=us.find(x=>x.id===id);if(!d)return;
+ editId=id;
+ accountType.value=d.accountType||"Student";role.value=d.role||"Student";name.value=d.name||"";email.value=d.email||d.authEmail||"";email.readOnly=true;status.value=d.status||"Active";
+ studentId.value=d.studentId||"";admissionNo.value=d.admissionNo||d.admissionNumber||"";schoolId.value=d.schoolId||"";password.value="";password2.value="";
+ setMode();msg("Editing this user profile. Access is controlled automatically by role and linked school records. Login email is locked here because Firebase Authentication email changes require the account-holder authentication flow.");scrollTo({top:0,behavior:"smooth"});
+};
+
+window.delUser=async id=>{
+ if(!confirm("Delete this Firestore user profile? The Firebase Authentication account is not deleted by this browser page."))return;
+ try{
+  await deleteDoc(doc(db,"users",id));
+  await addDoc(collection(db,"auditLogs"),{action:"delete_user_profile",module:"users",entityType:"user",entityId:id,performedByUid:auth.currentUser?.uid||"",performedByEmail:auth.currentUser?.email||"",timestamp:new Date().toISOString(),result:"success"});
+  toast("User profile deleted.");
+ }catch(e){toast(e.message||"Could not delete user profile.")}
+};
+
+onAuthStateChanged(auth,u=>{primaryAdminUser=u||null;if(!u)msg("No Firebase Admin session is detected. Sign in through the Admin login before creating accounts.",true)});
+setMode();
+</script>
+</main><div id="toast" class="toast"></div>
+</body></html>

@@ -1,0 +1,1124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GGCHST | Assignments & Lecture Notes</title>
+<style>
+
+:root{--bg:#f3f8f5;--card:#fff;--text:#15352b;--muted:#668078;--line:#dce9e3;--brand:#087443;--brand2:#075c45;--soft:#e7f4ee;--danger:#b42318}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.head{max-width:1200px;margin:auto;min-height:68px;padding:10px 16px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px}
+.school-logo{width:42px;height:42px;border-radius:50%;background:var(--soft);border:2px solid #b9dfcf;display:grid;place-items:center;color:var(--brand);font-size:11px;font-weight:900;letter-spacing:.4px}
+.school-title{text-align:center;font-size:18px;font-weight:800;line-height:1.25}
+.header-back{justify-self:end;background:var(--brand);color:#fff;text-decoration:none;padding:8px 12px;border-radius:9px;font-size:12px;font-weight:800}
+main{max-width:1120px;margin:0 auto;padding:24px 16px 45px}
+.hero{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+.hero h1{margin:0 0 6px;font-size:25px}
+.hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+.layout{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 5px 18px rgba(16,42,42,.05)}
+.card-title{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+.card-title h2{margin:0;font-size:20px}
+.badge{background:#dcfce7;color:#15803d;border:1px solid #bbf7d0;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:800}
+.group{margin-bottom:14px}
+label{display:block;font-size:13px;font-weight:800;margin-bottom:6px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #cfded7;border-radius:10px;background:#fff;font:inherit;outline:none}
+input:focus,select:focus,textarea:focus{border-color:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.12)}
+textarea{min-height:110px;resize:vertical}
+.file-box{border:2px dashed #bfe5cd;background:#f4fcf7;border-radius:12px;padding:16px}
+.file-box input{border:0;padding:0;background:transparent}
+.help{font-size:11px;color:var(--muted);margin-top:7px;line-height:1.45}
+.btn{width:100%;border:0;border-radius:10px;padding:13px;background:#15803d;color:#fff;font-weight:800;font-size:14px;cursor:pointer}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.progress{height:8px;background:#e8f2ed;border-radius:99px;overflow:hidden;margin-top:12px;display:none}
+.progress span{display:block;width:0;height:100%;background:#15803d;transition:width .25s}
+.message{font-size:12px;margin-top:10px;color:var(--muted);line-height:1.45}
+.message.ok{color:#15803d} .message.err{color:#b42318}
+.list{display:grid;gap:10px}
+.item{border:1px solid var(--line);border-radius:12px;padding:13px;background:#fff}
+.item-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.item h3{margin:0 0 4px;font-size:14px}
+.meta{font-size:11px;color:var(--muted);line-height:1.5}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.actions a,.actions button{border:0;border-radius:8px;padding:7px 9px;text-decoration:none;font-size:11px;font-weight:800;cursor:pointer}
+.open{background:#e8f5ef;color:#075c45}
+.delete{background:#fdecea;color:#b42318}
+.empty{padding:24px;text-align:center;color:var(--muted);font-size:12px;border:1px dashed var(--line);border-radius:11px}
+.status{font-size:10px;font-weight:800;padding:5px 8px;border-radius:999px;background:var(--soft);color:var(--brand2);white-space:nowrap}
+.access{display:none;background:#fff;border:1px solid #fecaca;border-radius:15px;padding:20px;color:#991b1b}
+.startup{margin:0 0 14px;padding:10px 12px;border:1px solid #d8ebe0;background:#f4fbf6;border-radius:10px;color:#356b52;font-size:12px}
+@media(max-width:800px){.layout{grid-template-columns:1fr}}
+@media(max-width:650px){
+ .head{grid-template-columns:42px 1fr auto;min-height:62px;padding:9px 12px}
+ .school-title{font-size:13px}
+ .header-back{font-size:11px;padding:7px 9px}
+ main{padding:17px 11px 35px}
+ .card{padding:15px}
+ .hero h1{font-size:22px}
+}
+
+
+:root{--bg:#f3f8f5;--card:#fff;--text:#15352b;--muted:#668078;--line:#dce9e3;--brand:#087443;--brand2:#075c45;--soft:#e7f4ee;--danger:#b42318;}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+.head{max-width:1200px;margin:auto;min-height:68px;padding:10px 16px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px}
+.school-logo{width:42px;height:42px;border-radius:50%;background:var(--soft);border:2px solid #b9dfcf;display:grid;place-items:center;color:var(--brand);font-size:11px;font-weight:900;letter-spacing:.4px}
+.school-title{text-align:center;font-size:18px;font-weight:800;line-height:1.25}
+.header-back{justify-self:end;background:var(--brand);color:#fff;text-decoration:none;padding:8px 12px;border-radius:9px;font-size:12px;font-weight:800}
+h1{font-size:20px;margin:0}
+nav{background:#064b39;overflow:auto} nav .inner{max-width:1200px;margin:auto;display:flex;gap:4px;padding:8px 12px} nav a{color:#fff;text-decoration:none;padding:9px 11px;border-radius:8px;white-space:nowrap;font-size:13px} nav a:hover{background:#ffffff18}
+main{max-width:1200px;margin:22px auto;padding:0 14px} .hero{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
+h2{margin:0 0 6px;font-size:20px} h3{margin:0 0 8px} .muted{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px} .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 4px 16px #12321a0b}
+form,.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px} label{font-size:12px;font-weight:700;display:block;margin-bottom:5px} input,select,textarea{width:100%;padding:10px;border:1px solid #cfded7;border-radius:9px;background:#fff;font:inherit} textarea{min-height:100px;resize:vertical}
+.full{grid-column:1/-1} .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px} button,.btn{border:0;border-radius:9px;padding:10px 13px;background:var(--brand);color:white;text-decoration:none;cursor:pointer;font-weight:700} .secondary{background:#e8f0ed;color:var(--text)} .danger{background:var(--danger)}
+table{width:100%;border-collapse:collapse;background:#fff} th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left;font-size:12px;vertical-align:top} th{background:#f1f7f4} .tablewrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+.stat{font-size:28px;font-weight:800;color:var(--brand)} .badge{display:inline-block;padding:4px 8px;border-radius:999px;background:var(--soft);color:var(--brand2);font-size:11px;font-weight:700}
+.toast{position:fixed;right:15px;bottom:15px;background:#15352b;color:#fff;padding:12px 15px;border-radius:10px;display:none;z-index:30}
+@media(max-width:650px){
+      .fields{grid-template-columns:1fr}
+      .head{grid-template-columns:42px 1fr auto;min-height:62px;padding:9px 12px}
+      .school-title{font-size:13px}
+      .header-back{font-size:11px;padding:7px 9px}
+    }
+
+
+.notes-main{max-width:1120px;margin:0 auto;padding:24px 16px 45px}
+.notes-hero{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+.notes-hero h1{margin:0 0 6px;font-size:25px}
+.notes-hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+.note-layout{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:16px}
+.note-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 5px 18px rgba(16,42,42,.05)}
+.note-title{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+.note-title h2{margin:0;font-size:20px}
+.role-badge{background:#dcfce7;color:#15803d;border:1px solid #bbf7d0;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:800}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:13px;font-weight:800;margin-bottom:6px}
+.form-group input,.form-group select{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;font:inherit;outline:none}
+.form-group input:focus,.form-group select:focus{border-color:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.12)}
+.file-box{border:2px dashed #bfe5cd;background:#f4fcf7;border-radius:12px;padding:16px}
+.file-box input{border:0;padding:0;background:transparent}
+.file-help{font-size:11px;color:var(--muted);margin-top:7px;line-height:1.45}
+.upload-btn{width:100%;border:0;border-radius:10px;padding:13px;background:#15803d;color:#fff;font-weight:800;font-size:14px;cursor:pointer}
+.upload-btn:disabled{opacity:.55;cursor:not-allowed}.upload-btn:not(:disabled):active{transform:scale(.99)}
+.progress{height:8px;background:#e8f2ed;border-radius:99px;overflow:hidden;margin-top:12px;display:none}
+.progress span{display:block;width:0;height:100%;background:#15803d;transition:width .25s}
+.message{font-size:12px;margin-top:10px;color:var(--muted);line-height:1.45}
+.message.ok{color:#15803d}.message.err{color:#b42318}
+.note-list{display:grid;gap:10px}
+.note-item{border:1px solid var(--line);border-radius:12px;padding:13px;background:#fff}
+.note-item-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.note-item h3{margin:0 0 4px;font-size:14px}
+.note-meta{font-size:11px;color:var(--muted);line-height:1.5}
+.note-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.note-actions a,.note-actions button{border:0;border-radius:8px;padding:7px 9px;text-decoration:none;font-size:11px;font-weight:800;cursor:pointer}
+.view-btn{background:#e8f5ef;color:#075c45}
+.delete-btn{background:#fdecea;color:#b42318}
+.empty{padding:24px;text-align:center;color:var(--muted);font-size:12px;border:1px dashed var(--line);border-radius:11px}
+.access-denied{display:none;background:#fff;border:1px solid #fecaca;border-radius:15px;padding:22px;color:#991b1b}
+.hidden{display:none!important}
+@media(max-width:800px){.note-layout{grid-template-columns:1fr}}
+@media(max-width:560px){.notes-main{padding:17px 11px 35px}.note-card{padding:15px}.notes-hero h1{font-size:22px}}
+
+.module-tabs{max-width:1120px;margin:18px auto 0;padding:0 16px;display:flex;gap:8px}
+.module-tab{border:1px solid #cfe1d8;background:#fff;color:#31534a;border-radius:10px;padding:10px 15px;font-size:12px;font-weight:800;cursor:pointer}
+.module-tab.active{background:#087443;color:#fff;border-color:#087443}
+.combined-module{display:none}
+.combined-module.active{display:block}
+</style>
+<script type="module">
+
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getFirestore,collection,addDoc,doc,getDoc,getDocs,deleteDoc,onSnapshot} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import {getAuth,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
+  authDomain: "ggchst-sms-new.firebaseapp.com",
+  projectId: "ggchst-sms-new",
+  storageBucket: "ggchst-sms-new.firebasestorage.app",
+  messagingSenderId: "942770190211",
+  appId: "1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+const auth=getAuth(app);
+
+window.GG={app,db,auth,collection,addDoc,doc,getDoc,getDocs,deleteDoc,onSnapshot};
+window.esc=(s='')=>String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+window.toast=(m)=>{
+ const e=document.getElementById('toast'); if(!e)return;
+ e.textContent=m;e.style.display='block';clearTimeout(window.__toast);
+ window.__toast=setTimeout(()=>e.style.display='none',2800);
+};
+
+</script>
+</head>
+<body>
+<header>
+  <div class="head">
+    <div class="school-logo" aria-label="GGCHST">GGCHST</div>
+    <div class="school-title">Green Garden College of Health Sciences &amp; Technology</div>
+    <a class="header-back" href="admin.html">← Back</a>
+  </div>
+</header>
+
+<div class="module-tabs">
+  <button class="module-tab active" id="assignmentsTab" type="button">📝 Assignments</button>
+  <button class="module-tab" id="notesTab" type="button">📚 Lecture Notes</button>
+</div>
+
+<section id="assignmentsModule" class="combined-module active">
+
+ <section class="hero">
+  <h1>Assignments</h1>
+  <p>Create and publish assignments for courses. Lecturers can create assignments only for courses assigned to them, while Admin can manage assignments across the school.</p>
+ </section>
+
+ <div id="startup" class="startup">Loading your school account and courses…</div>
+ <section id="access" class="access"><strong>Access restricted.</strong><div style="margin-top:6px;font-size:12px">This Assignments module is available only to Admin and Lecturer accounts.</div></section>
+
+ <div id="appArea" class="layout">
+  <section class="card">
+   <div class="card-title">
+    <h2>Create Assignment</h2>
+    <span class="badge" id="roleBadge">Loading...</span>
+   </div>
+
+   <form id="assignmentForm">
+    <div class="group">
+     <label for="course">Course *</label>
+     <select id="course" required>
+      <option value="">Loading courses...</option>
+     </select>
+     <div class="help">Lecturers will see only courses assigned to them.</div>
+    </div>
+
+    <div class="group">
+     <label for="title">Assignment Title *</label>
+     <input id="title" required maxlength="180" placeholder="e.g. Assignment 1 — Arrays and Linked Lists">
+    </div>
+
+    <div class="group">
+     <label for="instructions">Instructions</label>
+     <textarea id="instructions" placeholder="Enter assignment instructions, questions or requirements..."></textarea>
+    </div>
+
+    <div class="group">
+     <label for="due">Due Date</label>
+     <input id="due" type="datetime-local">
+    </div>
+
+    <div class="group">
+     <label for="maxMark">Maximum Mark</label>
+     <input id="maxMark" type="number" min="0" value="100">
+    </div>
+
+    <div class="group">
+     <label for="status">Status</label>
+     <select id="status">
+      <option value="Draft">Draft</option>
+      <option value="Published">Published</option>
+      <option value="Closed">Closed</option>
+     </select>
+    </div>
+
+    <div class="group">
+     <label for="assignmentFile">Assignment File <span style="font-weight:600;color:var(--muted)">(optional)</span></label>
+     <div class="file-box">
+      <input id="assignmentFile" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx">
+      <div class="help">Allowed: PDF, DOC, DOCX, PPT, PPTX. Maximum 20 MB. Files are stored through Cloudinary.</div>
+     </div>
+    </div>
+
+    <button class="btn" id="saveBtn" type="submit">Create Assignment</button>
+    <div class="progress" id="progress"><span id="progressBar"></span></div>
+    <div id="message" class="message"></div>
+   </form>
+  </section>
+
+  <section class="card">
+   <div class="card-title">
+    <h2 id="listTitle">Assignments</h2>
+    <span class="badge" id="count">0</span>
+   </div>
+   <div id="list" class="list">
+    <div class="empty">Loading assignments...</div>
+   </div>
+  </section>
+ </div>
+
+</section>
+
+<section id="notesModule" class="combined-module">
+
+  <section class="notes-hero">
+    <h1>Lecture Notes</h1>
+    <p>Upload and manage course lecture materials. Files are stored securely in Cloudinary while Firebase Firestore stores the lecture-note records and course links.</p>
+  </section>
+
+  <div id="notesStartupStatus" style="margin:0 0 14px;padding:10px 12px;border:1px solid #d8ebe0;background:#f4fbf6;border-radius:10px;color:#356b52;font-size:12px;">
+    Loading your school account and courses…
+  </div>
+
+  <section id="notesAccessDenied" class="access-denied" style="display:none">
+    <strong>Access restricted.</strong>
+    <div style="margin-top:6px;font-size:12px">This Lecture Notes module is available only to Admin and Lecturer accounts.</div>
+  </section>
+
+  <div id="notesAppArea" class="note-layout">
+    <section class="note-card">
+      <div class="note-title">
+        <h2>Upload Lecture Note</h2>
+        <span class="role-badge" id="notesRoleBadge">Loading...</span>
+      </div>
+
+      <form id="noteForm">
+        <div class="form-group">
+          <label for="noteCourse">Course *</label>
+          <select id="noteCourse" required>
+            <option value="">Loading courses...</option>
+          </select>
+          <div class="file-help" id="courseHelp">Lecturers will see only courses assigned to them.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="noteTopic">Lecture Topic *</label>
+          <input id="noteTopic" required maxlength="180" placeholder="e.g. Arrays and Linked Lists">
+        </div>
+
+        <div class="form-group">
+          <label for="noteFile">Lecture Note File *</label>
+          <div class="file-box">
+            <input id="noteFile" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx" required>
+            <div class="file-help">Allowed: PDF, DOC, DOCX, PPT, PPTX. Maximum 20 MB. Files are stored in Cloudinary.</div>
+          </div>
+        </div>
+
+        <button class="upload-btn" id="uploadBtn" type="submit">Upload Lecture Note</button>
+        <div class="progress" id="progress"><span id="progressBar"></span></div>
+        <div class="message" id="message"></div>
+      </form>
+    </section>
+
+    <section class="note-card">
+      <div class="note-title">
+        <h2 id="notesListTitle">Lecture Notes</h2>
+        <span class="role-badge" id="noteCount">0</span>
+      </div>
+      <div id="notesList" class="note-list">
+        <div class="empty">Loading lecture notes...</div>
+      </div>
+    </section>
+  </div>
+
+</section>
+
+<div id="toast" class="toast"></div>
+
+<script type="module">
+
+const {auth,db,collection,addDoc,doc,getDoc,getDocs,deleteDoc,onSnapshot}=window.GG;
+
+let currentUser=null,currentRole='admin',currentProfile={name:'Administrator',email:'',uid:''},allowedCourses=[],unsubscribe=null;
+
+const courseEl=document.getElementById('course');
+const titleEl=document.getElementById('title');
+const instructionsEl=document.getElementById('instructions');
+const dueEl=document.getElementById('due');
+const maxMarkEl=document.getElementById('maxMark');
+const statusEl=document.getElementById('status');
+const fileEl=document.getElementById('assignmentFile');
+const form=document.getElementById('assignmentForm');
+const saveBtn=document.getElementById('saveBtn');
+const listEl=document.getElementById('list');
+const countEl=document.getElementById('count');
+const messageEl=document.getElementById('message');
+const progress=document.getElementById('progress');
+const progressBar=document.getElementById('progressBar');
+
+const normalize=s=>String(s??'').trim().toLowerCase();
+const courseCodeOf=x=>typeof x==='string'?x.trim():String(x?.courseCode||x?.code||x?.course||x?.courseId||'').trim();
+const courseNameOf=x=>typeof x==='string'?'':String(x?.courseName||x?.name||x?.title||x?.courseTitle||'').trim();
+const courseIdOf=x=>typeof x==='string'?'':String(x?.courseId||x?.id||'').trim();
+
+function msg(text,type=''){
+ messageEl.textContent=text;
+ messageEl.className='message '+type;
+}
+
+function courseRefs(data){
+ const arrays=[data?.assignedCourses,data?.courses,data?.courseAssignments,data?.assignedCourseIds,data?.assignedCourseCodes];
+ const out=[];
+ for(const arr of arrays){
+  if(!Array.isArray(arr))continue;
+  for(const item of arr){
+   const code=courseCodeOf(item),name=courseNameOf(item),id=courseIdOf(item);
+   if(code||id)out.push({id,code,name});
+  }
+ }
+ return out;
+}
+
+async function lecturerRecord(user){
+ let row=null;
+ const selected=localStorage.getItem('ggchstSelectedLecturerId')||'';
+ if(selected){
+  try{const d=await getDoc(doc(db,'lecturers',selected));if(d.exists())row={id:d.id,...d.data()}}catch(e){}
+ }
+ if(!row&&user){
+  const snap=await getDocs(collection(db,'lecturers'));
+  const rows=snap.docs.map(d=>({id:d.id,...d.data()}));
+  row=rows.find(x=>String(x.authUid||x.firebaseUid||x.uid||'')===user.uid)
+   ||rows.find(x=>normalize(x.email||x.emailAddress||x.lecturerEmail||'')===normalize(user.email||''));
+ }
+ return row;
+}
+
+async function initializeModule(user){
+ currentUser=user||null;
+ currentRole='admin';
+ currentProfile={uid:user?.uid||'',email:user?.email||'',name:'Administrator'};
+
+ if(user){
+  try{
+   const snap=await getDocs(collection(db,'users'));
+   const rows=snap.docs.map(d=>({id:d.id,...d.data()}));
+   const found=rows.find(x=>String(x.uid||x.authUid||x.firebaseUid||x.id||'')===user.uid)
+    ||rows.find(x=>normalize(x.email||x.authEmail||'')===normalize(user.email||''));
+   if(found){
+    currentProfile=found;
+    const key=normalize(found.role||found.accountType||'').replace(/[ _\/-]+/g,'');
+    currentRole=key.includes('lecturer')||key.includes('staff')?'lecturer':'admin';
+   }else{
+    const lr=await lecturerRecord(user);
+    if(lr){currentProfile=lr;currentRole='lecturer';}
+   }
+  }catch(e){console.warn(e)}
+ }
+
+ document.getElementById('appArea').style.display='grid';
+ document.getElementById('access').style.display='none';
+ document.getElementById('roleBadge').textContent=currentRole==='lecturer'?'Lecturer':'Admin';
+ document.getElementById('listTitle').textContent=currentRole==='lecturer'?'My Assignments':'All Assignments';
+
+ const snap=await getDocs(collection(db,'courses'));
+ const all=snap.docs.map(d=>({id:d.id,...d.data()}));
+
+ if(currentRole==='lecturer'){
+  const refs=courseRefs(currentProfile);
+  const ids=new Set(refs.map(x=>normalize(x.id)).filter(Boolean));
+  const codes=new Set(refs.map(x=>normalize(x.code)).filter(Boolean));
+  const uid=normalize(user?.uid||currentProfile?.authUid||currentProfile?.uid||'');
+  allowedCourses=all.filter(c=>{
+   const lecturerVals=[c.lecturerUid,c.authUid,c.lecturerId,c.staffId,c.assignedLecturerUid,c.assignedLecturerId].map(normalize);
+   const arrays=[...(Array.isArray(c.lecturers)?c.lecturers:[]),...(Array.isArray(c.assignedLecturers)?c.assignedLecturers:[])];
+   const arrayMatch=arrays.some(v=>normalize(typeof v==='string'?v:(v?.uid||v?.id||v?.lecturerUid||''))===uid);
+   return ids.has(normalize(c.id))||codes.has(normalize(c.courseCode||c.code))||lecturerVals.includes(uid)||arrayMatch;
+  });
+  for(const r of refs){
+   if(allowedCourses.some(c=>normalize(c.id)===normalize(r.id)||normalize(c.courseCode||c.code)===normalize(r.code)))continue;
+   if(r.code)allowedCourses.push({id:r.id||r.code,courseCode:r.code,code:r.code,name:r.name});
+  }
+ }else allowedCourses=all;
+
+ courseEl.innerHTML='<option value="">Select course</option>';
+ allowedCourses.sort((a,b)=>courseCodeOf(a).localeCompare(courseCodeOf(b))).forEach(c=>{
+  const id=courseIdOf(c)||courseCodeOf(c),code=courseCodeOf(c),name=courseNameOf(c);
+  if(!id)return;
+  const o=document.createElement('option');
+  o.value=id;o.dataset.code=code;o.dataset.name=name;
+  o.textContent=name?`${code} — ${name}`:code;
+  courseEl.appendChild(o);
+ });
+
+ if(!allowedCourses.length){
+  courseEl.innerHTML='<option value="">No courses found</option>';
+  courseEl.disabled=true;saveBtn.disabled=true;
+  msg(currentRole==='lecturer'?'No courses are currently assigned to this lecturer.':'No courses have been created yet.','err');
+ }else{
+  courseEl.disabled=false;saveBtn.disabled=false;msg('');
+ }
+
+ document.getElementById('startup').style.display='none';
+ subscribeAssignments();
+}
+
+function subscribeAssignments(){
+ if(unsubscribe)unsubscribe();
+ listEl.innerHTML='<div class="empty">Loading assignments...</div>';
+ unsubscribe=onSnapshot(collection(db,'assignments'),snap=>{
+  let rows=snap.docs.map(d=>({id:d.id,...d.data()}));
+  if(currentRole==='lecturer'){
+   const codes=new Set(allowedCourses.map(c=>normalize(courseCodeOf(c))));
+   const ids=new Set(allowedCourses.map(c=>normalize(courseIdOf(c))));
+   rows=rows.filter(x=>normalize(x.lecturerUid||x.createdByUid||'')===normalize(currentUser?.uid||'')
+    ||codes.has(normalize(x.courseCode||''))||ids.has(normalize(x.courseId||'')));
+  }
+  rows.sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||'')));
+  countEl.textContent=rows.length;
+  render(rows);
+ },err=>{
+  listEl.innerHTML='<div class="empty">Unable to load assignments. Check Firestore rules.</div>';
+ });
+}
+
+function render(rows){
+ if(!rows.length){listEl.innerHTML='<div class="empty">No assignments have been created yet.</div>';return}
+ listEl.innerHTML=rows.map(x=>{
+  const code=x.courseCode||x.courseId||'Course';
+  const title=x.title||'Untitled Assignment';
+  const due=x.due?new Date(x.due).toLocaleString():'No deadline';
+  const canDelete=currentRole!=='lecturer'||normalize(x.lecturerUid||x.createdByUid||'')===normalize(currentUser?.uid||'');
+  return `<article class="item">
+   <div class="item-top">
+    <div><h3>${window.esc(title)}</h3><div class="meta"><strong>${window.esc(code)}</strong>${x.courseName?' · '+window.esc(x.courseName):''}<br>Due: ${window.esc(due)} · Maximum mark: ${window.esc(x.maxMark??0)}</div></div>
+    <span class="status">${window.esc(x.status||'Draft')}</span>
+   </div>
+   ${x.instructions?`<div class="meta" style="margin-top:8px">${window.esc(x.instructions)}</div>`:''}
+   <div class="actions">
+    ${x.fileUrl?`<a class="open" href="${window.esc(x.fileUrl)}" target="_blank" rel="noopener">Open File</a>`:''}
+    ${canDelete?`<button class="delete" onclick="window.deleteAssignment('${x.id}')">Delete</button>`:''}
+   </div>
+  </article>`;
+ }).join('');
+}
+
+form.addEventListener('submit',async e=>{
+ e.preventDefault();
+ const selected=courseEl.options[courseEl.selectedIndex];
+ const courseId=courseEl.value,courseCode=selected?.dataset.code||'',courseName=selected?.dataset.name||'';
+ const title=titleEl.value.trim(),instructions=instructionsEl.value.trim(),due=dueEl.value,maxMark=Number(maxMarkEl.value||0),status=statusEl.value,file=fileEl.files[0];
+
+ if(!courseId||!title){msg('Please select a course and enter an assignment title.','err');return}
+ if(file&&file.size>20*1024*1024){msg('The selected file is larger than 20 MB.','err');return}
+ const ext=file?(file.name.split('.').pop()||'').toLowerCase():'';
+ if(file&&!['pdf','doc','docx','ppt','pptx'].includes(ext)){msg('Only PDF, DOC, DOCX, PPT and PPTX files are allowed.','err');return}
+
+ saveBtn.disabled=true;progress.style.display='block';progressBar.style.width='10%';msg('Creating assignment...');
+
+ try{
+  let fileUrl='',storagePath='',fileName='',fileType='';
+  if(file){
+   const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+   storagePath=`assignments/${courseId}/${currentUser?.uid||'admin'}/${Date.now()}_${safe}`;
+
+   // Cloudinary direct unsigned upload. Firebase Spark remains unchanged.
+   const cloudinaryUrl='https://api.cloudinary.com/v1_1/hjdnytcb/auto/upload';
+   const uploadData=new FormData();
+   uploadData.append('file',file);
+   uploadData.append('upload_preset','Obaestate');
+   uploadData.append('folder','GGCHST/assignments');
+
+   progressBar.style.width='20%';
+   msg('Uploading assignment document...');
+
+   const response=await fetch(cloudinaryUrl,{method:'POST',body:uploadData});
+   const result=await response.json();
+
+   if(!response.ok){
+    throw new Error(result?.error?.message||'Cloudinary upload failed.');
+   }
+
+   fileUrl=result.secure_url||result.url||'';
+   if(!fileUrl)throw new Error('Cloudinary did not return a file URL.');
+
+   progressBar.style.width='70%';
+   fileName=file.name;
+   fileType=file.type||ext;
+   storagePath=result.public_id||storagePath;
+  }else progressBar.style.width='55%';
+
+  await addDoc(collection(db,'assignments'),{
+   courseId,courseCode,courseName,title,instructions,due,maxMark,status,
+   fileUrl,storagePath,fileName,fileType,
+   lecturerUid:currentRole==='lecturer'?(currentUser?.uid||currentProfile?.authUid||currentProfile?.uid||''):'',
+   lecturerName:currentRole==='lecturer'?(currentProfile?.fullName||currentProfile?.name||''):'',
+   createdByUid:currentUser?.uid||'',
+   createdByRole:currentRole,
+   createdAt:new Date().toISOString(),
+   updatedAt:new Date().toISOString()
+  });
+  progressBar.style.width='100%';msg('Assignment created successfully.','ok');form.reset();maxMarkEl.value='100';window.toast('Assignment created');
+ }catch(err){
+  console.error(err);msg(err?.message||'Could not create assignment. Check Cloudinary upload settings and Firestore rules.','err');
+ }finally{
+  saveBtn.disabled=false;
+  setTimeout(()=>{progress.style.display='none';progressBar.style.width='0'},700);
+ }
+});
+
+window.deleteAssignment=async id=>{
+ if(!confirm('Delete this assignment?'))return;
+ try{await deleteDoc(doc(db,'assignments',id));window.toast('Assignment deleted')}catch(e){window.toast('Delete failed')}
+};
+
+initializeModule(auth.currentUser).catch(e=>{
+ console.error(e);
+ document.getElementById('startup').style.display='block';
+ document.getElementById('startup').textContent='The form is visible, but course data could not be loaded. Check Firestore access.';
+ msg('Course data could not be loaded.','err');
+});
+
+onAuthStateChanged(auth,user=>{
+ if(user)initializeModule(user).catch(e=>console.error(e));
+});
+
+</script>
+<script type="module">
+
+const {auth,db,collection,addDoc,doc,getDoc,getDocs,query,where,orderBy,onSnapshot,deleteDoc}=window.GG;
+
+let currentUser=null;
+let currentRole='';
+let currentProfile=null;
+let allowedCourses=[];
+let unsubscribeNotes=null;
+
+const courseSelect=document.getElementById('noteCourse');
+const form=document.getElementById('noteForm');
+const fileInput=document.getElementById('noteFile');
+const topicInput=document.getElementById('noteTopic');
+const message=document.getElementById('message');
+const uploadBtn=document.getElementById('uploadBtn');
+const progress=document.getElementById('progress');
+const progressBar=document.getElementById('progressBar');
+const notesList=document.getElementById('notesList');
+const noteCount=document.getElementById('noteCount');
+
+function setMessage(text,type=''){
+  message.textContent=text;
+  message.className='message '+type;
+}
+
+function normalize(s){return String(s??'').trim().toLowerCase()}
+
+function courseCodeOf(x){
+  if(typeof x==='string') return x.trim();
+  return String(x?.courseCode||x?.code||x?.course||x?.courseId||'').trim();
+}
+
+function courseNameOf(x){
+  if(typeof x==='string') return '';
+  return String(x?.courseName||x?.courseTitle||x?.name||x?.title||'').trim();
+}
+
+function courseIdOf(x){
+  if(typeof x==='string') return '';
+  return String(x?.courseId||x?.id||'').trim();
+}
+
+function extractCourseRefs(data){
+  const arrays=[
+    data?.assignedCourses,data?.courses,data?.courseAssignments,
+    data?.assignedCourseIds,data?.assignedCourseCodes
+  ];
+  const out=[];
+  for(const arr of arrays){
+    if(!Array.isArray(arr)) continue;
+    for(const item of arr){
+      const code=courseCodeOf(item), name=courseNameOf(item), id=courseIdOf(item);
+      if(code||id) out.push({id,code,name});
+    }
+  }
+  return out;
+}
+
+async function loadProfileAndCourses(user){
+  currentUser=user;
+  const usersSnap=await getDocs(collection(db,'users'));
+  let profileDoc=null;
+  usersSnap.forEach(d=>{
+    const x=d.data();
+    const uid=String(x.uid||x.authUid||x.firebaseUid||d.id);
+    const email=normalize(x.email||x.authEmail||'');
+    if(uid===user.uid || (email && email===normalize(user.email))) profileDoc={id:d.id,...x};
+  });
+  currentProfile=profileDoc||{uid:user.uid,email:user.email||''};
+  currentRole=normalize(currentProfile.role||currentProfile.accountType||'');
+  const roleKey=currentRole.replace(/[ _-]+/g,'');
+  currentRole=roleKey;
+
+  if(!['admin','administrator','superadmin','lecturer'].includes(currentRole)){
+    document.getElementById('notesAccessDenied').style.display='block';
+    return false;
+  }
+
+  document.getElementById('notesAppArea').classList.remove('hidden');
+  const startup=document.getElementById('notesStartupStatus');
+  if(startup)startup.style.display='none';
+  courseSelect.disabled=false;
+  uploadBtn.disabled=false;
+  document.getElementById('notesRoleBadge').textContent=currentRole==='lecturer'?'Lecturer':'Admin';
+  document.getElementById('notesListTitle').textContent=currentRole==='lecturer'?'My Lecture Notes':'All Lecture Notes';
+
+  const courseSnap=await getDocs(collection(db,'courses'));
+  const allCourses=courseSnap.docs.map(d=>({id:d.id,...d.data()}));
+
+  if(currentRole==='lecturer'){
+    const refs=extractCourseRefs(currentProfile);
+    const refCodes=new Set(refs.map(x=>normalize(x.code)).filter(Boolean));
+    const refIds=new Set(refs.map(x=>normalize(x.id)).filter(Boolean));
+
+    // Also support course records that explicitly carry a lecturer UID.
+    allowedCourses=allCourses.filter(c=>{
+      const lecturerValues=[
+        c.lecturerUid,c.authUid,c.lecturerId,c.staffId,
+        c.assignedLecturerUid,c.assignedLecturerId
+      ].map(normalize).filter(Boolean);
+      const lecturerArray=[...(Array.isArray(c.lecturers)?c.lecturers:[]),...(Array.isArray(c.assignedLecturers)?c.assignedLecturers:[])];
+      const arrayMatch=lecturerArray.some(v=>normalize(typeof v==='string'?v:(v?.uid||v?.id||v?.lecturerUid||''))===normalize(user.uid));
+      return refIds.has(normalize(c.id)) || refCodes.has(normalize(c.courseCode||c.code)) ||
+             lecturerValues.includes(normalize(user.uid)) || arrayMatch;
+    });
+
+    // Preserve explicitly assigned course refs even if a course document is incomplete.
+    for(const r of refs){
+      if(allowedCourses.some(c=>normalize(c.id)===normalize(r.id)||normalize(c.courseCode||c.code)===normalize(r.code))) continue;
+      if(r.code) allowedCourses.push({id:r.id||r.code,courseCode:r.code,code:r.code,name:r.name});
+    }
+  }else{
+    allowedCourses=allCourses;
+  }
+
+  courseSelect.innerHTML='<option value="">Select course</option>';
+  allowedCourses.sort((a,b)=>courseCodeOf(a).localeCompare(courseCodeOf(b))).forEach(c=>{
+    const code=courseCodeOf(c), name=courseNameOf(c), id=courseIdOf(c)||code;
+    if(!code && !id)return;
+    const opt=document.createElement('option');
+    opt.value=id;
+    opt.dataset.code=code;
+    opt.dataset.name=name;
+    opt.textContent=name?`${code} — ${name}`:code;
+    courseSelect.appendChild(opt);
+  });
+
+  if(!allowedCourses.length){
+    courseSelect.innerHTML='<option value="">No assigned courses found</option>';
+    courseSelect.disabled=true;
+    uploadBtn.disabled=true;
+    setMessage(currentRole==='lecturer'
+      ? 'No courses are currently assigned to this lecturer.'
+      : 'No courses have been created yet.','err');
+  }
+
+  subscribeNotes();
+  return true;
+}
+
+function subscribeNotes(){
+  if(unsubscribeNotes)unsubscribeNotes();
+  notesList.innerHTML='<div class="empty">Loading lecture notes...</div>';
+
+  try{
+    const q=collection(db,'lectureNotes');
+    unsubscribeNotes=onSnapshot(q,snap=>{
+      let rows=snap.docs.map(d=>({id:d.id,...d.data()}));
+
+      if(currentRole==='lecturer'){
+        const codes=new Set(allowedCourses.map(c=>normalize(courseCodeOf(c))));
+        const ids=new Set(allowedCourses.map(c=>normalize(courseIdOf(c))));
+        rows=rows.filter(x=>
+          normalize(x.lecturerUid||x.authUid||x.createdByUid||'')===normalize(currentUser.uid) ||
+          codes.has(normalize(x.courseCode||'')) ||
+          ids.has(normalize(x.courseId||''))
+        );
+      }
+
+      rows.sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||'')));
+      noteCount.textContent=String(rows.length);
+      renderNotes(rows);
+    },err=>{
+      notesList.innerHTML='<div class="empty">Unable to load lecture notes. Check Firestore rules.</div>';
+    });
+  }catch(e){
+    notesList.innerHTML='<div class="empty">Lecture notes could not be loaded.</div>';
+  }
+}
+
+function renderNotes(rows){
+  if(!rows.length){
+    notesList.innerHTML='<div class="empty">No lecture notes have been uploaded yet.</div>';
+    return;
+  }
+  notesList.innerHTML=rows.map(x=>{
+    const code=x.courseCode||x.courseId||'Course';
+    const topic=x.topic||x.title||'Untitled Lecture Note';
+    const file=x.fileName||'Lecture Note';
+    const when=x.createdAt?new Date(x.createdAt).toLocaleString():'';
+    const canDelete=currentRole!=='lecturer' || normalize(x.lecturerUid||x.createdByUid||'')===normalize(currentUser.uid);
+    return `<article class="note-item">
+      <div class="note-item-top">
+        <div>
+          <h3>${window.esc(topic)}</h3>
+          <div class="note-meta"><strong>${window.esc(code)}</strong> · ${window.esc(file)}<br>${window.esc(x.lecturerName||'')} ${when?'· '+window.esc(when):''}</div>
+        </div>
+        <span class="role-badge">${window.esc(x.status||'Published')}</span>
+      </div>
+      <div class="note-actions">
+        ${x.fileUrl?`<a class="view-btn" href="${window.esc(x.fileUrl)}" target="_blank" rel="noopener">Open File</a>`:''}
+        ${canDelete?`<button class="delete-btn" onclick="window.deleteNote('${x.id}')">Delete</button>`:''}
+      </div>
+    </article>`;
+  }).join('');
+}
+
+form.addEventListener('submit',async e=>{
+  e.preventDefault();
+
+  // Firebase Auth/Firestore remain unchanged. Only file storage is handled by Cloudinary.
+  const activeUser=currentUser||auth.currentUser;
+  if(!activeUser){
+    setMessage('Your Admin/Lecturer login session is not detected. Please log in again, then return to Lecture Notes.','err');
+    window.toast('Login session required');
+    return;
+  }
+  currentUser=activeUser;
+
+  const selected=courseSelect.options[courseSelect.selectedIndex];
+  const courseId=courseSelect.value;
+  const courseCode=selected?.dataset.code||selected?.textContent||'';
+  const courseName=selected?.dataset.name||'';
+  const topic=topicInput.value.trim();
+  const file=fileInput.files[0];
+
+  if(!courseId||!topic||!file){setMessage('Please complete the course, topic and file fields.','err');return}
+  if(file.size>20*1024*1024){setMessage('The selected file is larger than 20 MB.','err');return}
+
+  const allowed=['application/pdf','application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document','application/vnd.ms-powerpoint','application/vnd.openxmlformats-officedocument.presentationml.presentation'];
+  const ext=(file.name.split('.').pop()||'').toLowerCase();
+  if(!allowed.includes(file.type) && !['pdf','doc','docx','ppt','pptx'].includes(ext)){
+    setMessage('Only PDF, DOC, DOCX, PPT and PPTX files are allowed.','err');return;
+  }
+
+  uploadBtn.disabled=true;
+  progress.style.display='block';
+  progressBar.style.width='2%';
+  setMessage('Uploading lecture note to Cloudinary...');
+
+  try{
+    const cloudName='hjdnytcb';
+    const uploadPreset='Obaestate';
+    const endpoint=`https://api.cloudinary.com/v1_1/${encodeURIComponent(cloudName)}/raw/upload`;
+    const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    const publicId=`lectureNotes/${courseId}/${activeUser.uid}/${Date.now()}_${safeName.replace(/\.[^.]+$/,'')}`;
+
+    const formData=new FormData();
+    formData.append('file',file);
+    formData.append('upload_preset',uploadPreset);
+    formData.append('folder','GGCHST/lectureNotes');
+    formData.append('public_id',publicId);
+    formData.append('context',`courseId=${courseId}|courseCode=${courseCode.trim()}|topic=${topic}|lecturerUid=${activeUser.uid}`);
+
+    // XHR is used instead of fetch so the browser can report real upload progress.
+    const cloudinaryResult=await new Promise((resolve,reject)=>{
+      const xhr=new XMLHttpRequest();
+      xhr.open('POST',endpoint,true);
+      xhr.timeout=120000;
+      xhr.upload.addEventListener('progress',ev=>{
+        if(!ev.lengthComputable)return;
+        const percent=Math.max(2,Math.min(92,Math.round((ev.loaded/ev.total)*92)));
+        progressBar.style.width=percent+'%';
+        setMessage(`Uploading lecture note to Cloudinary... ${percent}%`);
+      });
+      xhr.addEventListener('load',()=>{
+        let data=null;
+        try{data=JSON.parse(xhr.responseText||'{}')}catch(_){ }
+        if(xhr.status>=200 && xhr.status<300 && data?.secure_url){
+          progressBar.style.width='94%';
+          resolve(data);
+        }else{
+          const msg=data?.error?.message||`Cloudinary upload failed (HTTP ${xhr.status}).`;
+          const err=new Error(msg);
+          err.cloudinaryStatus=xhr.status;
+          reject(err);
+        }
+      });
+      xhr.addEventListener('error',()=>reject(new Error('Could not connect to Cloudinary. Check your internet connection.')));
+      xhr.addEventListener('timeout',()=>reject(new Error('Cloudinary upload timed out. Please try again.')));
+      xhr.addEventListener('abort',()=>reject(new Error('Cloudinary upload was cancelled.')));
+      xhr.send(formData);
+    });
+
+    const fileUrl=cloudinaryResult.secure_url||cloudinaryResult.url;
+    const cloudinaryPublicId=cloudinaryResult.public_id||publicId;
+    const resourceType=cloudinaryResult.resource_type||'raw';
+
+    await addDoc(collection(db,'lectureNotes'),{
+      courseId,
+      courseCode:courseCode.trim(),
+      courseName:courseName.trim(),
+      topic,
+      title:topic,
+      fileName:file.name,
+      fileType:file.type||ext,
+      fileSize:file.size,
+      fileUrl,
+      cloudinaryPublicId,
+      cloudinaryResourceType:resourceType,
+      storageProvider:'cloudinary',
+      lecturerUid:activeUser.uid,
+      lecturerEmail:activeUser.email||'',
+      lecturerName:currentProfile?.fullName||currentProfile?.name||'',
+      uploadedByRole:currentRole,
+      status:'Published',
+      createdAt:new Date().toISOString(),
+      updatedAt:new Date().toISOString()
+    });
+
+    progressBar.style.width='100%';
+    setMessage('Lecture note uploaded successfully. It is now linked to this course.','ok');
+    form.reset();
+    window.toast('Lecture note uploaded');
+  }catch(err){
+    console.error('Cloudinary lecture note upload error:',err);
+    let friendly=err?.message||'Upload failed.';
+    if(/upload preset/i.test(friendly) && /invalid|not found|unsigned|unknown/i.test(friendly)){
+      friendly='Cloudinary rejected the upload preset. Make sure "Obaestate" exists and is set to Unsigned.';
+    }else if(err?.cloudinaryStatus===401 || err?.cloudinaryStatus===403){
+      friendly='Cloudinary rejected this upload. Check that the Obaestate preset is an Unsigned upload preset and allows raw files.';
+    }
+    setMessage(friendly,'err');
+  }finally{
+    uploadBtn.disabled=false;
+    setTimeout(()=>{progress.style.display='none';progressBar.style.width='0'},900);
+  }
+});
+
+window.deleteNote=async id=>{
+  if(!confirm('Delete this lecture note?'))return;
+  try{
+    await deleteDoc(doc(db,'lectureNotes',id));
+    window.toast('Lecture note deleted');
+  }catch(e){
+    window.toast('Delete failed');
+  }
+};
+
+async function loadLecturerFromRecord(user){
+  let row=null;
+
+  // The working Lecturer Login stores the selected lecturer document ID.
+  const selectedId=localStorage.getItem('ggchstSelectedLecturerId')||'';
+  if(selectedId){
+    try{
+      const d=await getDoc(doc(db,'lecturers',selectedId));
+      if(d.exists()) row={id:d.id,...d.data()};
+    }catch(e){ console.warn('Selected lecturer lookup failed:',e); }
+  }
+
+  // Fallback: match the signed-in Firebase user against lecturers.
+  if(!row && user){
+    try{
+      const snap=await getDocs(collection(db,'lecturers'));
+      const rows=snap.docs.map(d=>({id:d.id,...d.data()}));
+      const uid=user.uid||'';
+      const em=normalize(user.email||'');
+      row=rows.find(x=>String(x.authUid||x.firebaseUid||x.uid||'')===uid)
+        || rows.find(x=>normalize(x.email||x.emailAddress||x.lecturerEmail||'')===em);
+    }catch(e){ console.warn('Lecturer records lookup failed:',e); }
+  }
+  return row;
+}
+
+async function loadAdminOrLecturer(user){
+  currentUser=user||null;
+  currentRole='admin';
+  currentProfile={name:'Administrator',email:user?.email||'',uid:user?.uid||''};
+
+  // Resolve the logged-in account when available. This does NOT block the
+  // course dropdown for Admin.
+  if(user){
+    try{
+      const snap=await getDocs(collection(db,'users'));
+      const rows=snap.docs.map(d=>({id:d.id,...d.data()}));
+      const found=rows.find(x=>String(x.uid||x.authUid||x.firebaseUid||'')===user.uid)
+        ||rows.find(x=>normalize(x.email||x.authEmail||'')===normalize(user.email||''));
+
+      if(found){
+        currentProfile=found;
+        const key=normalize(found.role||found.accountType||'').replace(/[ _\/-]+/g,'');
+        currentRole=key.includes('lecturer')?'lecturer':'admin';
+      }else{
+        const lecturer=await loadLecturerFromRecord(user);
+        if(lecturer){
+          currentProfile=lecturer;
+          currentRole='lecturer';
+        }
+      }
+    }catch(e){
+      console.warn('Account profile lookup failed; loading courses in Admin mode.',e);
+      currentRole='admin';
+    }
+  }
+
+  document.getElementById('notesAppArea').classList.remove('hidden');
+  const startup=document.getElementById('notesStartupStatus');
+  if(startup)startup.style.display='none';
+  document.getElementById('notesAccessDenied').style.display='none';
+  document.getElementById('notesRoleBadge').textContent=currentRole==='lecturer'?'Lecturer':'Admin';
+  document.getElementById('notesListTitle').textContent=currentRole==='lecturer'?'My Lecture Notes':'All Lecture Notes';
+
+  // IMPORTANT: the shared Course Management module stores courses in
+  // "courses" using courseCode and courseTitle.
+  try{
+    const courseSnap=await getDocs(collection(db,'courses'));
+    const allCourses=courseSnap.docs.map(d=>({id:d.id,...d.data()}));
+
+    if(currentRole==='lecturer'){
+      const refs=extractCourseRefs(currentProfile);
+      const refCodes=new Set(refs.map(x=>normalize(x.code)).filter(Boolean));
+      const refIds=new Set(refs.map(x=>normalize(x.id)).filter(Boolean));
+
+      const lecturerIds=[
+        currentUser?.uid,currentProfile?.uid,currentProfile?.authUid,currentProfile?.firebaseUid,
+        currentProfile?.lecturerId,currentProfile?.lecturerID,
+        currentProfile?.staffId,currentProfile?.staffID,
+        currentProfile?.employeeId,currentProfile?.employeeID
+      ].map(normalize).filter(Boolean);
+
+      const lecturerNames=[
+        currentProfile?.name,currentProfile?.fullName,currentProfile?.displayName,currentProfile?.lecturerName
+      ].map(normalize).filter(Boolean);
+
+      allowedCourses=allCourses.filter(c=>{
+        const id=normalize(c.id);
+        const code=normalize(c.courseCode||c.code);
+        const assignedId=normalize(c.lecturerId||c.lecturerID||c.staffId||c.staffID||
+          c.assignedLecturerId||c.lecturerUid||c.lecturerUID||c.assignedLecturerUid);
+        const assignedName=normalize(c.lecturerName||c.lecturer||c.teacher||c.instructor);
+
+        const arrays=[
+          ...(Array.isArray(c.lecturers)?c.lecturers:[]),
+          ...(Array.isArray(c.assignedLecturers)?c.assignedLecturers:[])
+        ];
+        const arrayMatch=arrays.some(v=>{
+          const vid=normalize(typeof v==='string'?v:(v?.uid||v?.id||v?.lecturerId||v?.staffId||''));
+          const vn=normalize(typeof v==='string'?v:(v?.name||v?.fullName||v?.lecturerName||''));
+          return lecturerIds.includes(vid)||lecturerNames.includes(vn);
+        });
+
+        return refIds.has(id)||refCodes.has(code)||
+          lecturerIds.includes(assignedId)||lecturerNames.includes(assignedName)||arrayMatch;
+      });
+
+      // Preserve explicit assignments stored on the lecturer record.
+      for(const r of refs){
+        if(allowedCourses.some(c=>normalize(c.id)===normalize(r.id) ||
+          normalize(c.courseCode||c.code)===normalize(r.code))) continue;
+        if(r.code)allowedCourses.push({
+          id:r.id||r.code,courseCode:r.code,courseTitle:r.name||r.code,name:r.name||r.code
+        });
+      }
+    }else{
+      allowedCourses=allCourses;
+    }
+
+    courseSelect.innerHTML='<option value="">Select course</option>';
+
+    allowedCourses
+      .sort((a,b)=>courseCodeOf(a).localeCompare(courseCodeOf(b)))
+      .forEach(c=>{
+        const code=courseCodeOf(c);
+        const name=courseNameOf(c);
+        const id=courseIdOf(c)||code;
+        if(!id)return;
+        const opt=document.createElement('option');
+        opt.value=id;
+        opt.dataset.code=code;
+        opt.dataset.name=name;
+        opt.textContent=name?(code+' — '+name):code;
+        courseSelect.appendChild(opt);
+      });
+
+    if(!allowedCourses.length){
+      courseSelect.innerHTML='<option value="">No courses found</option>';
+      courseSelect.disabled=true;
+      uploadBtn.disabled=true;
+      setMessage(currentRole==='lecturer'
+        ? 'No courses are currently assigned to this lecturer.'
+        : 'No courses have been created yet.','err');
+    }else{
+      courseSelect.disabled=false;
+      uploadBtn.disabled=false;
+      setMessage('');
+    }
+
+  }catch(err){
+    console.error('Course loading failed:',err);
+    courseSelect.innerHTML='<option value="">Unable to load courses</option>';
+    courseSelect.disabled=true;
+    uploadBtn.disabled=true;
+    setMessage('Courses could not be loaded from the shared courses collection. '+(err?.code||err?.message||''),'err');
+  }
+
+  subscribeNotes();
+}
+
+function refreshCourseListFromSnapshot(){
+  // The initial loader is authoritative for lecturer filtering. This listener
+  // mainly makes newly-created Admin courses appear immediately.
+  if(currentRole!=='admin') return;
+  onSnapshot(collection(db,'courses'),snap=>{
+    const rows=snap.docs.map(d=>({id:d.id,...d.data()}));
+    allowedCourses=rows;
+    courseSelect.innerHTML='<option value="">Select course</option>';
+    rows.sort((a,b)=>courseCodeOf(a).localeCompare(courseCodeOf(b))).forEach(c=>{
+      const code=courseCodeOf(c),name=courseNameOf(c),id=courseIdOf(c)||code;
+      if(!id)return;
+      const o=document.createElement('option');
+      o.value=id;o.dataset.code=code;o.dataset.name=name;
+      o.textContent=name?(code+' — '+name):code;
+      courseSelect.appendChild(o);
+    });
+    courseSelect.disabled=!rows.length;
+    uploadBtn.disabled=!rows.length;
+    if(rows.length)setMessage('');
+  },err=>console.warn('Live course refresh failed:',err));
+}
+
+refreshCourseListFromSnapshot();
+
+loadAdminOrLecturer(auth.currentUser).catch(e=>{
+  console.error(e);
+  document.getElementById('notesAppArea').classList.remove('hidden');
+  const startup=document.getElementById('notesStartupStatus');
+  if(startup){startup.style.display='block';startup.textContent='The form is visible, but live course data could not be loaded. Check Firestore access.';}
+  document.getElementById('notesAccessDenied').style.display='none';
+  setMessage('The form is ready, but some live course data could not be loaded. Check Firestore access.','err');
+});
+
+onAuthStateChanged(auth,user=>{
+  // If the page was opened before Auth restored, refresh the role/course
+  // context once Firebase resolves the session.
+  if(user){
+    loadAdminOrLecturer(user).catch(e=>console.error(e));
+  }
+});
+
+</script>
+<script>
+(function(){
+  const a=document.getElementById('assignmentsTab');
+  const n=document.getElementById('notesTab');
+  const am=document.getElementById('assignmentsModule');
+  const nm=document.getElementById('notesModule');
+  function show(which){
+    const assignment=which==='assignments';
+    a.classList.toggle('active',assignment);
+    n.classList.toggle('active',!assignment);
+    am.classList.toggle('active',assignment);
+    nm.classList.toggle('active',!assignment);
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  a.addEventListener('click',()=>show('assignments'));
+  n.addEventListener('click',()=>show('notes'));
+})();
+</script>
+</body>
+</html>

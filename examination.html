@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Examination Timetable | GGCHST SMS</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#172033}header{background:#fff;color:#172033;padding:10px 18px;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:5}.header-inner{max-width:1500px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:15px}.school-brand{display:flex;align-items:center;gap:12px}.school-brand img{width:58px;height:58px;border-radius:50%;object-fit:cover;border:2px solid #0b5d3b;background:#fff}h1{font-size:16px;margin:0 0 3px;color:#0b5d3b}.subtitle{font-size:11px;color:#667085}.container{max-width:1500px;margin:22px auto;padding:0 16px}.card{background:#fff;border-radius:14px;padding:20px;box-shadow:0 5px 20px rgba(0,0,0,.07);margin-bottom:20px}.card h2{margin:0 0 16px;font-size:19px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.field{display:flex;flex-direction:column;gap:7px}.field label{font-size:13px;font-weight:700}.field input,.field select,.field textarea{width:100%;padding:11px 12px;border:1px solid #ccd5df;border-radius:9px;background:#fff;font-size:14px;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:#0b5d3b;box-shadow:0 0 0 2px rgba(11,93,59,.1)}.field textarea{min-height:80px;resize:vertical}.full{grid-column:1/-1}.span2{grid-column:span 2}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}button,.btn{border:0;border-radius:9px;padding:11px 16px;cursor:pointer;font-weight:700;text-decoration:none;display:inline-block}.primary{background:#0b5d3b;color:#fff}.secondary{background:#e9eef3;color:#172033}.danger{background:#b42318;color:#fff}.small{padding:7px 10px;font-size:12px}.status{padding:5px 9px;border-radius:20px;font-size:11px;font-weight:700;display:inline-block}.status-scheduled{background:#e6f0ff;color:#1756a3}.status-active{background:#d9f5e5;color:#087443}.status-published{background:#d9f5e5;color:#087443}.status-canceled{background:#fde4e4;color:#9b1c1c}.status-postponed{background:#fff0c2;color:#795b00}.status-finished{background:#e9e1ff;color:#5d3a9b}.status-draft{background:#eceff2;color:#59636e}.notice{padding:11px 13px;border-radius:9px;margin-bottom:14px;display:none;font-size:13px}.notice.success{background:#e0f7e9;color:#096b3b}.notice.error{background:#fde4e4;color:#9b1c1c}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:1500px}th,td{padding:11px 9px;border-bottom:1px solid #e7ebef;text-align:left;font-size:12px;vertical-align:middle}th{background:#f7f9fb;position:sticky;top:0;z-index:1}.toolbar{display:grid;grid-template-columns:2fr repeat(4,1fr);gap:10px;margin-bottom:15px}.toolbar input,.toolbar select{padding:10px;border:1px solid #ccd5df;border-radius:8px}.empty{text-align:center;padding:30px;color:#697586}.help{font-size:11px;color:#6b7280}.nav{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}@media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}.toolbar{grid-template-columns:1fr 1fr}}@media(max-width:650px){.grid{grid-template-columns:1fr}.span2{grid-column:auto}.toolbar{grid-template-columns:1fr}header{position:static}}
+</style>
+<style id="ggchst-school-header">
+.school-header{background:#fff;border-bottom:1px solid #e5e7eb;width:100%}
+.school-header-inner{max-width:1500px;margin:0 auto;min-height:76px;padding:10px 18px;display:flex;align-items:center;gap:12px}
+.school-logo{width:52px;height:52px;flex:0 0 52px;border-radius:50%;overflow:hidden;display:grid;place-items:center;background:#f0fdf4;border:1px solid #d1fae5;font-weight:800;color:#166534}
+.school-logo img{width:100%;height:100%;object-fit:cover;display:block}
+.school-name{flex:1;color:#172033;font-size:17px;font-weight:800;line-height:1.25}
+.school-name span{display:block;margin-top:3px;color:#667085;font-size:12px;font-weight:500}
+.school-back{text-decoration:none;background:#087443;color:#fff;padding:9px 13px;border-radius:9px;font-size:13px;font-weight:700;white-space:nowrap}
+@media(max-width:650px){
+ .school-header-inner{min-height:64px;padding:8px 10px;gap:9px}
+ .school-logo{width:42px;height:42px;flex-basis:42px}
+ .school-name{font-size:12px}
+ .school-name span{font-size:10px}
+ .school-back{padding:7px 9px;font-size:10px}
+}
+</style>
+</head>
+<body>
+
+<header class="school-header">
+  <div class="school-header-inner">
+    <div class="school-logo">
+      <img src="https://ggchstgusau.edu.ng/_next/image?q=75&url=%2Flogo.png&w=384"
+           alt="Green Garden College of Health Sciences & Technology logo"
+           onerror="this.style.display='none';this.parentElement.textContent='G';">
+    </div>
+    <div class="school-name">
+      Green Garden College of Health Sciences &amp; Technology
+      <span>Gusau, Zamfara State</span>
+    </div>
+    <a class="school-back" href="admin.html">← Back to Admin</a>
+  </div>
+</header>
+
+<main class="container">
+
+<section class="card" style="background:#0b5d3b;color:#fff;border-radius:15px">
+  <h1 style="color:#fff;font-size:24px;margin:0 0 6px">Examination Timetable</h1>
+  <div style="font-size:13px;opacity:.92">
+    Create and manage examination timetable entries.
+  </div>
+</section>
+
+<div id="notice" class="notice"></div>
+<div class="help" style="margin:0 0 12px;padding:0 2px">
+ Academic sessions and semesters are loaded from Firebase. All sessions are available here;
+ selecting a session shows all semesters linked to that session.
+</div>
+<div class="help" style="margin:0 0 12px;padding:0 2px">
+ Session, semester, programme, level, course, venue and invigilator dropdowns are loaded from Firebase.
+ Courses are filtered by the selected Programme, Level and Semester.
+</div>
+
+<section class="card">
+  <h2 id="formTitle">Create Examination Timetable</h2>
+
+  <form id="scheduleForm" novalidate>
+    <div class="grid">
+
+      <div class="field">
+        <label>Academic Session *</label>
+        <select id="session" required>
+          <option value="">Select academic session</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Semester *</label>
+        <select id="semester" required>
+          <option value="">Select semester</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Programme</label>
+        <select id="programme"><option value="">Select programme</option></select>
+      </div>
+
+      <div class="field">
+        <label>Level</label>
+        <select id="level"><option value="">Select level</option></select>
+      </div>
+
+      <div class="field">
+        <label>Course *</label>
+        <select id="course" required>
+          <option value="">Select course</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Exam Date *</label>
+        <input id="examDate" type="date" required>
+      </div>
+
+      <div class="field">
+        <label>Venue</label>
+        <select id="venue"><option value="">Select venue</option></select>
+      </div>
+
+      <div class="field">
+        <label>Start Time *</label>
+        <select id="startTime" required></select>
+      </div>
+
+      <div class="field">
+        <label>Stop Time *</label>
+        <select id="endTime" required></select>
+      </div>
+
+      <div class="field">
+        <label>Status *</label>
+        <select id="status" required>
+          <option>Draft</option>
+          <option>Scheduled</option>
+          <option>Published</option>
+          <option>Active</option>
+          <option>Canceled</option>
+          <option>Postponed</option>
+          <option>Finished</option>
+        </select>
+      </div>
+
+      <div class="field span2">
+        <label>Invigilator(s)</label>
+        <select id="invigilators" multiple size="5"></select>
+        <div class="help">Hold Ctrl/Command to select more than one invigilator.</div>
+      </div>
+
+      <div class="field full">
+        <label>Note</label>
+        <textarea id="notes" placeholder="Optional examination timetable note"></textarea>
+      </div>
+
+      <div class="field span2">
+        <label>Examination Name *</label>
+        <input id="examinationName" required placeholder="e.g. First Semester Examination">
+      </div>
+
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="primary" id="saveScheduleBtn">Save Examination Timetable</button>
+      <button type="button" class="secondary" id="cancelEdit" style="display:none">Cancel Edit</button>
+    </div>
+  </form>
+</section>
+
+<section class="card">
+  <h2>Examination Table</h2>
+
+  <div class="toolbar">
+    <input id="search" type="search" placeholder="Search examination, course, venue, programme, level...">
+    <select id="filterSession"><option value="">All sessions</option></select>
+    <select id="filterSemester"><option value="">All semesters</option></select>
+    <select id="filterDate"><option value="">All dates</option></select>
+    <select id="filterStatus">
+      <option value="">All status</option>
+      <option>Draft</option><option>Scheduled</option><option>Published</option>
+      <option>Active</option><option>Canceled</option><option>Postponed</option><option>Finished</option>
+    </select>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th><th>Examination</th><th>Session</th><th>Semester</th>
+          <th>Course</th><th>Programme</th><th>Level</th>
+          <th>Date</th><th>Time</th><th>Venue</th><th>Invigilator(s)</th>
+          <th>Status</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        <tr><td colspan="13" class="empty">Loading examination timetable...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+</main>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, updateDoc, deleteDoc, doc,
+  onSnapshot, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey:"AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
+  authDomain:"ggchst-sms-new.firebaseapp.com",
+  projectId:"ggchst-sms-new",
+  storageBucket:"ggchst-sms-new.firebasestorage.app",
+  messagingSenderId:"942770190211",
+  appId:"1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const $ = id => document.getElementById(id);
+
+let sessions=[], semesters=[], courses=[], venues=[], programmes=[], levels=[], lecturers=[], schedules=[];
+let editingId=null;
+
+const times=[
+ ["08:00","8:00 AM"],["09:00","9:00 AM"],["10:00","10:00 AM"],
+ ["11:00","11:00 AM"],["12:00","12:00 PM"],["13:00","1:00 PM"],
+ ["14:00","2:00 PM"],["15:00","3:00 PM"],["16:00","4:00 PM"],
+ ["17:00","5:00 PM"],["18:00","6:00 PM"]
+];
+
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+}[c]));
+
+const norm=v=>String(v??"").toLowerCase().trim();
+const info=(d,id)=>({id,...d});
+
+function notice(message,type="success"){
+ const n=$("notice");
+ n.textContent=message;
+ n.className="notice "+type;
+ n.style.display="block";
+ clearTimeout(window.__noticeTimer);
+ window.__noticeTimer=setTimeout(()=>n.style.display="none",5000);
+}
+
+function active(x){ return norm(x.status)!=="inactive"; }
+
+function badge(status){
+ return `<span class="status status-${norm(status).replace(/\s+/g,"-")}">${esc(status||"")}</span>`;
+}
+
+function fmt(v){
+ const x=times.find(t=>t[0]===v);
+ return x?x[1]:(v||"");
+}
+
+function normalizeCourse(d,id){
+ return {id:d.id||id,code:d.courseCode||d.code||"",name:d.courseTitle||d.courseName||d.name||d.title||"",
+ unit:d.courseUnit??d.creditUnit??d.unit??"",programmeId:d.programmeId||"",programme:d.programmeName||d.programme||"",
+ levelId:d.levelId||d.academicLevelId||"",level:d.levelName||d.level||"",semesterId:d.semesterId||"",
+ semester:d.semesterName||d.semester||"",sessionId:d.academicSessionId||d.sessionId||"",
+ session:d.academicSession||d.sessionName||d.session||"",status:d.status||"Active"};
+}
+function normalizeVenue(d,id){return {id:d.id||id,name:d.name||d.venueName||"",code:d.code||d.venueCode||"",status:d.status||"Active"}}
+function normalizeProgramme(d,id){return {id:d.id||id,name:d.name||d.programmeName||d.programName||d.title||"",code:d.code||d.programmeCode||d.programCode||"",status:d.status||"Active"}}
+function normalizeLevel(d,id){return {id:d.id||id,name:d.name||d.levelName||d.level||d.title||"",code:d.code||d.levelCode||"",displayOrder:d.displayOrder,status:d.status||"Active"}}
+function normalizeLecturer(d,id){
+ const firebaseUid=d.firebaseUid||d.authUid||d.uid||d.userUid||d.userId||"";
+ return {id:d.id||id,firebaseUid,name:d.name||d.fullName||d.lecturerName||d.displayName||"",email:d.email||d.lecturerEmail||"",status:d.status||"Active"};
+}
+
+function fillTimes(){
+ $("startTime").innerHTML='<option value="">Select start time</option>'+times.map(x=>`<option value="${x[0]}">${x[1]}</option>`).join("");
+ $("endTime").innerHTML='<option value="">Select stop time</option>'+times.map(x=>`<option value="${x[0]}">${x[1]}</option>`).join("");
+}
+fillTimes();
+
+function fillSelect(id,items,placeholder){
+ const el=$(id),old=String(el.value||"");
+ el.innerHTML='<option value="">'+esc(placeholder)+'</option>'+items.map(x=>`<option value="${esc(x.id)}">${esc(x.name)}${x.code?" — "+esc(x.code):""}</option>`).join("");
+ if(old&&items.some(x=>String(x.id)===old))el.value=old;
+}
+function sessionData(){return sessions.find(x=>String(x.id)===String($("session").value||""))||null;}
+function semesterData(){return semesters.find(x=>String(x.id)===String($("semester").value||""))||null;}
+function programmeData(){return programmes.find(x=>String(x.id)===String($("programme").value||""))||null;}
+function levelData(){return levels.find(x=>String(x.id)===String($("level").value||""))||null;}
+function courseData(){return courses.find(x=>String(x.id)===String($("course").value||""))||null;}
+function fillInvigilators(){
+ const selected=[...$("invigilators").selectedOptions].map(o=>o.value);
+ const list=lecturers.filter(active).sort((a,b)=>a.name.localeCompare(b.name));
+ $("invigilators").innerHTML=list.map(x=>{
+  const uid=x.firebaseUid||x.id;
+  return `<option value="${esc(uid)}" data-record-id="${esc(x.id)}">${esc(x.name)}${x.email?" — "+esc(x.email):""}</option>`;
+ }).join("");
+ selected.forEach(uid=>{const o=[...$("invigilators").options].find(x=>x.value===uid);if(o)o.selected=true;});
+}
+function updateSemesterOptions(preferredId=""){
+ const sid=String($("session").value||""),ss=sessionData(),sn=norm(ss?.name||ss?.sessionName||"");
+ const list=semesters.filter(x=>{
+  const iid=String(x.sessionId||x.academicSessionId||""),nm=norm(x.sessionName||x.academicSessionName||x.academicSession||"");
+  return !sid||iid===sid||(!!sn&&nm===sn);
+ }).sort((a,b)=>(a.name||a.semesterName||"").localeCompare(b.name||b.semesterName||""));
+ $("semester").innerHTML='<option value="">'+(sid?(list.length?"Select semester":"No semester for this session"):"Select semester")+'</option>'+list.map(x=>`<option value="${esc(x.id)}">${esc(x.name||x.semesterName||"")}</option>`).join("");
+ if(preferredId&&list.some(x=>String(x.id)===String(preferredId)))$("semester").value=preferredId;
+}
+function courseMatchesSelection(c){
+ const p=programmeData(),l=levelData(),sm=semesterData(),ss=sessionData();
+ if(p&&! (String(c.programmeId||"")===String(p.id)||norm(c.programme)===norm(p.name)|| (!!p.code&&norm(c.programme)===norm(p.code))))return false;
+ if(l&&! (String(c.levelId||"")===String(l.id)||norm(c.level)===norm(l.name)|| (!!l.code&&norm(c.level)===norm(l.code))))return false;
+ if(sm&&! (String(c.semesterId||"")===String(sm.id)||norm(c.semester)===norm(sm.name||sm.semesterName||"")))return false;
+ if(ss&&c.sessionId&&! (String(c.sessionId)===String(ss.id)||norm(c.session)===norm(ss.name||ss.sessionName||"")))return false;
+ return active(c);
+}
+function updateCourseOptions(preferredId=""){
+ const list=courses.filter(courseMatchesSelection).sort((a,b)=>(a.code+" "+a.name).localeCompare(b.code+" "+b.name));
+ $("course").innerHTML='<option value="">'+(list.length?"Select course":"No course matches the selected Programme / Level / Semester")+'</option>'+list.map(x=>`<option value="${esc(x.id)}">${esc(x.code)}${x.name?" — "+esc(x.name):""}</option>`).join("");
+ if(preferredId&&list.some(x=>String(x.id)===String(preferredId)))$("course").value=preferredId;
+}
+function renderSelects(){
+ const os=String($("session").value||""),om=String($("semester").value||""),oc=String($("course").value||""),ov=String($("venue").value||""),op=String($("programme").value||""),ol=String($("level").value||"");
+ fillSelect("session",sessions.sort((a,b)=>(a.name||a.sessionName||"").localeCompare(b.name||b.sessionName||"")),"Select academic session");
+ if(os&&sessions.some(x=>String(x.id)===os))$("session").value=os;
+ fillSelect("venue",venues.filter(active),"Select venue");
+ if(ov&&venues.some(x=>String(x.id)===ov))$("venue").value=ov;
+ fillSelect("programme",programmes.filter(active).sort((a,b)=>(a.name+" "+a.code).localeCompare(b.name+" "+b.code)),"Select programme");
+ if(op&&programmes.some(x=>String(x.id)===op))$("programme").value=op;
+ fillSelect("level",levels.filter(active).sort((a,b)=>(Number(a.displayOrder??9999)-Number(b.displayOrder??9999))||(a.name+"").localeCompare(b.name+"")),"Select level");
+ if(ol&&levels.some(x=>String(x.id)===ol))$("level").value=ol;
+ fillInvigilators();updateSemesterOptions(om);updateCourseOptions(oc);renderFilters();renderTable();
+}
+
+function renderFilters(){
+ const fs=$("filterSession").value, fm=$("filterSemester").value, fd=$("filterDate").value;
+
+ $("filterSession").innerHTML='<option value="">All sessions</option>'+
+   sessions.sort((a,b)=>(a.name||a.sessionName||"").localeCompare(b.name||b.sessionName||"")).map(x=>`<option value="${esc(x.id)}">${esc(x.name||x.sessionName||"")}</option>`).join("");
+ if(fs) $("filterSession").value=fs;
+
+ $("filterSemester").innerHTML='<option value="">All semesters</option>'+
+   semesters.sort((a,b)=>(a.name||a.semesterName||"").localeCompare(b.name||b.semesterName||"")).map(x=>`<option value="${esc(x.id)}">${esc(x.name||x.semesterName||"")}</option>`).join("");
+ if(fm) $("filterSemester").value=fm;
+
+ const dates=[...new Set(schedules.map(x=>x.examDate).filter(Boolean))].sort();
+ $("filterDate").innerHTML='<option value="">All dates</option>'+
+   dates.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join("");
+ if(fd && dates.includes(fd)) $("filterDate").value=fd;
+}
+
+function renderTable(){
+ const q=norm($("search").value), fs=$("filterSession").value,
+       fm=$("filterSemester").value, fd=$("filterDate").value,
+       st=$("filterStatus").value;
+
+ const rows=schedules.filter(x=>{
+  const hay=[
+   x.examinationName,x.sessionName,x.semesterName,x.courseCode,x.courseName,
+   x.programme,x.level,x.venue,(x.invigilatorNames||[]).join(" "),
+   x.status,x.notes
+  ].map(norm).join(" ");
+
+  return (!q||hay.includes(q)) &&
+         (!fs||x.sessionId===fs) &&
+         (!fm||x.semesterId===fm) &&
+         (!fd||x.examDate===fd) &&
+         (!st||x.status===st);
+ }).sort((a,b)=>
+   (a.examDate||"").localeCompare(b.examDate||"") ||
+   (a.startTime||"").localeCompare(b.startTime||"")
+ );
+
+ $("tableBody").innerHTML=rows.length ? rows.map((x,i)=>`
+  <tr>
+   <td>${i+1}</td>
+   <td><strong>${esc(x.examinationName||"—")}</strong></td>
+   <td>${esc(x.sessionName||"—")}</td>
+   <td>${esc(x.semesterName||"—")}</td>
+   <td><strong>${esc(x.courseCode||"—")}</strong><br>${esc(x.courseName||"")}</td>
+   <td>${esc(x.programme||"—")}</td>
+   <td>${esc(x.level||"—")}</td>
+   <td>${esc(x.examDate||"—")}</td>
+   <td>${esc(fmt(x.startTime))} – ${esc(fmt(x.endTime))}</td>
+   <td>${esc(x.venue||"—")}</td>
+   <td>${esc((x.invigilatorNames||[]).join(", ")||"—")}</td>
+   <td>${badge(x.status)}</td>
+   <td>
+    <button type="button" class="small secondary" data-edit="${esc(x.id)}">Edit</button>
+    <button type="button" class="small danger" data-delete="${esc(x.id)}">Delete</button>
+   </td>
+  </tr>
+ `).join("") :
+ '<tr><td colspan="14" class="empty">No examination timetable entries found.</td></tr>';
+
+ document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editSchedule(b.dataset.edit));
+ document.querySelectorAll("[data-delete]").forEach(b=>b.onclick=()=>deleteSchedule(b.dataset.delete));
+}
+
+
+
+function venueClash(data,ignoreId){
+  if(!data.venueId) return false;
+  return schedules.some(x=>
+    x.id!==ignoreId &&
+    x.examDate===data.examDate &&
+    String(x.venueId||"")===String(data.venueId||"") &&
+    x.startTime && x.endTime &&
+    data.startTime<x.endTime && x.startTime<data.endTime
+  );
+}
+
+function courseClash(data,ignoreId){
+ return schedules.some(x=>
+  x.id!==ignoreId &&
+  x.examDate===data.examDate &&
+  x.courseId===data.courseId &&
+  x.startTime && x.endTime &&
+  data.startTime<x.endTime && x.startTime<data.endTime
+ );
+}
+
+$("session").addEventListener("change",()=>{updateSemesterOptions();updateCourseOptions();});
+$("semester").addEventListener("change",updateCourseOptions);
+$("programme").addEventListener("change",updateCourseOptions);
+$("level").addEventListener("change",updateCourseOptions);
+$("course").addEventListener("change",()=>{
+ const c=courseData();if(!c)return;
+ if(c.programmeId&&programmes.some(x=>String(x.id)===String(c.programmeId)))$("programme").value=c.programmeId;
+ if(c.levelId&&levels.some(x=>String(x.id)===String(c.levelId)))$("level").value=c.levelId;
+});
+
+["search","filterSession","filterSemester","filterDate","filterStatus"].forEach(id=>
+ $(id).addEventListener(id==="search"?"input":"change",renderTable)
+);
+
+$("scheduleForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+
+ const btn=$("saveScheduleBtn");
+ if(btn.disabled)return;
+
+ try{
+  const name=$("examinationName").value.trim();
+  const s=sessionData();
+  const se=semesterData();
+  const c=courseData();
+  const v=venues.find(x=>String(x.id)===String($("venue").value));
+   const p=programmes.find(x=>String(x.id)===String($("programme").value));
+   const l=levels.find(x=>String(x.id)===String($("level").value));
+   const inv=[...$("invigilators").selectedOptions].map(o=>{
+     const uid=String(o.value||"");
+     return lecturers.find(x=>String(x.firebaseUid||"")===uid||String(x.id)===uid);
+   }).filter(Boolean);
+
+  const date=$("examDate").value;
+  const start=$("startTime").value;
+  const end=$("endTime").value;
+
+  if(!name)return notice("Please enter the examination name.","error");
+  if(!s)return notice("Please select the academic session.","error");
+  if(!se)return notice("Please select the semester.","error");
+  if(!c)return notice("Please select the course.","error");
+  if(!date)return notice("Please select the examination date.","error");
+  if(!start)return notice("Please select the start time.","error");
+  if(!end)return notice("Please select the stop time.","error");
+  if(end<=start)return notice("Stop time must be later than start time.","error");
+
+  const data={
+   examinationName:name,
+   sessionId:s.id, sessionName:s.name||s.sessionName||"",
+   semesterId:se.id, semesterName:se.name||se.semesterName||"",
+    courseId:c.id, courseCode:c.code||"", courseName:c.name||"", courseUnit:c.unit??"",
+    programmeId:p?.id||c.programmeId||"", programme:p?.name||c.programme||"",
+    levelId:l?.id||c.levelId||"", level:l?.name||c.level||"",
+    examDate:date, startTime:start, endTime:end,
+    venueId:v?.id||"", venue:v?.name||"",
+    invigilatorIds:inv.map(x=>x.firebaseUid||x.id),
+    invigilatorRecordIds:inv.map(x=>x.id),
+    invigilatorNames:inv.map(x=>x.name),
+   status:$("status").value||"Draft",
+   notes:$("notes").value.trim(),
+   updatedAt:serverTimestamp()
+  };
+
+  if(venueClash(data,editingId))
+    return notice("Venue clash: another examination is scheduled in this venue at an overlapping time.","error");
+
+  if(courseClash(data,editingId))
+    return notice("Course clash: this course is already scheduled at an overlapping time.","error");
+
+  btn.disabled=true;
+  btn.textContent=editingId?"Updating...":"Saving...";
+
+  if(editingId){
+   await updateDoc(doc(db,"examinationSchedules",editingId),data);
+  }else{
+   data.createdAt=serverTimestamp();
+   await addDoc(collection(db,"examinationSchedules"),data);
+  }
+
+  notice(editingId?"Examination timetable updated successfully.":"Examination timetable saved successfully.");
+  resetForm();
+
+ }catch(err){
+  console.error("EXAMINATION TIMETABLE SAVE ERROR:",err);
+  notice("Unable to save examination timetable: "+(err?.message||err),"error");
+ }finally{
+  btn.disabled=false;
+  btn.textContent="Save Examination Timetable";
+ }
+});
+
+function editSchedule(id){
+ const x=schedules.find(a=>a.id===id);
+ if(!x)return;
+
+ editingId=id;
+ $("formTitle").textContent="Edit Examination Timetable";
+ $("examinationName").value=x.examinationName||"";
+ $("session").value=x.sessionId||"";
+ $("semester").value=x.semesterId||"";
+ $("course").value=x.courseId||"";
+ $("examDate").value=x.examDate||"";
+ $("startTime").value=x.startTime||"";
+ $("endTime").value=x.endTime||"";
+ $("venue").value=x.venueId||"";
+ $("programme").value=x.programmeId||"";
+ $("level").value=x.levelId||"";
+ $("status").value=x.status||"Draft";
+ $("notes").value=x.notes||"";  const savedInv=[...(x.invigilatorIds||[])];
+  const savedRecords=[...(x.invigilatorRecordIds||[])];
+  [...$("invigilators").options].forEach(o=>{
+    o.selected=savedInv.includes(o.value)||savedRecords.includes(o.dataset.recordId);
+  });
+
+ $("cancelEdit").style.display="inline-block";
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function resetForm(){
+ editingId=null;
+ $("formTitle").textContent="Create Examination Timetable";
+ $("scheduleForm").reset();
+ $("status").value="Draft";
+ $("cancelEdit").style.display="none";
+ [...$("invigilators").options].forEach(o=>o.selected=false);
+}
+
+$("cancelEdit").onclick=resetForm;
+
+async function deleteSchedule(id){
+ const x=schedules.find(a=>a.id===id);
+ if(!x)return;
+
+ if(!confirm(`Delete examination timetable entry for ${x.courseCode||x.courseName} on ${x.examDate}?`))
+  return;
+
+ try{
+  await deleteDoc(doc(db,"examinationSchedules",id));
+  notice("Examination timetable entry deleted successfully.");
+ }catch(err){
+  console.error(err);
+  notice("Unable to delete timetable entry: "+(err?.message||err),"error");
+ }
+}
+
+window.addEventListener("error",e=>{
+ console.error(e.error||e.message);
+ notice("Page error: "+(e.message||"Unknown JavaScript error"),"error");
+});
+
+function listen(name,fn){
+ return onSnapshot(
+  collection(db,name),
+  snap=>fn(snap.docs.map(d=>info(d.data(),d.id))),
+  err=>{
+   console.error(name,err);
+   notice("Unable to load "+name+": "+(err?.message||err),"error");
+  }
+ );
+}
+
+listen("academicSessions",a=>{
+ sessions=a.sort((x,y)=>
+   (x.name||x.sessionName||"").localeCompare(y.name||y.sessionName||"")
+ );
+ renderSelects();
+});
+
+listen("semesters",a=>{
+ semesters=a.sort((x,y)=>
+   (x.name||x.semesterName||"").localeCompare(y.name||y.semesterName||"")
+ );
+ renderSelects();
+});
+
+listen("courses",a=>{
+ courses=a.map(d=>normalizeCourse(d,d.id));
+ renderSelects();
+});
+
+listen("venues",a=>{
+ venues=a.map(d=>normalizeVenue(d,d.id));
+ renderSelects();
+});
+
+listen("programmes",a=>{
+ programmes=a.map(d=>normalizeProgramme(d,d.id));
+ renderSelects();
+});
+
+listen("academicLevels",a=>{
+ levels=a.map(d=>normalizeLevel(d,d.id));
+ renderSelects();
+});
+
+listen("lecturers",a=>{
+ lecturers=a.map(d=>normalizeLecturer(d,d.id));
+ renderSelects();
+});
+
+listen("examinationSchedules",a=>{
+ schedules=a;
+ renderFilters();
+ renderTable();
+});
+</script>
+
+</body>
+</html>

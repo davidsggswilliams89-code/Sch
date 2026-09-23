@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade Settings - GGCHST SMS</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#1f2937}
+header{background:#0b5d3b;color:#fff;padding:18px 20px}
+header h1{margin:0;font-size:22px}
+header p{margin:5px 0 0;opacity:.9;font-size:13px}
+.container{max-width:1150px;margin:20px auto;padding:0 15px}
+.card{background:#fff;border-radius:12px;padding:18px;margin-bottom:18px;box-shadow:0 3px 14px rgba(0,0,0,.07)}
+.card h2{margin:0 0 15px;font-size:18px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.field label{display:block;font-size:12px;font-weight:bold;margin-bottom:6px}
+input,select,textarea{width:100%;padding:10px;border:1px solid #d1d5db;border-radius:7px;background:#fff}
+textarea{min-height:75px;resize:vertical}
+.full{grid-column:1/-1}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+button{border:0;border-radius:7px;padding:10px 15px;cursor:pointer;font-weight:bold}
+.primary{background:#0b5d3b;color:#fff}
+.secondary{background:#e5e7eb;color:#111827}
+.danger{background:#b91c1c;color:#fff}
+.small{padding:7px 10px;font-size:12px}
+.notice{padding:10px 12px;border-radius:7px;background:#eef6f1;color:#0b5d3b;margin-bottom:15px;font-size:13px}
+.error{background:#fff0f0;color:#a11}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.toolbar input,.toolbar select{max-width:260px}
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px;border-bottom:1px solid #e5e7eb;text-align:left;font-size:13px}
+th{background:#f8fafc}
+.badge{display:inline-block;padding:4px 8px;border-radius:20px;font-size:11px;font-weight:bold}
+.active{background:#dcfce7;color:#166534}
+.inactive{background:#fee2e2;color:#991b1b}
+.pass{background:#dbeafe;color:#1e40af}
+.fail{background:#fee2e2;color:#991b1b}
+.actions-cell{display:flex;gap:6px;flex-wrap:wrap}
+.help{font-size:12px;color:#6b7280;margin-top:5px}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}table{display:block;overflow-x:auto;white-space:nowrap}}
+
+
+.school-header{background:#fff;color:#172033;padding:0;border-bottom:1px solid #e5e7eb}
+.school-header-inner{max-width:1150px;min-height:82px;margin:0 auto;padding:10px 15px;display:flex;align-items:center;gap:12px}
+.school-logo{width:54px;height:54px;flex:0 0 54px;border-radius:50%;overflow:hidden;display:grid;place-items:center;background:#eefbf3;border:1px solid #d1fae5}
+.school-logo img{width:100%;height:100%;object-fit:cover;display:block}
+.school-name{flex:1;color:#172033;font-size:18px;font-weight:800;line-height:1.25}
+.school-name span{display:block;margin-top:3px;color:#667085;font-size:12px;font-weight:500}
+.school-back{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;background:#087443;color:#fff;padding:10px 15px;border-radius:9px;font-size:13px;font-weight:700;white-space:nowrap}
+@media(max-width:560px){
+.school-header-inner{min-height:68px;padding:8px 10px;gap:9px}
+.school-logo{width:43px;height:43px;flex-basis:43px}
+.school-name{font-size:12px}
+.school-name span{font-size:10px}
+.school-back{padding:8px 9px;font-size:10px}
+}
+</style>
+</head>
+<body>
+<header class="school-header">
+  <div class="school-header-inner">
+    <div class="school-logo">
+      <img src="https://ggchstgusau.edu.ng/_next/image?q=75&url=%2Flogo.png&w=384" alt="Green Garden College of Health Sciences & Technology logo">
+    </div>
+    <div class="school-name">Green Garden College of Health Sciences &amp; Technology<span>Gusau, Zamfara State</span></div>
+    <a class="school-back" href="admin.html">← Back to Admin</a>
+  </div>
+</header>
+
+<div class="container">
+  <div id="firebaseStatus" class="notice">Connecting to Firebase...</div>
+
+  <div class="card">
+    <h2>Confirmed GGCHST Grading Policy</h2>
+    <div class="notice">
+      Continuous Assessment (CA): <strong>40 marks</strong> &nbsp; | &nbsp;
+      Examination: <strong>60 marks</strong> &nbsp; | &nbsp;
+      Total: <strong>100 marks</strong>
+    </div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Score</th><th>Grade</th><th>Grade Point</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>70–100</td><td>A</td><td>5</td><td>Pass</td></tr>
+          <tr><td>60–69</td><td>B</td><td>4</td><td>Pass</td></tr>
+          <tr><td>50–59</td><td>C</td><td>3</td><td>Pass</td></tr>
+          <tr><td>45–49</td><td>D</td><td>2</td><td>Pass</td></tr>
+          <tr><td>40–44</td><td>E</td><td>1</td><td>Pass</td></tr>
+          <tr><td>0–39</td><td>F</td><td>0</td><td>Fail</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="actions"><button class="primary" type="button" onclick="seedConfirmedScale()">Load Confirmed GGCHST Scale to Firebase</button></div>
+    <div class="help">These are the grading values you confirmed for GGCHST. The settings remain editable by the administrator.</div>
+  </div>
+
+  <div class="card">
+    <h2 id="formTitle">Add Grade</h2>
+    <form id="gradeForm">
+      <div class="grid">
+        <div class="field">
+          <label>Grade *</label>
+          <input id="grade" required maxlength="5" placeholder="e.g. A">
+        </div>
+        <div class="field">
+          <label>Minimum Score *</label>
+          <input id="minimumScore" type="number" min="0" max="100" step="0.01" required>
+        </div>
+        <div class="field">
+          <label>Maximum Score *</label>
+          <input id="maximumScore" type="number" min="0" max="100" step="0.01" required>
+        </div>
+        <div class="field">
+          <label>Grade Point *</label>
+          <input id="gradePoint" type="number" min="0" step="0.01" required>
+        </div>
+        <div class="field">
+          <label>Result Type *</label>
+          <select id="resultType">
+            <option value="Pass">Pass</option>
+            <option value="Fail">Fail</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Status *</label>
+          <select id="status">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label>Description</label>
+          <textarea id="description" placeholder="Optional description"></textarea>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="primary" type="submit">Save Grade</button>
+        <button class="secondary" type="button" id="cancelBtn" style="display:none">Cancel Edit</button>
+      </div>
+    </form>
+    <div class="help">Score ranges are inclusive. The system prevents overlapping active grading ranges.</div>
+  </div>
+
+  <div class="card">
+    <h2>Grade Scale</h2>
+    <div class="toolbar">
+      <input id="search" placeholder="Search grade...">
+      <select id="filterStatus">
+        <option value="">All Statuses</option>
+        <option value="Active">Active</option>
+        <option value="Inactive">Inactive</option>
+      </select>
+      <select id="filterResultType">
+        <option value="">All Result Types</option>
+        <option value="Pass">Pass</option>
+        <option value="Fail">Fail</option>
+      </select>
+    </div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>Grade</th><th>Min</th><th>Max</th><th>Grade Point</th>
+            <th>Result</th><th>Status</th><th>Description</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="gradeTable">
+          <tr><td colspan="8">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, updateDoc, deleteDoc, doc,
+  onSnapshot, serverTimestamp, getDocs
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey:"AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
+  authDomain:"ggchst-sms-new.firebaseapp.com",
+  projectId:"ggchst-sms-new",
+  storageBucket:"ggchst-sms-new.firebasestorage.app",
+  messagingSenderId:"942770190211",
+  appId:"1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+const ref=collection(db,"gradeSettings");
+
+const form=document.getElementById("gradeForm");
+const table=document.getElementById("gradeTable");
+const statusBox=document.getElementById("firebaseStatus");
+let records=[];
+let editingId=null;
+
+const $=id=>document.getElementById(id);
+const num=id=>Number($(id).value);
+
+function esc(v){
+  return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+function normalize(d){
+  return {
+    id:d.id,
+    grade:String(d.grade??"").trim().toUpperCase(),
+    minimumScore:Number(d.minimumScore??0),
+    maximumScore:Number(d.maximumScore??0),
+    gradePoint:Number(d.gradePoint??0),
+    resultType:d.resultType||"Pass",
+    status:d.status||"Active",
+    description:d.description||""
+  };
+}
+function rangesOverlap(a,b){
+  return a.minimumScore<=b.maximumScore && b.minimumScore<=a.maximumScore;
+}
+async function validateGrade(item, ignoreId=null){
+  if(!item.grade) return "Grade is required.";
+  if(item.minimumScore<0 || item.maximumScore>100) return "Scores must be between 0 and 100.";
+  if(item.minimumScore>item.maximumScore) return "Minimum score cannot be greater than maximum score.";
+  if(item.gradePoint<0) return "Grade point cannot be negative.";
+
+  const snap=await getDocs(ref);
+  const all=snap.docs.map(x=>normalize({...x.data(),id:x.id}));
+  const sameGrade=all.find(x=>x.id!==ignoreId && x.grade===item.grade);
+  if(sameGrade) return "This grade already exists.";
+
+  if(item.status==="Active"){
+    const overlap=all.find(x=>x.id!==ignoreId && x.status==="Active" && rangesOverlap(item,x));
+    if(overlap) return `Score range overlaps with grade ${overlap.grade} (${overlap.minimumScore}-${overlap.maximumScore}).`;
+  }
+  return "";
+}
+
+function resetForm(){
+  form.reset();
+  $("resultType").value="Pass";
+  $("status").value="Active";
+  $("formTitle").textContent="Add Grade";
+  $("cancelBtn").style.display="none";
+  editingId=null;
+}
+
+
+async function seedConfirmedScale(){
+  const confirmed = [
+    {grade:"A", minimumScore:70, maximumScore:100, gradePoint:5, resultType:"Pass", status:"Active", description:"70–100"},
+    {grade:"B", minimumScore:60, maximumScore:69, gradePoint:4, resultType:"Pass", status:"Active", description:"60–69"},
+    {grade:"C", minimumScore:50, maximumScore:59, gradePoint:3, resultType:"Pass", status:"Active", description:"50–59"},
+    {grade:"D", minimumScore:45, maximumScore:49, gradePoint:2, resultType:"Pass", status:"Active", description:"45–49"},
+    {grade:"E", minimumScore:40, maximumScore:44, gradePoint:1, resultType:"Pass", status:"Active", description:"40–44"},
+    {grade:"F", minimumScore:0, maximumScore:39, gradePoint:0, resultType:"Fail", status:"Active", description:"0–39"}
+  ];
+  if(!confirm("Load the confirmed GGCHST grading scale into Firebase? Existing grade settings will not be deleted.")) return;
+  try{
+    const snap=await getDocs(ref);
+    const existing=snap.docs.map(d=>normalize({...d.data(),id:d.id}));
+    for(const item of confirmed){
+      const found=existing.find(x=>x.grade===item.grade);
+      if(found){
+        await updateDoc(doc(db,"gradeSettings",found.id),{...item,updatedAt:serverTimestamp()});
+      }else{
+        await addDoc(ref,{...item,createdAt:serverTimestamp(),updatedAt:serverTimestamp()});
+      }
+    }
+    alert("Confirmed GGCHST grading scale loaded successfully.");
+  }catch(err){
+    console.error(err);
+    alert("Could not load grading scale: "+err.message);
+  }
+}
+
+form.addEventListener("submit",async e=>{
+  e.preventDefault();
+  try{
+    const item={
+      grade:$("grade").value.trim().toUpperCase(),
+      minimumScore:num("minimumScore"),
+      maximumScore:num("maximumScore"),
+      gradePoint:num("gradePoint"),
+      resultType:$("resultType").value,
+      status:$("status").value,
+      description:$("description").value.trim()
+    };
+    const error=await validateGrade(item,editingId);
+    if(error){alert(error);return;}
+
+    if(editingId){
+      await updateDoc(doc(db,"gradeSettings",editingId),{
+        ...item,updatedAt:serverTimestamp()
+      });
+      alert("Grade updated successfully.");
+    }else{
+      await addDoc(ref,{...item,createdAt:serverTimestamp(),updatedAt:serverTimestamp()});
+      alert("Grade added successfully.");
+    }
+    resetForm();
+  }catch(err){
+    console.error(err);
+    alert("Could not save grade: "+err.message);
+  }
+});
+
+$("cancelBtn").onclick=resetForm;
+
+window.editGrade=id=>{
+  const r=records.find(x=>x.id===id);
+  if(!r)return;
+  editingId=id;
+  $("grade").value=r.grade;
+  $("minimumScore").value=r.minimumScore;
+  $("maximumScore").value=r.maximumScore;
+  $("gradePoint").value=r.gradePoint;
+  $("resultType").value=r.resultType;
+  $("status").value=r.status;
+  $("description").value=r.description;
+  $("formTitle").textContent="Edit Grade";
+  $("cancelBtn").style.display="inline-block";
+  window.scrollTo({top:0,behavior:"smooth"});
+};
+
+window.deleteGrade=async id=>{
+  const r=records.find(x=>x.id===id);
+  if(!r)return;
+  if(!confirm(`Delete grade ${r.grade}?`))return;
+  try{
+    await deleteDoc(doc(db,"gradeSettings",id));
+  }catch(err){
+    alert("Could not delete grade: "+err.message);
+  }
+};
+
+function render(){
+  const q=$("search").value.trim().toLowerCase();
+  const fs=$("filterStatus").value;
+  const fr=$("filterResultType").value;
+
+  const list=records
+    .filter(r=>
+      (!q || r.grade.toLowerCase().includes(q) || r.description.toLowerCase().includes(q)) &&
+      (!fs || r.status===fs) &&
+      (!fr || r.resultType===fr)
+    )
+    .sort((a,b)=>b.minimumScore-a.minimumScore);
+
+  if(!list.length){
+    table.innerHTML='<tr><td colspan="8">No grade settings found.</td></tr>';
+    return;
+  }
+
+  table.innerHTML=list.map(r=>`
+    <tr>
+      <td><strong>${esc(r.grade)}</strong></td>
+      <td>${r.minimumScore}</td>
+      <td>${r.maximumScore}</td>
+      <td>${r.gradePoint}</td>
+      <td><span class="badge ${r.resultType==="Pass"?"pass":"fail"}">${esc(r.resultType)}</span></td>
+      <td><span class="badge ${r.status==="Active"?"active":"inactive"}">${esc(r.status)}</span></td>
+      <td>${esc(r.description)}</td>
+      <td class="actions-cell">
+        <button class="secondary small" onclick="editGrade('${r.id}')">Edit</button>
+        <button class="danger small" onclick="deleteGrade('${r.id}')">Delete</button>
+      </td>
+    </tr>
+  `).join("");
+}
+
+["search","filterStatus","filterResultType"].forEach(id=>$(id).addEventListener("input",render));
+["filterStatus","filterResultType"].forEach(id=>$(id).addEventListener("change",render));
+
+onSnapshot(ref,snap=>{
+  records=snap.docs.map(d=>normalize({...d.data(),id:d.id}));
+  render();
+  statusBox.textContent=`Firebase connected • ${records.length} grade setting(s) loaded.`;
+},err=>{
+  console.error(err);
+  statusBox.textContent="Firebase error: "+err.message;
+  statusBox.classList.add("error");
+});
+
+window.addEventListener("error",e=>{
+  statusBox.textContent="Page error: "+e.message;
+  statusBox.classList.add("error");
+});
+window.addEventListener("unhandledrejection",e=>{
+  statusBox.textContent="Page error: "+(e.reason?.message||e.reason);
+  statusBox.classList.add("error");
+});
+</script>
+</body>
+</html>

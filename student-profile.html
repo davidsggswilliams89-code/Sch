@@ -1,0 +1,1618 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Student Profile | GGCHST SMS</title>
+<style>
+:root{
+  --green:#087443;--green2:#075c45;--soft:#e8f8ee;--soft2:#f1fbf5;
+  --bg:#f4f9f7;--card:#fff;--text:#172033;--muted:#667789;
+  --line:#dce7e3;--danger:#b42318;--shadow:0 2px 12px rgba(21,53,43,.06)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.head{max-width:1120px;margin:auto;padding:12px 18px;display:flex;align-items:center;gap:14px}
+.logo{width:54px;height:54px;object-fit:contain}
+.school{flex:1;text-align:center;font-size:18px;font-weight:900;color:var(--green2)}
+.logout{border:0;background:var(--green);color:#fff;border-radius:10px;padding:11px 16px;font-weight:800;cursor:pointer}
+main{max-width:1120px;margin:auto;padding:24px 18px 60px}
+.top-title{margin:4px 0 20px}
+.top-title h1{font-size:32px;margin:0 0 6px}
+.top-title p{margin:0;color:var(--muted);font-size:16px}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px;margin-bottom:22px;box-shadow:var(--shadow)}
+.profile-card{padding:36px 28px}
+.avatar-wrap{display:flex;justify-content:center;margin-bottom:24px}
+.avatar{width:150px;height:150px;border-radius:50%;object-fit:cover;border:1px solid #d9e7df;background:#dff8e7}
+.initials{display:grid;place-items:center;background:#dff8e7;color:var(--green);font-size:58px;font-weight:900}
+.student-name{text-align:center;font-size:38px;line-height:1.15;margin:0 0 12px}
+.identity{text-align:center;color:var(--muted);font-size:22px;line-height:1.5;margin-bottom:22px}
+.pills{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.pill{background:#dff8e7;color:#075c45;border-radius:999px;padding:10px 20px;font-size:16px;font-weight:800}
+.status{margin:28px auto 0;width:max-content;max-width:100%;background:#dff8e7;color:#138344;border-radius:999px;padding:12px 28px;font-size:17px;font-weight:900}
+
+.stat-card{min-height:150px;display:flex;flex-direction:column;justify-content:center}
+.stat-label{font-size:18px;color:var(--muted);margin-bottom:15px}
+.stat-value{font-size:48px;font-weight:900;line-height:1}
+.stat-help{font-size:17px;color:var(--muted);margin-top:18px}
+
+/* Four academic summary cards inside ONE container */
+.stats-container{padding:28px}
+.stats-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.stat-tile{
+  min-height:245px;background:#fff;border:1px solid var(--line);border-radius:20px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:24px 18px;
+}
+.stat-icon{
+  width:72px;height:72px;border-radius:50%;background:#dff8e7;color:var(--green);
+  display:grid;place-items:center;font-size:30px;font-weight:900;margin-bottom:18px;
+}
+.stat-tile .stat-label{font-size:21px;margin:0 0 14px;color:#526878}
+.stat-tile .stat-value{font-size:56px}
+.stat-tile .stat-help{font-size:17px;line-height:1.35;margin-top:16px;max-width:270px}
+
+.section-card{padding:32px 30px}
+.section-title{font-size:32px;margin:0 0 8px}
+.section-sub{font-size:18px;color:var(--muted);margin:0 0 28px}
+
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
+table{width:100%;border-collapse:collapse;min-width:680px}
+th,td{padding:17px 20px;text-align:left;border-bottom:1px solid var(--line);font-size:16px}
+th{background:#edfaf2;color:#526878;font-size:15px;text-transform:uppercase}
+tr:last-child td{border-bottom:0}
+.course-code{font-weight:900;color:var(--green)}
+.course-title{font-weight:700}
+.empty{padding:30px;text-align:center;color:var(--muted);font-size:15px}
+
+.list{display:grid;gap:14px}
+.list-item{border:1px solid var(--line);border-left:5px solid #22a75a;border-radius:12px;background:var(--soft2);padding:20px}
+.list-item h3{margin:0 0 8px;font-size:20px}
+.list-item p{margin:0;color:#4d6070;font-size:16px;line-height:1.5}
+.list-item small{display:block;color:var(--muted);margin-top:8px}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.notice{border-left:5px solid #22a75a;background:var(--soft2);padding:18px;border-radius:10px}
+.notice h3{margin:0 0 8px;font-size:18px}
+.notice p{margin:0;color:#4d6070;line-height:1.5}
+
+.message{display:none;padding:14px 16px;border-radius:10px;margin-bottom:18px;font-weight:700}
+.message.show{display:block}.message.error{background:#fff0ee;color:var(--danger)}.message.info{background:#eef7f3;color:var(--green2)}
+
+.loading{padding:34px;text-align:center;color:var(--muted)}
+.spinner{width:32px;height:32px;border:4px solid #d8eee1;border-top-color:var(--green);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.footer{text-align:center;color:var(--muted);font-size:13px;margin-top:35px}
+a.file-link{color:var(--green);font-weight:800;text-decoration:none}
+
+
+/* My Details */
+.profile-update-date{margin:10px auto 0;text-align:center;color:var(--muted);font-size:13px;font-weight:700}
+.my-details-btn{display:block;margin:12px auto 0;border:0;background:var(--green);color:#fff;border-radius:10px;padding:11px 24px;font-weight:900;font-size:14px;cursor:pointer;box-shadow:0 3px 8px rgba(8,116,67,.14)}
+.my-details-btn:hover{background:var(--green2)}
+.my-details-btn:disabled{background:#98a6a0;cursor:not-allowed;box-shadow:none}
+.details-modal{display:none;position:fixed;inset:0;background:rgba(8,20,15,.58);z-index:100;align-items:center;justify-content:center;padding:18px}
+.details-modal.show{display:flex}
+.details-panel{width:min(760px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:22px;box-shadow:0 20px 70px rgba(0,0,0,.25);padding:26px}
+.details-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}
+.details-head h2{margin:0;color:var(--green2);font-size:27px}
+.details-head p{margin:6px 0 0;color:var(--muted);font-size:14px;line-height:1.45}
+.close-details{border:0;background:#eef5f1;color:#315346;width:38px;height:38px;border-radius:10px;font-size:22px;font-weight:900;cursor:pointer}
+.profile-photo-upload{text-align:center;padding:8px 0 20px}
+.details-photo-preview{width:125px;height:125px;border-radius:50%;object-fit:cover;background:#dff8e7;border:3px solid #c5e8d2;display:block;margin:0 auto 12px}
+.photo-fallback{display:grid;place-items:center;font-size:42px;font-weight:900;color:var(--green);}
+.photo-picker{display:inline-block;background:#e8f8ee;color:var(--green2);border:1px solid #bfe2cc;border-radius:10px;padding:10px 15px;font-weight:900;cursor:pointer}
+.photo-picker input{display:none}
+.details-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.detail-field{display:flex;flex-direction:column;gap:7px}
+.detail-field.full{grid-column:1/-1}
+.detail-field label{font-size:13px;color:#526878;font-weight:900}
+.detail-field input,.detail-field select,.detail-field textarea{width:100%;border:1px solid #cfded7;border-radius:10px;padding:12px 13px;font:inherit;color:var(--text);background:#fff;outline:none}
+.detail-field textarea{min-height:86px;resize:vertical}
+.detail-field input:focus,.detail-field select:focus,.detail-field textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(8,116,67,.09)}
+.detail-readonly{background:#f3f6f4!important;color:#687870!important}
+.details-lock{display:none;background:#fff4f4;border:1px solid #f1c6c2;color:#a32920;border-radius:11px;padding:12px 14px;font-size:13px;font-weight:800;line-height:1.45;margin-bottom:16px}
+.details-lock.show{display:block}
+.details-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
+.details-cancel,.details-save{border:0;border-radius:10px;padding:12px 18px;font-weight:900;cursor:pointer}
+.details-cancel{background:#eef5f1;color:#315346}
+.details-save{background:var(--green);color:#fff}
+.details-save:disabled{background:#98a6a0;cursor:not-allowed}
+.details-status{margin-top:12px;padding:11px 13px;border-radius:10px;font-size:13px;font-weight:800;display:none}
+.details-status.show{display:block}.details-status.ok{background:#eaf8ef;color:#17633d}.details-status.err{background:#fff0ee;color:#a32920}
+@media(max-width:750px){.details-grid{grid-template-columns:1fr}.detail-field.full{grid-column:auto}.details-panel{padding:20px;border-radius:18px}.details-head h2{font-size:23px}}
+
+@media(max-width:750px){
+  .head{padding:10px 12px}.logo{width:45px;height:45px}.school{font-size:13px}.logout{padding:9px 11px;font-size:11px}
+  main{padding:18px 12px 45px}
+  .top-title h1{font-size:27px}.top-title p{font-size:14px}
+  .card{border-radius:18px;padding:22px 16px;margin-bottom:16px}.profile-card{padding:28px 16px}
+  .avatar{width:130px;height:130px}.initials{font-size:48px}
+  .student-name{font-size:31px}.identity{font-size:18px}
+  .pill{font-size:14px;padding:8px 15px}.status{font-size:14px;padding:10px 20px}
+  .stat-card{min-height:135px}.stat-label{font-size:16px}.stat-value{font-size:42px}.stat-help{font-size:15px}
+  .stats-container{padding:16px}
+  .stats-grid{gap:12px}
+  .stat-tile{min-height:205px;padding:18px 10px;border-radius:16px}
+  .stat-icon{width:58px;height:58px;font-size:23px;margin-bottom:12px}
+  .stat-tile .stat-label{font-size:16px;margin-bottom:10px}
+  .stat-tile .stat-value{font-size:40px}
+  .stat-tile .stat-help{font-size:13px;margin-top:10px}
+  .section-card{padding:24px 16px}.section-title{font-size:26px}.section-sub{font-size:16px;margin-bottom:20px}
+  th,td{padding:14px;font-size:14px}.two-col{grid-template-columns:1fr}
+}
+@media(max-width:420px){
+  .school{text-align:left}.student-name{font-size:27px}.identity{font-size:16px}.avatar{width:115px;height:115px}
+  .pill{font-size:12px}.status{font-size:12px}.section-title{font-size:23px}
+  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .stat-tile{min-height:190px;padding:14px 6px}
+  .stat-icon{width:50px;height:50px;font-size:20px}
+  .stat-tile .stat-label{font-size:14px}
+  .stat-tile .stat-value{font-size:34px}
+  .stat-tile .stat-help{font-size:11px}
+}
+
+/* Examination slip countdown */
+.exam-actions{display:flex;flex-direction:column;align-items:center;gap:14px;margin-bottom:22px}
+.exam-countdown{
+  width:100%;max-width:760px;text-align:center;background:#fff4f4;
+  border:2px solid #dc2626;border-radius:16px;padding:16px 18px;
+}
+.countdown-label{font-size:14px;font-weight:900;letter-spacing:.7px;color:#b42318;margin-bottom:10px}
+.countdown-values{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap}
+.countdown-values span{
+  min-width:66px;background:#fff;border:1px solid #f0caca;border-radius:10px;
+  padding:7px 6px;display:flex;flex-direction:column;align-items:center;
+}
+.countdown-values b{font-size:24px;line-height:1.1;color:#b42318}
+.countdown-values small{font-size:9px;color:#8a5b5b;font-weight:900;margin-top:4px}
+.countdown-values i{font-style:normal;font-weight:900;color:#b42318}
+.countdown-note{font-size:12px;color:#7a5555;margin-top:9px}
+.print-btn{min-width:230px}
+.print-btn.print-locked{background:#dc2626;color:#fff;cursor:not-allowed;opacity:.95}
+.exam-slip.exam-ready .exam-countdown{background:#effaf3;border-color:#16a34a}
+.exam-slip.exam-ready .countdown-label,
+.exam-slip.exam-ready .countdown-values b,
+.exam-slip.exam-ready .countdown-values i{color:#087443}
+.exam-slip.exam-ready .countdown-values span{border-color:#b9e4c8}
+.exam-slip.exam-ready .countdown-note{color:#38664b}
+.exam-slip.exam-ready .print-btn{background:#087443;cursor:pointer}
+.exam-slip.exam-ready .print-btn:hover{background:#075c45}
+.exam-slip.exam-fee-locked .exam-countdown{background:#fff4f4;border-color:#dc2626}
+.exam-slip.exam-fee-locked .countdown-label,
+.exam-slip.exam-fee-locked .countdown-note{color:#b42318}
+.exam-slip.exam-fee-locked .print-btn{background:#dc2626;color:#fff;cursor:not-allowed;opacity:1}
+.exam-slip.exam-fee-locked .print-btn:hover{background:#dc2626}
+
+/* Examination slip */
+.exam-slip{position:relative;padding:30px;margin-top:30px;width:100%;max-width:none;display:block}
+/* On screen, show only countdown + print controls. The actual slip is hidden. */
+.exam-slip > :not(.exam-actions){display:none}
+.exam-slip .exam-actions{display:flex}
+
+.exam-actions{text-align:right;margin-bottom:18px}
+.print-btn{border:0;background:var(--green);color:#fff;border-radius:10px;padding:12px 18px;font-weight:800;cursor:pointer}
+.exam-header{display:grid;grid-template-columns:90px 1fr 190px;align-items:center;gap:18px}
+.exam-logo{width:82px;height:82px;object-fit:contain}
+.exam-school h2{margin:0;color:#075c45;font-size:21px;line-height:1.2}
+.exam-school p{margin:7px 0 0;color:var(--muted);font-size:14px}
+.exam-address{text-align:right;color:var(--text);font-weight:800;font-size:13px}
+.exam-address small{display:block;color:var(--muted);font-weight:600;margin-top:5px}
+.exam-rule{height:3px;background:var(--green);margin:16px 0 20px}
+.exam-title{text-align:center;margin:0;font-size:31px;letter-spacing:.3px}
+.exam-type{margin:14px auto 22px;max-width:650px;text-align:center;background:#dff8e7;color:#075c45;border-radius:12px;padding:12px 18px;font-size:20px;font-weight:900}
+.exam-student-box{display:grid;grid-template-columns:1fr 180px;gap:24px;border:1px solid var(--line);border-radius:15px;padding:22px;margin-bottom:24px}
+.exam-student-details{display:grid;grid-template-columns:1fr 1fr;gap:10px 22px}
+.exam-student-details div{display:grid;grid-template-columns:125px 1fr;gap:8px;line-height:1.4}
+.exam-student-details span{color:var(--muted)}
+.exam-student-details b{font-weight:800}
+.exam-photo-box{text-align:center}
+.exam-photo-box img{width:135px;height:150px;object-fit:cover;border:1px solid var(--line);border-radius:8px;background:#eef7f3}
+.exam-sign-line{width:135px;border-top:1px solid #667789;margin:14px auto 5px}
+.exam-photo-box small{color:var(--muted)}
+.exam-section-heading{font-size:26px;font-weight:900;margin:8px 0 12px}
+.exam-table-wrap table{min-width:760px}
+.exam-table-wrap th{background:#e8f8ee;color:#075c45}
+.exam-notes{display:grid;grid-template-columns:1.4fr 1fr;gap:30px;border:1px solid var(--line);border-radius:15px;padding:22px;margin-top:24px}
+.exam-notes h3{margin:0 0 10px;color:#075c45}
+.exam-notes ol{margin:0;padding-left:22px;color:#4d6070;line-height:1.7}
+.exam-office{border-left:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.office-sign{width:150px;border-top:1px solid #667789;margin-bottom:8px}
+.exam-office small{color:var(--muted);margin-top:5px}
+.exam-success{text-align:center;font-style:italic;color:#4d6070;margin:22px 0 0}
+
+@media(max-width:750px){
+  .exam-slip{padding:18px 14px}
+  .exam-slip > :not(.exam-actions){display:none}
+  .exam-slip .exam-actions{display:flex}
+  .countdown-values{gap:4px}
+  .countdown-values span{min-width:48px;padding:6px 3px}
+  .countdown-values b{font-size:19px}
+  .countdown-values small{font-size:7px}
+  .countdown-values i{font-size:13px}
+  .exam-header{grid-template-columns:60px 1fr;gap:10px}
+  .exam-logo{width:58px;height:58px}
+  .exam-school h2{font-size:14px}
+  .exam-school p{font-size:11px}
+  .exam-address{grid-column:1/-1;text-align:left;font-size:11px}
+  .exam-title{font-size:25px}
+  .exam-type{font-size:16px}
+  .exam-student-box{grid-template-columns:1fr}
+  .exam-student-details{grid-template-columns:1fr}
+  .exam-photo-box{order:-1}
+  .exam-notes{grid-template-columns:1fr}
+  .exam-office{border-left:0;border-top:1px solid var(--line);padding-top:20px}
+}
+
+
+@page{size:A4 portrait;margin:10mm}
+@media print{
+  /* Print ONLY the examination slip — all other profile content is hidden */
+  html,body{background:#fff!important;margin:0!important;padding:0!important}
+  body *{visibility:hidden!important}
+  #examSlip,#examSlip *{visibility:visible!important}
+  header,.top-title,#message,.footer{display:none!important}
+  main{display:block!important;max-width:none!important;margin:0!important;padding:0!important}
+  main > *{display:none!important}
+  main > #examSlip{display:block!important}
+  #examSlip > *{display:block!important}
+  #examSlip .exam-actions{display:none!important}
+  .card{box-shadow:none!important}
+  #examSlip{
+    width:100%!important;max-width:none!important;min-height:0!important;
+    display:block!important;border:1px solid #dce7e3!important;
+    border-radius:0!important;margin:0!important;padding:0!important;
+    background:#fff!important;overflow:visible!important;
+  }
+  #examSlip .exam-actions{display:none!important}
+  #examSlip .exam-header{grid-template-columns:80px 1fr 160px}
+  #examSlip .exam-title{font-size:25px}
+  #examSlip .exam-type{font-size:17px;margin-bottom:15px}
+  #examSlip .exam-student-box{break-inside:avoid;page-break-inside:avoid}
+  #examSlip .exam-table-wrap{overflow:visible!important}
+  #examSlip .exam-table-wrap table{min-width:0!important;width:100%!important;font-size:11px}
+  #examSlip th,#examSlip td{padding:7px 6px;font-size:11px}
+  #examSlip .exam-notes{break-inside:avoid;page-break-inside:avoid}
+  #examSlip .exam-section-heading{break-after:avoid;page-break-after:avoid}
+  a{color:inherit;text-decoration:none}
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head">
+    <img class="logo" src="logo.png" alt="GGCHST logo">
+    <div class="school">Green Garden College of Health Sciences &amp; Technology, Gusau</div>
+    <button class="logout" id="logout">Logout</button>
+  </div>
+</header>
+
+<main>
+  <div class="top-title">
+    <h1>Student Profile</h1>
+    <p>Your academic and student information</p>
+  </div>
+
+  <div id="message" class="message"></div>
+
+  <!-- STUDENT PROFILE -->
+  <section class="card profile-card">
+    <div class="avatar-wrap">
+      <img id="photo" class="avatar" alt="Student profile photo">
+    </div>
+    <h2 id="studentName" class="student-name">Loading...</h2>
+    <div id="identity" class="identity">Loading student record...</div>
+    <div class="pills">
+      <span class="pill" id="programme">Programme</span>
+      <span class="pill" id="level">Level</span>
+      <span class="pill" id="session">Academic Session</span>
+    </div>
+    <div class="status" id="status">LOADING</div>
+    <div class="profile-update-date" id="profileUpdateDate">Profile details not yet completed</div>
+    <button type="button" class="my-details-btn" id="myDetailsBtn">MY DETAILS</button>
+  </section>
+
+  <!-- SUMMARY: ONE CONTAINER / 2x2 GRID -->
+  <section class="card stats-container">
+    <div class="stats-grid">
+      <div class="stat-tile">
+        <div class="stat-icon">🎓</div>
+        <div class="stat-label">Current CGPA</div>
+        <div class="stat-value" id="cgpa">—</div>
+        <div class="stat-help">Cumulative Grade Point Average</div>
+      </div>
+
+      <div class="stat-tile">
+        <div class="stat-icon">▮▮▮</div>
+        <div class="stat-label">Current GPA</div>
+        <div class="stat-value" id="gpa">—</div>
+        <div class="stat-help">Current semester GPA</div>
+      </div>
+
+      <div class="stat-tile">
+        <div class="stat-icon">📚</div>
+        <div class="stat-label">Registered Courses</div>
+        <div class="stat-value" id="courseCount">0</div>
+        <div class="stat-help">This session</div>
+      </div>
+
+      <div class="stat-tile">
+        <div class="stat-icon">👥</div>
+        <div class="stat-label">Attendance</div>
+        <div class="stat-value" id="attendanceRate">—</div>
+        <div class="stat-help">Overall recorded attendance</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSES -->
+  <section class="card section-card">
+    <h2 class="section-title">Courses Registered This Session</h2>
+    <p class="section-sub">Current academic registration</p>
+    <div id="courses" class="table-wrap">
+      <div class="loading"><div class="spinner"></div>Loading courses...</div>
+    </div>
+  </section>
+
+  <!-- CARRYOVER -->
+  <section class="card section-card">
+    <h2 class="section-title">Carryover Courses</h2>
+    <p class="section-sub">Outstanding courses</p>
+    <div id="carryovers" class="list">
+      <div class="empty">Loading carryover records...</div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="card section-card" id="studentResultsSection">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
+      <div>
+        <h2 class="section-title" style="margin-bottom:4px">Results</h2>
+        <p class="section-sub">Student academic results for the current session and semester</p>
+      </div>
+      <span class="badge" id="resultSessionBadge">RESULTS</span>
+    </div>
+    <div id="results" class="table-wrap">
+      <div class="loading"><div class="spinner"></div>Loading results...</div>
+    </div>
+  </section>
+
+  <!-- TIMETABLE -->
+  <section class="card section-card">
+    <h2 class="section-title">Class Timetable</h2>
+    <p class="section-sub">Lectures and practical sessions</p>
+    <div id="timetable" class="table-wrap">
+      <div class="loading"><div class="spinner"></div>Loading timetable...</div>
+    </div>
+  </section>
+
+  <!-- EXAMS -->
+  <section class="card section-card">
+    <h2 class="section-title">Examination Timetable</h2>
+    <p class="section-sub">Dates, times and venues</p>
+    <div id="exams" class="table-wrap">
+      <div class="loading"><div class="spinner"></div>Loading examination timetable...</div>
+    </div>
+  </section>
+
+  <!-- ANNOUNCEMENTS -->
+  <section class="card section-card">
+    <h2 class="section-title">Announcements</h2>
+    <p class="section-sub">Important school information</p>
+    <div id="announcements" class="list">
+      <div class="empty">Loading announcements...</div>
+    </div>
+  </section>
+
+  <!-- NOTES -->
+  <section class="card section-card">
+    <h2 class="section-title">Lecture Notes</h2>
+    <p class="section-sub">Available learning materials</p>
+    <div id="notes" class="list">
+      <div class="empty">Loading lecture notes...</div>
+    </div>
+  </section>
+
+  <!-- ASSIGNMENTS -->
+  <section class="card section-card">
+    <h2 class="section-title">Assignments</h2>
+    <p class="section-sub">Active and recent coursework</p>
+    <div id="assignments" class="list">
+      <div class="empty">Loading assignments...</div>
+    </div>
+  </section>
+
+
+  <!-- ATTENDANCE -->
+  <section class="card section-card">
+    <h2 class="section-title">Attendance</h2>
+    <p class="section-sub">Course attendance record</p>
+    <div class="card" style="margin:0 0 18px;padding:24px;border-radius:16px">
+      <div class="stat-label">Overall attendance</div>
+      <div class="stat-value" id="overallAttendance">—</div>
+    </div>
+    <div id="attendanceTable" class="table-wrap">
+      <div class="empty">Loading attendance...</div>
+    </div>
+  </section>
+
+  <!-- SCHOOL FEES -->
+  <section class="card section-card">
+    <h2 class="section-title">School Fees &amp; Payment Status</h2>
+    <p class="section-sub">Current session financial status</p>
+    <div id="fees" class="list">
+      <div class="empty">Loading payment status...</div>
+    </div>
+  </section>
+
+  <!-- EXAMINATION SLIP -->
+  <section class="card exam-slip" id="examSlip">
+    <div class="exam-actions" id="examSlipControls">
+      <div class="exam-countdown" id="examCountdown" aria-live="polite">
+        <div class="countdown-label" id="countdownLabel">ACTIVE SEMESTER ENDS IN</div>
+        <div class="countdown-values">
+          <span><b id="countDays">00</b><small>DAYS</small></span>
+          <i>:</i>
+          <span><b id="countHours">00</b><small>HOURS</small></span>
+          <i>:</i>
+          <span><b id="countMinutes">00</b><small>MIN</small></span>
+          <i>:</i>
+          <span><b id="countSeconds">00</b><small>SEC</small></span>
+        </div>
+        <div class="countdown-note" id="countdownNote">Countdown is based only on the active semester end date.</div>
+      </div>
+      <button type="button" class="print-btn print-locked" id="printExamSlip" disabled aria-disabled="true">🖨 Print Examination Slip</button>
+    </div>
+
+    <div class="exam-header">
+      <img src="logo.png" class="exam-logo" alt="GGCHST Logo">
+      <div class="exam-school">
+        <h2>GREEN GARDEN COLLEGE OF HEALTH SCIENCES &amp; TECHNOLOGY</h2>
+        <p>Knowledge for a Healthier Society</p>
+      </div>
+      <div class="exam-address">
+        <div>GGCHST SMS</div>
+        <small>Student Examination Slip</small>
+      </div>
+    </div>
+
+    <div class="exam-rule"></div>
+
+    <h1 class="exam-title">EXAMINATION SLIP</h1>
+    <div class="exam-type" id="examType">EXAMINATION</div>
+
+    <div class="exam-student-box">
+      <div class="exam-student-details">
+        <div><span>Student Name:</span><b id="examStudentName">—</b></div>
+        <div><span>Student ID:</span><b id="examStudentId">—</b></div>
+        <div><span>Admission No:</span><b id="examAdmissionNo">—</b></div>
+        <div><span>Programme:</span><b id="examProgramme">—</b></div>
+        <div><span>Department:</span><b id="examDepartment">—</b></div>
+        <div><span>Faculty / School:</span><b id="examFaculty">—</b></div>
+        <div><span>Level:</span><b id="examLevel">—</b></div>
+        <div><span>Academic Session:</span><b id="examSession">—</b></div>
+        <div><span>Status:</span><b id="examStatus">—</b></div>
+      </div>
+      <div class="exam-photo-box">
+        <img id="examPhoto" alt="Student profile photo">
+        <div class="exam-sign-line"></div>
+        <small>Student's Signature</small>
+      </div>
+    </div>
+
+    <div class="exam-section-heading">Examination Timetable</div>
+    <div id="examSlipTable" class="table-wrap exam-table-wrap">
+      <div class="empty">Loading examination timetable...</div>
+    </div>
+
+    <div class="exam-notes">
+      <div>
+        <h3>Important Notes</h3>
+        <ol>
+          <li>This slip must be presented at the examination hall.</li>
+          <li>Arrive at least 30 minutes before the scheduled time.</li>
+          <li>No mobile phones or unauthorized materials are allowed.</li>
+          <li>Follow all examination rules and regulations.</li>
+          <li>For any issue, contact the Examination Office.</li>
+        </ol>
+      </div>
+      <div class="exam-office">
+        <div class="office-sign"></div>
+        <b>Examination Officer</b>
+        <small>Green Garden College of Health Sciences &amp; Technology</small>
+      </div>
+    </div>
+
+    <p class="exam-success">Wishing you success in your examinations!</p>
+  </section>
+
+  <!-- STUDENT SERVICES -->
+  <section class="card section-card">
+    <h2 class="section-title">Student Services</h2>
+    <p class="section-sub">Quick access</p>
+    <div class="pills" style="justify-content:flex-start">
+      <a class="pill" href="course-registration.html">Course Registration</a>
+      <a class="pill" href="results.html">Results</a>
+      <a class="pill" href="transcript.html">Transcript</a>
+      <a class="pill" href="announcements.html">Announcements</a>
+      <a class="pill" href="library.html">Library</a>
+      <a class="pill" href="hostel.html">Hostel</a>
+      <a class="pill" href="medical.html">Medical</a>
+    </div>
+  </section>
+
+
+
+
+  <!-- MY DETAILS FORM -->
+  <div class="details-modal" id="detailsModal" aria-hidden="true">
+    <div class="details-panel" role="dialog" aria-modal="true" aria-labelledby="detailsTitle">
+      <div class="details-head">
+        <div>
+          <h2 id="detailsTitle">My Details</h2>
+          <p>Complete your personal profile information and upload your profile picture. Your details are saved directly to your student record for the Admin dashboard.</p>
+        </div>
+        <button type="button" class="close-details" id="closeDetails" aria-label="Close">×</button>
+      </div>
+      <div class="details-lock" id="detailsLock"></div>
+      <form id="detailsForm">
+        <div class="profile-photo-upload">
+          <img id="detailsPhotoPreview" class="details-photo-preview" alt="Profile picture preview">
+          <label class="photo-picker">📷 Upload Profile Picture
+            <input type="file" id="detailsPhoto" accept="image/*">
+          </label>
+          <div style="font-size:12px;color:#71827a;margin-top:8px">Choose a photo from your phone gallery.</div>
+        </div>
+        <div class="details-grid">
+          <div class="detail-field"><label for="dFullName">Full Name</label><input id="dFullName" name="fullName" required></div>
+          <div class="detail-field"><label for="dStudentId">Student ID</label><input id="dStudentId" name="studentId"></div>
+          <div class="detail-field"><label for="dAdmissionNo">Admission Number</label><input id="dAdmissionNo" name="admissionNumber"></div>
+          <div class="detail-field"><label for="dEmail">Email</label><input id="dEmail" name="email" type="email"></div>
+          <div class="detail-field"><label for="dProgramme">Programme</label><input id="dProgramme" name="programme"></div>
+          <div class="detail-field"><label for="dLevel">Level</label><input id="dLevel" name="level"></div>
+          <div class="detail-field"><label for="dSemester">Semester</label>
+            <select id="dSemester" name="semester"><option value="">Select Semester</option><option>First</option><option>Second</option></select>
+          </div>
+          <div class="detail-field"><label for="dAcademicSession">Academic Session</label><input id="dAcademicSession" name="academicSession"></div>
+          <div class="detail-field"><label for="dStatus">Status</label>
+            <select id="dStatus" name="status"><option>Active</option><option>Inactive</option><option>Graduated</option><option>Suspended</option><option>Withdrawn</option></select>
+          </div>
+          <div class="detail-field"><label for="dPaymentStatus">Payment Status</label>
+            <select id="dPaymentStatus" name="paymentStatus"><option>Paid</option><option>Pending</option><option>Part Payment</option><option>Not Paid</option></select>
+          </div>
+          <div class="detail-field"><label for="dPhone">Phone Number</label><input id="dPhone" name="phone" type="tel"></div>
+          <div class="detail-field"><label for="dDob">Date of Birth</label><input id="dDob" name="dateOfBirth" type="date"></div>
+          <div class="detail-field"><label for="dGender">Gender</label><input id="dGender" name="gender"></div>
+          <div class="detail-field"><label for="dState">State of Origin</label><input id="dState" name="stateOfOrigin"></div>
+          <div class="detail-field"><label for="dLga">LGA</label><input id="dLga" name="lga"></div>
+          <div class="detail-field full"><label for="dAddress">Address</label><textarea id="dAddress" name="address"></textarea></div>
+          <div class="detail-field"><label for="dGuardianName">Guardian Name</label><input id="dGuardianName" name="guardianName"></div>
+          <div class="detail-field"><label for="dGuardianPhone">Guardian Phone</label><input id="dGuardianPhone" name="guardianPhone" type="tel"></div>
+          <div class="detail-field full"><label for="dNotes">Notes</label><textarea id="dNotes" name="notes"></textarea></div>
+        </div>
+        <div class="details-status" id="detailsStatus"></div>
+        <div class="details-actions">
+          <button type="button" class="details-cancel" id="cancelDetails">Close</button>
+          <button type="submit" class="details-save" id="saveDetails">Save My Details</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer">Green Garden • Student Profile</div>
+</main>
+
+<script type="module">
+import{initializeApp,getApps,getApp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import{getAuth,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import{getFirestore,collection,getDocs,doc,getDoc,updateDoc}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig={
+  apiKey:"AIzaSyAoT3LGcdw3A0FzHDrPEuhTNCnfiTklGXY",
+  authDomain:"ggchst-sms-new.firebaseapp.com",
+  projectId:"ggchst-sms-new",
+  storageBucket:"ggchst-sms-new.firebasestorage.app",
+  messagingSenderId:"942770190211",
+  appId:"1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+
+const app=getApps().length?getApp():initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+const $=id=>document.getElementById(id);
+
+const norm=v=>String(v??"").trim().toLowerCase();
+const val=(o,keys,def="")=>{
+  for(const k of keys){
+    if(o&&o[k]!==undefined&&o[k]!==null&&String(o[k]).trim()!=="")return o[k];
+  }
+  return def;
+};
+const esc=v=>String(v??"").replace(/[&<>"']/g,m=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+}[m]));
+
+let student=null;
+let assignedCourses=[];
+let allResults=[];
+let attendanceRecords=[];
+let detailsPhotoData="";
+let detailsPhotoChanged=false;
+
+function showMessage(text,type="info"){
+  const el=$("message");
+  el.textContent=text;
+  el.className="message show "+type;
+}
+function initials(name){
+  return String(name||"Student").trim().split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase()||"ST";
+}
+function photoUrl(s){
+  return val(s,["photo","photoURL","photoUrl","profilePhoto","profilePicture"],"");
+}
+function setPhoto(src,name){
+  const el=$("photo");
+  if(src){
+    el.src=src;
+    el.style.display="block";
+    el.classList.remove("initials");
+    el.onerror=()=>{
+      el.onerror=null;
+      el.src="";
+      el.style.display="grid";
+      el.classList.add("initials");
+      el.alt=initials(name);
+    };
+  }else{
+    el.removeAttribute("src");
+    el.style.display="grid";
+    el.classList.add("initials");
+    el.alt=initials(name);
+  }
+}
+async function rows(name){
+  try{
+    const snap=await getDocs(collection(db,name));
+    return snap.docs.map(d=>({id:d.id,...d.data()}));
+  }catch(err){
+    console.warn("Collection read failed:",name,err);
+    return [];
+  }
+}
+async function findStudent(user){
+  const uid=String(user?.uid||"").trim();
+  const email=norm(user?.email);
+
+  // PRIMARY LINK: Firebase UID -> users.profileId -> exact students document.
+  // We also keep the users record so programme/level can be recovered if an
+  // older student document does not contain the mirrored display fields.
+  try{
+    const userRows=await rows("users");
+    const userRecord=userRows.find(x=>String(x.uid||x.authUid||x.firebaseUid||"").trim()===uid)
+      || userRows.find(x=>norm(x.email||x.authEmail)===email);
+
+    const profileId=String(userRecord?.profileId||"").trim();
+    if(profileId){
+      const snap=await getDoc(doc(db,"students",profileId));
+      if(snap.exists()) return {...userProfileFallback(userRecord),id:snap.id,...snap.data(),_userRecord:userRecord};
+    }
+
+    const list=await rows("students");
+    const byUid=list.find(s=>[s.studentUid,s.authUid,s.firebaseUid,s.uid].some(x=>String(x||"").trim()===uid));
+    if(byUid)return {...userProfileFallback(userRecord),...byUid,_userRecord:userRecord};
+
+    const byEmail=list.find(s=>norm(s.email||s.authEmail)===email);
+    if(byEmail)return {...userProfileFallback(userRecord),...byEmail,_userRecord:userRecord};
+  }catch(err){
+    console.warn("Primary student profile link failed; using direct student lookup:",err);
+  }
+
+  const list=await rows("students");
+  const found=list.find(s=>[s.studentUid,s.authUid,s.firebaseUid,s.uid].some(x=>String(x||"").trim()===uid))
+      || list.find(s=>norm(s.email||s.authEmail)===email);
+  return found||null;
+}
+
+function userProfileFallback(u){
+  if(!u)return {};
+  return {
+    fullName:u.name||u.fullName||"",
+    name:u.name||u.fullName||"",
+    email:u.email||u.authEmail||"",
+    studentId:u.studentId||u.schoolId||"",
+    admissionNumber:u.admissionNumber||"",
+    admissionNo:u.admissionNumber||"",
+    programmeId:u.programmeId||"",
+    programmeName:u.programmeName||u.programme||"",
+    programme:u.programmeName||u.programme||"",
+    levelId:u.levelId||"",
+    levelName:u.levelName||u.level||"",
+    level:u.levelName||u.level||"",
+    status:u.status||u.accountStatus||"Active"
+  };
+}
+
+async function resolveProgrammeAndLevel(s){
+  let programme=val(s,["programmeName","programme","courseOfStudy","programName","program"],"");
+  let level=val(s,["levelName","level","academicLevel","academicLevelName","levelCode"],"");
+  try{
+    const [programmes,levels]=await Promise.all([rows("programmes"),rows("academicLevels")]);
+    if(!programme){
+      const pid=val(s,["programmeId","programId"],"");
+      if(pid){
+        const p=programmes.find(x=>String(x.id)===String(pid));
+        if(p)programme=val(p,["name","programmeName","title","code"],"");
+      }
+    }
+    if(!programme && s._userRecord) programme=val(s._userRecord,["programmeName","programme"],"");
+    if(!level){
+      const lid=val(s,["levelId","academicLevelId"],"");
+      if(lid){
+        const l=levels.find(x=>String(x.id)===String(lid));
+        if(l)level=val(l,["name","levelName","title","code"],"");
+      }
+    }
+    if(!level && s._userRecord) level=val(s._userRecord,["levelName","level"],"");
+  }catch(err){
+    console.warn("Programme/level lookup failed:",err);
+  }
+  return {programme:programme||"—",level:level||"—"};
+}
+async function findCourses(s){
+  const [maps,courses,programmes,levels]=await Promise.all([
+    rows("curriculumMappings"),rows("courses"),rows("programmes"),rows("academicLevels")
+  ]);
+  const programme=val(s,["programme","programmeName","courseOfStudy","programName","program"]);
+  const level=val(s,["level","levelName","academicLevel","academicLevelName","levelCode"]);
+  const semester=val(s,["semester"]);
+  const p=programmes.find(x=>norm(val(x,["name","programmeName","title"]))===norm(programme)||norm(x.code)===norm(programme));
+  const l=levels.find(x=>norm(val(x,["name","levelName","title"]))===norm(level)||norm(x.code)===norm(level));
+  const filtered=maps.filter(m=>{
+    const pm=!p||!m.programmeId||norm(m.programmeId)===norm(p.id)||norm(m.programmeName)===norm(programme);
+    const lm=!l||!m.levelId||norm(m.levelId)===norm(l.id)||norm(m.levelName)===norm(level);
+    const sm=!semester||!m.semesterName||norm(m.semesterName)===norm(semester)||norm(m.semester)===norm(semester);
+    return pm&&lm&&sm;
+  });
+  return filtered.map(m=>courses.find(c=>c.id===m.courseId)||{
+    id:m.courseId||m.id,
+    courseCode:val(m,["courseCode","code"]),
+    courseTitle:val(m,["courseTitle","courseName","name"]),
+    courseUnit:val(m,["courseUnit","unit"]),
+    semester:val(m,["semesterName","semester"])
+  }).filter(c=>val(c,["courseCode","code"]));
+}
+function courseCodes(){
+  return new Set(assignedCourses.map(c=>norm(val(c,["courseCode","code"]))));
+}
+function matchStudent(r){
+  const ids=[
+    r.studentId,r.studentID,r.matricNo,r.matricNumber,r.registrationNumber,
+    r.admissionNo,r.studentUid,r.authUid,r.firebaseUid,r.uid,r.studentDocId
+  ].map(norm);
+  const me=[
+    student.id,student.studentId,student.admissionNo,student.admissionNumber,student.registrationNumber,
+    student.studentUid,student.authUid,student.firebaseUid,student.uid
+  ].map(norm);
+  return ids.some(x=>x&&me.includes(x));
+}
+function matchCourse(r){
+  const code=norm(val(r,["courseCode","course_code","code"]));
+  const id=norm(val(r,["courseId","courseID"]));
+  return courseCodes().has(code)||assignedCourses.some(c=>id&&norm(c.id)===id);
+}
+function numeric(v){
+  const n=Number(v);
+  return Number.isFinite(n)?n:null;
+}
+function calculateGpa(results){
+  let points=0,units=0;
+  for(const r of results){
+    const point=numeric(val(r,["point","gradePoint"]));
+    const unit=numeric(val(r,["unit","courseUnit","creditUnit"]));
+    if(point!==null&&unit!==null&&unit>0){points+=point*unit;units+=unit;}
+  }
+  return units?points/units:null;
+}
+function gradePointFromGrade(g){
+  const x=norm(g);
+  const map={a:4,a1:4,b:3,c:2,d:1,e:0,f:0};
+  return Object.prototype.hasOwnProperty.call(map,x)?map[x]:null;
+}
+function calculateGpaFallback(results){
+  let points=0,units=0;
+  for(const r of results){
+    const point=numeric(val(r,["point","gradePoint"]));
+    const unit=numeric(val(r,["unit","courseUnit","creditUnit"]));
+    const p=point!==null?point:gradePointFromGrade(val(r,["grade","letterGrade"]));
+    if(p!==null&&unit!==null&&unit>0){points+=p*unit;units+=unit;}
+  }
+  return units?points/units:null;
+}
+function calculateAttendance(records){
+  if(!records.length)return null;
+  let present=0,total=0;
+  for(const r of records){
+    const status=norm(val(r,["status","attendanceStatus"],r.present===true?"Present":""));
+    if(status==="present"||status==="p"||r.present===true)present++;
+    if(status||r.present!==undefined)total++;
+  }
+  return total?Math.round((present/total)*100):null;
+}
+function getProfileUpdatedDate(s){
+  const raw=s?.profileLastUpdatedAt||s?.profileLastUpdatedISO||s?.profileUpdatedAt||s?.profileUpdateDate;
+  if(!raw)return null;
+  if(typeof raw?.toDate==="function")return raw.toDate();
+  const d=new Date(raw);
+  return Number.isNaN(d.getTime())?null:d;
+}
+function profileEditLocked(){
+  const d=getProfileUpdatedDate(student);
+  if(!d)return false;
+  return (Date.now()-d.getTime()) >= 7*24*60*60*1000;
+}
+function formatProfileDate(d){
+  return d?d.toLocaleString(undefined,{day:"2-digit",month:"long",year:"numeric",hour:"2-digit",minute:"2-digit"}):"";
+}
+function setDetailsField(id,value){const el=$(id);if(el)el.value=value??"";}
+function openDetails(){
+  if(!student)return;
+
+  // The Student Profile and Admin Student Edit use the same students/{documentId}
+  // record. These fields intentionally mirror student-profile-admin-edit.html.
+  setDetailsField("dFullName",val(student,["fullName","studentName","name"]));
+  setDetailsField("dStudentId",val(student,["studentId","studentID","matricNo","schoolId"]));
+  setDetailsField("dAdmissionNo",val(student,["admissionNumber","admissionNo","registrationNumber"]));
+  setDetailsField("dEmail",val(student,["email","authEmail"]));
+  setDetailsField("dProgramme",val(student,["programmeName","programme","courseOfStudy"]));
+  setDetailsField("dLevel",val(student,["levelName","level"]));
+  setDetailsField("dSemester",val(student,["semester"]));
+  setDetailsField("dAcademicSession",val(student,["academicSession","session"]));
+  setDetailsField("dStatus",val(student,["status","accountStatus"],"Active"));
+  setDetailsField("dPaymentStatus",val(student,["paymentStatus","feesStatus","feeStatus","schoolFeesStatus","payment_state","fee_state"],"Not Paid"));
+  setDetailsField("dPhone",val(student,["phone","phoneNumber","mobile"]));
+  setDetailsField("dDob",val(student,["dateOfBirth","dob","birthDate"]));
+  setDetailsField("dGender",val(student,["gender","sex"]));
+  setDetailsField("dState",val(student,["stateOfOrigin","state"]));
+  setDetailsField("dLga",val(student,["lga","localGovernment","localGovernmentArea"]));
+  setDetailsField("dAddress",val(student,["address","residentialAddress","homeAddress"]));
+  setDetailsField("dGuardianName",val(student,["guardianName","parentName","nextOfKinName"]));
+  setDetailsField("dGuardianPhone",val(student,["guardianPhone","parentPhone","nextOfKinPhone"]));
+  setDetailsField("dNotes",val(student,["notes","adminNotes"]));
+
+  const src=photoUrl(student);
+  const preview=$("detailsPhotoPreview");
+  if(src){preview.src=src;preview.classList.remove("photo-fallback");}
+  else{preview.removeAttribute("src");preview.classList.add("photo-fallback");preview.alt=initials(val(student,["fullName","studentName"],"Student"));}
+
+  detailsPhotoData="";detailsPhotoChanged=false;
+  const locked=profileEditLocked();
+  const lock=$("detailsLock"),save=$("saveDetails");
+  if(locked){
+    lock.textContent="Your profile was last updated on "+formatProfileDate(getProfileUpdatedDate(student))+". The edit period has ended after 7 days. Your details are now read-only. Please contact the Admin if you need a correction.";
+    lock.classList.add("show");
+  }else{
+    lock.textContent="";lock.classList.remove("show");
+  }
+  document.querySelectorAll("#detailsForm input,#detailsForm select,#detailsForm textarea").forEach(el=>el.disabled=locked);
+  $("detailsPhoto").disabled=locked;
+  save.disabled=locked;
+  save.textContent=locked?"Editing Locked":"Save My Details";
+  $("detailsStatus").className="details-status";
+  $("detailsStatus").textContent="";
+  $("detailsModal").classList.add("show");
+  $("detailsModal").setAttribute("aria-hidden","false");
+}
+function closeDetails(){
+  $("detailsModal").classList.remove("show");
+  $("detailsModal").setAttribute("aria-hidden","true");
+}
+function renderProfileUpdateDate(){
+  const el=$("profileUpdateDate");
+  const d=getProfileUpdatedDate(student);
+  el.textContent=d?`Profile details last updated: ${formatProfileDate(d)}`:"Profile details not yet completed";
+}
+function showDetailsStatus(text,type){
+  const el=$("detailsStatus");el.textContent=text;el.className="details-status show "+(type||"ok");
+}
+async function uploadStudentPhoto(file){
+  if(!file)return "";
+  if(!file.type.startsWith("image/"))throw new Error("Please select an image file.");
+  if(file.size>8*1024*1024)throw new Error("Please choose a profile picture smaller than 8MB.");
+  const fd=new FormData();
+  fd.append("file",file);
+  fd.append("upload_preset","Obaestate");
+  fd.append("folder","students");
+  const res=await fetch("https://api.cloudinary.com/v1_1/hjdnytcb/image/upload",{method:"POST",body:fd});
+  const data=await res.json();
+  if(!res.ok||!data.secure_url)throw new Error(data.error?.message||"Profile picture upload failed.");
+  return data.secure_url;
+}
+async function saveMyDetails(e){
+  e.preventDefault();
+  if(!student||profileEditLocked())return;
+  const btn=$("saveDetails");btn.disabled=true;btn.textContent="Saving...";
+  try{
+    let photo=photoUrl(student);
+    if(detailsPhotoChanged&&detailsPhotoData){
+      showDetailsStatus("Uploading profile picture...","ok");
+      photo=await uploadStudentPhoto(detailsPhotoData);
+    }
+
+    const now=new Date().toISOString();
+    const fullName=$("dFullName").value.trim();
+    const studentId=$("dStudentId").value.trim();
+    const admissionNumber=$("dAdmissionNo").value.trim();
+    const email=$("dEmail").value.trim();
+    const programme=$("dProgramme").value.trim();
+    const level=$("dLevel").value.trim();
+    const semester=$("dSemester").value;
+    const academicSession=$("dAcademicSession").value.trim();
+    const status=$("dStatus").value;
+    const paymentStatus=$("dPaymentStatus").value;
+
+    if(!fullName)throw new Error("Full Name is required.");
+
+    // Save the same field set used by the Admin Student Edit page.
+    // Aliases are kept so the existing Student List/Profile readers continue
+    // to recognize the record without any schema break.
+    const data={
+      fullName,
+      studentName:fullName,
+      name:fullName,
+
+      studentId,
+      studentID:studentId,
+      matricNo:studentId,
+      schoolId:studentId,
+
+      admissionNumber,
+      admissionNo:admissionNumber,
+      registrationNumber:admissionNumber,
+
+      email,
+      programme,
+      programmeName:programme,
+      courseOfStudy:programme,
+
+      level,
+      levelName:level,
+
+      semester,
+      academicSession,
+      session:academicSession,
+
+      status,
+      accountStatus:status,
+      paymentStatus,
+
+      phone:$("dPhone").value.trim(),
+      dateOfBirth:$("dDob").value,
+      gender:$("dGender").value.trim(),
+      stateOfOrigin:$("dState").value.trim(),
+      lga:$("dLga").value.trim(),
+      address:$("dAddress").value.trim(),
+      guardianName:$("dGuardianName").value.trim(),
+      guardianPhone:$("dGuardianPhone").value.trim(),
+      notes:$("dNotes").value.trim(),
+
+      profilePhoto:photo,
+      photo,
+      photoURL:photo,
+      photoUrl:photo,
+
+      profileLastUpdatedAt:now,
+      profileLastUpdatedISO:now,
+      updatedAt:now,
+      updatedBy:"Student"
+    };
+
+    await updateDoc(doc(db,"students",student.id),data);
+
+    // Keep the users mirror in sync where the matching account record exists.
+    // The profileId remains unchanged, so login will continue to open this
+    // exact students document.
+    try{
+      const userRows=await rows("users");
+      const userRecord=userRows.find(x=String(x.uid||x.authUid||x.firebaseUid||"").trim()===String(student.studentUid||student.authUid||student.firebaseUid||student.uid||"").trim())
+        || userRows.find(x=String(x.profileId||"").trim()===String(student.id))
+        || userRows.find(x=>norm(x.email||x.authEmail)===norm(student.email||""));
+      if(userRecord?.id){
+        await updateDoc(doc(db,"users",userRecord.id),{
+          name:fullName,email,
+          authEmail:val(userRecord,["authEmail"],email),
+          studentId,admissionNumber,
+          schoolId:studentId,
+          programmeId:val(student,["programmeId"],""),
+          programmeName:programme,
+          levelId:val(student,["levelId"],""),
+          levelName:level,
+          status,
+          profileCompleted:true,
+          updatedAt:now
+        });
+      }
+    }catch(syncErr){
+      console.warn("Users mirror sync skipped:",syncErr);
+    }
+
+    student={...student,...data};
+    await renderProfile();renderProfileUpdateDate();
+    showDetailsStatus("Your student details have been saved successfully. The same record is now available to the Admin Student List/Edit page.","ok");
+    btn.disabled=false;btn.textContent="Save My Details";
+    setTimeout(closeDetails,1200);
+  }catch(err){
+    console.error(err);
+    showDetailsStatus(err.message||"Could not save your details.","err");
+    btn.disabled=false;btn.textContent="Save My Details";
+  }
+}
+
+async function renderProfile(){
+  const name=val(student,["fullName","studentName","name"],"Student");
+  const sid=val(student,["studentId","studentID","matricNo"],"—");
+  const session=val(student,["academicSession","session"],"—");
+  const status=val(student,["status","accountStatus"],"Active");
+  const resolved=await resolveProgrammeAndLevel(student||{});
+
+  // Keep the resolved values on the same in-memory student object so every
+  // section of the profile uses the same Programme/Level values.
+  student.programme=resolved.programme;
+  student.programmeName=resolved.programme;
+  student.level=resolved.level;
+  student.levelName=resolved.level;
+
+  $("studentName").textContent=name;
+  $("identity").textContent=sid;
+  $("programme").textContent=resolved.programme;
+  $("level").textContent=resolved.level;
+  $("session").textContent=session;
+  $("status").textContent=String(status).toUpperCase();
+  $("status").style.color=norm(status)==="active"?"#138344":"#8a3b12";
+  setPhoto(photoUrl(student),name);
+  renderProfileUpdateDate();
+}
+function renderCourses(){
+  $("courseCount").textContent=assignedCourses.length;
+  if(!assignedCourses.length){
+    $("courses").innerHTML='<div class="empty">No courses are currently assigned to your Programme and Level.</div>';
+    return;
+  }
+  $("courses").innerHTML=`
+    <table>
+      <thead><tr><th>Code</th><th>Course Title</th><th>Unit</th></tr></thead>
+      <tbody>
+        ${assignedCourses.map(c=>`<tr>
+          <td class="course-code">${esc(val(c,["courseCode","code"],"—"))}</td>
+          <td class="course-title">${esc(val(c,["courseTitle","courseName","name"],"Course"))}</td>
+          <td>${esc(val(c,["courseUnit","unit"],"—"))}</td>
+        </tr>`).join("")}
+      </tbody>
+    </table>`;
+}
+function renderResults(){
+  const resultSession=val(student,["academicSession","session"],"Current Academic Session");
+  const resultSemester=val(student,["semester","currentSemester"],"");
+  const resultBadge=$("resultSessionBadge");
+  if(resultBadge) resultBadge.textContent=`${resultSession}${resultSemester?" • "+resultSemester:""}`;
+  if(!allResults.length){
+    $("results").innerHTML='<div class="empty">No result records are available yet.</div>';
+  }else{
+    $("results").innerHTML=`
+      <table>
+        <thead><tr><th>Course</th><th>CA</th><th>Exam</th><th>Total</th><th>Grade</th><th>Point</th></tr></thead>
+        <tbody>${allResults.map(r=>`<tr>
+          <td>${esc(val(r,["courseCode","code"],"—"))} — ${esc(val(r,["courseName","courseTitle"],""))}</td>
+          <td>${esc(val(r,["ca","caGrade","caScore"],"—"))}</td>
+          <td>${esc(val(r,["exam","examGrade","examScore"],"—"))}</td>
+          <td>${esc(val(r,["total","totalGrade","score"],"—"))}</td>
+          <td>${esc(val(r,["grade","letterGrade"],"—"))}</td>
+          <td>${esc(val(r,["point","gradePoint"],"—"))}</td>
+        </tr>`).join("")}</tbody>
+      </table>`;
+  }
+
+  const storedCgpa=numeric(val(student,["cgpa","CGPA","cumulativeGPA"]));
+  const storedGpa=numeric(val(student,["gpa","GPA","currentGPA"]));
+  const computedGpa=calculateGpa(allResults)??calculateGpaFallback(allResults);
+  $("cgpa").textContent=storedCgpa!==null?storedCgpa.toFixed(2):allResults.length&&computedGpa!==null?computedGpa.toFixed(2):"—";
+  $("gpa").textContent=storedGpa!==null?storedGpa.toFixed(2):allResults.length&&computedGpa!==null?computedGpa.toFixed(2):"—";
+}
+function renderAttendance(){
+  const rate=calculateAttendance(attendanceRecords);
+  const stored=numeric(val(student,["attendanceRate","attendance","attendancePercentage"]));
+  $("attendanceRate").textContent=stored!==null?`${stored}%`:rate!==null?`${rate}%`:"—";
+}
+function renderCarryovers(){
+  const carry=allResults.filter(r=>{
+    const g=norm(val(r,["grade","letterGrade"]));
+    return g==="f"||g==="fail"||g==="carryover"||norm(val(r,["status"]))==="carryover";
+  });
+  if(!carry.length){
+    $("carryovers").innerHTML='<div class="empty">— No carryover course</div>';
+    return;
+  }
+  $("carryovers").innerHTML=carry.map(r=>`
+    <div class="list-item">
+      <h3>${esc(val(r,["courseCode","code"],"—"))} — ${esc(val(r,["courseName","courseTitle"],"Course"))}</h3>
+      <p>Previous session: ${esc(val(r,["session","academicSession"],"Previous session"))} • Unit: ${esc(val(r,["unit","courseUnit","creditUnit"],"0"))}</p>
+    </div>`).join("");
+}
+function renderTimetable(records){
+  if(!records.length){$("timetable").innerHTML='<div class="empty">No class timetable records available.</div>';return;}
+  $("timetable").innerHTML=`<table><thead><tr><th>Day</th><th>Time</th><th>Course</th><th>Venue</th></tr></thead><tbody>${
+    records.map(r=>`<tr><td>${esc(val(r,["day"],"—"))}</td><td>${esc(val(r,["startTime","time"],""))}${val(r,["endTime"])?" - "+esc(r.endTime):""}</td><td class="course-code">${esc(val(r,["courseCode","code"],"—"))}</td><td>${esc(val(r,["venue","venueName"],"—"))}</td></tr>`).join("")
+  }</tbody></table>`;
+}
+function renderExams(records){
+  if(!records.length){$("exams").innerHTML='<div class="empty">No examination timetable records available.</div>';return;}
+  $("exams").innerHTML=`<table><thead><tr><th>Date</th><th>Time</th><th>Course</th><th>Venue</th><th>Exam</th></tr></thead><tbody>${
+    records.map(r=>`<tr><td>${esc(val(r,["date","examDate"],"—"))}</td><td>${esc(val(r,["startTime","time"],"—"))}${val(r,["endTime"])?" - "+esc(r.endTime):""}</td><td class="course-code">${esc(val(r,["courseCode","code"],"—"))}</td><td>${esc(val(r,["venue","venueName"],"—"))}</td><td>${esc(val(r,["examinationName","examName","name"],"—"))}</td></tr>`).join("")
+  }</tbody></table>`;
+}
+function renderList(id,records,kind){
+  if(!records.length){
+    $(id).innerHTML='<div class="empty">No records available.</div>';
+    return;
+  }
+  if(kind==="notes"){
+    $(id).innerHTML=records.map(r=>{
+      const url=val(r,["fileUrl","url","downloadUrl"]);
+      return `<div class="list-item">
+        <h3>${esc(val(r,["title","topic","courseTitle"],"Lecture Note"))}</h3>
+        <p>${esc(val(r,["courseCode","code"],""))}${val(r,["courseCode","code"])?" • ":""}${esc(val(r,["description"],""))}</p>
+        <small>${esc(val(r,["date","createdDate","session","academicSession"],""))}${url?` • <a class="file-link" href="${esc(url)}" target="_blank" rel="noopener">Open file</a>`:""}</small>
+      </div>`;
+    }).join("");
+  }else if(kind==="assignments"){
+    $(id).innerHTML=records.map(r=>`<div class="list-item">
+      <h3>${esc(val(r,["title","assignmentTitle"],"Assignment"))}</h3>
+      <p>${esc(val(r,["courseCode","code"],""))}${val(r,["courseCode","code"])?" • ":""}Due: ${esc(val(r,["dueDate","due"],"—"))}</p>
+      <small>${esc(val(r,["status"],"Active"))}</small>
+    </div>`).join("");
+  }else{
+    $(id).innerHTML=records.map(r=>`<div class="list-item">
+      <h3>${esc(val(r,["title","subject","headline"],"Announcement"))}</h3>
+      <p>${esc(val(r,["message","content","description","body"],""))}</p>
+      <small>${esc(val(r,["date","announcementDate","createdDate","createdAt"],""))}</small>
+    </div>`).join("");
+  }
+}
+
+function money(v){
+  const n=Number(v);
+  return Number.isFinite(n) ? "₦"+n.toLocaleString("en-NG",{minimumFractionDigits:0,maximumFractionDigits:2}) : String(v??"—");
+}
+function renderAttendanceDetail(records){
+  const grouped=new Map();
+  for(const r of records){
+    const code=val(r,["courseCode","code"],"—");
+    const key=norm(code);
+    if(!grouped.has(key)) grouped.set(key,{code,classes:0,present:0,absent:0});
+    const g=grouped.get(key);
+    const classes=numeric(val(r,["classes","totalClasses","classesHeld"],1))||1;
+    g.classes+=classes;
+    const status=norm(val(r,["status","attendanceStatus"],r.present===true?"Present":""));
+    if(status==="present"||status==="p"||r.present===true) g.present+=1;
+    else if(status==="absent"||status==="a"||r.present===false) g.absent+=1;
+  }
+  const arr=[...grouped.values()];
+  const totalClasses=arr.reduce((a,x)=>a+x.classes,0);
+  const totalPresent=arr.reduce((a,x)=>a+x.present,0);
+  const overall=totalClasses?Math.round(totalPresent/totalClasses*100):null;
+  $("overallAttendance").textContent=overall!==null?overall+"%":$("attendanceRate").textContent;
+  if(!arr.length){
+    $("attendanceTable").innerHTML='<div class="empty">No course attendance records available.</div>';
+    return;
+  }
+  $("attendanceTable").innerHTML=`<table><thead><tr><th>Course</th><th>Classes</th><th>Present</th><th>Absent</th><th>Attendance</th></tr></thead><tbody>${
+    arr.map(x=>{
+      const rate=x.classes?Math.round(x.present/x.classes*100):0;
+      return `<tr><td class="course-code">${esc(x.code)}</td><td>${x.classes}</td><td>${x.present}</td><td>${x.absent}</td><td>${rate}%</td></tr>`;
+    }).join("")
+  }</tbody></table>`;
+}
+function renderFees(payments){
+  const session=norm(val(student,["academicSession","session"]));
+  const current=payments.filter(r=>{
+    const s=norm(val(r,["academicSession","session"]));
+    return !s||!session||s===session;
+  });
+  if(!current.length){
+    $("fees").innerHTML='<div class="empty">No school-fee payment record is available for the current session.</div>';
+    return;
+  }
+
+  const groups=new Map();
+  for(const r of current){
+    const s=val(r,["academicSession","session"],val(student,["academicSession","session"],"Current Session"));
+    if(!groups.has(s)) groups.set(s,{session:s,total:0,paid:0,balance:0,status:""});
+    const g=groups.get(s);
+    const total=numeric(val(r,["total","totalAmount","feeAmount","amountDue","expectedAmount"]));
+    const paid=numeric(val(r,["paid","amountPaid","paymentAmount","amount"]));
+    const balance=numeric(val(r,["balance","amountBalance","outstanding"]));
+    if(total!==null)g.total+=total;
+    if(paid!==null)g.paid+=paid;
+    if(balance!==null)g.balance+=balance;
+    g.status=val(r,["paymentStatus","status"],g.status);
+  }
+
+  $("fees").innerHTML=[...groups.values()].map(g=>{
+    const calculatedBalance=g.balance||(g.total&&g.paid?Math.max(0,g.total-g.paid):0);
+    const status=g.status||(
+      calculatedBalance===0&&g.total>0?"Paid":
+      g.paid>0?"Part Payment":"Unpaid"
+    );
+    const statusColor=norm(status).includes("paid")&& !norm(status).includes("part")?"#087443":"#b42318";
+    return `<div class="list-item" style="border-left-color:${statusColor}">
+      <div style="display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:flex-start">
+        <div>
+          <h3>${esc(g.session)}</h3>
+          <p>Total: ${money(g.total)} • Paid: ${money(g.paid)} • Balance: ${money(calculatedBalance)}</p>
+        </div>
+        <strong style="font-size:22px;color:${statusColor}">${esc(status)}</strong>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+
+
+let examCountdownTimer=null;
+let examPrintReady=false;
+let examTimeReached=false;
+let examFeesPaid=false;
+let activeSemester=null;
+let activeSemesterUid="";
+
+function getSemesterEndDate(semester){
+  const raw=val(semester,["endDate","end_date","semesterEndDate","end"],"");
+  if(!raw)return null;
+
+  // Firestore Timestamp / Date object support.
+  if(typeof raw?.toDate==="function"){
+    const d=raw.toDate();
+    if(!Number.isNaN(d.getTime()))return d;
+  }
+  if(raw instanceof Date && !Number.isNaN(raw.getTime()))return raw;
+
+  const text=String(raw).trim();
+  if(!text)return null;
+
+  // A date-only semester end is treated as the end of that calendar day,
+  // using the student's/browser local calendar.
+  if(/^\d{4}-\d{2}-\d{2}$/.test(text)){
+    const [y,m,d]=text.split("-").map(Number);
+    const localEnd=new Date(y,m-1,d,23,59,59,999);
+    return Number.isNaN(localEnd.getTime())?null:localEnd;
+  }
+
+  const parsed=new Date(text);
+  return Number.isNaN(parsed.getTime())?null:parsed;
+}
+
+function splitSemesterCountdown(ms){
+  const totalSeconds=Math.max(0,Math.floor(ms/1000));
+  return {
+    days:Math.floor(totalSeconds/86400),
+    hours:Math.floor((totalSeconds%86400)/3600),
+    minutes:Math.floor((totalSeconds%3600)/60),
+    seconds:totalSeconds%60
+  };
+}
+
+function setCountdownValues(x){
+  // The visible countdown is DAYS : HOURS : MINUTES : SECONDS.
+  // Months and weeks stay at zero so the requested four-part countdown
+  // reaches exactly 00:00:00:00 when the active semester ends.
+  $("countDays").textContent=String(Math.max(0,x.days||0)).padStart(2,"0");
+  $("countHours").textContent=String(Math.max(0,x.hours||0)).padStart(2,"0");
+  $("countMinutes").textContent=String(Math.max(0,x.minutes||0)).padStart(2,"0");
+  $("countSeconds").textContent=String(Math.max(0,x.seconds||0)).padStart(2,"0");
+}
+
+function setExamReady(){
+  if(examCountdownTimer)clearInterval(examCountdownTimer);
+  examTimeReached=true;
+  examPrintReady=examFeesPaid;
+  setCountdownValues({days:0,hours:0,minutes:0,seconds:0});
+  applyExamPrintAccess();
+}
+
+function startSemesterCountdown(semesterEndDate){
+  if(examCountdownTimer)clearInterval(examCountdownTimer);
+
+  $("examCountdown").style.display="block";
+  examTimeReached=false;
+  examPrintReady=false;
+
+  if(!semesterEndDate){
+    setCountdownValues({days:0,hours:0,minutes:0,seconds:0});
+    $("countdownLabel").textContent="ACTIVE SEMESTER END DATE NOT AVAILABLE";
+    $("countdownNote").textContent="The active semester does not contain a valid end date.";
+    applyExamPrintAccess();
+    return;
+  }
+
+  const tick=()=>{
+    const diff=semesterEndDate.getTime()-Date.now();
+    if(diff<=0){
+      setExamReady();
+      return;
+    }
+    setCountdownValues(splitSemesterCountdown(diff));
+  };
+
+  $("countdownLabel").textContent="ACTIVE SEMESTER ENDS IN";
+  $("countdownNote").textContent="Countdown is calculated from the active semester end date and your current calendar time.";
+  tick();
+  examCountdownTimer=setInterval(tick,1000);
+}
+
+
+function isPaymentFullyPaid(payments){
+  if(!payments.length)return false;
+
+  const session=norm(val(student,["academicSession","session"]));
+  const relevant=payments.filter(r=>{
+    const rs=norm(val(r,["academicSession","session","sessionName"]));
+    return !session||!rs||rs===session;
+  });
+  if(!relevant.length)return false;
+
+  // An explicit paid status is authoritative.
+  const explicit=relevant.some(r=>{
+    const s=norm(val(r,["paymentStatus","status","feeStatus"]));
+    return s==="paid"||s==="fully paid"||s==="complete"||s==="completed";
+  });
+  if(explicit)return true;
+
+  // Otherwise use total/paid/balance amounts.
+  let hasAmounts=false, total=0, paid=0, balance=0;
+  for(const r of relevant){
+    const t=numeric(val(r,["total","totalAmount","feeAmount","amountDue","expectedAmount"]));
+    const p=numeric(val(r,["paid","amountPaid","paymentAmount","amount"]));
+    const b=numeric(val(r,["balance","amountBalance","outstanding"]));
+    if(t!==null||p!==null||b!==null)hasAmounts=true;
+    if(t!==null)total+=t;
+    if(p!==null)paid+=p;
+    if(b!==null)balance+=b;
+  }
+  return hasAmounts && total>0 && paid>=total && balance<=0;
+}
+
+function applyExamPrintAccess(){
+  const slip=$("examSlip");
+  const btn=$("printExamSlip");
+  const countdown=$("examCountdown");
+  const note=$("countdownNote");
+
+  slip.classList.remove("exam-ready","exam-fee-locked");
+
+  if(!examTimeReached){
+    btn.disabled=true;
+    btn.setAttribute("aria-disabled","true");
+    btn.classList.add("print-locked");
+    return;
+  }
+
+  // Keep the countdown visible after reaching zero so the exam-slip status
+  // remains visible to the student.
+  countdown.style.display="block";
+  setCountdownValues({days:0,hours:0,minutes:0,seconds:0});
+
+  if(examFeesPaid){
+    slip.classList.add("exam-ready");
+    btn.disabled=false;
+    btn.removeAttribute("aria-disabled");
+    btn.classList.remove("print-locked");
+    note.textContent="";
+  }else{
+    slip.classList.add("exam-fee-locked");
+    btn.disabled=true;
+    btn.setAttribute("aria-disabled","true");
+    btn.classList.add("print-locked");
+    // Reuse the message area requested by the user.
+    const label=$("countdownLabel");
+    label.textContent="PRINTING LOCKED";
+    note.textContent="To print your exam slip you have to complete your school fees.";
+  }
+}
+
+function renderExamStudent(){
+  const name=val(student,["fullName","studentName","name"],"—");
+  const photo=photoUrl(student);
+  $("examStudentName").textContent=name;
+  $("examStudentId").textContent=val(student,["studentId","studentID","matricNo"],"—");
+  $("examAdmissionNo").textContent=val(student,["admissionNo"],"—");
+  $("examProgramme").textContent=val(student,["programme","courseOfStudy"],"—");
+  $("examDepartment").textContent=val(student,["department","departmentName"],val(student,["programme","courseOfStudy"],"—"));
+  $("examFaculty").textContent=val(student,["faculty","school","facultyName"],"School of Health & Technology");
+  $("examLevel").textContent=val(student,["level"],"—");
+  $("examSession").textContent=val(student,["academicSession","session"],"—");
+  $("examStatus").textContent=String(val(student,["status"],"Active")).toUpperCase();
+
+  const img=$("examPhoto");
+  if(photo){
+    img.src=photo;
+    img.onerror=()=>{img.onerror=null;img.style.display="none";};
+  }else{
+    img.style.display="none";
+  }
+}
+function semesterLabel(){
+  const s=norm(val(student,["semester","currentSemester","activeSemester"],""));
+  if(s.includes("second")||s==="2"||s==="2nd")return"SECOND SEMESTER EXAMINATION";
+  if(s.includes("first")||s==="1"||s==="1st")return"FIRST SEMESTER EXAMINATION";
+  return s?`${String(val(student,["semester","currentSemester","activeSemester"])).toUpperCase()} EXAMINATION`:"EXAMINATION";
+}
+function renderExamSlip(records){
+  $("examType").textContent=`${val(student,["academicSession","session"],"")} ${semesterLabel()}`.trim();
+
+  if(!records.length){
+    $("examSlipTable").innerHTML='<div class="empty">No examination timetable is currently available for this student.</div>';
+    return;
+  }
+
+  $("examSlipTable").innerHTML=`<table><thead><tr><th>S/N</th><th>Date</th><th>Time</th><th>Course Code</th><th>Course Title</th><th>Venue</th></tr></thead><tbody>${
+    records.map((r,i)=>`<tr>
+      <td>${i+1}</td>
+      <td>${esc(val(r,["date","examDate"],"—"))}</td>
+      <td>${esc(val(r,["startTime","time"],"—"))}${val(r,["endTime"])?" - "+esc(r.endTime):""}</td>
+      <td class="course-code">${esc(val(r,["courseCode","code"],"—"))}</td>
+      <td>${esc(val(r,["courseTitle","courseName","name"],"—"))}</td>
+      <td>${esc(val(r,["venue","venueName"],"—"))}</td>
+    </tr>`).join("")
+  }</tbody></table>`;
+}
+
+async function loadData(){
+  const [
+    courses,results,payments,attendance,timetables,exams,notes,assignments,announcements,notices,semesters
+  ]=await Promise.all([
+    findCourses(student),
+    rows("results"),
+    rows("payments"),
+    rows("attendance"),
+    rows("timetables"),
+    rows("examinationSchedules"),
+    rows("lectureNotes"),
+    rows("assignments"),
+    rows("announcements"),
+    rows("notices"),
+    rows("semesters")
+  ]);
+
+  // Find the currently ACTIVE semester. Its Firestore document ID identifies
+  // the semester, and its own endDate is the countdown target.
+  activeSemester=semesters.find(x=>norm(x.status)==="active")||null;
+  activeSemesterUid=String(activeSemester?.id||"").trim();
+
+  assignedCourses=courses;
+  allResults=results.filter(matchStudent).filter(r=>!val(r,["courseCode","code","courseId"])||matchCourse(r));
+  attendanceRecords=attendance.filter(matchStudent).filter(r=>!val(r,["courseCode","code","courseId"])||matchCourse(r));
+
+  const timetableRecords=timetables.filter(matchCourse);
+  const targetSemester=norm(val(student,["semester","currentSemester","activeSemester"]));
+  const studentSession=norm(val(student,["academicSession","session"]));
+
+  // Examination timetable records are kept separate from the semester
+  // countdown. The timetable may use semesterId for displaying exam records,
+  // but it is NOT used to calculate the countdown.
+  const activeSemesterExams=exams.filter(r=>{
+    const examSemesterUid=String(val(r,["semesterId","semesterUid","semesterUID","termId"],"")||"").trim();
+    return !!activeSemesterUid && examSemesterUid===activeSemesterUid;
+  });
+
+  // These are the records displayed on the student's slip. They still use
+  // the student's assigned courses, but they are restricted to the active
+  // semester UID and the student's current session where available.
+  const examRecords=activeSemesterExams.filter(matchCourse).filter(r=>{
+    const rs=norm(val(r,["academicSession","session","sessionName"]));
+    const rm=norm(val(r,["semester","semesterName","term"]));
+    const semesterNameOK=!targetSemester||!rm||rm===targetSemester||rm.includes(targetSemester)||targetSemester.includes(rm);
+    const sessionOK=!studentSession||!rs||rs===studentSession;
+    return semesterNameOK&&sessionOK;
+  });
+
+  // Countdown reference: the ACTIVE SEMESTER itself.
+  // The active semester document's endDate is the ONLY countdown target.
+  // Examination dates are not used here.
+  const semesterEndDate=getSemesterEndDate(activeSemester);
+  const noteRecords=notes.filter(matchCourse);
+  const assignmentRecords=assignments.filter(matchCourse);
+
+  const targetProgram=norm(val(student,["programme","programmeName","courseOfStudy","programName","program"]));
+  const targetLevel=norm(val(student,["level","levelName","academicLevel","academicLevelName","levelCode"]));
+  const targetSession=norm(val(student,["academicSession","session"]));
+
+  const combinedAnnouncements=[...announcements,...notices].filter((r,i,a)=>{
+    const key=norm(r.id||`${r.title}|${r.message}|${r.date}`);
+    return a.findIndex(x=>norm(x.id||`${x.title}|${x.message}|${x.date}`)===key)===i;
+  }).filter(r=>{
+    const p=norm(val(r,["programme","programmeName"]));
+    const l=norm(val(r,["level","levelName"]));
+    const s=norm(val(r,["session","academicSession"]));
+    return (!p||p===targetProgram)&&(!l||l===targetLevel)&&(!s||s===targetSession);
+  }).slice(0,10);
+
+  renderCourses();
+  renderResults();
+  renderAttendance();
+  renderCarryovers();
+  renderTimetable(timetableRecords);
+  renderExams(examRecords);
+  renderList("notes",noteRecords,"notes");
+  renderList("assignments",assignmentRecords,"assignments");
+  renderList("announcements",combinedAnnouncements,"announcements");
+  renderAttendanceDetail(attendanceRecords);
+  const studentPayments=payments.filter(matchStudent);
+  renderFees(studentPayments);
+  examFeesPaid=isPaymentFullyPaid(studentPayments);
+  renderExamStudent();
+
+  // Start the countdown from the ACTIVE SEMESTER END DATE.
+  // The semester UID has already been resolved above; its endDate is the
+  // authoritative calendar target for this countdown.
+  startSemesterCountdown(semesterEndDate);
+  renderExamSlip(examRecords);
+  if(examTimeReached)applyExamPrintAccess();
+}
+async function start(user){
+  student=await findStudent(user);
+  if(!student){
+    showMessage("Your Firebase account is logged in, but no student record is linked to this Firebase UID/profileId. Ask the administrator to check the student's users and students records.","error");
+    $("studentName").textContent="Student record not found";
+    $("identity").textContent=user.email||"";
+    $("status").textContent="NOT LINKED";
+    return;
+  }
+  renderProfile();
+  await loadData();
+}
+$("logout").onclick=async()=>{try{await signOut(auth)}finally{location.href="login.html"}};
+$("printExamSlip").onclick=()=>{
+  if(!examPrintReady||!examFeesPaid||!examTimeReached)return;
+  window.print();
+};
+$("myDetailsBtn").onclick=openDetails;
+$("closeDetails").onclick=closeDetails;
+$("cancelDetails").onclick=closeDetails;
+$("detailsModal").addEventListener("click",e=>{if(e.target===$("detailsModal"))closeDetails();});
+$("detailsForm").addEventListener("submit",saveMyDetails);
+$("detailsPhoto").addEventListener("change",e=>{
+  const file=e.target.files?.[0];if(!file)return;
+  detailsPhotoData=file;detailsPhotoChanged=true;
+  const preview=$("detailsPhotoPreview");
+  const reader=new FileReader();
+  reader.onload=()=>{preview.src=reader.result;preview.classList.remove("photo-fallback");};
+  reader.readAsDataURL(file);
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("detailsModal").classList.contains("show"))closeDetails();});
+
+let started=false;
+onAuthStateChanged(auth,async user=>{
+  if(started)return;
+  started=true;
+  if(!user){location.href="login.html";return;}
+  try{
+    await Promise.race([
+      start(user),
+      new Promise((_,reject)=>setTimeout(()=>reject(new Error("The student profile took too long to load. Please refresh and try again.")),15000))
+    ]);
+  }catch(err){
+    console.error(err);
+    showMessage(err.message||"Could not load the student profile.","error");
+    $("studentName").textContent="Unable to load profile";
+    $("identity").textContent="Please refresh the page or contact the administrator.";
+    $("status").textContent="ERROR";
+  }
+});
+</script>
+</body>
+</html>

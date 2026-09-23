@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admissions Management | GGCHST SMS</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#172033}
+.school-header{background:#fff;min-height:78px;padding:9px 16px;display:grid;grid-template-columns:78px 1fr 88px;align-items:center;gap:12px;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:20}
+.school-logo{display:flex;justify-content:center;align-items:center}
+.school-logo img{width:62px;height:62px;border-radius:50%;object-fit:cover;border:3px solid #087b43;background:#fff}
+.school-name{text-align:center;color:#124b32;font-size:17px;font-weight:900;line-height:1.2}
+.back-btn{justify-self:end;background:#087b43;color:#fff;text-decoration:none;padding:9px 12px;border-radius:9px;font-size:12px;font-weight:800}
+.container{max-width:1450px;margin:20px auto;padding:0 15px}
+.hero{background:#0b7b45;color:#fff;border-radius:16px;padding:20px;margin-bottom:18px}
+.hero h1{margin:0 0 6px;font-size:24px}
+.hero p{margin:0;font-size:13px;line-height:1.55;opacity:.95}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px}
+.stat{background:#fff;border-radius:14px;padding:15px;box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.stat b{display:block;font-size:23px;color:#087b43}
+.stat span{font-size:12px;color:#687385}
+.card{background:#fff;border-radius:14px;padding:18px;box-shadow:0 4px 16px rgba(0,0,0,.06);margin-bottom:18px}
+.card h2{font-size:18px;margin:0 0 15px;color:#124b32}
+.filters,.form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:12px;font-weight:800;color:#344054}
+.field input,.field select,.field textarea{width:100%;border:1px solid #d0d5dd;border-radius:9px;padding:10px 11px;background:#fff;font-size:13px;outline:none}
+.field textarea{min-height:75px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#087b43;box-shadow:0 0 0 2px rgba(8,123,67,.1)}
+.full{grid-column:1/-1}.span2{grid-column:span 2}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}
+button,.btn{border:0;border-radius:9px;padding:10px 14px;font-weight:800;cursor:pointer;text-decoration:none;font-size:12px}
+.primary{background:#087b43;color:#fff}.secondary{background:#edf1f4;color:#263238}.danger{background:#b42318;color:#fff}.warning{background:#f59e0b;color:#fff}.blue{background:#2563eb;color:#fff}
+.notice{display:none;padding:11px 13px;border-radius:9px;margin-bottom:14px;font-size:12px}
+.notice.ok{display:block;background:#e1f5e9;color:#087443}.notice.err{display:block;background:#fde7e7;color:#a61b1b}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:1250px}
+th,td{padding:10px 9px;border-bottom:1px solid #e8ecf0;text-align:left;font-size:12px;vertical-align:middle}
+th{background:#f7f9fb;color:#344054;position:sticky;top:0;z-index:2}
+.badge{display:inline-block;padding:5px 8px;border-radius:20px;font-size:10px;font-weight:900}
+.pending{background:#fff3cd;color:#795b00}.verified{background:#dff6e7;color:#087443}.rejected{background:#fde2e2;color:#a61b1b}
+.review{background:#e8f0ff;color:#1d4ed8}.approved{background:#dcfce7;color:#166534}.declined{background:#fee2e2;color:#991b1b}.converted{background:#ede9fe;color:#6d28d9}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:13px}.toolbar input,.toolbar select{padding:9px;border:1px solid #d0d5dd;border-radius:8px;font-size:12px}
+.empty{text-align:center;padding:30px;color:#7b8794}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:15px;z-index:50}
+.modal.show{display:flex}.modal-box{background:#fff;border-radius:16px;width:min(900px,100%);max-height:92vh;overflow:auto;padding:20px}
+.modal-head{display:flex;justify-content:space-between;gap:10px;align-items:center;border-bottom:1px solid #e5e7eb;padding-bottom:12px;margin-bottom:14px}
+.modal-head h2{margin:0;color:#124b32;font-size:18px}.close{background:#edf1f4}
+.review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.info{background:#f7f9fb;border-radius:10px;padding:10px}.info small{display:block;color:#667085;font-size:10px}.info b{display:block;margin-top:3px;font-size:12px}
+.section-title{font-size:14px;font-weight:900;color:#124b32;margin:17px 0 9px;border-bottom:1px solid #e5e7eb;padding-bottom:7px}
+@media(max-width:1000px){.stats{grid-template-columns:repeat(3,1fr)}.filters,.form-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){
+.school-header{grid-template-columns:55px 1fr 65px;min-height:68px;padding:7px 9px;gap:7px}.school-logo img{width:48px;height:48px}.school-name{font-size:12px}.back-btn{padding:7px 8px;font-size:10px}
+.container{padding:0 9px}.hero{padding:16px}.hero h1{font-size:20px}.stats{grid-template-columns:repeat(2,1fr)}.filters,.form-grid,.review-grid{grid-template-columns:1fr}.span2{grid-column:auto}.card{padding:13px}.actions button,.actions .btn{width:100%}
+}
+</style>
+</head>
+<body>
+
+<header class="school-header">
+  <div class="school-logo">
+    <img src="logo.png" alt="Green Garden College of Health Sciences & Technology logo">
+  </div>
+  <div class="school-name">Green Garden College of Health Sciences &amp; Technology, Gusau</div>
+  <a class="back-btn" href="admin.html">← Back</a>
+</header>
+
+<main class="container">
+<section class="hero">
+  <h1>Admissions Management</h1>
+  <p>Manage applications received through the school's existing application process. Payment is verified manually from the applicant's payment slip before screening and admission processing.</p>
+</section>
+
+<div id="notice" class="notice"></div>
+
+<section class="stats">
+  <div class="stat"><b id="total">0</b><span>Total Applications</span></div>
+  <div class="stat"><b id="submitted">0</b><span>Submitted</span></div>
+  <div class="stat"><b id="paymentPending">0</b><span>Payment Pending</span></div>
+  <div class="stat"><b id="screening">0</b><span>Screening</span></div>
+  <div class="stat"><b id="admitted">0</b><span>Admitted</span></div>
+</section>
+
+<section class="card">
+<h2>Application Review</h2>
+<div class="toolbar">
+  <input id="search" type="search" placeholder="Search application no., name, email, programme...">
+  <select id="filterPayment"><option value="">All payment status</option><option>Pending</option><option>Verified</option><option>Rejected</option></select>
+  <select id="filterStatus"><option value="">All application status</option><option>Draft</option><option>Submitted</option><option>Screening</option><option>Approved</option><option>Declined</option><option>Converted</option></select>
+  <select id="filterSession"><option value="">All sessions</option></select>
+  <button class="secondary" id="refresh">Refresh</button>
+</div>
+<div class="table-wrap">
+<table>
+<thead><tr><th>#</th><th>Application No.</th><th>Applicant</th><th>Email</th><th>Programme</th><th>Session</th><th>Payment</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+<tbody id="rows"><tr><td colspan="10" class="empty">Loading applications...</td></tr></tbody>
+</table>
+</div>
+</section>
+
+<section class="card">
+<h2>Manual Application / Payment Verification</h2>
+<p style="font-size:12px;color:#667085;margin-top:-7px">Use this form when the applicant presents the printed application/payment slip at school. No payment gateway is created here.</p>
+<form id="appForm">
+<div class="form-grid">
+<div class="field"><label>Application No. *</label><input id="applicationNo" required placeholder="e.g. APP/2026/001"></div>
+<div class="field"><label>Applicant Full Name *</label><input id="fullName" required></div>
+<div class="field"><label>Email</label><input id="email" type="email"></div>
+<div class="field"><label>Phone</label><input id="phone"></div>
+<div class="field"><label>Academic Session *</label><select id="session" required><option value="">Select session</option></select></div>
+<div class="field"><label>Programme *</label><select id="programme" required><option value="">Select programme</option></select></div>
+<div class="field"><label>Department</label><input id="department" readonly></div>
+<div class="field"><label>Payment Reference / Transaction No.</label><input id="paymentReference"></div>
+<div class="field"><label>Payment Amount</label><input id="paymentAmount" type="number" min="0" step="0.01"></div>
+<div class="field"><label>Payment Date</label><input id="paymentDate" type="date"></div>
+<div class="field"><label>Payment Method</label><select id="paymentMethod"><option value="">Select</option><option>Bank</option><option>Online</option><option>POS</option><option>Cash</option><option>Other</option></select></div>
+<div class="field"><label>Slip / Receipt No.</label><input id="receiptNo"></div>
+<div class="field"><label>Payment Status *</label><select id="paymentStatus"><option>Pending</option><option>Verified</option><option>Rejected</option></select></div>
+<div class="field"><label>Application Status *</label><select id="status"><option>Draft</option><option>Submitted</option><option>Screening</option><option>Approved</option><option>Declined</option></select></div>
+<div class="field full"><label>Verification / Screening Note</label><textarea id="adminNote" placeholder="Record what was checked from the applicant's slip and any screening note."></textarea></div>
+</div>
+<div class="actions">
+<button class="primary" type="submit" id="saveBtn">Save Application</button>
+<button class="secondary" type="button" id="clearBtn">Clear</button>
+</div>
+</form>
+</section>
+</main>
+
+<div class="modal" id="modal">
+<div class="modal-box">
+<div class="modal-head"><h2 id="modalTitle">Application</h2><button class="close" id="closeModal">Close</button></div>
+<div id="modalContent"></div>
+</div>
+</div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import{getFirestore,collection,addDoc,updateDoc,setDoc,doc,onSnapshot,getDocs,serverTimestamp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig={
+ apiKey:"AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
+ authDomain:"ggchst-sms-new.firebaseapp.com",
+ projectId:"ggchst-sms-new",
+ storageBucket:"ggchst-sms-new.firebasestorage.app",
+ messagingSenderId:"942770190211",
+ appId:"1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+const app=initializeApp(firebaseConfig),db=getFirestore(app);
+const $=id=>document.getElementById(id);
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]));
+const norm=v=>String(v??"").trim().toLowerCase();
+
+let applications=[],sessions=[],programmes=[],departments=[],editingId=null;
+
+function showMsg(text,type="ok"){
+ const n=$("notice");n.textContent=text;n.className="notice "+type;n.style.display="block";
+ setTimeout(()=>n.style.display="none",3500);
+}
+
+function programmeName(p){return p?.name||p?.programmeName||p?.title||p?.code||""}
+function programmeDept(p){return p?.departmentName||p?.department||""}
+
+function populate(){
+ const currentSession=$("session").value;
+ $("session").innerHTML='<option value="">Select session</option>'+sessions.map(s=>`<option value="${esc(s.id)}">${esc(s.name||s.sessionName||s.id)}</option>`).join("");
+ if(currentSession) $("session").value=currentSession;
+ $("filterSession").innerHTML='<option value="">All sessions</option>'+sessions.map(s=>`<option value="${esc(s.id)}">${esc(s.name||s.sessionName||s.id)}</option>`).join("");
+
+ const currentProgramme=$("programme").value;
+ $("programme").innerHTML='<option value="">Select programme</option>'+programmes.filter(p=>norm(p.status)!=="inactive"&&p.active!==false).sort((a,b)=>programmeName(a).localeCompare(programmeName(b))).map(p=>`<option value="${esc(p.id)}">${esc(programmeName(p))}${programmeDept(p)?" — "+esc(programmeDept(p)):""}</option>`).join("");
+ if(currentProgramme) $("programme").value=currentProgramme;
+}
+function updateDepartment(){
+ const p=programmes.find(x=>x.id===$("programme").value);
+ $("department").value=p?programmeDept(p):"";
+}
+$("programme").onchange=updateDepartment;
+
+function badge(value){
+ const k=norm(value);
+ let cls="pending";
+ if(k==="verified"||k==="approved"||k==="converted")cls=k;
+ else if(k==="rejected"||k==="declined")cls=k;
+ else if(k==="submitted"||k==="screening")cls="review";
+ return `<span class="badge ${cls}">${esc(value||"—")}</span>`;
+}
+
+function filtered(){
+ const q=norm($("search").value),pay=$("filterPayment").value,st=$("filterStatus").value,sid=$("filterSession").value;
+ return applications.filter(a=>{
+   const text=[a.applicationNo,a.fullName,a.name,a.email,a.programme,a.department,a.phone].map(norm).join(" ");
+   return (!q||text.includes(q))&&(!pay||a.paymentStatus===pay)&&(!st||a.status===st)&&(!sid||a.sessionId===sid||a.session===sid||a.sessionName===sessions.find(x=>x.id===sid)?.name);
+ });
+}
+
+function render(){
+ const a=filtered();
+ $("total").textContent=applications.length;
+ $("submitted").textContent=applications.filter(x=>x.status==="Submitted"||x.status==="Screening"||x.status==="Approved"||x.status==="Converted").length;
+ $("paymentPending").textContent=applications.filter(x=>(x.paymentStatus||"Pending")==="Pending").length;
+ $("screening").textContent=applications.filter(x=>x.status==="Screening").length;
+ $("admitted").textContent=applications.filter(x=>x.status==="Approved"||x.status==="Converted").length;
+ $("rows").innerHTML=a.length?a.map((x,i)=>`
+ <tr>
+ <td>${i+1}</td><td><strong>${esc(x.applicationNo||x.id)}</strong></td>
+ <td>${esc(x.fullName||x.name||"—")}</td><td>${esc(x.email||"—")}</td>
+ <td>${esc(x.programme||x.programmeName||"—")}</td><td>${esc(x.sessionName||x.session||"—")}</td>
+ <td>${badge(x.paymentStatus||"Pending")}</td><td>${badge(x.status||"Draft")}</td>
+ <td>${esc(formatDate(x.submittedAt||x.updatedAt||x.createdAt))}</td>
+ <td><button class="small secondary" data-view="${esc(x.id)}">View</button>
+ <button class="small primary" data-edit="${esc(x.id)}">Edit</button>
+ ${x.status==="Approved"||x.status==="Converted"?`<button class="small blue" data-letter="${esc(x.id)}">Letter</button>`:""}
+ ${x.status==="Approved"&&!x.convertedToStudent?`<button class="small warning" data-convert="${esc(x.id)}">Convert</button>`:""}
+ </td></tr>`).join(""):'<tr><td colspan="10" class="empty">No applications found.</td></tr>';
+}
+
+function formatDate(v){
+ if(!v)return "—";
+ if(v?.toDate){try{return v.toDate().toLocaleDateString()}catch{}
+ const d=new Date(v);return isNaN(d)?String(v):d.toLocaleDateString();
+}
+
+function fillForm(x){
+ editingId=x.id;
+ $("applicationNo").value=x.applicationNo||"";
+ $("fullName").value=x.fullName||x.name||"";
+ $("email").value=x.email||"";
+ $("phone").value=x.phone||"";
+ $("session").value=x.sessionId||"";
+ $("programme").value=x.programmeId||"";
+ updateDepartment();
+ $("paymentReference").value=x.paymentReference||x.reference||"";
+ $("paymentAmount").value=x.paymentAmount??x.amount??"";
+ $("paymentDate").value=x.paymentDate||"";
+ $("paymentMethod").value=x.paymentMethod||"";
+ $("receiptNo").value=x.receiptNo||"";
+ $("paymentStatus").value=x.paymentStatus||"Pending";
+ $("status").value=x.status||"Draft";
+ $("adminNote").value=x.adminNote||x.verificationNote||x.screeningNote||"";
+ $("saveBtn").textContent="Update Application";
+ window.scrollTo({top:document.querySelector(".card:last-of-type")?.offsetTop||0,behavior:"smooth"});
+}
+
+function clearForm(){
+ editingId=null;$("appForm").reset();$("saveBtn").textContent="Save Application";$("paymentStatus").value="Pending";$("status").value="Submitted";
+ $("department").value="";
+}
+
+async function saveApplication(e){
+ e.preventDefault();
+ const applicationNo=$("applicationNo").value.trim(),fullName=$("fullName").value.trim(),sid=$("session").value,pid=$("programme").value;
+ if(!applicationNo||!fullName||!sid||!pid)return showMsg("Application No., applicant name, session and programme are required.","err");
+ const p=programmes.find(x=>x.id===pid),s=sessions.find(x=>x.id===sid);
+ const duplicate=applications.find(x=>x.id!==editingId&&norm(x.applicationNo)===norm(applicationNo));
+ if(duplicate)return showMsg("This application number already exists.","err");
+
+ const now=new Date().toISOString();
+ const data={
+   applicationNo,fullName,email:$("email").value.trim(),phone:$("phone").value.trim(),
+   uid:"",sessionId:sid,sessionName:s?.name||s?.sessionName||"",
+   programmeId:pid,programme:programmeName(p),department:programmeDept(p),
+   departmentId:p?.departmentId||"",
+   paymentReference:$("paymentReference").value.trim(),
+   paymentAmount:$("paymentAmount").value?Number($("paymentAmount").value):null,
+   paymentDate:$("paymentDate").value,
+   paymentMethod:$("paymentMethod").value,
+   receiptNo:$("receiptNo").value.trim(),
+   paymentStatus:$("paymentStatus").value,
+   status:$("status").value,
+   adminNote:$("adminNote").value.trim(),
+   updatedAt:serverTimestamp(),
+   updatedByRole:"Admin"
+ };
+ try{
+   $("saveBtn").disabled=true;
+   if(editingId) await updateDoc(doc(db,"applications",editingId),data);
+   else await addDoc(collection(db,"applications"),{...data,createdAt:serverTimestamp()});
+   showMsg(editingId?"Application updated successfully.":"Application created successfully.");
+   clearForm();
+ }catch(err){console.error(err);showMsg(err.message||"Could not save application.","err")}
+ finally{$("saveBtn").disabled=false}
+}
+
+function viewApplication(id){
+ const x=applications.find(a=>a.id===id);if(!x)return;
+ $("modalTitle").textContent=`Application — ${x.applicationNo||x.id}`;
+ $("modalContent").innerHTML=`
+ <div class="review-grid">
+  <div class="info"><small>Applicant</small><b>${esc(x.fullName||x.name)}</b></div>
+  <div class="info"><small>Email</small><b>${esc(x.email||"—")}</b></div>
+  <div class="info"><small>Phone</small><b>${esc(x.phone||"—")}</b></div>
+  <div class="info"><small>Programme</small><b>${esc(x.programme||x.programmeName||"—")}</b></div>
+  <div class="info"><small>Department</small><b>${esc(x.department||"—")}</b></div>
+  <div class="info"><small>Academic Session</small><b>${esc(x.sessionName||x.session||"—")}</b></div>
+  <div class="info"><small>Payment Reference</small><b>${esc(x.paymentReference||x.reference||"—")}</b></div>
+  <div class="info"><small>Amount</small><b>${x.paymentAmount!=null?esc(Number(x.paymentAmount).toLocaleString()):"—"}</b></div>
+  <div class="info"><small>Payment Date</small><b>${esc(x.paymentDate||"—")}</b></div>
+  <div class="info"><small>Receipt / Slip No.</small><b>${esc(x.receiptNo||"—")}</b></div>
+  <div class="info"><small>Payment Status</small><b>${badge(x.paymentStatus||"Pending")}</b></div>
+  <div class="info"><small>Application Status</small><b>${badge(x.status||"Draft")}</b></div>
+ </div>
+ <div class="section-title">Verification / Screening Notes</div>
+ <div class="info">${esc(x.adminNote||x.verificationNote||x.screeningNote||"No note recorded.")}</div>
+ <div class="actions">
+   <button class="primary" data-modal-edit="${esc(x.id)}">Edit Application</button>
+   ${x.status==="Approved"||x.status==="Converted"?`<button class="blue" data-modal-letter="${esc(x.id)}">Print Admission Letter</button>`:""}
+   ${x.status==="Approved"&&!x.convertedToStudent?`<button class="warning" data-modal-convert="${esc(x.id)}">Convert to Student</button>`:""}
+ </div>`;
+ $("modal").classList.add("show");
+}
+
+async function verifyAndConvert(id){
+ const x=applications.find(a=>a.id===id);if(!x)return;
+ if(x.convertedToStudent)return showMsg("This application has already been converted to a student.","err");
+ const studentId=prompt("Enter the Student ID / Matric No. to create for this admitted applicant:");
+ if(!studentId?.trim())return;
+ const admissionNo=prompt("Enter the Admission Number:");
+ if(!admissionNo?.trim())return;
+ const studentName=x.fullName||x.name||"";
+ try{
+   const snap=await getDocs(collection(db,"students"));
+   const rows=snap.docs.map(d=>({id:d.id,...d.data()}));
+   if(rows.some(s=>norm(s.studentId||s.matricNo||s.studentID)===norm(studentId)))return showMsg("That Student ID already exists.","err");
+   if(rows.some(s=>norm(s.admissionNo)===norm(admissionNo)))return showMsg("That Admission Number already exists.","err");
+   const student={
+     studentId:studentId.trim(),studentID:studentId.trim(),matricNo:studentId.trim(),
+     admissionNo:admissionNo.trim(),registrationNumber:studentId.trim(),
+     fullName:studentName,studentName:studentName,name:studentName,
+     firstName:x.firstName||"",middleName:x.middleName||"",surname:x.lastName||"",
+     gender:x.gender||"",dateOfBirth:x.dob||"",
+     email:x.email||"",phone:x.phone||"",phoneNumber:x.phone||"",
+     department:x.department||"",departmentName:x.department||"",departmentId:x.departmentId||"",
+     programme:x.programme||"",courseOfStudy:x.programme||"",programmeId:x.programmeId||"",
+     academicSession:x.sessionName||x.session||"",session:x.sessionName||x.session||"",
+     status:"Active",studyMode:"",studentUid:"",authUid:"",firebaseUid:"",uid:"",
+     admissionApplicationId:x.id,applicationNo:x.applicationNo||"",
+     createdAt:serverTimestamp(),updatedAt:serverTimestamp(),source:"admissions.html"
+   };
+   const ref=await addDoc(collection(db,"students"),student);
+   await updateDoc(doc(db,"applications",id),{
+     status:"Converted",convertedToStudent:true,studentDocId:ref.id,studentId:studentId.trim(),admissionNo:admissionNo.trim(),
+     convertedAt:serverTimestamp(),updatedAt:serverTimestamp()
+   });
+   await addDoc(collection(db,"auditLogs"),{
+     action:"convert_admission_to_student",module:"admissions",entityType:"application",entityId:id,
+     studentDocId:ref.id,studentId:studentId.trim(),admissionNo:admissionNo.trim(),timestamp:new Date().toISOString(),result:"success"
+   });
+   showMsg("Applicant converted to Student Master successfully.");
+ }catch(err){console.error(err);showMsg(err.message||"Could not convert applicant to student.","err")}
+}
+
+function printLetter(id){
+ const x=applications.find(a=>a.id===id);if(!x)return;
+ const w=window.open("","_blank","width=850,height=900");
+ if(!w)return;
+ w.document.write(`<!doctype html><html><head><title>Admission Letter - ${esc(x.applicationNo)}</title><style>body{font-family:Arial;margin:50px;color:#173b2a}h1{text-align:center;color:#087b43}h2{text-align:center}hr{border:0;border-top:1px solid #ccc;margin:25px 0}.box{padding:15px;background:#f5faf7;border:1px solid #d8e9df;border-radius:8px}p{line-height:1.7}.sign{margin-top:55px}</style></head><body><h1>GREEN GARDEN COLLEGE OF HEALTH SCIENCES & TECHNOLOGY, GUSAU</h1><h2>ADMISSION LETTER</h2><hr><p><b>Application No:</b> ${esc(x.applicationNo||"")}</p><p><b>Applicant:</b> ${esc(x.fullName||x.name||"")}</p><div class="box"><p>Dear ${esc(x.fullName||x.name||"Applicant")},</p><p>We are pleased to inform you that your application for <b>${esc(x.programme||x.programmeName||"")}</b> for the <b>${esc(x.sessionName||x.session||"")}</b> academic session has been approved.</p><p>Please follow the instructions provided by the institution for completing your admission and registration.</p></div><div class="sign"><p>____________________________</p><p><b>Authorized Admissions Officer</b></p></div><script>window.onload=()=>window.print()<\/script></body></html>`);
+ w.document.close();
+}
+
+$("appForm").onsubmit=saveApplication;
+$("clearBtn").onclick=clearForm;
+$("refresh").onclick=()=>location.reload();
+["search","filterPayment","filterStatus","filterSession"].forEach(id=>$(id).addEventListener(id==="search"?"input":"change",render));
+$("closeModal").onclick=()=>$("modal").classList.remove("show");
+$("modal").onclick=e=>{if(e.target===$("modal"))$("modal").classList.remove("show")};
+
+$("rows").onclick=e=>{
+ const v=e.target.closest("[data-view]")?.dataset.view;
+ const ed=e.target.closest("[data-edit]")?.dataset.edit;
+ const l=e.target.closest("[data-letter]")?.dataset.letter;
+ const c=e.target.closest("[data-convert]")?.dataset.convert;
+ if(v)viewApplication(v);
+ if(ed){const x=applications.find(a=>a.id===ed);if(x){fillForm(x);$("modal").classList.remove("show")}
+ if(l)printLetter(l);
+ if(c)verifyAndConvert(c);
+};
+$("modalContent").onclick=e=>{
+ const ed=e.target.closest("[data-modal-edit]")?.dataset.modalEdit;
+ const l=e.target.closest("[data-modal-letter]")?.dataset.modalLetter;
+ const c=e.target.closest("[data-modal-convert]")?.dataset.modalConvert;
+ if(ed){const x=applications.find(a=>a.id===ed);if(x){fillForm(x);$("modal").classList.remove("show")}
+ if(l)printLetter(l);
+ if(c)verifyAndConvert(c);
+};
+
+onSnapshot(collection(db,"applications"),snap=>{
+ applications=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>String(b.applicationNo||"").localeCompare(String(a.applicationNo||"")));
+ render();
+},err=>{console.error(err);showMsg("Could not read applications: "+err.message,"err")});
+
+onSnapshot(collection(db,"academicSessions"),snap=>{
+ sessions=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>String(b.name||"").localeCompare(String(a.name||"")));
+ populate();
+},err=>console.warn("Sessions:",err));
+
+onSnapshot(collection(db,"programmes"),snap=>{
+ programmes=snap.docs.map(d=>({id:d.id,...d.data()}));
+ populate();
+},err=>console.warn("Programmes:",err));
+
+onSnapshot(collection(db,"departments"),snap=>{
+ departments=snap.docs.map(d=>({id:d.id,...d.data()}));
+},err=>console.warn("Departments:",err));
+
+$("paymentDate").value=new Date().toISOString().slice(0,10);
+</script>
+</body>
+</html>

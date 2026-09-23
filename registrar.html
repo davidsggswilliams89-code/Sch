@@ -1,0 +1,1096 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Registrar Portal | GGCHST SMS</title>
+<style>
+:root{
+  --bg:#f3f8f4;--card:#fff;--text:#173024;--muted:#617268;--line:#dfe9e2;
+  --brand:#16834b;--brand-dark:#0d6337;--brand-light:#e8f6ee;--gold:#c9a227;
+  --good:#087443;--warn:#a66a00;--danger:#b42318;--side:#0d3b24;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit}
+.app{display:flex;min-height:100vh}
+.sidebar{width:245px;background:var(--side);color:#fff;position:fixed;inset:0 auto 0 0;overflow:auto;padding:20px 14px;z-index:40}
+.logo{display:flex;align-items:center;gap:11px;padding:4px 8px 20px;border-bottom:1px solid #ffffff20}
+.logo-icon{width:42px;height:42px;border-radius:12px;background:var(--brand);display:grid;place-items:center;font-weight:900;font-size:21px;border:2px solid #ffffff30}
+.logo b{display:block;font-size:15px}.logo small{color:#c8d9cf;font-size:10px}
+.menu-title{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#9fc1ae;font-weight:800;margin:20px 8px 8px}
+.menu button{width:100%;display:flex;align-items:center;gap:10px;border:0;background:transparent;color:#dcece3;padding:11px 10px;border-radius:9px;text-align:left;cursor:pointer;font-size:12px;font-weight:750;margin:2px 0}
+.menu button:hover,.menu button.active{background:#ffffff14;color:#fff}
+.menu button.active{box-shadow:inset 3px 0 var(--gold)}
+.icon{width:22px;text-align:center;font-size:15px}
+.main{margin-left:245px;width:calc(100% - 245px);padding:0 28px 45px}
+.topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:0 -28px 22px;padding:14px 28px;background:#fffffff5;border-bottom:1px solid var(--line);box-shadow:0 2px 8px #1018280a}
+.titleblock{flex:1;min-width:240px}.titleblock h1{margin:0 0 3px;font-size:20px}.titleblock p{margin:0;color:var(--muted);font-size:11px}
+.top-actions{display:flex;align-items:center;gap:8px}
+.badge{display:inline-block;background:var(--brand-light);color:var(--brand-dark);border:1px solid #b7e4c8;padding:7px 10px;border-radius:999px;font-size:11px;font-weight:800}
+.logout{border:1px solid var(--line);background:#138A4A;padding:8px 12px;border-radius:8px;cursor:pointer}
+.view{display:none}.view.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.card,.panel{background:#fff;border:1px solid var(--line);border-radius:13px;box-shadow:0 1px 2px #1018280d}
+.card{padding:18px}.stat{font-size:29px;font-weight:850;margin-top:7px}.small,.mini{color:var(--muted)}.small{font-size:13px}.mini{font-size:11px}
+.section{margin-top:20px}.section-title{font-size:18px;margin:0 0 12px}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.quick button,.btn{border:0;background:var(--brand);color:#fff;padding:9px 13px;border-radius:8px;cursor:pointer;font-weight:700}
+.quick button:hover,.btn:hover{background:var(--brand-dark)}
+.panel{padding:18px}.toolbar{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-bottom:14px}
+.toolbar input,.toolbar select,.field input,.field select,.field textarea{border:1px solid #cddbd2;border-radius:8px;padding:9px 10px;background:#fff}
+.toolbar input{min-width:220px}.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{border:1px solid #cddbd2;background:#fff;padding:8px 11px;border-radius:8px;cursor:pointer;font-weight:700;font-size:12px}
+.tab.active{background:var(--brand-light);border-color:#b7e4c8;color:var(--brand-dark)}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px}
+table{width:100%;border-collapse:collapse;min-width:850px}
+th,td{padding:11px 12px;border-bottom:1px solid var(--line);text-align:left;font-size:12px}
+th{background:#f4f8f5;color:#506257;font-size:10px;text-transform:uppercase;letter-spacing:.4px}
+tr:last-child td{border-bottom:0}
+.status{display:inline-block;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:800}
+.approved,.active-status,.verified,.eligible{background:#e8f6ee;color:#087443}
+.pending,.review,.warning{background:#fff8df;color:#956300}
+.rejected,.inactive,.expired{background:#fef3f2;color:#b42318}
+.info{background:#eaf7ef;border:1px solid #b7dfc7;border-radius:9px;color:#145c36;padding:12px 14px;font-size:12px;margin-bottom:14px}
+.notice{background:#fffaf0;border:1px solid #ead89c;border-radius:9px;color:#765700;padding:12px 14px;font-size:12px}
+.action{border:1px solid #cddbd2;background:#fff;padding:6px 9px;border-radius:7px;cursor:pointer;margin-right:4px;font-size:11px}
+.action:hover{background:#f3f8f4}.approve{border-color:#b7e4c8;color:#087443}.reject{border-color:#fecdca;color:#b42318}
+.form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.field label{display:block;font-size:11px;font-weight:750;margin-bottom:5px}.field input,.field select,.field textarea{width:100%}
+.empty{text-align:center;padding:25px;color:var(--muted)}
+.profile{display:flex;gap:9px;align-items:center}.avatar{width:37px;height:37px;border-radius:50%;display:grid;place-items:center;background:#dff1e6;color:#145c36;font-weight:850}
+.progress{height:8px;background:#edf2ee;border-radius:99px;overflow:hidden}.progress span{display:block;height:100%;background:var(--brand)}
+.kpi-note{font-size:10px;color:var(--muted);margin-top:6px}
+.settings-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.check{display:flex;align-items:center;gap:9px;padding:10px 0;font-size:12px}.check input{accent-color:var(--brand)}
+.modal{position:fixed;inset:0;background:#0d3b2480;display:none;place-items:center;z-index:60;padding:18px}.modal.show{display:grid}.modalbox{background:#fff;border-radius:13px;max-width:720px;width:100%;padding:20px;max-height:90vh;overflow:auto}
+.close{border:0;background:#f2f4f7;border-radius:50%;width:32px;height:32px;cursor:pointer}
+.footer{margin-top:25px;color:var(--muted);font-size:10px;text-align:center}
+@media(max-width:1050px){.sidebar{width:205px}.main{margin-left:205px;width:calc(100% - 205px)}.grid{grid-template-columns:repeat(2,1fr)}.quick{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){.sidebar{position:relative;width:100%;height:auto;max-height:none}.app{display:block}.main{margin-left:0;width:100%;padding:0 14px 30px}.topbar{margin:0 -14px 18px;padding:12px 14px}.grid,.quick,.form-grid,.settings-grid{grid-template-columns:1fr}.menu{display:grid;grid-template-columns:1fr 1fr}.menu-title{grid-column:1/-1}.titleblock h1{font-size:18px}.top-actions .badge{display:none}}
+</style>
+
+<style id="complete-registrar-css">
+.detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}.detail-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px}.detail-card h3{margin:0 0 10px;font-size:14px}.detail-card h4{margin:13px 0 7px;font-size:11px;text-transform:uppercase;color:var(--muted);letter-spacing:.4px}.detail-list{display:grid;gap:7px}.detail-row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px dashed var(--line);font-size:11px}.detail-row:last-child{border-bottom:0}.detail-row b{font-weight:800}.full{grid-column:1/-1}.checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.checkitem{padding:8px;border:1px solid var(--line);border-radius:8px;font-size:11px;background:#fbfdfb}.checkitem input{accent-color:var(--brand);margin-right:6px}.workflow{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.step{padding:7px 9px;border-radius:8px;background:#f2f6f3;font-size:10px;font-weight:800}.step.done{background:#e8f6ee;color:#087443}.danger-btn{border:1px solid #fecdca;background:#fff5f4;color:#b42318;padding:7px 10px;border-radius:8px;cursor:pointer}.muted-btn{border:1px solid var(--line);background:#fff;padding:7px 10px;border-radius:8px;cursor:pointer}.detail-card .btn{font-size:11px}.mini-table{width:100%;min-width:0}.mini-table th,.mini-table td{font-size:10px;padding:8px}.metric-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-top:12px}.metric{border:1px solid var(--line);border-radius:10px;padding:10px;background:#fbfdfb}.metric b{font-size:19px;display:block}.metric span{font-size:9px;color:var(--muted)}
+@media(max-width:900px){.detail-grid{grid-template-columns:1fr 1fr}.metric-strip{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.detail-grid{grid-template-columns:1fr}.full{grid-column:auto}.checklist{grid-template-columns:1fr}}
+</style>
+
+<style>
+.tm-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:14px}.tm-toolbar .field{min-width:145px;flex:1}.tm-toolbar .field label{display:block}.tm-actions{display:flex;gap:6px;flex-wrap:wrap}.tm-pill{display:inline-flex;padding:5px 9px;border-radius:999px;background:var(--brand-light);color:var(--brand-dark);font-size:12px;font-weight:700}.tm-conflict{background:#fff0f0!important}.tm-ok{background:#eefaf2!important}.tm-grid{display:grid;grid-template-columns:repeat(7,minmax(125px,1fr));gap:8px;overflow:auto}.tm-day{min-width:125px;background:#f7faf8;border:1px solid #dfe9e3;border-radius:10px;padding:8px}.tm-day h4{margin:0 0 8px;color:var(--brand-dark);font-size:13px}.tm-slot{background:white;border-left:4px solid var(--brand);border-radius:8px;padding:8px;margin-bottom:8px;box-shadow:0 2px 8px #0000000b}.tm-slot strong{display:block;font-size:13px}.tm-slot small{display:block;color:#68756e;margin-top:3px}.tm-slot.conflict{border-left-color:#c0392b;background:#fff4f4}.tm-status{font-size:11px;font-weight:800;text-transform:uppercase}.tm-legend{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.tm-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px}.tm-kpi{padding:13px;border:1px solid #e2ebe5;border-radius:10px;background:#fff}.tm-kpi b{display:block;font-size:22px;color:var(--brand-dark)}.tm-kpi span{font-size:12px;color:#6b776f}@media(max-width:1000px){.tm-grid{grid-template-columns:repeat(3,minmax(170px,1fr));}.tm-kpis{grid-template-columns:repeat(3,1fr)}}@media(max-width:650px){.tm-grid{grid-template-columns:1fr}.tm-kpis{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+<style id="hod-topbar-format">
+.app{display:block;min-height:100vh}.main{width:100%;margin-left:0;padding:0 28px 45px}.topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:0 -28px 22px;padding:14px 28px;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);box-shadow:0 2px 8px #1018280a}.brand{display:flex;gap:10px;align-items:center;flex:0 0 auto}.brand-icon{width:40px;height:40px;border-radius:11px;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;font-size:20px}.brand-title{font-weight:800;font-size:17px;line-height:1}.brand small{color:var(--muted);font-size:10px}.nav{display:flex;align-items:center;justify-content:center;gap:6px;flex:1;min-width:0;overflow-x:auto;padding:2px}.nav-label{display:none}.nav a,.nav button{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;color:#475467;text-decoration:none;padding:9px 11px;border-radius:8px;font-size:12px;font-weight:700;border:1px solid transparent;background:transparent;cursor:pointer}.nav a:hover,.nav a.active,.nav button:hover,.nav button.active{background:var(--brand-light);color:var(--brand-dark);border-color:#bfe5cd}.topbar .titleblock{min-width:190px;flex:0 0 auto}.topbar h1{margin:0 0 3px;font-size:20px}.topbar p{margin:0;color:var(--muted);font-size:11px}.top-actions{display:flex;align-items:center;gap:6px;flex:0 0 auto}.top-actions .logout{margin-left:8px}.badge{display:inline-block;background:#e8f6ee;color:#087443;border:1px solid #b7e4c8;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:700}.logout{border:1px solid var(--line);background:#fff;padding:8px 12px;border-radius:8px;cursor:pointer}@media(max-width:1000px){.main{width:100%}}@media(max-width:720px){.main{padding:0 14px 30px}.topbar{margin:0 -14px 18px;padding:12px 14px;gap:10px}.nav{order:3;flex-basis:100%;justify-content:flex-start}.topbar .titleblock{order:4;flex:1 1 100%!important}.top-actions{order:2;margin-left:auto}.top-actions .badge{display:none}.nav a,.nav button{padding:8px 9px;font-size:11px}.topbar h1{font-size:18px}}
+</style>
+
+<style id="uniform-registrar-logo">
+.topbar .brand-logo{width:40px;height:40px;border-radius:11px;object-fit:contain;background:#fff;display:block}
+</style>
+
+<style id="registrar-course-css">
+.course-section{margin-top:24px}
+.course-box{background:#fff;border:1px solid #dce7e1;border-radius:18px;padding:24px;box-shadow:0 4px 14px rgba(18,64,45,.06)}
+.course-head{display:flex;align-items:center;gap:14px;margin-bottom:20px}.course-head-icon{width:46px;height:46px;border-radius:12px;background:#0d8b57;color:#fff;display:grid;place-items:center;font-size:23px}.course-head h2{margin:0 0 4px;color:#163c2c}.course-head p{margin:0;color:#66756f}
+.course-form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.course-field label{display:block;font-weight:700;color:#27483b;margin-bottom:7px;font-size:14px}.course-field input,.course-field select{width:100%;box-sizing:border-box;padding:12px 13px;border:1px solid #cfddd6;border-radius:9px;background:#fff;font:inherit;color:#243a32}.course-field select:disabled{background:#f3f6f4;color:#8a9791}
+.course-actions{display:flex;gap:10px;margin-top:18px}.course-btn{border:0;border-radius:9px;padding:11px 20px;font-weight:700;cursor:pointer}.course-btn.primary{background:#0d8b57;color:#fff}.course-btn.secondary{background:#eef4f1;color:#29463a}.course-btn:disabled{opacity:.6;cursor:not-allowed}
+.course-list{margin-top:22px;border-top:1px solid #e5ece8;padding-top:20px}.course-list-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.course-list-head h3{margin:0;color:#163c2c}.course-search{width:280px;max-width:100%;padding:10px 12px;border:1px solid #cfddd6;border-radius:9px;box-sizing:border-box}.course-table-wrap{overflow:auto;border:1px solid #e0e8e4;border-radius:10px}.course-table{width:100%;border-collapse:collapse;min-width:850px}.course-table th,.course-table td{padding:11px 10px;border-bottom:1px solid #e8eeeb;text-align:left;font-size:13px}.course-table th{background:#f3f7f5;color:#345347}.course-table tr:last-child td{border-bottom:0}.course-edit-btn,.course-delete-btn{border:0;border-radius:7px;padding:7px 10px;font-size:12px;font-weight:700;cursor:pointer}.course-edit-btn{background:#0d8b57;color:#fff}.course-delete-btn{background:#dc3545;color:#fff;margin-left:5px}.course-status{margin:14px 0 0;padding:10px 12px;border-radius:8px;background:#f4f8f6;color:#496058;font-size:13px}.course-status.error{background:#fff4e5;color:#8a5a00}
+.course-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:9999;align-items:center;justify-content:center;padding:18px}.course-modal.show{display:flex}.course-modal-box{width:min(760px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:15px;padding:22px}.course-modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.course-modal-head h3{margin:0;color:#163c2c}.course-modal-close{border:0;background:#eef4f1;border-radius:8px;padding:8px 11px;cursor:pointer}.course-modal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.course-modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
+@media(max-width:800px){.course-form-grid{grid-template-columns:1fr}.course-list-head{align-items:stretch;flex-direction:column}.course-search{width:100%}.course-modal-grid{grid-template-columns:1fr}.course-box{padding:18px}}
+</style>
+
+<style>
+.lecturer-manager{margin-top:18px;background:#fff;border:1px solid #d9e9e2;border-radius:16px;padding:20px;box-shadow:0 5px 18px #0f493a08}
+.lecturer-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:16px}.lecturer-head-left{display:flex;gap:12px;align-items:flex-start}.lecturer-icon{width:44px;height:44px;border-radius:12px;background:#e9f7f1;color:#087f5b;display:grid;place-items:center;font-size:21px;flex:0 0 44px}.lecturer-head h2{margin:0;color:#075c45;font-size:18px}.lecturer-head p{margin:4px 0 0;color:#668078;font-size:12px}.lecturer-count{font-size:11px;color:#668078;background:#e9f7f1;padding:7px 10px;border-radius:999px;white-space:nowrap}
+.lecturer-form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.lecturer-field label{display:block;font-weight:700;font-size:12px;margin-bottom:6px;color:#31534a}.lecturer-field input,.lecturer-field select{width:100%;padding:11px 12px;border:1px solid #d9e9e2;border-radius:9px;background:#fff;color:#12352d;outline:none}.lecturer-field input:focus,.lecturer-field select:focus{border-color:#087f5b;box-shadow:0 0 0 3px #087f5b12}.lecturer-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:16px}.lecturer-btn{border:0;border-radius:9px;padding:10px 15px;font-weight:750;cursor:pointer}.lecturer-btn.clear{background:#fff;border:1px solid #d9e9e2;color:#536a65}.lecturer-btn.save{background:#087f5b;color:#fff}.lecturer-btn.save:hover{background:#075c45}
+.lecturer-list{margin-top:22px;border-top:1px solid #e5eee9;padding-top:18px}.lecturer-tools{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:12px}.lecturer-tools input,.lecturer-tools select{padding:10px 11px;border:1px solid #d9e9e2;border-radius:9px;background:#fff;min-width:180px}.lecturer-tools input{flex:1;min-width:240px}.lecturer-table-wrap{overflow:auto;border:1px solid #dfeae5;border-radius:10px}.lecturer-table{width:100%;border-collapse:collapse;min-width:980px}.lecturer-table th{background:#f1f6f4;color:#526b64;text-align:left;font-size:11px;padding:11px 9px}.lecturer-table td{padding:10px 9px;border-top:1px solid #edf2ef;font-size:11px;vertical-align:middle}.lecturer-actions-cell{white-space:nowrap}.lt-view,.lt-edit,.lt-delete{border:0;border-radius:7px;padding:7px 9px;font-size:10px;font-weight:750;cursor:pointer;margin-right:4px}.lt-view{background:#edf5ff;color:#1d5d93}.lt-edit{background:#e9f7f1;color:#087f5b}.lt-delete{background:#fff0ef;color:#a61b16}.lt-status{display:inline-block;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:700}.lt-active{background:#e7f7ee;color:#087f5b}.lt-inactive{background:#f2f2f2;color:#6b7471}.lt-avatar{width:30px;height:30px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:7px}.lt-placeholder{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#e9f7f1;color:#087f5b;font-weight:800;margin-right:7px;vertical-align:middle}.lecturer-empty{padding:28px;text-align:center;color:#758782;font-size:12px}.lecturer-modal{position:fixed;inset:0;background:#05251e66;display:none;align-items:center;justify-content:center;padding:18px;z-index:5000}.lecturer-modal.show{display:flex}.lecturer-modal-box{width:min(720px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:15px;padding:20px;box-shadow:0 20px 60px #05251e40}.lecturer-modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.lecturer-modal-head h3{margin:0;color:#075c45}.lecturer-close{border:0;background:#f0f5f3;width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:18px}.lecturer-detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.lecturer-detail{border:1px solid #dfe9e4;border-radius:9px;padding:10px}.lecturer-detail small{display:block;color:#668078;margin-bottom:4px}.lecturer-detail b{font-size:12px}
+@media(max-width:800px){.lecturer-form-grid{grid-template-columns:1fr 1fr}}@media(max-width:550px){.lecturer-form-grid,.lecturer-detail-grid{grid-template-columns:1fr}.lecturer-head{flex-direction:column}.lecturer-tools input{min-width:100%}}
+</style></head>
+<body>
+<div class="app">
+
+
+<main class="main">
+<div class="topbar">
+  <div class="brand"><img class="brand-logo" src="data:image/webp;base64,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" alt="Green Garden school logo"><div><div class="brand-title">GGCHST SMS</div><small>Registrar Portal</small></div></div>
+  <div class="top-actions"><span class="badge">Registrar</span><button class="logout" id="logoutBtn">Logout</button></div>
+ <div class="titleblock"><h1 id="pageTitle">Registrar Dashboard</h1><p>Green Garden College of Health Sciences & Technology</p></div> 
+ <nav class="nav" id="menu"><div class="nav-label">Navigation</div>
+    <a class="active" href="#" data-view="dashboard">▦ Dashboard</a>
+    <a href="admissions.html" data-view="admissions">🎓 Admissions</a>
+    <a href="#" data-view="students">👥 Students</a>
+    <a href="#" data-view="academics">📚 Academics</a>
+    <a href="#" data-view="graduation">🏅 Graduation</a>
+    <a href="#" data-view="staff">👨‍🏫 Staff</a>
+    <a href="#" data-view="registry">📁 Registry</a>
+    <a href="#" data-view="accreditation">✓ Accreditation</a>
+    <a href="#" data-view="reports">▧ Reports</a>
+    <a href="#" data-view="audit">⌕ Audit Log</a>
+    <a href="#" data-view="settings">⚙ Settings</a>
+  </nav>
+</div>
+
+
+
+<section id="timetable" class="view">
+  <div class="section detail-grid">
+    <div class="detail-card full">
+      <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
+        <div><h3 style="margin-bottom:4px">Timetable Management</h3><div class="small">Institution-wide timetable planning, conflict detection, approval and publication.</div></div>
+        <div class="tm-actions"><button class="btn" id="tmAdd">+ Add Timetable Entry</button><button class="muted-btn" id="tmPrint">Print Timetable</button><button class="muted-btn" id="tmPublish">Publish Current Timetable</button></div>
+      </div>
+      <div class="tm-kpis" style="margin-top:15px">
+        <div class="tm-kpi"><b id="tmTotal">0</b><span>Total entries</span></div><div class="tm-kpi"><b id="tmDraft">0</b><span>Draft</span></div><div class="tm-kpi"><b id="tmReview">0</b><span>Under review</span></div><div class="tm-kpi"><b id="tmApproved">0</b><span>Approved</span></div><div class="tm-kpi"><b id="tmConflicts">0</b><span>Conflicts</span></div>
+      </div>
+      <div class="notice"><b>Workflow:</b> HOD/Timetable Officer prepares → conflict check → Registrar reviews → Approve → Publish. Published timetables are visible to students and staff.</div>
+      <br>
+      <div class="tm-toolbar">
+        <div class="field"><label>Session</label><select id="tmSession"></select></div>
+        <div class="field"><label>Semester</label><select id="tmSemester"><option>First</option><option>Second</option></select></div>
+        <div class="field"><label>Programme</label><select id="tmProgramme"><option value="">All programmes</option></select></div>
+        <div class="field"><label>Level</label><select id="tmLevel"><option value="">All levels</option><option>100</option><option>200</option><option>300</option></select></div>
+        <div class="field"><label>Day</label><select id="tmDay"><option value="">All days</option><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option></select></div>
+        <div class="field"><label>Room</label><select id="tmRoom"><option value="">All rooms</option></select></div>
+        <div class="field"><label>Status</label><select id="tmStatus"><option value="">All statuses</option><option>Draft</option><option>Under Review</option><option>Approved</option><option>Published</option></select></div>
+      </div>
+      <div class="tm-legend"><span class="tm-pill">✓ No conflict</span><span class="tm-pill">⚠ Conflict detected</span><span class="tm-pill">Registrar approval required</span></div>
+      <div class="table-wrap"><table class="mini-table"><thead><tr><th>Day</th><th>Time</th><th>Course</th><th>Programme</th><th>Level</th><th>Lecturer</th><th>Venue</th><th>Type</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tmRows"></tbody></table></div>
+    </div>
+    <div class="detail-card full"><h3>Weekly Timetable View</h3><div id="tmWeek" class="tm-grid"></div></div>
+    <div class="detail-card"><h3>Conflict & Resource Checks</h3><div id="tmChecks"></div></div>
+    <div class="detail-card"><h3>Timetable Governance</h3><div class="detail-list"><div class="detail-row"><b>Prepared by</b><span>Timetable Officer / HOD</span></div><div class="detail-row"><b>Reviewed by</b><span>Registrar</span></div><div class="detail-row"><b>Publication</b><span>Registrar only</span></div><div class="detail-row"><b>Change control</b><span>All edits logged</span></div><div class="detail-row"><b>Student access</b><span>Published only</span></div><div class="detail-row"><b>Staff access</b><span>Published + assigned teaching</span></div></div></div>
+  </div>
+</section>
+<section id="dashboard" class="view active">
+  <div class="grid">
+    <div class="card"><div class="small">Total Students</div><div class="stat">0</div><div class="kpi-note">Active institutional records</div></div>
+    <div class="card"><div class="small">New Applications</div><div class="stat">0</div><div class="kpi-note">Awaiting processing</div></div>
+    <div class="card"><div class="small">Registered Students</div><div class="stat">0</div><div class="kpi-note">Current academic session</div></div>
+    <div class="card"><div class="small">Graduation Candidates</div><div class="stat">0</div><div class="kpi-note">Clearance in progress</div></div>
+  </div>
+  <div class="section"><h2 class="section-title">Quick Access</h2><div class="quick">
+    <div class="card"><h3>Admissions</h3><p class="small">Review applications, verify applicants and issue admission letters.</p><button data-go="admissions">Open Admissions</button></div>
+    <div class="card"><h3>Student Registry</h3><p class="small">Search institutional student records and manage registration.</p><button data-go="students">Open Students</button></div>
+    <div class="card"><h3>Academic Records</h3><p class="small">Manage programmes, sessions, courses and result records.</p><button data-go="academics">Open Academics</button></div>
+    <div class="card"><h3>Graduation</h3><p class="small">Review final-year candidates, clearance and certificates.</p><button data-go="graduation">Open Graduation</button></div>
+    <div class="card"><h3>Registry Requests</h3><p class="small">Process student requests and official registry documents.</p><button data-go="registry">Open Registry</button></div>
+    <div class="card"><h3>Reports</h3><p class="small">Institution-wide admission, student and academic reports.</p><button data-go="reports">Open Reports</button></div>
+  </div></div>
+
+  <div class="section course-section" id="registrarCourseSection">
+    <div class="course-box">
+      <div class="course-head">
+        <div class="course-head-icon">📋</div>
+        <div><h2>Course Creation</h2><p>Create and manage courses from the Registrar portal.</p></div>
+      </div>
+      <form id="registrarCourseForm">
+        <div class="course-form-grid">
+          <div class="course-field"><label for="rcCourseName">Course Name *</label><input id="rcCourseName" required placeholder="e.g. Health Information Systems"></div>
+          <div class="course-field"><label for="rcCourseCode">Course Code *</label><input id="rcCourseCode" required placeholder="e.g. HIM 201"></div>
+          <div class="course-field"><label for="rcCreditUnit">Credit Unit *</label><input id="rcCreditUnit" type="number" min="1" max="12" step="1" required placeholder="e.g. 3"></div>
+          <div class="course-field"><label for="rcProgramme">Programme *</label><select id="rcProgramme" required><option value="">Select programme</option></select></div>
+          <div class="course-field"><label for="rcSemester">Semester *</label><select id="rcSemester" required><option value="">Select semester</option><option>First</option><option>Second</option></select></div>
+          <div class="course-field"><label for="rcLevel">Level *</label><select id="rcLevel" required><option value="">Select level</option><option>100 Level</option><option>200 Level</option><option>300 Level</option><option>400 Level</option><option>500 Level</option></select></div>
+          <div class="course-field"><label for="rcSession">Academic Session *</label><select id="rcSession" required><option value="">Select session</option></select></div>
+        </div>
+        <div class="course-actions"><button class="course-btn secondary" type="reset">Clear</button><button class="course-btn primary" id="rcSaveBtn" type="submit">Save Course</button></div>
+      </form>
+      <div class="course-status" id="rcStatus">Connecting to the shared Firebase course database…</div>
+      <div class="course-list">
+        <div class="course-list-head"><div><h3>Course List</h3><p class="small">Courses created here are shared with the standalone Course Registration page.</p></div><input class="course-search" id="rcSearch" type="search" placeholder="Search course name or code"></div>
+        <div class="course-table-wrap"><table class="course-table"><thead><tr><th>#</th><th>Course Name</th><th>Code</th><th>Unit</th><th>Programme</th><th>Level</th><th>Semester</th><th>Session</th><th>Actions</th></tr></thead><tbody id="rcRows"><tr><td colspan="9">Loading courses…</td></tr></tbody></table></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section panel"><h2>Attention Required</h2><div class="info" id="attentionRequired">Live alerts will appear here from Firebase.</div>
+    <div class="notice">8 student registry requests are awaiting action. 5 graduation candidates still have outstanding clearance items.</div>
+  </div>
+</section>
+
+<section id="admissions" class="view">
+  <div class="panel"><h2>Admissions</h2><div class="small">Application processing, verification, admission lists and letters.</div><br>
+  <div class="tabs"><button class="tab active" data-adm="applications">Applications</button><button class="tab" data-adm="verification">Verification</button><button class="tab" data-adm="admitted">Admission List</button></div>
+  <div id="admApplications" class="subview"><br><div class="toolbar"><input id="admSearch" placeholder="Search application no., name or programme"><select id="admStatus"><option value="">All statuses</option><option>Pending</option><option>Under Review</option><option>Verified</option><option>Admitted</option><option>Rejected</option></select></div>
+  <div class="table-wrap"><table><thead><tr><th>Application No.</th><th>Applicant</th><th>Programme</th><th>Phone</th><th>O'Level</th><th>Applied</th><th>Status</th><th>Action</th></tr></thead><tbody id="admRows"></tbody></table></div></div>
+  <div id="admVerification" class="subview" style="display:none"><br><div class="info">Verify applicant documents before admission approval. Verification actions are recorded in the audit log.</div><div class="table-wrap"><table><thead><tr><th>Applicant</th><th>Programme</th><th>Passport</th><th>O'Level</th><th>Birth Document</th><th>Overall</th><th>Action</th></tr></thead><tbody id="verifyRows"></tbody></table></div></div>
+  <div id="admAdmitted" class="subview" style="display:none"><br><div class="toolbar"><select></select><button class="btn" onclick="alert('Admission list prepared for printing.')">Print Admission List</button></div><div class="table-wrap"><table><thead><tr><th>Admission No.</th><th>Student</th><th>Programme</th><th>Session</th><th>Letter</th><th>Status</th></tr></thead><tbody id="admittedRows"></tbody></table></div></div>
+  </div>
+</section>
+
+<section id="students" class="view">
+  <div style="display:flex;justify-content:flex-end;margin:0 0 12px"><a class="btn" href="student.html" style="text-decoration:none">🎓 Open Central Student Management</a></div>
+<div class="panel"><h2>Student Registry</h2><div class="small">Institution-wide student biodata, registration, documents and status.</div><br>
+<div class="toolbar"><input id="studentSearch" placeholder="Search matric no., name, programme..."><select id="studentProgramme"><option value="">All programmes</option><option>Health Information Management</option><option>Community Health Extension Worker</option><option>Medical Laboratory Technician</option><option>Dental Therapy</option><option>Dental Surgery Technology</option><option>Pharmacy Technician</option></select><select id="studentStatus"><option value="">All status</option><option>Active</option><option>Graduating</option><option>Deferred</option></select><button class="btn" id="addStudent">+ Register Student</button></div>
+<div class="table-wrap"><table><thead><tr><th>Matric No.</th><th>Student</th><th>Programme</th><th>Level</th><th>Session</th><th>Phone</th><th>Status</th><th>Action</th></tr></thead><tbody id="studentRows"></tbody></table></div>
+<div class="panel registrar-sync-panel" style="margin-top:16px;border:1px solid #d9e9e2">
+  <h3 style="margin-bottom:4px;color:#075c45">Course Registration &amp; Lecturer Portal Sync</h3>
+  <div class="small">Register a student for one or more courses. These records are saved to the shared Firebase database and become available to the assigned lecturer.</div>
+  <br>
+  <div class="form-grid">
+    <div class="field"><label>Student</label><select id="syncStudentSelect"><option value="">Loading students…</option></select></div>
+    <div class="field"><label>Academic Session</label><select id="syncSession"></select></div>
+  </div>
+  <div style="margin-top:12px">
+    <label style="display:block;font-weight:700;font-size:12px;margin-bottom:7px">Courses</label>
+    <div id="syncCourseChecks" class="grid" style="grid-template-columns:repeat(2,minmax(0,1fr));gap:8px"><div class="info">Loading courses…</div></div>
+  </div>
+  <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px">
+    <button class="btn" type="button" id="syncLoadExisting">Load Existing Registration</button>
+    <button class="btn" type="button" id="syncSaveRegistration">Save Course Registration</button>
+  </div>
+  <div id="syncRegistrationStatus" class="small" style="margin-top:9px;color:#087f5b"></div>
+</div>
+</div>
+</section>
+
+<section id="academics" class="view">
+<div class="panel"><h2>Academics</h2><div class="small">Programmes, departments, sessions, courses, results and academic records.</div><br>
+<div class="tabs"><button class="tab active" data-ac="programmes">Programmes</button><button class="tab" data-ac="departments">Departments</button><button class="tab" data-ac="sessions">Sessions</button><button class="tab" data-ac="courses">Courses</button><button class="tab" data-ac="results">Results</button></div>
+<div id="acProgrammes" class="subview"><br><div class="table-wrap"><table><thead><tr><th>Programme</th><th>Code</th><th>Duration</th><th>Department</th><th>Regulatory Body</th><th>Status</th></tr></thead><tbody id="programmeRows"></tbody></table></div></div>
+<div id="acDepartments" class="subview" style="display:none"><br><div class="table-wrap"><table><thead><tr><th>Department</th><th>HOD</th><th>Programmes</th><th>Students</th><th>Staff</th><th>Status</th></tr></thead><tbody id="departmentRows"></tbody></table></div></div>
+<div id="acSessions" class="subview" style="display:none"><br><div id="dynamicSessionCards" class="grid"></div></div> <div id="acCourses" class="subview" style="display:none"><br><div class="table-wrap"><table><thead><tr><th>Code</th><th>Course Title</th><th>Unit</th><th>Level</th><th>Programme</th><th>Semester</th></tr></thead><tbody id="courseRows"></tbody></table></div></div>
+<div id="acResults" class="subview" style="display:none"><br><div class="info">Results flow from departmental/HOD verification. Registrar finalization should be auditable.</div><div class="table-wrap"><table><thead><tr><th>Student</th><th>Matric</th><th>Course</th><th>Score</th><th>Grade</th><th>HOD Status</th><th>Registrar Status</th></tr></thead><tbody id="academicResultRows"></tbody></table></div></div>
+</div>
+</section>
+
+<section id="graduation" class="view">
+<div class="panel"><h2>Graduation</h2><div class="small">Final-year review, clearance, graduation list, certificates and transcripts.</div><br>
+<div class="grid"><div class="card"><div class="small">Candidates</div><div class="stat">0</div></div><div class="card"><div class="small">Eligible</div><div class="stat">0</div></div><div class="card"><div class="small">Pending Clearance</div><div class="stat">0</div></div><div class="card"><div class="small">Not Eligible</div><div class="stat">0</div></div></div>
+<br><div class="toolbar"><input id="gradSearch" placeholder="Search graduating student..."><select id="gradStatus"><option value="">All</option><option>Eligible</option><option>Pending Clearance</option><option>Not Eligible</option></select><button class="btn" onclick="alert('Graduation list prepared.')">Generate Graduation List</button></div>
+<div class="table-wrap"><table><thead><tr><th>Matric No.</th><th>Student</th><th>Programme</th><th>CGPA</th><th>Academic</th><th>Bursary</th><th>Library</th><th>Overall</th><th>Action</th></tr></thead><tbody id="gradRows"></tbody></table></div>
+</div>
+</section>
+
+<section id="staff" class="view">
+<div class="panel"><h2>Staff Registry</h2><div class="small">Academic and non-academic staff records.</div><br>
+<div class="tabs"><button class="tab active" data-st="academic">Academic Staff</button><button class="tab" data-st="nonacademic">Non-Academic Staff</button><button class="tab" data-st="establishment">Establishment</button></div>
+<div id="staffAcademic" class="subview">
+<div class="lecturer-manager" id="lecturerManagement">
+  <div class="lecturer-head">
+    <div class="lecturer-head-left"><div class="lecturer-icon">👨‍🏫</div><div><h2>Manage Lecturers</h2><p>Create, edit, delete and view lecturer profiles from the shared Firebase database.</p></div></div>
+    <span class="lecturer-count" id="lecturerCount">0 LECTURERS</span>
+  </div>
+  <form id="lecturerCreateForm">
+    <div class="lecturer-form-grid">
+      <div class="lecturer-field"><label>Full Name *</label><input id="lecName" required placeholder="e.g. Dr. Ibrahim Musa"></div>
+      <div class="lecturer-field"><label>Staff ID *</label><input id="lecStaffId" required placeholder="e.g. GGCHST/001"></div>
+      <div class="lecturer-field"><label>Email Address *</label><input id="lecEmail" type="email" required placeholder="e.g. ibrahim.musa@ggchst.edu.ng"></div>
+      <div class="lecturer-field"><label>Phone Number *</label><input id="lecPhone" required placeholder="e.g. 08012345678"></div>
+      <div class="lecturer-field"><label>Department *</label><select id="lecDepartment" required><option value="">Select department</option></select></div>
+      <div class="lecturer-field"><label>Academic Rank *</label><select id="lecRank" required><option value="">Select rank</option><option>Assistant Lecturer</option><option>Lecturer II</option><option>Lecturer I</option><option>Senior Lecturer</option><option>Principal Lecturer</option><option>Chief Lecturer</option></select></div>
+      <div class="lecturer-field"><label>Qualification *</label><select id="lecQualification" required><option value="">Select qualification</option><option>ND</option><option>HND</option><option>BSc</option><option>BA</option><option>BTech</option><option>MBBS</option><option>MPH</option><option>MSc</option><option>MA</option><option>MTech</option><option>PhD</option><option>Other</option></select></div>
+      <div class="lecturer-field"><label>Gender *</label><select id="lecGender" required><option value="">Select gender</option><option>Male</option><option>Female</option></select></div>
+      <div class="lecturer-field"><label>Specialization</label><input id="lecSpecialization" placeholder="e.g. Health Information Management"></div>
+      <div class="lecturer-field"><label>Employment Status *</label><select id="lecStatus" required><option value="">Select status</option><option>Active</option><option>Inactive</option><option>On Leave</option></select></div>
+      <div class="lecturer-field"><label>Profile Picture</label><input id="lecPicture" type="file" accept="image/*"></div>
+    </div>
+    <div class="lecturer-actions"><button class="lecturer-btn clear" type="reset" id="lecClear">Clear</button><button class="lecturer-btn save" type="submit" id="lecSave">＋ Save Lecturer</button></div>
+  </form>
+  <div id="lecturerMessage" style="margin-top:10px;font-size:12px;color:#087f5b"></div>
+  <div class="lecturer-list">
+    <div class="lecturer-head" style="margin-bottom:10px"><div class="lecturer-head-left"><div class="lecturer-icon">👥</div><div><h2>Lecturer List</h2><p>View, edit or delete lecturer profiles from the shared database.</p></div></div></div>
+    <div class="lecturer-tools"><input id="lecturerSearch" placeholder="Search by name, staff ID or department..."><select id="lecturerDeptFilter"><option value="">All Departments</option></select></div>
+    <div class="lecturer-table-wrap"><table class="lecturer-table"><thead><tr><th>#</th><th>Name</th><th>Staff ID</th><th>Department</th><th>Rank</th><th>Email</th><th>Phone</th><th>Status</th><th>Actions</th></tr></thead><tbody id="lecturerRows"><tr><td colspan="9" class="lecturer-empty">Loading lecturers...</td></tr></tbody></table></div>
+  </div>
+</div>
+<div class="lecturer-modal" id="lecturerEditModal" aria-hidden="true"><div class="lecturer-modal-box"><div class="lecturer-modal-head"><h3 id="lecturerModalTitle">Edit Lecturer</h3><button class="lecturer-close" id="lecturerModalClose" type="button">×</button></div><div id="lecturerEditContent"></div></div></div>
+<div class="lecturer-modal" id="lecturerViewModal" aria-hidden="true"><div class="lecturer-modal-box"><div class="lecturer-modal-head"><h3>Lecturer Details</h3><button class="lecturer-close" id="lecturerViewClose" type="button">×</button></div><div id="lecturerViewContent"></div></div></div>
+<br><div class="toolbar"><input id="staffSearch" placeholder="Search staff name, ID or department"><button class="btn" id="addStaff">+ Add Staff</button></div><div class="table-wrap"><table><thead><tr><th>Staff ID</th><th>Staff</th><th>Department</th><th>Rank</th><th>Qualification</th><th>Phone</th><th>Status</th></tr></thead><tbody id="staffRows"></tbody></table></div></div>
+<div id="staffNonacademic" class="subview" style="display:none"><br><div class="table-wrap"><table><thead><tr><th>Staff ID</th><th>Name</th><th>Unit</th><th>Role</th><th>Phone</th><th>Status</th></tr></thead><tbody id="nonStaffRows"></tbody></table></div></div>
+<div id="staffEstablishment" class="subview" style="display:none"><br><div class="grid"><div class="card"><div class="small">Academic Staff</div><div class="stat">0</div></div><div class="card"><div class="small">Non-Academic</div><div class="stat">0</div></div><div class="card"><div class="small">Vacancies</div><div class="stat">0</div></div><div class="card"><div class="small">On Leave</div><div class="stat">0</div></div></div></div>
+</div></section>
+
+<section id="registry" class="view">
+<div class="panel"><h2>Registry</h2><div class="small">Official documents, student requests, clearance and announcements.</div><br>
+<div class="tabs"><button class="tab active" data-rg="requests">Requests</button><button class="tab" data-rg="letters">Official Letters</button><button class="tab" data-rg="documents">Documents</button><button class="tab" data-rg="clearance">Clearance</button><button class="tab" data-rg="announcements">Announcements</button></div>
+<div id="rgRequests" class="subview"><br><div class="toolbar"><input id="requestSearch" placeholder="Search request or student"><select id="requestStatus"><option value="">All statuses</option><option>Pending</option><option>Under Review</option><option>Approved</option><option>Completed</option><option>Rejected</option></select></div><div class="table-wrap"><table><thead><tr><th>Request ID</th><th>Student</th><th>Request Type</th><th>Date</th><th>Status</th><th>Action</th></tr></thead><tbody id="requestRows"></tbody></table></div></div>
+<div id="rgLetters" class="subview" style="display:none"><br><div class="grid"><div class="card"><h3>Admission Letter</h3><p class="small">Generate from approved admission.</p><button class="btn" onclick="alert('Template ready.')">Generate</button></div><div class="card"><h3>Student Confirmation</h3><p class="small">Official confirmation of student status.</p><button class="btn" onclick="alert('Template ready.')">Generate</button></div><div class="card"><h3>Good Standing</h3><p class="small">Registry confirmation letter.</p><button class="btn" onclick="alert('Template ready.')">Generate</button></div><div class="card"><h3>Statement of Result</h3><p class="small">Generate verified academic statement.</p><button class="btn" onclick="alert('Template ready.')">Generate</button></div></div></div>
+<div id="rgDocuments" class="subview" style="display:none"><br><div class="table-wrap"><table><thead><tr><th>Document</th><th>Student</th><th>Type</th><th>Uploaded</th><th>Verification</th><th>Action</th></tr></thead><tbody id="documentRows"></tbody></table></div></div>
+<div id="rgClearance" class="subview" style="display:none"><br><div class="info">Clearance can be tracked across Registrar, HOD, Bursary, Library and other required units.</div><div class="table-wrap"><table><thead><tr><th>Student</th><th>HOD</th><th>Bursary</th><th>Library</th><th>Registrar</th><th>Overall</th></tr></thead><tbody id="clearanceRows"></tbody></table></div></div>
+<div id="rgAnnouncements" class="subview" style="display:none"><br><div id="liveRegistryAnnouncements" class="empty">No announcement records loaded from Firebase.</div></div>
+</div></section>
+
+<section id="accreditation" class="view">
+<div class="panel"><h2>Accreditation & Compliance</h2><div class="small">Programme accreditation records, regulatory bodies, documents and review dates.</div><br>
+<div class="info">Accreditation records are loaded from Firebase; no prototype accreditation records are displayed.</div>
+<div class="table-wrap"><table><thead><tr><th>Programme</th><th>Regulatory Body</th><th>Status</th><th>Last Review</th><th>Next Review</th><th>Documents</th><th>Compliance</th></tr></thead><tbody id="accreditationRows"></tbody></table></div>
+</div></section>
+
+<section id="reports" class="view">
+<div class="panel"><h2>Registrar Reports</h2><div class="small">Institution-wide reports and statistical summaries.</div><br>
+<div class="toolbar"><select id="reportSession"></select><select id="reportType"><option>Student Summary</option><option>Admissions</option><option>Programme Enrollment</option><option>Graduation</option><option>Academic Results</option><option>Registry Requests</option></select><button class="btn" onclick="alert('Report generated for preview.')">Generate Report</button><button class="action" onclick="window.print()">Print</button></div>
+<div class="grid"><div class="card"><div class="small">Students</div><div class="stat">0</div></div><div class="card"><div class="small">Applications</div><div class="stat">0</div></div><div class="card"><div class="small">Programmes</div><div class="stat">0</div></div><div class="card"><div class="small">Staff</div><div class="stat">0</div></div></div>
+<br><div class="table-wrap"><table><thead><tr><th>Programme</th><th>Students</th><th>New Admissions</th><th>Registered</th><th>Graduating</th></tr></thead><tbody id="reportProgrammeRows"></tbody></table></div>
+</div></section>
+
+<section id="audit" class="view">
+<div class="panel"><h2>Audit Log</h2><div class="small">A record of important registry and academic-administration actions.</div><br>
+<div class="toolbar"><input id="auditSearch" placeholder="Search user, action, record..."><select id="auditModule"><option value="">All modules</option><option>Admissions</option><option>Students</option><option>Academics</option><option>Graduation</option><option>Registry</option></select></div>
+<div class="table-wrap"><table><thead><tr><th>Date/Time</th><th>User</th><th>Module</th><th>Action</th><th>Record</th><th>Result</th></tr></thead><tbody id="auditRows"></tbody></table></div>
+</div></section>
+
+<section id="settings" class="view">
+<div class="panel"><h2>Registrar Settings</h2><div class="small">Configure registry rules, sessions, numbering, templates and notifications.</div><br>
+<div class="settings-grid">
+<div class="card"><h3>Academic Session</h3><div class="field"><label>Current Session</label><select></select></div><br><div class="field"><label>Current Semester</label><select></select></div></div>
+<div class="card"><h3>Registration Control</h3><label class="check"><input type="checkbox" checked> Student registration enabled</label><label class="check"><input type="checkbox" checked> Course registration enabled</label><label class="check"><input type="checkbox"> Require Registrar approval</label></div>
+<div class="card"><h3>Numbering</h3><div class="field"><label>Matric Prefix</label><input value="GGCHST"></div><br><div class="field"><label>Admission Prefix</label><input value="GGCHST/ADM"></div></div>
+<div class="card"><h3>Notifications</h3><label class="check"><input type="checkbox" checked> Admission notifications</label><label class="check"><input type="checkbox" checked> Registration reminders</label><label class="check"><input type="checkbox" checked> Graduation alerts</label></div>
+<div class="card"><h3>Document Templates</h3><p class="small">Admission letters, confirmation letters, statements of result, transcripts and certificates.</p><button class="btn" onclick="alert('Template manager placeholder.')">Manage Templates</button></div>
+<div class="card"><h3>Security</h3><p class="small">Registrar actions should require authenticated staff accounts and role permissions.</p><button class="btn" onclick="alert('Security settings placeholder.')">Review Permissions</button></div>
+</div><br><button class="btn" onclick="alert('Settings saved for this prototype.')">Save Settings</button>
+</div>
+</section>
+
+<script id="complete-registrar-data">
+(function(){
+const D={
+ registration:`<div class="section detail-grid"><div class="detail-card full"><h3>Student Registration</h3><div class="info">Registration records are loaded from Firebase. Only live Firebase student records are used.</div><div id="liveRegistrationPanel" class="empty">Loading live registration records…</div></div></div>`,
+ sessions:`<div class="section detail-grid"><div class="detail-card full"><h3>Academic Sessions</h3><div id="liveSessionPanel" class="empty">Loading live academic sessions…</div></div></div>`,
+ courseReg:`<div class="section detail-grid"><div class="detail-card full"><h3>Course Registration</h3><div id="liveCourseRegPanel" class="empty">Loading live course-registration records…</div></div></div>`,
+ results:`<div class="section detail-grid"><div class="detail-card full"><h3>Results & Academic Records</h3><div id="liveResultsPanel" class="empty">Loading live result records…</div></div></div>`,
+ transcripts:`<div class="section detail-grid"><div class="detail-card full"><h3>Transcripts & Certificates</h3><div id="liveTranscriptPanel" class="empty">Select a real student record from Firebase to generate documents.</div></div></div>`,
+ establishment:`<div class="section detail-grid"><div class="detail-card full"><h3>Staff Establishment</h3><div id="liveEstablishmentPanel" class="empty">Loading live staff records…</div></div></div>`,
+ letters:`<div class="section detail-grid"><div class="detail-card full"><h3>Official Letters</h3><div id="liveLettersPanel" class="empty">Official letter records will appear here when stored in Firebase.</div></div></div>`,
+ documents:`<div class="section detail-grid"><div class="detail-card full"><h3>Document Management</h3><div id="liveDocumentsPanel" class="empty">Loading live document records…</div></div></div>`,
+ clearance:`<div class="section detail-grid"><div class="detail-card full"><h3>Clearance Management</h3><div id="liveClearancePanel" class="empty">Loading live clearance records…</div></div></div>`,
+ calendar:`<div class="section detail-grid"><div class="detail-card full"><h3>Academic Calendar</h3><div id="liveCalendarPanel" class="empty">Calendar records are loaded from Firebase when available.</div></div></div>`,
+ announcements:`<div class="section detail-grid"><div class="detail-card full"><h3>Registrar Announcements</h3><div id="liveAnnouncementsPanel" class="empty">Announcements are loaded from Firebase when available.</div></div></div>`
+};
+function inject(id,key){const el=document.getElementById(id);if(!el||!D[key])return;const wrap=document.createElement('div');wrap.innerHTML=D[key];el.appendChild(wrap)}
+// Core Registrar sections are rendered from live Firebase collections; no prototype records are injected.
+// Add the remaining dedicated sub-pages as extra Registrar navigation buttons.
+const menu=document.getElementById('menu');
+const extras=[['registration','📝','Student Registration'],['sessions','🗓️','Academic Sessions'],['courseReg','📋','Course Registration'],['results','📊','Results & Academic Records'],['transcripts','📜','Transcripts & Certificates'],['establishment','🏢','Staff Establishment'],['letters','✉️','Official Letters'],['documents','🗂️','Document Management'],['clearance','☑️','Clearance Management'],['calendar','📅','Academic Calendar'],['announcements','📢','Announcements']];
+const titleMap={registration:'Student Registration',sessions:'Academic Sessions',courseReg:'Course Registration',results:'Results & Academic Records',transcripts:'Transcripts & Certificates',establishment:'Staff Establishment',letters:'Official Letters',documents:'Document Management',clearance:'Clearance Management',calendar:'Academic Calendar',announcements:'Announcements'};
+const main=document.querySelector('.main');
+extras.forEach(([id,ic,label])=>{const b=document.createElement('a');b.href='#';b.dataset.view=id;b.innerHTML=`${ic} ${label}`;menu.appendChild(b);const sec=document.createElement('section');sec.id=id;sec.className='view';sec.innerHTML=`<div class="panel"><h2>${label}</h2><div class="small">Registrar administration and controls.</div></div>`;main.insertBefore(sec,main.querySelector('.footer'));const temp=document.createElement('div');temp.innerHTML=D[id]||'';sec.appendChild(temp);});
+Object.assign(pageNames,titleMap);
+document.querySelectorAll('#menu [data-view]').forEach(b=>{b.onclick=()=>show(b.dataset.view)});
+document.querySelectorAll('[data-go2]').forEach(b=>b.onclick=()=>show(b.dataset.go2));
+})();
+</script>
+
+<div class="footer">GGCHST SMS • Registrar Portal • Live Firebase Registrar Portal • Data is loaded from the school database.</div>
+<div style="margin:25px 0;text-align:center;"><a href="registrar-attendance.html">📋 Attendance</a></div></main>
+</div>
+
+<div class="modal" id="modal"><div class="modalbox"><div style="display:flex;justify-content:space-between;align-items:center"><h2 id="modalTitle">Register</h2><button class="close" id="closeModal">×</button></div><div id="modalContent"></div></div></div>
+
+<script>
+var programmes=[];
+var students=[];
+var applications=[];
+var staff=[];
+var nonStaff=[];
+var requests=[];
+var docs=[];
+var audits=[];
+var grad=[];
+var courses=[];
+var academicResults=[];
+var clearances=[];
+var acc=[];
+
+const $=id=>document.getElementById(id);
+const esc=v=>String(v).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+function status(s){let c={"Active":"active-status","Approved":"approved","Verified":"verified","Eligible":"eligible","Pending":"pending","Under Review":"review","Pending Clearance":"warning","Rejected":"rejected","Not Eligible":"rejected","Completed":"approved","Admitted":"approved","On Leave":"pending"}[s]||"pending";return `<span class="status ${c}">${esc(s)}</span>`}
+
+const pageNames={dashboard:"Registrar Dashboard",admissions:"Admissions",students:"Student Registry",academics:"Academics",graduation:"Graduation",staff:"Staff Registry",registry:"Registry",accreditation:"Accreditation & Compliance",reports:"Registrar Reports",audit:"Audit Log",settings:"Registrar Settings"};
+function show(v){
+ document.querySelectorAll(".view").forEach(x=>x.classList.remove("active")); $(v).classList.add("active");
+ document.querySelectorAll("#menu [data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===v));
+ $("pageTitle").textContent=pageNames[v];
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll("#menu [data-view]").forEach(b=>b.onclick=()=>show(b.dataset.view));
+document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>show(b.dataset.go));
+
+function renderApplications(){
+ let q=$("admSearch").value.toLowerCase(),s=$("admStatus").value;
+ let r=applications.filter(x=>(!q||x.join(" ").toLowerCase().includes(q))&&(!s||x[6]===s));
+ $("admRows").innerHTML=r.map((x,i)=>`<tr><td><b>${x[0]}</b></td><td>${esc(x[1])}</td><td>${esc(x[2])}</td><td>${x[3]}</td><td>${x[4]}</td><td>${x[5]}</td><td>${status(x[6])}</td><td><button class="action" onclick="reviewApplication(${i})">Review</button></td></tr>`).join("")||`<tr><td colspan="8" class="empty">No applications found.</td></tr>`;
+ $("verifyRows").innerHTML=applications.filter(x=>["Under Review","Verified"].includes(x[6])).map((x,i)=>`<tr><td>${esc(x[1])}</td><td>${esc(x[2])}</td><td>${status("Verified")}</td><td>${x[4].includes("5")||x[4].includes("6")?status("Verified"):status("Pending")}</td><td>${status("Verified")}</td><td>${status(x[6])}</td><td><button class="action approve" onclick="alert('Applicant verification saved.')">Verify</button></td></tr>`).join("");
+ $("admittedRows").innerHTML=applications.filter(x=>x[6]==="Admitted").map(x=>`<tr><td>${x[0]}</td><td>${esc(x[1])}</td><td>${esc(x[2])}</td><td>${esc(x[4]||"")}</td><td><button class="action" onclick="alert('Admission letter preview opened.')">Preview</button></td><td>${status("Admitted")}</td></tr>`).join("");
+}
+function reviewApplication(i){openModal("Application Review",`<div class="info"><b>${esc(applications[i][1])}</b><br>${esc(applications[i][2])}<br>${applications[i][0]}</div><div class="form-grid"><div class="field"><label>Decision</label><select id="appDecision"><option>Under Review</option><option>Verified</option><option>Admitted</option><option>Rejected</option></select></div><div class="field"><label>Note</label><input id="appNote" value="Documents reviewed by Registrar"></div></div><br><button class="btn" onclick="applications[${i}][6]=$('appDecision').value;renderApplications();addAudit('Admissions','Updated application status',applications[${i}][0]);closeModal()">Save Decision</button>`)}
+
+function renderStudents(){
+ let q=$("studentSearch").value.toLowerCase(),p=$("studentProgramme").value,s=$("studentStatus").value;
+ let r=students.filter(x=>(!q||x.join(" ").toLowerCase().includes(q))&&(!p||x[2]===p)&&(!s||x[6]===s));
+ $("studentRows").innerHTML=r.map((x,i)=>`<tr><td><b>${x[0]}</b></td><td><div class="profile"><div class="avatar">${x[1].split(" ").map(a=>a[0]).slice(0,2).join("")}</div><div><b>${esc(x[1])}</b><div class="mini">Registry record</div></div></div></td><td>${esc(x[2])}</td><td>${x[3]}</td><td>${x[4]}</td><td>${x[5]}</td><td>${status(x[6])}</td><td><button class="action" onclick="viewStudent(${i})">View</button><button class="action" onclick="printStudent(${i})">Print</button></td></tr>`).join("")||`<tr><td colspan="8" class="empty">No students found.</td></tr>`;
+}
+function viewStudent(i){let x=students[i];openModal("Student Profile",`<div class="profile"><div class="avatar">${x[1].split(" ").map(a=>a[0]).slice(0,2).join("")}</div><div><h3 style="margin:0">${esc(x[1])}</h3><div class="small">${x[0]}</div></div></div><br><div class="form-grid"><div class="field"><label>Programme</label><input value="${esc(x[2])}" readonly></div><div class="field"><label>Level</label><input value="${x[3]}" readonly></div><div class="field"><label>Session</label><input value="${x[4]}" readonly></div><div class="field"><label>Phone</label><input value="${x[5]}" readonly></div><div class="field"><label>Status</label><input value="${x[6]}" readonly></div></div>`)}
+function printStudent(i){alert("Student registry record prepared for printing: "+students[i][0])}
+
+function renderAcademics(){
+ $("programmeRows").innerHTML=programmes.map(x=>`<tr><td>${esc(x[0])}</td><td>${esc(x[1])}</td><td>${esc(x[2])}</td><td>${esc(x[3])}</td><td>${esc(x[4])}</td><td>${status(x[5]||"")}</td></tr>`).join("")||`<tr><td colspan="6" class="empty">No programme records found in Firebase.</td></tr>`;
+ $("departmentRows").innerHTML=(window.__GGCHST_departments||[]).map(x=>`<tr><td>${esc(x.name||"")}</td><td>${esc(x.hodName||"")}</td><td>${esc(x.programmes||"")}</td><td>${esc(x.students||"")}</td><td>${esc(x.staff||"")}</td><td>${status(x.status||"")}</td></tr>`).join("")||`<tr><td colspan="6" class="empty">No department records found in Firebase.</td></tr>`;
+ $("courseRows").innerHTML=courses.map(x=>`<tr><td><b>${esc(x[0])}</b></td><td>${esc(x[1])}</td><td>${esc(x[2])}</td><td>${esc(x[3])}</td><td>${esc(x[4])}</td><td>${esc(x[5])}</td></tr>`).join("")||`<tr><td colspan="6" class="empty">No course records found in Firebase.</td></tr>`;
+ $("academicResultRows").innerHTML=academicResults.map(x=>`<tr><td>${esc(x[0])}</td><td>${esc(x[1])}</td><td>${esc(x[2])}</td><td>${esc(x[3])}</td><td><b>${esc(x[4])}</b></td><td>${status(x[5]||"")}</td><td>${status(x[6]||"")}</td></tr>`).join("")||`<tr><td colspan="7" class="empty">No result records found in Firebase.</td></tr>`;
+}
+
+function renderGraduation(){
+ let q=$("gradSearch").value.toLowerCase(),s=$("gradStatus").value;
+ let r=grad.filter(x=>(!q||x.join(" ").toLowerCase().includes(q))&&(!s||x[7]===s));
+ $("gradRows").innerHTML=r.map((x,i)=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td><b>${x[3]}</b></td><td>${x[4]}</td><td>${x[5]}</td><td>${x[6]}</td><td>${status(x[7])}</td><td><button class="action" onclick="alert('Graduation candidate reviewed.')">Review</button></td></tr>`).join("");
+}
+
+function renderStaff(){
+ let q=$("staffSearch").value.toLowerCase();
+ let r=staff.filter(x=>!q||x.join(" ").toLowerCase().includes(q));
+ $("staffRows").innerHTML=r.map(x=>`<tr><td>${x[0]}</td><td><b>${x[1]}</b></td><td>${x[2]}</td><td>${x[3]}</td><td>${x[4]}</td><td>${x[5]}</td><td>${status(x[6])}</td></tr>`).join("");
+ $("nonStaffRows").innerHTML=nonStaff.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td>${x[4]}</td><td>${status(x[5])}</td></tr>`).join("");
+}
+
+function renderRegistry(){
+ let q=$("requestSearch").value.toLowerCase(),s=$("requestStatus").value;
+ let r=requests.filter(x=>(!q||x.join(" ").toLowerCase().includes(q))&&(!s||x[4]===s));
+ $("requestRows").innerHTML=r.map((x,i)=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td>${status(x[4])}</td><td><button class="action" onclick="alert('Request opened.')">Open</button></td></tr>`).join("");
+ $("documentRows").innerHTML=docs.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td>${status(x[4])}</td><td><button class="action" onclick="alert('Document preview opened.')">View</button></td></tr>`).join("");
+ $("clearanceRows").innerHTML=clearances.map(x=>`<tr><td>${x[0]}</td><td>${status(x[1])}</td><td>${status(x[2])}</td><td>${status(x[3])}</td><td>${status(x[4])}</td><td>${status(x[5])}</td></tr>`).join("");
+}
+function renderAcc(){ $("accreditationRows").innerHTML=acc.map(x=>`<tr><td><b>${x[0]}</b></td><td>${x[1]}</td><td>${status(x[2])}</td><td>${x[3]}</td><td>${x[4]}</td><td>${x[5]}</td><td>${status(x[6])}</td></tr>`).join("");}
+function renderReports(){
+ const by={};
+ students.forEach(x=>{const p=x[2]||"Unknown";by[p]??={students:0,admissions:0,registered:0,graduating:0};by[p].students++;if(String(x[6]).toLowerCase().includes("graduat"))by[p].graduating++;});
+ applications.forEach(x=>{const p=x[2]||"Unknown";by[p]??={students:0,admissions:0,registered:0,graduating:0};by[p].admissions++;});
+ $("reportProgrammeRows").innerHTML=Object.entries(by).map(([p,v])=>`<tr><td>${esc(p)}</td><td>${v.students}</td><td>${v.admissions}</td><td>${v.registered}</td><td>${v.graduating}</td></tr>`).join("")||`<tr><td colspan="5" class="empty">No report data found in Firebase.</td></tr>`;
+}
+function renderAudit(){let q=$("auditSearch").value.toLowerCase(),m=$("auditModule").value;let r=audits.filter(x=>(!q||x.join(" ").toLowerCase().includes(q))&&(!m||x[2]===m));$("auditRows").innerHTML=r.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td>${x[4]}</td><td>${status(x[5]==="Success"?"Approved":"Pending")}</td></tr>`).join("");}
+function addAudit(module,action,record){audits.unshift([new Date().toLocaleString(),"Registrar",module,action,record,"Success"]);renderAudit();}
+
+function setupTabs(){
+ document.querySelectorAll("[data-adm]").forEach(b=>b.onclick=()=>switchGroup("[data-adm]","adm",b.dataset.adm));
+ document.querySelectorAll("[data-ac]").forEach(b=>b.onclick=()=>switchGroup("[data-ac]","ac",b.dataset.ac));
+ document.querySelectorAll("[data-st]").forEach(b=>b.onclick=()=>switchGroup("[data-st]","staff",b.dataset.st));
+ document.querySelectorAll("[data-rg]").forEach(b=>b.onclick=()=>switchGroup("[data-rg]","rg",b.dataset.rg));
+}
+function switchGroup(selector,prefix,name){
+ document.querySelectorAll(selector).forEach(b=>b.classList.toggle("active",b.dataset[prefix==="staff"?"st":prefix]===name));
+ document.querySelectorAll(`[id^="${prefix}"]`).forEach(x=>{if(x.classList.contains("subview"))x.style.display="none"});
+ const el=$(prefix+name.charAt(0).toUpperCase()+name.slice(1));if(el)el.style.display="block";
+}
+const modal=$("modal");
+function openModal(title,content){$("modalTitle").textContent=title;$("modalContent").innerHTML=content;modal.classList.add("show")}
+function closeModal(){modal.classList.remove("show")}
+$("closeModal").onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};
+$("logoutBtn").onclick=()=>alert("Demo logout. Connect Firebase Authentication for production use.");
+
+$("admSearch").oninput=renderApplications;$("admStatus").onchange=renderApplications;
+$("studentSearch").oninput=renderStudents;$("studentProgramme").onchange=renderStudents;$("studentStatus").onchange=renderStudents;
+$("gradSearch").oninput=renderGraduation;$("gradStatus").onchange=renderGraduation;
+$("staffSearch").oninput=renderStaff;$("requestSearch").oninput=renderRegistry;$("requestStatus").onchange=renderRegistry;
+$("auditSearch").oninput=renderAudit;$("auditModule").onchange=renderAudit;
+
+$("addStudent").onclick=()=>{location.href="student.html"};
+function legacyAddStudentModal(){openModal("Register New Student",`<div class="form-grid"><div class="field"><label>Full Name</label><input id="newName" required></div><div class="field"><label>Matric No.</label><input id="newMatric" required></div><div class="field"><label>Programme</label><select id="newProgramme"></select></div><div class="field"><label>Level</label><select id="newLevel"><option value="">Select level</option><option>100</option><option>200</option><option>300</option><option>400</option><option>500</option></select></div><div class="field"><label>Session</label><input id="newSession" readonly placeholder="Active session from Firebase"></div><div class="field"><label>Phone</label><input id="newPhone"></div></div><br><button class="btn" onclick="saveStudent()">Create Student Record</button>`);}
+function saveStudent(){alert("Use the Admin Student Management page to create the master student record, then it will appear here automatically from Firebase.");}
+
+$("addStaff").onclick=()=>openModal("Add Staff",`<div class="form-grid"><div class="field"><label>Full Name</label><input id="staffName"></div><div class="field"><label>Staff ID</label><input id="staffId" value="GGCHST/STAFF/"></div><div class="field"><label>Department</label><input id="staffDept"></div><div class="field"><label>Rank / Role</label><input id="staffRank"></div><div class="field"><label>Qualification</label><input id="staffQual"></div><div class="field"><label>Phone</label><input id="staffPhone"></div></div><br><button class="btn" onclick="saveStaff()">Save Staff</button>`);
+function saveStaff(){staff.push([$("staffId").value+String(staff.length+1).padStart(3,"0"),$("staffName").value||"New Staff",$("staffDept").value||"Unassigned",$("staffRank").value||"Staff",$("staffQual").value||"Not provided",$("staffPhone").value||"Not provided","Active"]);closeModal();renderStaff();addAudit("Registry","Created staff record",staff[staff.length-1][0]);alert("Staff record saved.");}
+
+window.__GGCHST_getStudents=()=>students;
+setupTabs();renderApplications();renderStudents();renderAcademics();renderGraduation();renderStaff();renderRegistry();renderAcc();renderReports();renderAudit();
+</script>
+
+<script>
+(function(){
+ const dayOrder=['Monday','Tuesday','Wednesday','Thursday','Friday'];
+ var tmData=[];
+ const $=id=>document.getElementById(id);
+ const esc2=v=>String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+ function overlaps(a,b){return a.day===b.day && a.start<b.end && b.start<a.end;}
+ function conflicts(x){return tmData.filter(y=>y.id!==x.id && y.session===x.session && y.semester===x.semester && overlaps(x,y) && (y.room===x.room || y.lecturer===x.lecturer || (y.programme===x.programme && y.level===x.level))).map(y=>y.id);}
+ function conflictReason(x){let c=tmData.filter(y=>y.id!==x.id && y.session===x.session && y.semester===x.semester && overlaps(x,y));let r=[];if(c.some(y=>y.room===x.room))r.push('room');if(c.some(y=>y.lecturer===x.lecturer))r.push('lecturer');if(c.some(y=>y.programme===x.programme&&y.level===x.level))r.push('same class');return r;}
+ function fillFilters(){
+  $('tmProgramme').innerHTML='<option value="">All programmes</option>'+programmes.map(x=>`<option>${esc2(x[0])}</option>`).join('');
+  const rooms=[...new Set(tmData.map(x=>x.room))];$('tmRoom').innerHTML='<option value="">All rooms</option>'+rooms.map(x=>`<option>${esc2(x)}</option>`).join('');
+ }
+ function renderTM(){
+  const f={session:$('tmSession').value,semester:$('tmSemester').value,programme:$('tmProgramme').value,level:$('tmLevel').value,day:$('tmDay').value,room:$('tmRoom').value,status:$('tmStatus').value};
+  const rows=tmData.filter(x=>x.session===f.session&&x.semester===f.semester&&(!f.programme||x.programme===f.programme)&&(!f.level||x.level===f.level)&&(!f.day||x.day===f.day)&&(!f.room||x.room===f.room)&&(!f.status||x.status===f.status));
+  $('tmRows').innerHTML=rows.map(x=>{let c=conflicts(x);return `<tr class="${c.length?'tm-conflict':'tm-ok'}"><td>${x.day}</td><td><b>${x.start}–${x.end}</b></td><td>${esc2(x.course)}</td><td>${esc2(x.programme)}</td><td>${x.level}</td><td>${esc2(x.lecturer)}</td><td>${esc2(x.room)}</td><td>${x.type}</td><td>${status(x.status)}${c.length?'<br><span class="status tm-status" style="color:#b33">⚠ conflict</span>':''}</td><td><button class="action" onclick="tmEdit('${x.id}')">Edit</button> <button class="action" onclick="tmApprove('${x.id}')">Approve</button> <button class="action reject" onclick="tmDelete('${x.id}')">Delete</button></td></tr>`}).join('')||'<tr><td colspan="10" class="empty">No timetable entries match the selected filters.</td></tr>';
+  $('tmTotal').textContent=tmData.length;$('tmDraft').textContent=tmData.filter(x=>x.status==='Draft').length;$('tmReview').textContent=tmData.filter(x=>x.status==='Under Review').length;$('tmApproved').textContent=tmData.filter(x=>x.status==='Approved').length;$('tmConflicts').textContent=tmData.filter(x=>conflicts(x).length).length;
+  $('tmWeek').innerHTML=dayOrder.map(d=>`<div class="tm-day"><h4>${d}</h4>${rows.filter(x=>x.day===d).sort((a,b)=>a.start.localeCompare(b.start)).map(x=>{let c=conflicts(x);return `<div class="tm-slot ${c.length?'conflict':''}"><strong>${x.start}–${x.end}</strong><span>${esc2(x.course.split(' — ')[0])}</span><small>${esc2(x.programme)} • L${x.level}</small><small>${esc2(x.room)} • ${esc2(x.lecturer)}</small><small class="tm-status">${esc2(x.status)}${c.length?' • CONFLICT':''}</small></div>`}).join('')||'<div class="small">No classes</div>'}</div>`).join('');
+  $('tmChecks').innerHTML=tmData.filter(x=>conflicts(x).length).map(x=>`<div class="notice" style="margin-bottom:8px"><b>${esc2(x.id)}</b> — ${esc2(x.course)}<br><span class="mini">${conflictReason(x).join(', ')} conflict at ${x.day} ${x.start}–${x.end}.</span></div>`).join('')||'<div class="notice">✓ No room, lecturer or same-class timetable conflicts detected.</div>';
+ }
+ function modalForm(item={}){
+  const vals={day:'Monday',start:'08:00',end:'10:00',type:'Lecture',status:'Draft',...item};
+  return `<div class="form-grid"><div class="field"><label>Session</label><select id="tmFSession"></select></div><div class="field"><label>Semester</label><select id="tmFSem"><option>First</option><option>Second</option></select></div><div class="field"><label>Course</label><input id="tmFCourse" value="${esc2(vals.course||'')}"></div><div class="field"><label>Programme</label><select id="tmFProg">${programmes.map(x=>`<option ${x[0]===vals.programme?'selected':''}>${esc2(x[0])}</option>`).join('')}</select></div><div class="field"><label>Level</label><select id="tmFLevel">${['100','200','300'].map(x=>`<option ${x===vals.level?'selected':''}>${x}</option>`).join('')}</select></div><div class="field"><label>Day</label><select id="tmFDay">${dayOrder.map(x=>`<option ${x===vals.day?'selected':''}>${x}</option>`).join('')}</select></div><div class="field"><label>Start</label><input type="time" id="tmFStart" value="${vals.start}"></div><div class="field"><label>End</label><input type="time" id="tmFEnd" value="${vals.end}"></div><div class="field"><label>Lecturer</label><input id="tmFLect" value="${esc2(vals.lecturer||'')}"></div><div class="field"><label>Venue / Room</label><input id="tmFRoom" value="${esc2(vals.room||'')}"></div><div class="field"><label>Class Type</label><select id="tmFType">${['Lecture','Practical','Clinical','Seminar','Examination'].map(x=>`<option ${x===vals.type?'selected':''}>${x}</option>`).join('')}</select></div><div class="field"><label>Status</label><select id="tmFStatus"><option>Draft</option><option>Under Review</option><option>Approved</option><option>Published</option></select></div></div><br><div class="info">Conflict detection checks room, lecturer and same programme/level overlaps before saving.</div><br><button class="btn" onclick="tmSave('${vals.id||''}')">Save Timetable Entry</button>`;
+ }
+ window.tmAdd=()=>openModal('Add Timetable Entry',modalForm());
+ window.tmEdit=id=>{let x=tmData.find(y=>y.id===id);openModal('Edit Timetable Entry',modalForm(x));setTimeout(()=>{$('tmFSession').value=x.session;$('tmFSem').value=x.semester;$('tmFStatus').value=x.status},0)};
+ window.tmSave=id=>{let x={id:id||'TT-'+String(Date.now()).slice(-6),session:$('tmFSession').value,semester:$('tmFSem').value,course:$('tmFCourse').value.trim(),programme:$('tmFProg').value,level:$('tmFLevel').value,day:$('tmFDay').value,start:$('tmFStart').value,end:$('tmFEnd').value,lecturer:$('tmFLect').value.trim(),room:$('tmFRoom').value.trim(),type:$('tmFType').value,status:$('tmFStatus').value};if(!x.course||!x.lecturer||!x.room||!x.start||!x.end){alert('Please complete course, lecturer, venue and time.');return}if(x.start>=x.end){alert('End time must be later than start time.');return}let old=tmData.find(y=>y.id===id);if(old)Object.assign(old,x);else tmData.push(x);let c=conflicts(x);if(c.length)alert('Saved with a conflict warning. Review the conflict panel before approval.');else alert('Timetable entry saved successfully.');closeModal();fillFilters();renderTM();addAudit('Timetable',id?'Edited timetable entry':'Created timetable entry',x.id)};
+ window.tmApprove=id=>{let x=tmData.find(y=>y.id===id);let c=conflicts(x);if(c.length){alert('Cannot approve this entry until timetable conflicts are resolved.');return}x.status='Approved';renderTM();addAudit('Timetable','Approved timetable entry',id);alert('Timetable entry approved.');};
+ window.tmDelete=id=>{if(!confirm('Delete this timetable entry?'))return;let i=tmData.findIndex(x=>x.id===id);if(i>=0){tmData.splice(i,1);renderTM();addAudit('Timetable','Deleted timetable entry',id)}};
+ $('tmAdd').onclick=window.tmAdd;$('tmPrint').onclick=()=>window.print();$('tmPublish').onclick=()=>{let filtered=tmData.filter(x=>x.session===$('tmSession').value&&x.semester===$('tmSemester').value);let bad=filtered.filter(x=>conflicts(x).length);if(bad.length){alert('Publishing blocked: resolve '+bad.length+' conflict(s) first.');return}filtered.forEach(x=>x.status='Published');renderTM();addAudit('Timetable','Published timetable',$('tmSession').value+' '+$('tmSemester').value);alert('Current timetable published successfully.');};
+ ['tmSession','tmSemester','tmProgramme','tmLevel','tmDay','tmRoom','tmStatus'].forEach(id=>$(id).onchange=renderTM);
+ fillFilters();renderTM();
+ window.__GGCHST_getTmData=()=>tmData;
+})();
+</script>
+<script>document.addEventListener('DOMContentLoaded',function(){var m=document.getElementById('menu');if(m&&!document.querySelector('#menu button[data-view=\"timetable\"]')){var b=document.createElement('button');b.dataset.view='timetable';b.innerHTML='<span class=\"icon\">🗓</span>Timetable';m.insertBefore(b,m.children[4]||null);b.onclick=function(){show('timetable')};} pageNames.timetable='Timetable Management';});</script>
+
+<div class="course-modal" id="rcModal" aria-hidden="true">
+  <div class="course-modal-box">
+    <div class="course-modal-head"><h3>Edit Course</h3><button class="course-modal-close" type="button" id="rcCloseModal">✕</button></div>
+    <form id="rcEditForm"><input type="hidden" id="rcEditId">
+      <div class="course-modal-grid">
+        <div class="course-field"><label for="rcEditName">Course Name *</label><input id="rcEditName" required></div>
+        <div class="course-field"><label for="rcEditCode">Course Code *</label><input id="rcEditCode" required></div>
+        <div class="course-field"><label for="rcEditUnit">Credit Unit *</label><input id="rcEditUnit" type="number" min="1" max="12" required></div>
+        <div class="course-field"><label for="rcEditFaculty">Faculty *</label><select id="rcEditFaculty" required></select></div>
+        <div class="course-field"><label for="rcEditDepartment">Department *</label><select id="rcEditDepartment" required></select></div>
+        <div class="course-field"><label for="rcEditLevel">Level *</label><select id="rcEditLevel" required></select></div>
+        <div class="course-field"><label for="rcEditSession">Academic Session *</label><select id="rcEditSession" required></select></div>
+      </div>
+      <div class="course-modal-actions"><button class="course-btn secondary" type="button" id="rcCancelEdit">Cancel</button><button class="course-btn primary" type="submit" id="rcUpdateBtn">Update Course</button></div>
+    </form>
+  </div>
+</div>
+
+
+<script type="module" id="registrar-course-firebase">
+import {initializeApp,getApps,getApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getFirestore,collection,addDoc,updateDoc,deleteDoc,doc,onSnapshot,serverTimestamp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",authDomain:"ggchst-sms-new.firebaseapp.com",projectId:"ggchst-sms-new",storageBucket:"ggchst-sms-new.firebasestorage.app",messagingSenderId:"942770190211",appId:"1:942770190211:web:aa9a085a38aaa517b368b6"};
+const app=getApps().length?getApp():initializeApp(firebaseConfig),db=getFirestore(app);
+const $=id=>document.getElementById(id), esc=v=>String(v??"").replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]));
+let courses=[],programmes=[],sessions=[],editingId="";
+const status=t=>{const e=$("rcStatus");if(e)e.textContent=t};
+function fillSelect(id,items,placeholder,fn){
+ const e=$(id);if(!e)return;
+ e.innerHTML=`<option value="">${placeholder}</option>`;
+ items.forEach(x=>{const o=document.createElement("option");o.value=fn(x);o.textContent=fn(x);e.appendChild(o)});
+}
+function render(){
+ const q=($("rcSearch")?.value||"").trim().toLowerCase();
+ const list=courses.filter(c=>!q||`${c.courseTitle||c.courseName||""} ${c.courseCode||""} ${c.programmeName||c.programme||""}`.toLowerCase().includes(q));
+ $("rcRows").innerHTML=list.length?list.map(c=>`<tr><td>${esc(c.courseTitle||c.courseName)}</td><td>${esc(c.courseCode)}</td><td>${esc(c.courseUnit??c.creditUnit??"")}</td><td>${esc(c.programmeName||c.programme||"")}</td><td>${esc(c.levelName||c.level||"")}</td><td>${esc(c.semester||"")}</td><td>${esc(c.sessionName||c.academicSession||c.session||"")}</td><td><button class="course-edit-btn" data-edit="${esc(c.id)}">Edit</button><button class="course-delete-btn" data-delete="${esc(c.id)}">Delete</button></td></tr>`).join(""):'<tr><td colspan="8">No course records found in Firebase.</td></tr>';
+}
+function resetForm(){editingId="";$("registrarCourseForm")?.reset();$("rcSaveBtn").textContent="Save Course";}
+function loadSource(){
+ fillSelect("rcProgramme",programmes,"Select programme",x=>x.name||x.programmeName||"");
+ fillSelect("rcSession",sessions,"Select session",x=>x.name||x.sessionName||"");
+}
+$("rcSearch")?.addEventListener("input",render);
+$("registrarCourseForm")?.addEventListener("reset",()=>setTimeout(resetForm,0));
+$("registrarCourseForm")?.addEventListener("submit",async e=>{
+ e.preventDefault();
+ const payload={courseTitle:$("rcCourseName").value.trim(),courseName:$("rcCourseName").value.trim(),courseCode:$("rcCourseCode").value.trim().toUpperCase(),courseUnit:Number($("rcCreditUnit").value),semester:$("rcSemester").value,programmeName:$("rcProgramme").value,levelName:$("rcLevel").value,sessionName:$("rcSession").value,academicSession:$("rcSession").value,status:"Active",updatedAt:serverTimestamp()};
+ if(!payload.courseTitle||!payload.courseCode||!payload.courseUnit||!payload.programmeName||!payload.levelName||!payload.semester||!payload.academicSession){status("Please complete all required course fields.");return}
+ try{if(editingId)await updateDoc(doc(db,"courses",editingId),payload);else{payload.createdAt=serverTimestamp();await addDoc(collection(db,"courses"),payload)}resetForm();status("Course saved to the shared Firebase database.")}catch(err){console.error(err);status(err.message||"Could not save course.")}
+});
+$("rcRows")?.addEventListener("click",async e=>{
+ const ed=e.target.closest("[data-edit]")?.dataset.edit,del=e.target.closest("[data-delete]")?.dataset.delete;
+ if(ed){const c=courses.find(x=>x.id===ed);if(!c)return;editingId=ed;$("rcCourseName").value=c.courseTitle||c.courseName||"";$("rcCourseCode").value=c.courseCode||"";$("rcCreditUnit").value=c.courseUnit??c.creditUnit??"";loadSource();$("rcProgramme").value=c.programmeName||c.programme||"";$("rcLevel").value=c.levelName||c.level||"";$("rcSemester").value=c.semester||"";$("rcSession").value=c.sessionName||c.academicSession||c.session||"";$("rcSaveBtn").textContent="Update Course";window.scrollTo({top:0,behavior:"smooth"})}
+ if(del&&confirm("Delete this course record from Firebase?")){try{await deleteDoc(doc(db,"courses",del));status("Course deleted.")}catch(err){status(err.message||"Could not delete course.")}}
+});
+onSnapshot(collection(db,"courses"),s=>{courses=s.docs.map(d=>({id:d.id,...d.data()}));render();status(`Connected • ${courses.length} course record${courses.length===1?"":"s"} loaded.`)});
+onSnapshot(collection(db,"programmes"),s=>{programmes=s.docs.map(d=>({id:d.id,...d.data()}));loadSource()});
+onSnapshot(collection(db,"academicSessions"),s=>{sessions=s.docs.map(d=>({id:d.id,...d.data()}));loadSource()});
+loadSource();
+</script>
+
+<script type="module" id="lecturer-firebase-manager">
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
+  authDomain: "ggchst-sms-new.firebaseapp.com",
+  projectId: "ggchst-sms-new",
+  storageBucket: "ggchst-sms-new.firebasestorage.app",
+  messagingSenderId: "942770190211",
+  appId: "1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+const app=getApps().length?getApp():initializeApp(firebaseConfig),db=getFirestore(app);
+const qid=id=>document.getElementById(id); const lecturerDepartments=["Health Information Management","Community Health","Public Health","Environmental Health","Health Education","Dental Therapy","Science Laboratory Technology","Computer Science","Statistics","Medical Laboratory Technology","Pharmacy Technician","Biomedical Technology"];
+let lecturerRecords=[];
+const escL=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;", "'":"&#039;"}[c]));
+function msg(t,error=false){const e=qid("lecturerMessage");if(e){e.textContent=t;e.style.color=error?"#a61b16":"#087f5b"}
+function fillDepartments(){const s=qid("lecDepartment"),f=qid("lecturerDeptFilter"); if(!s||!f)return; const vals=[...new Set([...lecturerDepartments,...lecturerRecords.map(x=>x.department).filter(Boolean)])].sort(); const old=s.value,oldf=f.value; s.innerHTML='<option value="">Select department</option>'+vals.map(x=>`<option value="${escL(x)}">${escL(x)}</option>`).join(""); if(vals.includes(old))s.value=old; f.innerHTML='<option value="">All Departments</option>'+vals.map(x=>`<option value="${escL(x)}">${escL(x)}</option>`).join(""); if(vals.includes(oldf))f.value=oldf;}
+function norm(d,id){return {id,...d,staffId:d.staffId||d.id||"",name:d.name||d.fullName||"",email:d.email||"",phone:d.phone||"",department:d.department||"",rank:d.rank||d.academicRank||"",qualification:d.qualification||"",gender:d.gender||"",specialization:d.specialization||d.spec||"",status:d.status||d.employmentStatus||"Active",profilePicture:d.profilePicture||d.photo||""}
+function filtered(){const q=(qid("lecturerSearch")?.value||"").trim().toLowerCase(),dep=qid("lecturerDeptFilter")?.value||"";return lecturerRecords.filter(x=>(!q||`${x.name} ${x.staffId} ${x.department} ${x.email}`.toLowerCase().includes(q))&&(!dep||x.department===dep))}
+function avatar(x){return x.profilePicture?`<img class="lt-avatar" src="${escL(x.profilePicture)}" alt="">`:`<span class="lt-placeholder">${escL((x.name||"L").split(/\s+/).map(a=>a[0]).slice(0,2).join("").toUpperCase())}</span>`}
+function renderLecturers(){const rows=qid("lecturerRows");if(!rows)return;const list=filtered();qid("lecturerCount").textContent=`${list.length} LECTURER${list.length===1?"":"S"}`;rows.innerHTML=list.length?list.map((x,i)=>`<tr><td>${i+1}</td><td>${avatar(x)}<b>${escL(x.name)}</b></td><td>${escL(x.staffId)}</td><td>${escL(x.department)}</td><td>${escL(x.rank)}</td><td>${escL(x.email)}</td><td>${escL(x.phone)}</td><td><span class="lt-status ${x.status==="Active"?"lt-active":"lt-inactive"}">${escL(x.status)}</span></td><td class="lecturer-actions-cell"><button class="lt-view" data-lview="${escL(x.id)}">View</button><button class="lt-edit" data-ledit="${escL(x.id)}">Edit</button><button class="lt-delete" data-ldelete="${escL(x.id)}">Delete</button></td></tr>`).join(""): '<tr><td colspan="9" class="lecturer-empty">No lecturer records found.</td></tr>'}
+function openView(x){qid("lecturerViewContent").innerHTML=`<div style="text-align:center;margin-bottom:14px">${avatar(x)}<h3 style="display:inline-block;vertical-align:middle;margin:0 0 0 4px">${escL(x.name)}</h3></div><div class="lecturer-detail-grid">${[["Staff ID",x.staffId],["Email",x.email],["Phone",x.phone],["Department",x.department],["Academic Rank",x.rank],["Qualification",x.qualification],["Gender",x.gender],["Specialization",x.specialization||"Not provided"],["Employment Status",x.status]].map(a=>`<div class="lecturer-detail"><small>${a[0]}</small><b>${escL(a[1]||"-")}</b></div>`).join("")}</div>`;qid("lecturerViewModal").classList.add("show");qid("lecturerViewModal").setAttribute("aria-hidden","false")}
+function closeView(){qid("lecturerViewModal").classList.remove("show");qid("lecturerViewModal").setAttribute("aria-hidden","true")}
+function openEdit(x){const deps=[...new Set([...lecturerDepartments,...lecturerRecords.map(y=>y.department).filter(Boolean)])].sort();qid("lecturerModalTitle").textContent="Edit Lecturer";qid("lecturerEditContent").innerHTML=`<form id="lecturerEditForm"><div class="lecturer-form-grid"><div class="lecturer-field"><label>Full Name *</label><input id="edName" required value="${escL(x.name)}"></div><div class="lecturer-field"><label>Staff ID *</label><input id="edStaffId" required value="${escL(x.staffId)}"></div><div class="lecturer-field"><label>Email Address *</label><input id="edEmail" type="email" required value="${escL(x.email)}"></div><div class="lecturer-field"><label>Phone Number *</label><input id="edPhone" required value="${escL(x.phone)}"></div><div class="lecturer-field"><label>Department *</label><select id="edDepartment" required>${deps.map(d=>`<option ${d===x.department?"selected":""}>${escL(d)}</option>`).join("")}</select></div><div class="lecturer-field"><label>Academic Rank *</label><select id="edRank" required>${["Assistant Lecturer","Lecturer II","Lecturer I","Senior Lecturer","Principal Lecturer","Chief Lecturer"].map(d=>`<option ${d===x.rank?"selected":""}>${d}</option>`).join("")}</select></div><div class="lecturer-field"><label>Qualification *</label><select id="edQualification" required>${["ND","HND","BSc","BA","BTech","MBBS","MPH","MSc","MA","MTech","PhD","Other"].map(d=>`<option ${d===x.qualification?"selected":""}>${d}</option>`).join("")}</select></div><div class="lecturer-field"><label>Gender *</label><select id="edGender" required><option ${x.gender==="Male"?"selected":""}>Male</option><option ${x.gender==="Female"?"selected":""}>Female</option></select></div><div class="lecturer-field"><label>Specialization</label><input id="edSpec" value="${escL(x.specialization)}"></div><div class="lecturer-field"><label>Employment Status *</label><select id="edStatus" required>${["Active","Inactive","On Leave"].map(d=>`<option ${d===x.status?"selected":""}>${d}</option>`).join("")}</select></div></div><div class="lecturer-actions"><button class="lecturer-btn clear" type="button" id="edCancel">Cancel</button><button class="lecturer-btn save" type="submit" id="edSave">Update Lecturer</button></div></form>`;qid("lecturerEditModal").classList.add("show");qid("lecturerEditModal").setAttribute("aria-hidden","false");qid("edCancel").onclick=closeEdit;qid("lecturerEditForm").onsubmit=e=>saveEdit(e,x.id)}
+function closeEdit(){qid("lecturerEditModal").classList.remove("show");qid("lecturerEditModal").setAttribute("aria-hidden","true")}
+async function saveEdit(e,id){e.preventDefault();const c={name:qid("edName").value.trim(),staffId:qid("edStaffId").value.trim().toUpperCase(),email:qid("edEmail").value.trim(),phone:qid("edPhone").value.trim(),department:qid("edDepartment").value,rank:qid("edRank").value,qualification:qid("edQualification").value,gender:qid("edGender").value,specialization:qid("edSpec").value.trim(),status:qid("edStatus").value,updatedAt:serverTimestamp()};if(lecturerRecords.some(x=>x.id!==id&&String(x.staffId).toUpperCase()===c.staffId)){alert("Another lecturer already uses this Staff ID.");return}const b=qid("edSave");b.disabled=true;b.textContent="Updating…";try{await updateDoc(doc(db,"lecturers",id),c);closeEdit();msg("Lecturer profile updated successfully.")}catch(err){console.error(err);alert(err.message||"Could not update lecturer. Check Firestore Security Rules.")}finally{b.disabled=false;b.textContent="Update Lecturer"}
+async function fileData(input){const f=input.files?.[0];if(!f)return "";if(f.size>700000)throw new Error("Profile picture is too large. Please choose an image below 700 KB.");return await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(f)})}
+qid("lecturerCreateForm").onsubmit=async e=>{e.preventDefault();const b=qid("lecSave");const staffId=qid("lecStaffId").value.trim().toUpperCase();if(lecturerRecords.some(x=>String(x.staffId).toUpperCase()===staffId)){alert("A lecturer with this Staff ID already exists.");return}b.disabled=true;b.textContent="Saving…";try{const picture=await fileData(qid("lecPicture"));const c={name:qid("lecName").value.trim(),staffId,email:qid("lecEmail").value.trim(),phone:qid("lecPhone").value.trim(),department:qid("lecDepartment").value,rank:qid("lecRank").value,qualification:qid("lecQualification").value,gender:qid("lecGender").value,specialization:qid("lecSpecialization").value.trim(),status:qid("lecStatus").value,profilePicture:picture,createdAt:serverTimestamp(),updatedAt:serverTimestamp()};await addDoc(collection(db,"lecturers"),c);e.target.reset();msg("Lecturer profile saved to the shared Firebase database.")}catch(err){console.error(err);alert(err.message||"Could not save lecturer. Check Firestore Security Rules.")}finally{b.disabled=false;b.textContent="＋ Save Lecturer"}
+qid("lecturerRows").addEventListener("click",async e=>{const v=e.target.closest("[data-lview]")?.dataset.lview,ed=e.target.closest("[data-ledit]")?.dataset.ledit,del=e.target.closest("[data-ldelete]")?.dataset.ldelete;if(v){const x=lecturerRecords.find(y=>y.id===v);if(x)openView(x)}if(ed){const x=lecturerRecords.find(y=>y.id===ed);if(x)openEdit(x)}if(del){const x=lecturerRecords.find(y=>y.id===del);if(!x)return;if(!confirm(`Delete lecturer "${x.name}" (${x.staffId})? This cannot be undone.`))return;try{await deleteDoc(doc(db,"lecturers",del));msg("Lecturer deleted successfully.")}catch(err){console.error(err);alert(err.message||"Could not delete lecturer. Check Firestore Security Rules.")}});
+qid("lecturerSearch").oninput=renderLecturers;qid("lecturerDeptFilter").onchange=renderLecturers;qid("lecturerModalClose").onclick=closeEdit;qid("lecturerViewClose").onclick=closeView;qid("lecturerEditModal").onclick=e=>{if(e.target.id==="lecturerEditModal")closeEdit()};qid("lecturerViewModal").onclick=e=>{if(e.target.id==="lecturerViewModal")closeView()};
+function startLecturerSync(){fillDepartments();onSnapshot(collection(db,"lecturers"),snap=>{lecturerRecords=snap.docs.map(d=>norm(d.data(),d.id)).sort((a,b)=>String(a.name).localeCompare(String(b.name)));fillDepartments();renderLecturers()},err=>{console.error(err);msg(err.message||"Could not read lecturers from Firebase.",true)})}
+startLecturerSync();
+</script>
+
+<script type="module" id="registrar-student-timetable-sync">
+import { getFirestore, collection, addDoc, getDocs, query, where, onSnapshot, doc, setDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getApps, getApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+
+const app=getApps().length?getApp():null;
+if(!app){console.warn("Registrar sync: Firebase app not available.");}
+const db=app?getFirestore(app):null;
+const $=id=>document.getElementById(id);
+const clean=v=>String(v??"").trim();
+const norm=v=>clean(v).toLowerCase().replace(/\s+/g," ");
+const esc=v=>clean(v).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+let studentsFS=[], coursesFS=[], registrationsFS=[];
+
+function status(t,error=false){const e=$("syncRegistrationStatus");if(e){e.textContent=t;e.style.color=error?"#a61b16":"#087f5b"}
+
+async function seedStudents(){ return; }
+
+function renderStudentsSelect(){
+  const e=$("syncStudentSelect");if(!e)return;
+  const list=studentsFS.length?studentsFS:(window.__GGCHST_getStudents?.()||[]).map(x=>({matricNo:x[0],studentName:x[1],programme:x[2],level:x[3],session:x[4],phone:x[5],status:x[6]}));
+  e.innerHTML='<option value="">Select student</option>'+list.map(s=>`<option value="${esc(s.matricNo||s.admissionNo)}">${esc(s.studentName||s.name)} — ${esc(s.matricNo||s.admissionNo)}</option>`).join("");
+}
+function renderCourseChecks(){
+  const e=$("syncCourseChecks");if(!e)return;
+  if(!coursesFS.length){e.innerHTML='<div class="info">No Firestore courses found. Create courses in Academics first.</div>';return}
+  e.innerHTML=coursesFS.map(c=>`<label style="display:flex;gap:8px;align-items:flex-start;padding:10px;border:1px solid #dfe9e4;border-radius:9px;background:#fff;font-size:12px"><input type="checkbox" class="sync-course" value="${esc(c.courseCode)}" style="width:auto;margin-top:2px"><span><b>${esc(c.courseCode)}</b> — ${esc(c.courseName)}<br><span class="small">${esc(c.department||"")} • ${esc(c.level||"")} • ${esc(c.session||"")}</span></span></label>`).join("");
+}
+function selectedStudent(){const matric=$("syncStudentSelect")?.value;return studentsFS.find(s=>norm(s.matricNo||s.admissionNo)===norm(matric))||null}
+async function saveRegistration(){
+  if(!db){status("Firebase is not available.",true);return}
+  const s=selectedStudent(),session=clean($("syncSession")?.value),codes=[...document.querySelectorAll(".sync-course:checked")].map(x=>x.value).filter(Boolean);
+  if(!s){status("Select a student first.",true);return}
+  if(!codes.length){status("Select at least one course.",true);return}
+  const btn=$("syncSaveRegistration");btn.disabled=true;btn.textContent="Saving…";
+  try{
+    const existing=await getDocs(query(collection(db,"courseRegistrations"),where("matricNo","==",s.matricNo)));
+    const existingKeys=new Set(existing.docs.map(d=>norm(d.data().courseCode)+"|"+norm(d.data().session||"")));
+    let saved=0;
+    for(const code of codes){
+      const key=norm(code)+"|"+norm(session);if(existingKeys.has(key))continue;
+      const c=coursesFS.find(x=>norm(x.courseCode)===norm(code));
+      await addDoc(collection(db,"courseRegistrations"),{
+        matricNo:s.matricNo||s.studentId,studentId:s.studentId||s.matricNo,studentDocId:s.id||null,studentUid:s.studentUid||s.authUid||s.firebaseUid||s.uid||"",admissionNo:s.admissionNo||s.matricNo,studentName:s.studentName||s.fullName||s.name,fullName:s.studentName||s.fullName||s.name,
+        programme:s.programme||"",level:s.level||c?.level||"",session,courseCode:code,courseName:c?.courseName||"",
+        department:c?.department||s.programme||"",status:"Registered",source:"registrar.html",createdAt:serverTimestamp(),updatedAt:serverTimestamp()
+      });
+      saved++;
+    }
+    status(saved?`${saved} course registration${saved===1?"":"s"} saved to Firebase.`:"Student is already registered for the selected courses.");
+    document.querySelectorAll(".sync-course").forEach(x=>x.checked=false);
+  }catch(e){console.error(e);status(e.message||"Could not save course registration. Check Firestore Security Rules.",true)}
+  finally{btn.disabled=false;btn.textContent="Save Course Registration"}
+}
+async function loadExisting(){
+  if(!db)return;
+  const s=selectedStudent();if(!s){status("Select a student first.",true);return}
+  const session=clean($("syncSession")?.value);
+  const snap=await getDocs(query(collection(db,"courseRegistrations"),where("matricNo","==",s.matricNo)));
+  const codes=snap.docs.map(d=>d.data()).filter(x=>!session||clean(x.session)===session).map(x=>norm(x.courseCode));
+  document.querySelectorAll(".sync-course").forEach(x=>x.checked=codes.includes(norm(x.value)));
+  status(`Loaded ${codes.length} existing registration${codes.length===1?"":"s"} for ${s.studentName||s.name}.`);
+}
+
+async function seedTimetable(){ return; }
+
+async function syncTimetableRecord(id,fromForm=true){
+  if(!db||!id)return;
+  const existing=(window.__GGCHST_getTmData?.()||[]).find(x=>x.id===id)||null;
+  const t=existing?{...existing}:{id};
+  if(fromForm && $("tmFSession")){
+    t.session=$("tmFSession").value;t.semester=$("tmFSem").value;t.course=$("tmFCourse").value.trim();
+    t.programme=$("tmFProg").value;t.level=$("tmFLevel").value;t.day=$("tmFDay").value;t.start=$("tmFStart").value;t.end=$("tmFEnd").value;
+    t.lecturer=$("tmFLect").value.trim();t.room=$("tmFRoom").value.trim();t.type=$("tmFType").value;t.status=$("tmFStatus").value;
+  }
+  await setDoc(doc(db,"timetables",clean(id)),{
+    ...t,id:clean(id),courseCode:clean(t.course).split(" — ")[0],courseName:clean(t.course).split(" — ").slice(1).join(" — "),
+    lecturerName:clean(t.lecturer),venue:clean(t.room),academicSession:clean(t.session),semester:clean(t.semester),
+    source:"registrar.html",updatedAt:serverTimestamp()
+  },{merge:true});
+}
+async function removeTimetable(id){if(!db)return;await deleteDoc(doc(db,"timetables",clean(id)))}
+
+function installTimetableBridges(){
+  if(!window.tmSave)return;
+  const originalSave=window.tmSave,originalApprove=window.tmApprove,originalDelete=window.tmDelete;
+  window.tmSave=async id=>{
+    const newId=id||"TT-"+String(Date.now()).slice(-6);
+    originalSave(newId);
+    try{await syncTimetableRecord(newId,true);console.log("Timetable synced:",newId)}catch(e){console.error(e);alert("Timetable saved locally but could not sync to Firebase: "+e.message)}
+  };
+  window.tmApprove=async id=>{
+    originalApprove(id);
+    try{
+      const t=(window.__GGCHST_getTmData?.()||[]).find(x=>x.id===id);
+      if(t)await setDoc(doc(db,"timetables",clean(id)),{...t,courseCode:clean(t.course).split(" — ")[0],lecturerName:t.lecturer,venue:t.room,academicSession:t.session,updatedAt:serverTimestamp()},{merge:true});
+    }catch(e){console.error(e)}
+  };
+  window.tmDelete=async id=>{
+    originalDelete(id);
+    try{await removeTimetable(id)}catch(e){console.error(e);alert("Timetable was removed from the screen but Firebase deletion failed: "+e.message)}
+  };
+  const pub=$("tmPublish");
+  if(pub)pub.addEventListener("click",()=>setTimeout(async()=>{for(const t of window.__GGCHST_getTmData?.()||[])try{await syncTimetableRecord(t.id,false)}catch(e){console.error(e)},100));
+}
+
+if(db){
+  await seedStudents();
+  await seedTimetable();
+  onSnapshot(collection(db,"students"),snap=>{
+    studentsFS=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>String(a.studentName||"").localeCompare(String(b.studentName||"")));
+    renderStudentsSelect();
+  },e=>console.warn("students sync read failed",e));
+  onSnapshot(collection(db,"courses"),snap=>{
+    coursesFS=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>String(a.courseCode||"").localeCompare(String(b.courseCode||"")));
+    renderCourseChecks();
+  },e=>console.warn("courses sync read failed",e));
+  $("syncStudentSelect")?.addEventListener("change",()=>{});
+  $("syncSaveRegistration")?.addEventListener("click",saveRegistration);
+  $("syncLoadExisting")?.addEventListener("click",loadExisting);
+  installTimetableBridges();
+}
+</script>
+
+
+<script type="module" id="ggchst-shared-student-sync">
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, onSnapshot, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
+  authDomain: "ggchst-sms-new.firebaseapp.com",
+  projectId: "ggchst-sms-new",
+  storageBucket: "ggchst-sms-new.firebasestorage.app",
+  messagingSenderId: "942770190211",
+  appId: "1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+const app=getApps().length?getApp():initializeApp(firebaseConfig);
+const db=getFirestore(app);
+const norm=v=>String(v??"").trim().toLowerCase();
+
+function studentObject(matric,name,programme,level,session,phone,status="Active"){
+  return {
+    studentId:matric,
+    studentID:matric,
+    matricNo:matric,
+    admissionNo:matric,
+    registrationNumber:matric,
+    studentName:name,
+    fullName:name,
+    programme:programme||"",
+    courseOfStudy:programme||"",
+    level:level||"",
+    session:session||"",
+    academicSession:session||"",
+    phone:phone||"",
+    phoneNumber:phone||"",
+    studentUid:"",
+    authUid:"",
+    status:status||"Active",
+    source:"registrar.html",
+    updatedAt:serverTimestamp()
+  };
+}
+
+/* Registrar's existing Create Student button is intercepted so the record
+   is written to the shared /students collection instead of only staying in memory. */
+document.addEventListener("click", async e=>{
+  const btn=e.target.closest('button[onclick="saveStudent()"]');
+  if(!btn) return;
+  e.preventDefault();
+  e.stopImmediatePropagation();
+
+  const clean=v=>String(v??"").trim();
+  const name=clean(document.getElementById("newName")?.value);
+  const matric=clean(document.getElementById("newMatric")?.value);
+  const programme=clean(document.getElementById("newProgramme")?.value);
+  const level=clean(document.getElementById("newLevel")?.value);
+  const phone=clean(document.getElementById("newPhone")?.value);
+  const session="";
+
+  if(!name){alert("Enter student name.");return}
+  if(!matric){alert("Enter matric number.");return}
+
+  btn.disabled=true;
+  btn.textContent="Saving to Firebase…";
+  try{
+    await addDoc(collection(db,"students"),studentObject(matric,name,programme,level,session,phone));
+    document.getElementById("modal")?.classList.remove("show");
+    alert("Student record saved to the shared Firebase database.");
+  }catch(err){
+    console.error(err);
+    alert(err.message||"Could not save the student record. Check Firestore Rules.");
+  }finally{
+    btn.disabled=false;
+    btn.textContent="Create Student Record";
+  }
+},true);
+
+/* Registrar also receives student changes made by Admin/HOD. */
+onSnapshot(collection(db,"students"),snap=>{
+  if(!window.__GGCHST_getStudents) return;
+  const rows=snap.docs.map(d=>{
+    const x=d.data();
+    const matric=x.matricNo||x.studentId||x.admissionNo||d.id;
+    return [
+      matric,
+      x.studentName||x.fullName||x.name||"Unnamed Student",
+      x.programme||x.courseOfStudy||"",
+      x.level||"",
+      x.session||x.academicSession||"",
+      x.phone||x.phoneNumber||"Not provided",
+      x.status||"Active"
+    ];
+  });
+  window.__GGCHST_sharedStudents=rows;
+  if(typeof renderStudents==="function"){
+    try{ students.splice(0,students.length,...rows); renderStudents(); }catch(err){console.warn(err); }
+  }
+},err=>console.error("Shared students listener:",err));
+</script>
+
+
+<script type="module" id="registrar-production-live-data">
+import {initializeApp,getApps,getApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getFirestore,collection,onSnapshot,getDocs,query,where,limit,serverTimestamp,addDoc,updateDoc,doc} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig={
+ apiKey:"AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
+ authDomain:"ggchst-sms-new.firebaseapp.com",
+ projectId:"ggchst-sms-new",
+ storageBucket:"ggchst-sms-new.firebasestorage.app",
+ messagingSenderId:"942770190211",
+ appId:"1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+const app=getApps().length?getApp():initializeApp(firebaseConfig);
+const db=getFirestore(app);
+window.GGCHST_FIREBASE_APP=app;window.GGCHST_FIRESTORE=db;
+
+const qid=id=>document.getElementById(id);
+const clean=v=>String(v??"").trim();
+const norm=v=>clean(v).toLowerCase().replace(/\s+/g," ");
+const val=(o,keys,f="")=>{for(const k of keys){if(o&&o[k]!==undefined&&o[k]!==null&&clean(o[k])!=="")return o[k]}return f};
+const esc2=v=>clean(v).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+const arr=s=>s?.docs?.map(d=>({id:d.id,...d.data()}))||[];
+
+const live={
+ students:[],applications:[],lecturers:[],staff:[],users:[],courses:[],programmes:[],
+ academicSessions:[],semesters:[],academicLevels:[],curriculumMappings:[],
+ lecturerCourseAssignments:[],programmeHodAssignments:[],hodCourseAssignments:[],
+ results:[],gradeSettings:[],examinations:[],attendance:[],timetables:[],venues:[],
+ registrations:[],assignments:[],lectureNotes:[],
+ graduation:[],clearances:[],requests:[],documents:[],
+ audits:[],departments:[],accreditation:[],admissions:[]
+};
+window.__GGCHST_live=live;
+
+function setMsg(text,ok=true){
+ const el=qid("firebaseStatus")||qid("syncRegistrationStatus");
+ if(el){el.textContent=text;el.style.color=ok?"#087f5b":"#b42318";}
+}
+function userRole(u){return norm(u?.role||u?.staffRole||u?.accountType);}
+async function findUser(uid,email){
+ let q=await getDocs(query(collection(db,"users"),where("uid","==",uid),limit(1)));
+ if(!q.empty)return {id:q.docs[0].id,...q.docs[0].data()};
+ q=await getDocs(query(collection(db,"users"),where("authUid","==",uid),limit(1)));
+ if(!q.empty)return {id:q.docs[0].id,...q.docs[0].data()};
+ if(email){
+   q=await getDocs(query(collection(db,"users"),where("email","==",email),limit(1)));
+   if(!q.empty)return {id:q.docs[0].id,...q.docs[0].data()};
+ }
+ return null;
+}
+function allowed(u){
+ const r=userRole(u);
+ return r==="registrar"||r.includes("registrar")||r==="admin"||r==="administrator"||r.includes("super admin")||r==="provost"||r==="deputy provost";
+}
+function listen(name,cb){
+ try{
+  return onSnapshot(collection(db,name),snap=>{cb(arr(snap));setMsg("Firebase connected • live data loaded");},err=>{
+   console.warn("Registrar collection",name,err);
+   cb([]);
+  });
+ }catch(e){cb([]);return null}
+}
+
+function syncGlobals(){
+ // Replace every old prototype array with live Firebase data.
+ window.students=live.students.map(x=>[
+  val(x,["studentId","studentID","matricNo","admissionNo"],x.id),
+  val(x,["fullName","studentName","name"],""),
+  val(x,["programme","programmeName","courseOfStudy"],""),
+  val(x,["level","levelName"],""),
+  val(x,["academicSession","session"],""),
+  val(x,["phone","phoneNumber","mobile"],""),
+  val(x,["status","accountStatus"],"")
+ ]);
+ window.applications=live.applications.map(x=>[
+  val(x,["applicationNo","applicationId","reference","id"],x.id),
+  val(x,["fullName","applicantName","name"],""),
+  val(x,["programme","programmeName","courseOfStudy"],""),
+  val(x,["phone","phoneNumber","mobile"],""),
+  val(x,["qualification","credits","resultSummary"],""),
+  val(x,["applicationDate","submittedAt","createdAt"],""),
+  val(x,["status","applicationStatus"],"")
+ ]);
+ window.staff=live.lecturers.map(x=>[
+  val(x,["staffId","schoolId"],x.id),val(x,["name","fullName"],""),val(x,["programmeName","programme","department"],""),
+  val(x,["rank","position","role"],""),val(x,["qualification"],""),val(x,["phone","phoneNumber"],""),val(x,["status","accountStatus"],"")
+ ]);
+ const non=live.staff.filter(x=>!live.lecturers.some(l=>l.id===x.id));
+ window.nonStaff=non.map(x=>[
+  val(x,["staffId","schoolId"],x.id),val(x,["name","fullName"],""),val(x,["department","unit"],""),val(x,["role","position"],""),
+  val(x,["phone","phoneNumber"],""),val(x,["status","accountStatus"],"")
+ ]);
+ window.programmes=live.programmes.map(x=>[
+  val(x,["name","programmeName"],""),val(x,["code","programmeCode"],""),val(x,["duration"],""),
+  val(x,["departmentName","department"],""),val(x,["regulatoryBody","accreditingBody"],""),val(x,["status"],"")
+ ]);
+ window.courses=live.courses.map(x=>[
+  val(x,["courseCode","code"],x.id),val(x,["courseTitle","courseName","title"],""),val(x,["courseUnit","unit","creditUnit"],""),
+  val(x,["levelName","level"],""),val(x,["programmeName","programme"],""),val(x,["semester","semesterName"],"")
+ ]);
+ window.academicResults=live.results.map(x=>[
+  val(x,["studentName","fullName","name"],""),val(x,["studentId","matricNo","admissionNo"],""),
+  val(x,["courseCode","courseId","course"],""),val(x,["totalScore","score","total"],""),val(x,["grade"],""),
+  val(x,["hodStatus","verificationStatus","status"],""),val(x,["registrarStatus","finalStatus"],"")
+ ]);
+ window.requests=live.requests.map(x=>[
+  val(x,["requestId","reference","id"],x.id),val(x,["studentName","fullName","name"],""),val(x,["requestType","type","service"],""),
+  val(x,["createdAt","date","submittedAt"],""),val(x,["status"],"")
+ ]);
+ window.docs=live.documents.map(x=>[
+  val(x,["documentId","reference","id"],x.id),val(x,["studentName","fullName","name"],""),val(x,["documentType","type","title"],""),
+  val(x,["uploadedAt","createdAt","date"],""),val(x,["verificationStatus","status"],"")
+ ]);
+ window.audits=live.audits.map(x=>[
+  val(x,["timestamp","createdAt","date"],""),val(x,["actorName","userName","role"],""),val(x,["module"],""),
+  val(x,["action","description"],""),val(x,["entityId","recordId"],""),norm(val(x,["result","status"],"")).includes("success")?"Success":val(x,["result","status"],"")
+ ]);
+ window.deps=live.departments.map(x=>[
+  val(x,["name","departmentName"],""),val(x,["hodName","hod"],""),val(x,["programmeCount","programmes"],""),
+  val(x,["studentCount","students"],""),val(x,["staffCount","staff"],""),val(x,["status"],"")
+ ]);
+ window.acc=live.accreditation.map(x=>[
+  val(x,["programmeName","name"],""),val(x,["regulatoryBody","accreditingBody"],""),val(x,["status"],""),
+  val(x,["validFrom","startYear"],""),val(x,["validUntil","endYear"],""),val(x,["documentCount","files"],""),val(x,["complianceStatus","compliance"],"")
+ ]);
+ window.grad=live.graduation.map(x=>[
+  val(x,["studentId","matricNo","admissionNo"],""),val(x,["studentName","fullName","name"],""),val(x,["programme","programmeName"],""),
+  val(x,["cgpa","CGPA"],""),val(x,["academicClearance","academic"],""),val(x,["financeClearance","finance"],""),
+  val(x,["registryClearance","registry"],""),val(x,["eligibility","status"],"")
+ ]);
+ window.clearances=live.clearances.map(x=>[
+  val(x,["studentName","fullName","name"],""),val(x,["academic"],""),val(x,["finance"],""),
+  val(x,["library"],""),val(x,["registry"],""),val(x,["overallStatus","status"],"")
+ ]);
+ // Registrar source arrays used by the old UI.
+ syncSessionCards();
+ try{renderStudents();renderApplications();renderStaff();renderRegistry();renderAcademics();renderGraduation();renderAcc();renderReports();renderAudit();}catch(e){console.warn("Registrar render refresh:",e)}
+ updateDashboard();
+}
+
+function updateDashboard(){
+ const d=document.querySelector("#dashboard");
+ if(!d)return;
+ const stats=d.querySelectorAll(".stat");
+ const registered=live.registrations.length?new Set(live.registrations.map(x=>val(x,["studentId","studentUid","matricNo"])).filter(Boolean)).size:0;
+ const graduating=live.graduation.length;
+ if(stats[0])stats[0].textContent=live.students.length;
+ if(stats[1])stats[1].textContent=live.applications.length;
+ if(stats[2])stats[2].textContent=registered;
+ if(stats[3])stats[3].textContent=graduating;
+}
+
+function syncSessionCards(){
+ const box=qid("dynamicSessionCards");if(!box)return;
+ if(!live.academicSessions.length&&!live.semesters.length){box.innerHTML='<div class="empty">No academic session records found in Firebase.</div>';return;}
+ box.innerHTML=live.academicSessions.map(s=>`<div class="card"><b>${esc2(val(s,["name","sessionName"],s.id))}</b><p class="small">${esc2(val(s,["description"],""))}</p><span class="status ${norm(val(s,["status"]))==="active"?"active-status":"pending"}">${esc2(val(s,["status"],""))}</span></div>`).join("")+
+ live.semesters.map(s=>`<div class="card"><b>${esc2(val(s,["name","semesterName"],s.id))}</b><p class="small">${esc2(val(s,["sessionName","academicSession"],""))}</p><span class="status ${norm(val(s,["status"]))==="active"?"active-status":"pending"}">${esc2(val(s,["status"],""))}</span></div>`).join("");
+}
+
+function refreshProgrammesFromCourses(){
+ const map=new Map();
+ live.courses.forEach(c=>{
+  const name=val(c,["programmeName","programme"],""); if(!name)return;
+  const key=norm(name);if(!map.has(key))map.set(key,{name,code:val(c,["programmeCode"],""),duration:"",department:"",regulatoryBody:"",status:"Active"});
+ });
+ if(!live.programmes.length) window.programmes=[...map.values()].map(x=>[x.name,x.code,x.duration,x.department,x.regulatoryBody,x.status]);
+}
+
+function renderDynamicTimetable(){
+ const raw=live.timetables;
+ if(!Array.isArray(raw)||!raw.length)return;
+ // Feed the existing timetable UI without creating any demo records.
+ if(Array.isArray(window.__GGCHST_tmData))window.__GGCHST_tmData.splice(0,window.__GGCHST_tmData.length,...raw);
+}
+function replaceStaticSessionFields(){
+ document.querySelectorAll('input[type="date"][value],select').forEach(el=>{
+   if(el.matches('input[type="date"][value]')) el.removeAttribute("value");
+ });
+}
+
+async function initializeRegistrarNoAuth(){
+  // This Registrar page intentionally has NO Firebase Authentication gate.
+  // It connects directly to the same Firestore collections used by Admin.
+  setMsg("Connecting to Firebase…");
+
+  const collections={
+   students:"students",
+   applications:"admissions",
+   admissions:"admissions",
+   lecturers:"lecturers",
+   staff:"staff",
+   users:"users",
+   courses:"courses",
+   programmes:"programmes",
+   academicSessions:"academicSessions",
+   semesters:"semesters",
+   academicLevels:"academicLevels",
+   curriculumMappings:"curriculumMappings",
+   lecturerCourseAssignments:"lecturerCourseAssignments",
+   programmeHodAssignments:"programmeHodAssignments",
+   hodCourseAssignments:"hodCourseAssignments",
+   results:"results",
+   gradeSettings:"gradeSettings",
+   examinations:"examinations",
+   attendance:"attendance",
+   timetables:"timetables",
+   venues:"venues",
+   courseRegistrations:"courseRegistrations",
+   registrations:"courseRegistrations",
+   assignments:"assignments",
+   lectureNotes:"lectureNotes",
+   auditLogs:"auditLogs",
+   audits:"auditLogs",
+   departments:"departments",
+   accreditation:"accreditations"
+  };
+
+  for(const [key,col] of Object.entries(collections)){
+    listen(col,v=>{
+      live[key]=v;
+      if(key==="admissions"||key==="applications") live.applications=v;
+      syncGlobals();
+    });
+  }
+
+  refreshProgrammesFromCourses();
+  replaceStaticSessionFields();
+
+  const logout=qid("logoutBtn");
+  if(logout){
+    logout.textContent="Back to Home";
+    logout.onclick=()=>{location.href="index.html";};
+  }
+
+  setMsg("Firebase connected • live data loaded");
+}
+
+initializeRegistrarNoAuth().catch(e=>{
+  console.error("Registrar Firebase initialization:",e);
+  setMsg("Firebase connection failed: "+(e.message||e),true);
+});
+</script>
+</body>
+</html>

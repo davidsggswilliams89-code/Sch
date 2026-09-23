@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GGCHST | Course Management</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7f6;color:#17231f}
+header{background:#fff;color:#17231f;border-bottom:4px solid #087443;box-shadow:0 2px 10px rgba(0,0,0,.08);padding:12px 18px} .school-head{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:14px}.school-brand{display:flex;align-items:center;gap:12px}.school-logo{width:58px;height:58px;object-fit:contain;border-radius:8px}.school-name{display:flex;flex-direction:column}.school-name strong{color:#087443;font-size:18px;line-height:1.2}.school-name span{font-size:12px;color:#65736c;margin-top:3px}.school-actions{display:flex;align-items:center;gap:8px}.school-actions .back{background:#087443;color:#fff}.page-title{max-width:1400px;margin:0 auto;padding:14px 0 4px}.page-title h1{margin:0;color:#17231f;font-size:21px}.page-title p{margin:4px 0 0;color:#68756f;font-size:13px}
+header h1{margin:0;font-size:22px}
+header p{margin:5px 0 0;font-size:13px;opacity:.9}
+.back{background:#fff;color:#087443;text-decoration:none;padding:10px 15px;border-radius:8px;font-weight:700}
+.container{width:min(1180px,calc(100% - 24px));margin:20px auto;padding:0}
+.grid{display:grid;grid-template-columns:minmax(300px,360px) minmax(0,1fr);gap:18px;align-items:start}
+.card{min-width:0;background:#fff;border:1px solid #dce6e1;border-radius:12px;padding:18px;box-shadow:0 3px 12px rgba(0,0,0,.05)}
+.card h2{font-size:18px;margin:0 0 18px;color:#087443}
+label{display:block;font-weight:700;font-size:13px;margin:13px 0 6px}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid #cbd8d2;border-radius:8px;font-size:14px;background:#fff}
+textarea{min-height:75px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#087443;box-shadow:0 0 0 2px rgba(8,116,67,.1)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btns{display:flex;gap:10px;margin-top:18px}
+button{border:0;border-radius:8px;padding:11px 15px;font-weight:700;cursor:pointer}
+.primary{background:#087443;color:#fff;flex:1}
+.secondary{background:#e9efec;color:#17362a}
+.danger{background:#c62828;color:#fff}
+.message{display:none;margin:12px 0;padding:10px;border-radius:8px;font-size:13px}
+.success{background:#e5f6ec;color:#126238}
+.error{background:#fde8e8;color:#a51d1d}
+.toolbar{display:flex;gap:10px;align-items:center;margin-bottom:15px;flex-wrap:wrap}
+.toolbar input{flex:1;min-width:210px}
+.count{background:#edf5f1;color:#087443;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:700}
+.table-wrap{width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;border:1px solid #e1e8e4;border-radius:9px;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:760px}
+th,td{padding:11px 10px;border-bottom:1px solid #e7ece9;text-align:left;font-size:13px;vertical-align:top}
+th{background:#f0f5f2;color:#24533e;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.badge{display:inline-block;padding:4px 8px;border-radius:20px;font-size:11px;font-weight:700}
+.active{background:#e3f6ea;color:#11733f}
+.inactive{background:#eee;color:#666}
+.actions{display:flex;gap:6px}
+.actions button{padding:7px 9px;font-size:12px}
+.edit{background:#e8f0ff;color:#225aa0}
+.del{background:#fde8e8;color:#a51d1d}
+.empty{text-align:center;padding:35px;color:#718078}
+.small{font-size:12px;color:#6b7872;margin-top:5px}
+.required{color:#c62828}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);align-items:center;justify-content:center;padding:20px;z-index:20}
+.modal-box{background:#fff;border-radius:12px;padding:22px;max-width:430px;width:100%}
+.modal-box h3{margin-top:0}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
+@media(max-width:900px){
+  .grid{grid-template-columns:1fr}
+  .container{width:min(720px,calc(100% - 20px))}
+  .card{padding:16px}
+  .school-head{align-items:flex-start}
+  .school-actions .back{white-space:nowrap}
+}
+@media(max-width:600px){
+  header{padding:12px 10px}
+  .school-head{gap:10px}
+  .school-logo{width:46px;height:46px}
+  .school-name strong{font-size:14px}
+  .school-name span{font-size:11px}
+  .school-actions .back{padding:8px 10px;font-size:12px}
+  .page-title{padding:12px 0 2px}
+  .page-title h1{font-size:18px}
+  .page-title p{font-size:12px}
+  .container{width:calc(100% - 16px);margin:12px auto}
+  .row{grid-template-columns:1fr}
+  .card{padding:14px;border-radius:10px}
+  .card h2{font-size:16px;margin-bottom:14px}
+  input,select,textarea{font-size:16px;padding:12px}
+  .btns{flex-direction:column}
+  .btns button{width:100%}
+  .toolbar{align-items:stretch}
+  .toolbar input{min-width:0;width:100%}
+  .count{width:max-content}
+}
+@media(max-width:380px){
+  .school-brand{gap:8px}
+  .school-logo{width:40px;height:40px}
+  .school-name strong{font-size:12px}
+  .school-name span{font-size:10px}
+  .school-actions .back{font-size:11px;padding:7px 8px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="school-head">
+    <div class="school-brand">
+      <img class="school-logo" src="https://ggchstgusau.edu.ng/_next/image?q=75&url=%2Flogo.png&w=384" alt="Green Garden College logo">
+      <div class="school-name">
+        <strong>Green Garden College of Health Sciences &amp; Technology</strong>
+        <span>Gusau, Zamfara State</span>
+      </div>
+    </div>
+    <div class="school-actions">
+      <a class="back" href="admin.html">← Back to Admin</a>
+    </div>
+  </div>
+  <div class="page-title">
+    <h1>Course Management</h1>
+    <p>Create and manage academic courses</p>
+  </div>
+</header>
+
+<div class="container">
+  <div class="grid">
+    <section class="card">
+      <h2 id="formTitle">Create New Course</h2>
+      <div id="message" class="message"></div>
+
+      <form id="courseForm">
+        <label>Course Code <span class="required">*</span></label>
+        <input id="courseCode" required placeholder="e.g. HEM 101">
+
+        <label>Course Title <span class="required">*</span></label>
+        <input id="courseTitle" required placeholder="e.g. Introduction to Health Education">
+
+        <div class="row">
+          <div>
+            <label>Course Unit <span class="required">*</span></label>
+            <input id="courseUnit" type="number" min="0" step="1" required placeholder="3">
+          </div>
+          <div>
+            <label>Semester <span class="required">*</span></label>
+            <select id="semester" required>
+              <option value="">Select semester</option>
+              <option value="First">First</option>
+              <option value="Second">Second</option>
+            </select>
+          </div>
+        </div>
+
+        <label>Programme <span class="required">*</span></label>
+        <select id="programmeId" required>
+          <option value="">Loading programmes...</option>
+        </select>
+
+        <label>Academic Level <span class="required">*</span></label>
+        <select id="levelId" required>
+          <option value="">Loading levels...</option>
+        </select>
+
+        <label>Course Type</label>
+        <select id="courseType">
+          <option value="Core">Core</option>
+          <option value="Elective">Elective</option>
+          <option value="General">General</option>
+          <option value="Practical">Practical</option>
+        </select>
+
+        <label>Description</label>
+        <textarea id="description" placeholder="Optional course description"></textarea>
+
+        <label>Status</label>
+        <select id="status">
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+
+        <div class="btns">
+          <button class="primary" type="submit" id="saveBtn">Save Course</button>
+          <button class="secondary" type="button" id="cancelBtn" style="display:none">Cancel</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Courses</h2>
+      <div class="toolbar">
+        <input id="search" placeholder="Search by course code, title or programme...">
+        <span class="count" id="courseCount">0 courses</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Course Title</th>
+              <th>Unit</th>
+              <th>Semester</th>
+              <th>Programme</th>
+              <th>Level</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="courseTable">
+            <tr><td colspan="9" class="empty">Loading courses...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div class="modal" id="deleteModal">
+  <div class="modal-box">
+    <h3>Delete Course?</h3>
+    <p id="deleteText">This action cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="secondary" id="closeModal">Cancel</button>
+      <button class="danger" id="confirmDelete">Delete</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, updateDoc, deleteDoc, doc,
+  onSnapshot, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAoT3LGcdw3A0FzHDrPEuhTNCnfiTklGXY",
+  authDomain: "ggchst-sms-new.firebaseapp.com",
+  projectId: "ggchst-sms-new",
+  storageBucket: "ggchst-sms-new.firebasestorage.app",
+  messagingSenderId: "942770190211",
+  appId: "1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+
+const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const programmeSelect = document.getElementById("programmeId");
+const levelSelect = document.getElementById("levelId");
+const form = document.getElementById("courseForm");
+const table = document.getElementById("courseTable");
+const searchInput = document.getElementById("search");
+const countEl = document.getElementById("courseCount");
+const messageEl = document.getElementById("message");
+const formTitle = document.getElementById("formTitle");
+const saveBtn = document.getElementById("saveBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+
+let programmes = [];
+let levels = [];
+let courses = [];
+let editingId = null;
+let pendingDeleteId = null;
+
+function showMessage(text, type="success") {
+  messageEl.textContent = text;
+  messageEl.className = "message " + type;
+  messageEl.style.display = "block";
+  clearTimeout(window.msgTimer);
+  window.msgTimer = setTimeout(() => messageEl.style.display = "none", 4000);
+}
+
+function esc(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[c]));
+}
+
+function normalize(value) {
+  return String(value ?? "").trim().toLowerCase();
+}
+
+function sortByName(a,b) {
+  return normalize(a.name || a.title || a.code).localeCompare(normalize(b.name || b.title || b.code));
+}
+
+
+/* =========================
+   COURSE SEED DATA
+   ========================= */
+const COURSE_SEED = [
+  // COMMUNITY HEALTH EXTENSION
+  ["Community Health Extension","Human Anatomy I","CHE 111",3,"100 Level","First"],
+  ["Community Health Extension","Physiology I","CHE 112",3,"100 Level","First"],
+  ["Community Health Extension","Introduction to Community Health","CHE 113",2,"100 Level","First"],
+  ["Community Health Extension","Primary Health Care I","CHE 114",3,"100 Level","First"],
+  ["Community Health Extension","Communication in English I","GNS 101",2,"100 Level","First"],
+  ["Community Health Extension","Use of English","GNS 102",2,"100 Level","First"],
+  ["Community Health Extension","Basic Computer Studies","GST 111",2,"100 Level","First"],
+  ["Community Health Extension","Introduction to Sociology","CHE 115",2,"100 Level","First"],
+  ["Community Health Extension","Basic Nursing Skills","CHE 116",2,"100 Level","First"],
+
+  ["Community Health Extension","Human Anatomy II","CHE 121",3,"100 Level","Second"],
+  ["Community Health Extension","Physiology II","CHE 122",3,"100 Level","Second"],
+  ["Community Health Extension","Primary Health Care II","CHE 123",3,"100 Level","Second"],
+  ["Community Health Extension","Community Diagnosis","CHE 124",2,"100 Level","Second"],
+  ["Community Health Extension","Introduction to Epidemiology","CHE 125",2,"100 Level","Second"],
+  ["Community Health Extension","First Aid and Emergency Care","CHE 126",2,"100 Level","Second"],
+  ["Community Health Extension","Health Education","CHE 127",2,"100 Level","Second"],
+  ["Community Health Extension","Communication in English II","GNS 121",2,"100 Level","Second"],
+
+  ["Community Health Extension","Community Health Practice I","CHE 211",3,"200 Level","First"],
+  ["Community Health Extension","Maternal and Child Health I","CHE 212",3,"200 Level","First"],
+  ["Community Health Extension","Environmental Health","CHE 213",2,"200 Level","First"],
+  ["Community Health Extension","Nutrition and Dietetics","CHE 214",2,"200 Level","First"],
+  ["Community Health Extension","Communicable Diseases","CHE 215",3,"200 Level","First"],
+  ["Community Health Extension","Health Promotion","CHE 216",2,"200 Level","First"],
+  ["Community Health Extension","Community Mobilization","CHE 217",2,"200 Level","First"],
+
+  ["Community Health Extension","Community Health Practice II","CHE 221",3,"200 Level","Second"],
+  ["Community Health Extension","Maternal and Child Health II","CHE 222",3,"200 Level","Second"],
+  ["Community Health Extension","Family Planning","CHE 223",2,"200 Level","Second"],
+  ["Community Health Extension","Disease Prevention and Control","CHE 224",3,"200 Level","Second"],
+  ["Community Health Extension","Primary Health Care Management","CHE 225",2,"200 Level","Second"],
+  ["Community Health Extension","Health Statistics","CHE 226",2,"200 Level","Second"],
+  ["Community Health Extension","Community Health Project","CHE 227",3,"200 Level","Second"],
+
+  // ENVIRONMENTAL HEALTH TECH
+  ["Environmental Health Tech","Introduction to Environmental Health","EHT 111",2,"100 Level","First"],
+  ["Environmental Health Tech","Basic Science","EHT 112",2,"100 Level","First"],
+  ["Environmental Health Tech","Environmental Biology","EHT 113",2,"100 Level","First"],
+  ["Environmental Health Tech","General Chemistry","EHT 114",2,"100 Level","First"],
+  ["Environmental Health Tech","Basic Microbiology","EHT 115",2,"100 Level","First"],
+  ["Environmental Health Tech","Communication in English I","GNS 101",2,"100 Level","First"],
+  ["Environmental Health Tech","Computer Appreciation","GNS 111",2,"100 Level","First"],
+  ["Environmental Health Tech","Introduction to Community Health","CHO 111",2,"100 Level","First"],
+
+  ["Environmental Health Tech","Environmental Health II","EHT 121",2,"100 Level","Second"],
+  ["Environmental Health Tech","Water Supply and Quality","EHT 122",3,"100 Level","Second"],
+  ["Environmental Health Tech","Waste Management","EHT 123",3,"100 Level","Second"],
+  ["Environmental Health Tech","Food Hygiene","EHT 124",2,"100 Level","Second"],
+  ["Environmental Health Tech","Housing and Health","EHT 125",2,"100 Level","Second"],
+  ["Environmental Health Tech","Environmental Chemistry","EHT 126",2,"100 Level","Second"],
+  ["Environmental Health Tech","Communication in English II","GNS 121",2,"100 Level","Second"],
+  ["Environmental Health Tech","Primary Health Care I","CHO 121",2,"100 Level","Second"],
+
+  ["Environmental Health Tech","Environmental Pollution Control","EHT 211",3,"200 Level","First"],
+  ["Environmental Health Tech","Occupational Health","EHT 212",3,"200 Level","First"],
+  ["Environmental Health Tech","Vector Control","EHT 213",2,"200 Level","First"],
+  ["Environmental Health Tech","Environmental Toxicology","EHT 214",2,"200 Level","First"],
+  ["Environmental Health Tech","Food Safety and Inspection","EHT 215",3,"200 Level","First"],
+  ["Environmental Health Tech","Environmental Epidemiology","EHT 216",2,"200 Level","First"],
+  ["Environmental Health Tech","Health Education","EHT 217",2,"200 Level","First"],
+
+  ["Environmental Health Tech","Environmental Health Practice","EHT 221",3,"200 Level","Second"],
+  ["Environmental Health Tech","Environmental Impact Assessment","EHT 222",3,"200 Level","Second"],
+  ["Environmental Health Tech","Occupational Safety","EHT 223",2,"200 Level","Second"],
+  ["Environmental Health Tech","Public Health Inspection","EHT 224",3,"200 Level","Second"],
+  ["Environmental Health Tech","Wastewater Management","EHT 225",3,"200 Level","Second"],
+  ["Environmental Health Tech","Project Report Writing","EHT 229",2,"200 Level","Second"],
+  ["Environmental Health Tech","Primary Health Care II","CHO 221",2,"200 Level","Second"],
+
+  // PHARMACY TECHNICIAN
+  ["Pharmacy Technician","Principles of Pharmacy Technician I","PTP 111",3,"100 Level","First"],
+  ["Pharmacy Technician","Basic Dispensing Theory I","PTP 112",3,"100 Level","First"],
+  ["Pharmacy Technician","Introduction to Laboratory Techniques","PTP 113",2,"100 Level","First"],
+  ["Pharmacy Technician","Communication in English I","GNS 101",2,"100 Level","First"],
+  ["Pharmacy Technician","Basic Computer Studies","GNS 111",2,"100 Level","First"],
+
+  ["Pharmacy Technician","Anatomy and Physiology I","PTP 121",3,"100 Level","Second"],
+  ["Pharmacy Technician","Basic Dispensing Theory II","PTP 122",3,"100 Level","Second"],
+  ["Pharmacy Technician","Basic Dispensing Practical I","PTP 123",3,"100 Level","Second"],
+  ["Pharmacy Technician","Pharmaceutical Calculations","PTP 124",2,"100 Level","Second"],
+  ["Pharmacy Technician","Basic Microbiology I","PTP 125",2,"100 Level","Second"],
+  ["Pharmacy Technician","Action and Uses of Medicines I","PTP 126",3,"100 Level","Second"],
+  ["Pharmacy Technician","Primary Health Care I","PTP 127",2,"100 Level","Second"],
+
+  ["Pharmacy Technician","Action and Uses of Medicines II","PTP 211",3,"200 Level","First"],
+  ["Pharmacy Technician","Basic Dispensing Theory III","PTP 212",3,"200 Level","First"],
+  ["Pharmacy Technician","Basic Dispensing Practical II","PTP 213",3,"200 Level","First"],
+  ["Pharmacy Technician","Anatomy and Physiology II","PTP 214",3,"200 Level","First"],
+  ["Pharmacy Technician","Logistics and Supply Chain Management System","PTP 215",2,"200 Level","First"],
+  ["Pharmacy Technician","Basic Microbiology II","PTP 216",2,"200 Level","First"],
+  ["Pharmacy Technician","Primary Health Care II","PTP 217",2,"200 Level","First"],
+
+  // HEALTH INFORMATION MANAGEMENT
+  ["Health Information Mgmt","Introduction to Health Information Management","HIM 111",3,"100 Level","First"],
+  ["Health Information Mgmt","Human Anatomy and Physiology I","HIM 112",3,"100 Level","First"],
+  ["Health Information Mgmt","Medical Terminology I","HIM 113",2,"100 Level","First"],
+  ["Health Information Mgmt","Introduction to Computer","HIM 114",2,"100 Level","First"],
+  ["Health Information Mgmt","Health Records Management I","HIM 115",3,"100 Level","First"],
+  ["Health Information Mgmt","Communication in English I","GNS 101",2,"100 Level","First"],
+  ["Health Information Mgmt","Basic Statistics","STA 111",2,"100 Level","First"],
+
+  ["Health Information Mgmt","Human Anatomy and Physiology II","HIM 121",3,"100 Level","Second"],
+  ["Health Information Mgmt","Medical Terminology II","HIM 122",2,"100 Level","Second"],
+  ["Health Information Mgmt","Health Records Management II","HIM 123",3,"100 Level","Second"],
+  ["Health Information Mgmt","Introduction to Health Information Systems","HIM 124",3,"100 Level","Second"],
+  ["Health Information Mgmt","Biostatistics","HIM 125",2,"100 Level","Second"],
+  ["Health Information Mgmt","Communication in English II","GNS 121",2,"100 Level","Second"],
+  ["Health Information Mgmt","Basic Microbiology","HIM 126",2,"100 Level","Second"],
+
+  ["Health Information Mgmt","Health Information Management Systems","HIM 211",3,"200 Level","First"],
+  ["Health Information Mgmt","Disease Classification I","HIM 212",3,"200 Level","First"],
+  ["Health Information Mgmt","Medical Coding I","HIM 213",3,"200 Level","First"],
+  ["Health Information Mgmt","Health Statistics","HIM 214",3,"200 Level","First"],
+  ["Health Information Mgmt","Health Data Management","HIM 215",3,"200 Level","First"],
+  ["Health Information Mgmt","Database Management","HIM 216",2,"200 Level","First"],
+  ["Health Information Mgmt","Health Care Administration","HIM 217",2,"200 Level","First"],
+
+  ["Health Information Mgmt","Disease Classification II","HIM 221",3,"200 Level","Second"],
+  ["Health Information Mgmt","Medical Coding II","HIM 222",3,"200 Level","Second"],
+  ["Health Information Mgmt","Health Information Systems","HIM 223",3,"200 Level","Second"],
+  ["Health Information Mgmt","Electronic Health Records","HIM 224",3,"200 Level","Second"],
+  ["Health Information Mgmt","Health Information Security","HIM 225",2,"200 Level","Second"],
+  ["Health Information Mgmt","Research Methods","HIM 226",2,"200 Level","Second"],
+  ["Health Information Mgmt","Health Information Management Project","HIM 227",3,"200 Level","Second"],
+
+  // MEDICAL LABORATORY
+  ["Medical Laboratory","General Biology I","MLT 111",3,"100 Level","First"],
+  ["Medical Laboratory","General Chemistry I","MLT 112",3,"100 Level","First"],
+  ["Medical Laboratory","General Physics I","MLT 113",2,"100 Level","First"],
+  ["Medical Laboratory","Human Anatomy I","MLT 114",3,"100 Level","First"],
+  ["Medical Laboratory","Human Physiology I","MLT 115",3,"100 Level","First"],
+  ["Medical Laboratory","Introduction to Medical Laboratory Science","MLT 116",2,"100 Level","First"],
+  ["Medical Laboratory","Communication in English I","GNS 101",2,"100 Level","First"],
+
+  ["Medical Laboratory","General Biology II","MLT 121",3,"100 Level","Second"],
+  ["Medical Laboratory","General Chemistry II","MLT 122",3,"100 Level","Second"],
+  ["Medical Laboratory","General Physics II","MLT 123",2,"100 Level","Second"],
+  ["Medical Laboratory","Human Anatomy II","MLT 124",3,"100 Level","Second"],
+  ["Medical Laboratory","Human Physiology II","MLT 125",3,"100 Level","Second"],
+  ["Medical Laboratory","Basic Laboratory Techniques","MLT 126",3,"100 Level","Second"],
+  ["Medical Laboratory","Communication in English II","GNS 121",2,"100 Level","Second"],
+
+  ["Medical Laboratory","Medical Microbiology I","MLT 211",3,"200 Level","First"],
+  ["Medical Laboratory","Clinical Chemistry I","MLT 212",3,"200 Level","First"],
+  ["Medical Laboratory","Haematology I","MLT 213",3,"200 Level","First"],
+  ["Medical Laboratory","Medical Parasitology I","MLT 214",3,"200 Level","First"],
+  ["Medical Laboratory","Histopathology I","MLT 215",3,"200 Level","First"],
+  ["Medical Laboratory","Immunology I","MLT 216",2,"200 Level","First"],
+  ["Medical Laboratory","Laboratory Management","MLT 217",2,"200 Level","First"],
+
+  ["Medical Laboratory","Medical Microbiology II","MLT 221",3,"200 Level","Second"],
+  ["Medical Laboratory","Clinical Chemistry II","MLT 222",3,"200 Level","Second"],
+  ["Medical Laboratory","Haematology II","MLT 223",3,"200 Level","Second"],
+  ["Medical Laboratory","Medical Parasitology II","MLT 224",3,"200 Level","Second"],
+  ["Medical Laboratory","Histopathology II","MLT 225",3,"200 Level","Second"],
+  ["Medical Laboratory","Immunology II","MLT 226",2,"200 Level","Second"],
+  ["Medical Laboratory","Medical Laboratory Project","MLT 227",3,"200 Level","Second"],
+
+  // HEALTH INFORMATICS
+  ["Health Informatics","Introduction to Health Informatics","HIN 111",3,"100 Level","First"],
+  ["Health Informatics","Introduction to Computer Science","HIN 112",3,"100 Level","First"],
+  ["Health Informatics","Human Anatomy and Physiology","HIN 113",3,"100 Level","First"],
+  ["Health Informatics","Health Information Systems","HIN 114",3,"100 Level","First"],
+  ["Health Informatics","Computer Applications in Health","HIN 115",2,"100 Level","First"],
+  ["Health Informatics","Communication in English I","GNS 101",2,"100 Level","First"],
+  ["Health Informatics","Introduction to Statistics","HIN 116",2,"100 Level","First"],
+
+  ["Health Informatics","Health Data Management","HIN 121",3,"100 Level","Second"],
+  ["Health Informatics","Database Management","HIN 122",3,"100 Level","Second"],
+  ["Health Informatics","Medical Terminology","HIN 123",2,"100 Level","Second"],
+  ["Health Informatics","Health Information Systems II","HIN 124",3,"100 Level","Second"],
+  ["Health Informatics","Data Collection and Management","HIN 125",2,"100 Level","Second"],
+  ["Health Informatics","Biostatistics","HIN 126",2,"100 Level","Second"],
+  ["Health Informatics","Communication in English II","GNS 121",2,"100 Level","Second"],
+
+  ["Health Informatics","Electronic Health Records","HIN 211",3,"200 Level","First"],
+  ["Health Informatics","Health Database Systems","HIN 212",3,"200 Level","First"],
+  ["Health Informatics","Health Data Analysis","HIN 213",3,"200 Level","First"],
+  ["Health Informatics","Health Information Security","HIN 214",3,"200 Level","First"],
+  ["Health Informatics","Health Information Standards","HIN 215",2,"200 Level","First"],
+  ["Health Informatics","Programming for Health Informatics","HIN 216",3,"200 Level","First"],
+  ["Health Informatics","Research Methods","HIN 217",2,"200 Level","First"],
+
+  ["Health Informatics","Advanced Health Informatics","HIN 221",3,"200 Level","Second"],
+  ["Health Informatics","Health Information Systems Design","HIN 222",3,"200 Level","Second"],
+  ["Health Informatics","Health Data Analytics","HIN 223",3,"200 Level","Second"],
+  ["Health Informatics","Telemedicine and Digital Health","HIN 224",3,"200 Level","Second"],
+  ["Health Informatics","Health Information Security and Privacy","HIN 225",2,"200 Level","Second"],
+  ["Health Informatics","Health Informatics Project","HIN 226",3,"200 Level","Second"],
+  ["Health Informatics","Entrepreneurship","HIN 227",2,"200 Level","Second"]
+];
+
+let courseSeedComplete = false;
+
+function findSeedProgramme(name) {
+  const wanted = normalize(name);
+  return programmes.find(p => normalize(p.name) === wanted) ||
+         programmes.find(p => normalize(p.name).includes(wanted) || wanted.includes(normalize(p.name)));
+}
+
+function findSeedLevel(name) {
+  const wanted = normalize(name);
+  return levels.find(l => normalize(l.name) === wanted) ||
+         levels.find(l => normalize(l.name).replace(/\s+/g,"") === wanted.replace(/\s+/g,""));
+}
+
+async function seedCoursesIfReady() {
+  if (courseSeedComplete || !programmes.length || !levels.length || !courses) return;
+
+  courseSeedComplete = true;
+  let added = 0;
+  const missingProgramme = new Set();
+  const missingLevel = new Set();
+
+  for (const [programmeName, courseTitle, courseCode, courseUnit, levelName, semester] of COURSE_SEED) {
+    const programme = findSeedProgramme(programmeName);
+    const level = findSeedLevel(levelName);
+
+    if (!programme) {
+      missingProgramme.add(programmeName);
+      continue;
+    }
+    if (!level) {
+      missingLevel.add(levelName);
+      continue;
+    }
+
+    const duplicate = courses.some(c =>
+      normalize(c.courseCode) === normalize(courseCode) &&
+      c.programmeId === programme.id &&
+      c.levelId === level.id &&
+      normalize(c.semester) === normalize(semester)
+    );
+
+    if (duplicate) continue;
+
+    try {
+      await addDoc(collection(db, "courses"), {
+        courseCode,
+        courseTitle,
+        courseUnit,
+        semester,
+        programmeId: programme.id,
+        levelId: level.id,
+        courseType: "Core",
+        description: "",
+        status: "Active",
+        programmeName: programme.name || programmeName,
+        levelName: level.name || levelName,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        seededFromCourseManagement: true
+      });
+      added++;
+    } catch (err) {
+      console.error("Could not seed course:", courseCode, err);
+    }
+  }
+
+  if (added) {
+    showMessage(`${added} course${added === 1 ? "" : "s"} added to Firebase successfully.`);
+  }
+
+  if (missingProgramme.size) {
+    console.warn("These seed programmes were not found in Firestore:", [...missingProgramme]);
+  }
+  if (missingLevel.size) {
+    console.warn("These seed levels were not found in Firestore:", [...missingLevel]);
+  }
+}
+
+function fillProgrammes(selectedId="") {
+  programmeSelect.innerHTML = '<option value="">Select programme</option>';
+  [...programmes].sort(sortByName).forEach(p => {
+    const o = document.createElement("option");
+    o.value = p.id;
+    o.textContent = p.name + (p.code ? ` (${p.code})` : "");
+    programmeSelect.appendChild(o);
+  });
+  programmeSelect.disabled = !programmes.length;
+  if (selectedId && programmes.some(p => p.id === selectedId)) {
+    programmeSelect.value = selectedId;
+  }
+}
+
+function fillLevels(selectedId="") {
+  levelSelect.innerHTML = '<option value="">Select academic level</option>';
+  [...levels].sort((a,b) => (Number(a.displayOrder)||9999)-(Number(b.displayOrder)||9999))
+    .forEach(l => {
+      const o = document.createElement("option");
+      o.value = l.id;
+      o.textContent = l.name + (l.code ? ` (${l.code})` : "");
+      levelSelect.appendChild(o);
+    });
+  if (selectedId) levelSelect.value = selectedId;
+}
+
+
+
+function getNames(course) {
+  const programme = programmes.find(x => x.id === course.programmeId);
+  const level = levels.find(x => x.id === course.levelId);
+  return {
+    programme: programme?.name || course.programmeName || "—",
+    level: level?.name || course.levelName || "—"
+  };
+}
+
+function renderCourses() {
+  const term = normalize(searchInput.value);
+  const filtered = courses.filter(c => {
+    const n = getNames(c);
+    return [
+      c.courseCode, c.courseTitle, c.semester, c.courseType, c.status,
+      n.programme, n.level
+    ].some(v => normalize(v).includes(term));
+  });
+
+  countEl.textContent = `${filtered.length} course${filtered.length === 1 ? "" : "s"}`;
+
+  if (!filtered.length) {
+    table.innerHTML = '<tr><td colspan="9" class="empty">No courses found.</td></tr>';
+    return;
+  }
+
+  table.innerHTML = filtered.map(c => {
+    const n = getNames(c);
+    return `
+      <tr>
+        <td><strong>${esc(c.courseCode)}</strong></td>
+        <td>${esc(c.courseTitle)}</td>
+        <td>${esc(c.courseUnit)}</td>
+        <td>${esc(c.semester)}</td>
+        <td>${esc(n.programme)}</td>
+        <td>${esc(n.level)}</td>
+        <td>${esc(c.courseType || "Core")}</td>
+        <td><span class="badge ${c.status === "Active" ? "active" : "inactive"}">${esc(c.status || "Active")}</span></td>
+        <td>
+          <div class="actions">
+            <button class="edit" data-edit="${c.id}">Edit</button>
+            <button class="del" data-delete="${c.id}">Delete</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function resetForm() {
+  editingId = null;
+  form.reset();
+  formTitle.textContent = "Create New Course";
+  saveBtn.textContent = "Save Course";
+  cancelBtn.style.display = "none";
+  if (programmeSelect.options.length) programmeSelect.value = "";
+  if (levelSelect.options.length) levelSelect.value = "";
+  document.getElementById("courseType").value = "Core";
+  document.getElementById("status").value = "Active";
+}
+
+function startEdit(id) {
+  const c = courses.find(x => x.id === id);
+  if (!c) return;
+
+  editingId = id;
+  formTitle.textContent = "Edit Course";
+  saveBtn.textContent = "Update Course";
+  cancelBtn.style.display = "block";
+
+  document.getElementById("courseCode").value = c.courseCode || "";
+  document.getElementById("courseTitle").value = c.courseTitle || "";
+  document.getElementById("courseUnit").value = c.courseUnit ?? "";
+  document.getElementById("semester").value = c.semester || "";
+  fillProgrammes(c.programmeId || "");
+  fillLevels(c.levelId || "");
+  document.getElementById("courseType").value = c.courseType || "Core";
+  document.getElementById("description").value = c.description || "";
+  document.getElementById("status").value = c.status || "Active";
+
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const courseCode = document.getElementById("courseCode").value.trim().toUpperCase();
+  const courseTitle = document.getElementById("courseTitle").value.trim();
+  const courseUnit = Number(document.getElementById("courseUnit").value);
+  const semester = document.getElementById("semester").value;
+  const programmeId = programmeSelect.value;
+  const levelId = levelSelect.value;
+  const courseType = document.getElementById("courseType").value;
+  const description = document.getElementById("description").value.trim();
+  const status = document.getElementById("status").value;
+
+  if (!courseCode || !courseTitle || !courseUnit || !semester || !programmeId || !levelId) {
+    showMessage("Please complete all required fields.", "error");
+    return;
+  }
+
+  const programme = programmes.find(p => p.id === programmeId);
+  const level = levels.find(l => l.id === levelId);
+
+  if (!programme) {
+    showMessage("Please select a valid programme.", "error");
+    return;
+  }
+
+  if (!level) {
+    showMessage("Please select a valid academic level.", "error");
+    return;
+  }
+
+  const duplicate = courses.find(c =>
+    normalize(c.courseCode) === normalize(courseCode) &&
+    c.id !== editingId &&
+    c.programmeId === programmeId &&
+    c.levelId === levelId &&
+    c.semester === semester
+  );
+
+  if (duplicate) {
+    showMessage("A course with this code already exists for the selected programme, level and semester.", "error");
+    return;
+  }
+
+  const payload = {
+    courseCode,
+    courseTitle,
+    courseUnit,
+    semester,
+    programmeId,
+    levelId,
+    courseType,
+    description,
+    status,
+    programmeName: programme.name || "",
+    levelName: level.name || "",
+    updatedAt: serverTimestamp()
+  };
+
+  try {
+    saveBtn.disabled = true;
+    if (editingId) {
+      await updateDoc(doc(db, "courses", editingId), payload);
+      showMessage("Course updated successfully.");
+    } else {
+      payload.createdAt = serverTimestamp();
+      await addDoc(collection(db, "courses"), payload);
+      showMessage("Course added successfully.");
+    }
+    resetForm();
+  } catch (err) {
+    console.error(err);
+    showMessage("Could not save course. Check Firebase permissions and try again.", "error");
+  } finally {
+    saveBtn.disabled = false;
+  }
+});
+
+cancelBtn.addEventListener("click", resetForm);
+searchInput.addEventListener("input", renderCourses);
+
+table.addEventListener("click", e => {
+  const editBtn = e.target.closest("[data-edit]");
+  const deleteBtn = e.target.closest("[data-delete]");
+  if (editBtn) startEdit(editBtn.dataset.edit);
+  if (deleteBtn) openDelete(deleteBtn.dataset.delete);
+});
+
+function openDelete(id) {
+  const c = courses.find(x => x.id === id);
+  if (!c) return;
+  pendingDeleteId = id;
+  document.getElementById("deleteText").textContent =
+    `Delete "${c.courseCode} - ${c.courseTitle}"? This action cannot be undone.`;
+  document.getElementById("deleteModal").style.display = "flex";
+}
+
+function closeDelete() {
+  pendingDeleteId = null;
+  document.getElementById("deleteModal").style.display = "none";
+}
+
+document.getElementById("closeModal").addEventListener("click", closeDelete);
+document.getElementById("deleteModal").addEventListener("click", e => {
+  if (e.target.id === "deleteModal") closeDelete();
+});
+
+document.getElementById("confirmDelete").addEventListener("click", async () => {
+  if (!pendingDeleteId) return;
+  try {
+    await deleteDoc(doc(db, "courses", pendingDeleteId));
+    closeDelete();
+    showMessage("Course deleted successfully.");
+  } catch (err) {
+    console.error(err);
+    showMessage("Could not delete course. Check Firebase permissions.", "error");
+  }
+});
+
+onSnapshot(collection(db, "programmes"), snap => {
+  programmes = snap.docs.map(d => ({id:d.id, ...d.data()}));
+  fillProgrammes(editingId ? (courses.find(x => x.id === editingId)?.programmeId || "") : "");
+  renderCourses();
+  seedCoursesIfReady();
+}, err => {
+  console.error(err);
+  showMessage("Could not load programmes from Firebase.", "error");
+});
+
+onSnapshot(collection(db, "academicLevels"), snap => {
+  levels = snap.docs.map(d => ({id:d.id, ...d.data()}));
+  fillLevels();
+  renderCourses();
+  seedCoursesIfReady();
+}, err => {
+  console.error(err);
+  showMessage("Could not load academic levels from Firebase.", "error");
+});
+
+onSnapshot(collection(db, "courses"), snap => {
+  courses = snap.docs.map(d => ({id:d.id, ...d.data()}));
+  renderCourses();
+  seedCoursesIfReady();
+}, err => {
+  console.error(err);
+  table.innerHTML = '<tr><td colspan="9" class="empty">Could not load courses.</td></tr>';
+  showMessage("Could not load courses from Firebase. Check Firebase permissions.", "error");
+});
+</script>
+</body>
+</html>

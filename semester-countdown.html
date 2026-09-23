@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Semester Countdown Data | GGCHST SMS</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f9f7;color:#172033;font-family:Arial,Helvetica,sans-serif}
+header{background:#fff;border-bottom:1px solid #dce7e3}
+.head{max-width:1000px;margin:auto;padding:14px 18px;display:flex;align-items:center;gap:14px}
+.logo{width:52px;height:52px;object-fit:contain}
+.school{flex:1;text-align:center;color:#075c45;font-size:18px;font-weight:900}
+.back{background:#087443;color:#fff;text-decoration:none;padding:10px 15px;border-radius:9px;font-weight:800;font-size:13px}
+main{max-width:1000px;margin:auto;padding:25px 18px 50px}
+.card{background:#fff;border:1px solid #dce7e3;border-radius:18px;padding:24px;margin-bottom:18px;box-shadow:0 3px 15px rgba(21,53,43,.06)}
+h1{margin:0 0 8px;color:#075c45}
+.sub{margin:0;color:#667789}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.box{background:#f8fcfa;border:1px solid #dce7e3;border-radius:12px;padding:16px}
+.box small{display:block;color:#667789;font-weight:800;text-transform:uppercase;font-size:11px;margin-bottom:7px}
+.box strong{font-size:20px;color:#075c45;word-break:break-word}
+.countdown{font-size:38px;font-weight:900;text-align:center;color:#087443;letter-spacing:1px}
+.labels{display:flex;justify-content:center;gap:55px;color:#667789;font-size:11px;font-weight:900;margin-top:6px}
+.status{padding:12px;border-radius:10px;background:#e8f8ee;color:#087443;font-weight:800;text-align:center}
+.error{display:none;padding:12px;border-radius:10px;background:#fff0ee;color:#a32920;font-weight:800}
+@media(max-width:650px){.grid{grid-template-columns:1fr}.school{font-size:13px}.logo{width:44px;height:44px}.back{font-size:11px;padding:9px}.countdown{font-size:27px}.labels{gap:25px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="head">
+    <img class="logo" src="logo.png" alt="GGCHST logo">
+    <div class="school">Green Garden College of Health Sciences &amp; Technology, Gusau</div>
+    <a class="back" href="admin.html">← Back</a>
+  </div>
+</header>
+
+<main>
+  <section class="card">
+    <h1>Active Semester Countdown Data</h1>
+    <p class="sub">This file reads the Active Semester from Firestore and uses only its Start Date and End Date.</p>
+  </section>
+
+  <section class="card">
+    <div id="error" class="error"></div>
+    <div id="loading" class="status">Loading Active Semester...</div>
+
+    <div id="data" style="display:none">
+      <div class="grid">
+        <div class="box"><small>Active Semester UID</small><strong id="semesterUid">—</strong></div>
+        <div class="box"><small>Semester</small><strong id="semesterName">—</strong></div>
+        <div class="box"><small>Academic Session</small><strong id="sessionName">—</strong></div>
+        <div class="box"><small>Start Date</small><strong id="startDate">—</strong></div>
+        <div class="box"><small>End Date</small><strong id="endDate">—</strong></div>
+        <div class="box"><small>Total Calendar Days</small><strong id="totalDays">—</strong></div>
+      </div>
+
+      <div class="card" style="margin:18px 0 0;background:#f8fcfa">
+        <div class="countdown" id="countdown">00 : 00 : 00 : 00</div>
+        <div class="labels">
+          <span>DAYS</span><span>HOURS</span><span>MINUTES</span><span>SECONDS</span>
+        </div>
+      </div>
+
+      <div class="grid" style="margin-top:14px">
+        <div class="box"><small>Remaining Calendar Days</small><strong id="remainingDays">0</strong></div>
+        <div class="box"><small>Remaining Total Hours</small><strong id="remainingHours">0</strong></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script type="module">
+import{initializeApp,getApps,getApp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import{getFirestore,collection,getDocs}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig={
+  apiKey:"AIzaSyAoT3LGcdw3A0FzHDrPEuhTNCnfiTklGXY",
+  authDomain:"ggchst-sms-new.firebaseapp.com",
+  projectId:"ggchst-sms-new",
+  storageBucket:"ggchst-sms-new.firebasestorage.app",
+  messagingSenderId:"942770190211",
+  appId:"1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+
+const app=getApps().length?getApp():initializeApp(firebaseConfig);
+const db=getFirestore(app);
+const $=id=>document.getElementById(id);
+
+let activeSemester=null;
+let timer=null;
+
+function parseDateOnly(value){
+  if(!value)return null;
+  if(typeof value?.toDate==="function")return value.toDate();
+  const s=String(value).trim();
+  if(!s)return null;
+
+  // Date fields in academic-session.html are HTML date values: YYYY-MM-DD.
+  // Treat the end date as the end of that calendar day in local time.
+  const m=s.match(/^(\\d{4})-(\\d{2})-(\\d{2})$/);
+  if(m){
+    return new Date(Number(m[1]),Number(m[2])-1,Number(m[3]),23,59,59,999);
+  }
+
+  const d=new Date(s);
+  return Number.isNaN(d.getTime())?null:d;
+}
+
+function startDateOnly(value){
+  if(!value)return null;
+  if(typeof value?.toDate==="function")return value.toDate();
+  const s=String(value).trim();
+  const m=s.match(/^(\\d{4})-(\\d{2})-(\\d{2})$/);
+  if(m)return new Date(Number(m[1]),Number(m[2])-1,Number(m[3]),0,0,0,0);
+  const d=new Date(s);
+  return Number.isNaN(d.getTime())?null:d;
+}
+
+function calendarDayDifference(start,end){
+  const a=startDateOnly(start), b=startDateOnly(end);
+  if(!a||!b)return null;
+  const aa=new Date(a.getFullYear(),a.getMonth(),a.getDate());
+  const bb=new Date(b.getFullYear(),b.getMonth(),b.getDate());
+  return Math.max(0,Math.round((bb-aa)/86400000)+1);
+}
+
+function showError(message){
+  $("loading").style.display="none";
+  $("data").style.display="none";
+  $("error").textContent=message;
+  $("error").style.display="block";
+}
+
+function render(){
+  if(!activeSemester)return;
+  const end=parseDateOnly(activeSemester.endDate);
+  const start=startDateOnly(activeSemester.startDate);
+
+  if(!start||!end){
+    showError("The Active Semester does not have a valid Start Date and End Date.");
+    return;
+  }
+
+  const totalDays=calendarDayDifference(activeSemester.startDate,activeSemester.endDate);
+  $("semesterUid").textContent=activeSemester.id;
+  $("semesterName").textContent=(activeSemester.name||"—")+" Semester";
+  $("sessionName").textContent=activeSemester.sessionName||"—";
+  $("startDate").textContent=String(activeSemester.startDate||"—");
+  $("endDate").textContent=String(activeSemester.endDate||"—");
+  $("totalDays").textContent=totalDays===null?"—":String(totalDays);
+  $("loading").style.display="none";
+  $("error").style.display="none";
+  $("data").style.display="block";
+
+  const now=new Date();
+  let diff=Math.max(0,end.getTime()-now.getTime());
+
+  const days=Math.floor(diff/86400000);
+  diff-=days*86400000;
+  const hours=Math.floor(diff/3600000);
+  diff-=hours*3600000;
+  const minutes=Math.floor(diff/60000);
+  diff-=minutes*60000;
+  const seconds=Math.floor(diff/1000);
+
+  $("countdown").textContent=
+    String(days).padStart(2,"0")+" : "+
+    String(hours).padStart(2,"0")+" : "+
+    String(minutes).padStart(2,"0")+" : "+
+    String(seconds).padStart(2,"0");
+
+  $("remainingDays").textContent=String(days);
+  $("remainingHours").textContent=String(Math.floor(Math.max(0,end.getTime()-now.getTime())/3600000));
+
+  if(end.getTime()<=now.getTime()){
+    $("countdown").textContent="00 : 00 : 00 : 00";
+  }
+}
+
+async function loadActiveSemester(){
+  try{
+    const snap=await getDocs(collection(db,"semesters"));
+    const list=snap.docs.map(d=>({id:d.id,...d.data()}));
+    activeSemester=list.find(s=>String(s.status||"").trim().toLowerCase()==="active")||null;
+
+    if(!activeSemester){
+      showError("No Active Semester was found in the semesters collection.");
+      return;
+    }
+
+    render();
+    clearInterval(timer);
+    timer=setInterval(render,1000);
+  }catch(err){
+    console.error(err);
+    showError(err.message||"Could not load the Active Semester from Firebase.");
+  }
+}
+
+loadActiveSemester();
+</script>
+</body>
+</html>

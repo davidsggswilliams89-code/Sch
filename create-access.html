@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GGCHST | Create Access</title>
+<style>
+:root{--bg:#f4f8f6;--card:#fff;--text:#17352b;--muted:#667c73;--line:#dce8e2;--brand:#15803d;--dark:#14532d;--soft:#ecfdf3;--danger:#b42318;--good:#087443}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;max-width:100%;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;box-shadow:0 2px 8px #14532d12}
+.head{max-width:1200px;height:64px;margin:auto;padding:8px 14px;display:grid;grid-template-columns:55px 1fr 80px;align-items:center;gap:10px}
+.school-logo{width:46px;height:46px;object-fit:contain}
+.header-title{text-align:center;font-size:18px;font-weight:800;color:var(--dark);line-height:1.2}
+.back{justify-self:end;background:var(--brand);color:#fff;text-decoration:none;border-radius:8px;padding:8px 11px;font-size:12px;font-weight:700}
+nav{background:#064b39;overflow:auto}
+nav .inner{max-width:1200px;margin:auto;display:flex;gap:5px;padding:7px 12px}
+nav a{color:#fff;text-decoration:none;padding:8px 10px;border-radius:8px;font-size:12px;white-space:nowrap}
+nav a:hover{background:#ffffff18}
+main{max-width:1200px;margin:20px auto;padding:0 14px}
+.hero,.panel{background:#fff;border:1px solid var(--line);border-radius:15px;padding:18px;margin-bottom:16px}
+.hero h1{margin:0 0 6px;font-size:22px;color:var(--dark)}
+.hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+.category-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}
+.category{border:2px solid var(--line);background:#fff;border-radius:12px;padding:14px;cursor:pointer;text-align:left}
+.category.active{border-color:#22c55e;background:var(--soft)}
+.category strong{display:block;font-size:15px;color:var(--dark)}
+.category span{display:block;font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.full{grid-column:1/-1}
+label{display:block;font-size:12px;font-weight:800;margin-bottom:6px}
+input,select{width:100%;min-width:0;padding:11px;border:1px solid #cfded7;border-radius:9px;background:#fff;font:inherit;outline:none}
+input:focus,select:focus{border-color:#22c55e;box-shadow:0 0 0 3px #22c55e18}
+.identity{background:var(--soft);border:1px solid #bbf7d0;border-radius:10px;padding:12px;font-size:12px;color:#166534}
+.identity strong{display:block;font-size:14px;margin-bottom:4px}
+.hint{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4}
+.password-wrap{position:relative}
+.password-wrap input{padding-right:68px}
+.show{position:absolute;right:6px;top:5px;border:0!important;background:#e8f0ed!important;color:var(--text)!important;padding:7px 9px!important;width:auto!important;margin:0!important}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+button{border:0;border-radius:9px;padding:10px 14px;background:var(--brand);color:#fff;font-weight:800;cursor:pointer}
+button:disabled{opacity:.6;cursor:wait}
+.secondary{background:#e8f0ed;color:var(--text)}
+.message{min-height:20px;margin-top:12px;font-size:12px;font-weight:700}
+.ok{color:var(--good)}.bad{color:var(--danger)}
+.hidden{display:none!important}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
+table{width:100%;border-collapse:collapse;min-width:850px}
+th,td{padding:10px 9px;border-bottom:1px solid var(--line);text-align:left;font-size:12px;vertical-align:middle}
+th{background:#f1f7f4;color:#526b61;font-size:10px;text-transform:uppercase}
+.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:var(--soft);color:var(--dark);font-weight:800;font-size:10px}
+.status-btn{border:0;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:800;cursor:pointer}
+.status-active{background:#dcfce7;color:#166534}
+.status-off{background:#fee2e2;color:#991b1b}
+
+.toast{position:fixed;right:16px;bottom:16px;background:var(--dark);color:#fff;padding:11px 14px;border-radius:9px;display:none;z-index:50;font-size:12px;max-width:calc(100vw - 32px)}
+.small-title{font-size:17px;margin:0;color:var(--dark)}
+@media(max-width:700px){
+ .head{height:58px;grid-template-columns:44px 1fr 62px;padding:6px 10px}
+ .school-logo{width:40px;height:40px}.header-title{font-size:13px}.back{font-size:10px;padding:7px 8px}
+ .form-grid,.category-grid{grid-template-columns:1fr}
+ .full{grid-column:auto}
+ main{padding:0 10px;margin-top:14px}
+ .hero,.panel{padding:14px;border-radius:12px}
+ .hero h1{font-size:19px}
+}
+
+textarea{width:100%;min-height:210px;resize:vertical;padding:12px;border:1px solid #cfded7;border-radius:10px;background:#fff;font:12px/1.5 Consolas,monospace;outline:none}textarea:focus{border-color:#22c55e;box-shadow:0 0 0 3px #22c55e18}.bulk-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;position:relative;z-index:5}.bulk-actions button{pointer-events:auto;position:relative;z-index:6}.bulk-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}.bulk-stat{background:#f1f7f4;border:1px solid var(--line);border-radius:10px;padding:10px}.bulk-stat b{display:block;font-size:18px;color:var(--dark)}.bulk-stat span{font-size:10px;color:var(--muted)}.bulk-table{overflow:auto;border:1px solid var(--line);border-radius:12px;margin-top:12px}.bulk-table table{width:100%;border-collapse:collapse;min-width:900px}.bulk-table th,.bulk-table td{padding:9px;border-bottom:1px solid var(--line);text-align:left;font-size:11px;vertical-align:top}.bulk-table th{background:#f1f7f4;color:#526b61;font-size:10px;text-transform:uppercase}.good{color:var(--good)}.bad{color:var(--danger)}.bulk-progress{height:10px;background:#e8f0ed;border-radius:999px;overflow:hidden;margin-top:12px}.bulk-progress i{display:block;height:100%;width:0;background:var(--brand);transition:width .2s}.bulk-note{font-size:11px;color:var(--muted);line-height:1.45;margin-top:7px}@media(max-width:700px){.bulk-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<header>
+ <div class="head">
+  <img class="school-logo" src="logo.png" alt="Green Garden College of Health Sciences & Technology logo">
+  <div class="header-title">Green Garden College of Health Sciences &amp; Technology, Gusau</div>
+  <a class="back" href="admin.html">← Back</a>
+ </div>
+</header>
+
+<nav><div class="inner">
+ <a href="admin.html">Dashboard</a>
+ <a href="student.html">Students</a>
+ <a href="assignment-management.html">Assignments</a>
+ <a href="admin-finance.html">Finance</a>
+ <a href="admin-users.html">Users</a>
+</div></nav>
+
+<main>
+<section class="panel" id="adminSession" style="background:#ecfdf3;border-color:#bbf7d0">
+ <div class="identity"><strong>🔐 Create Access</strong><span id="adminSessionText">Create Access is ready.</span></div>
+</section>
+
+<section class="hero">
+ <h1>CREATE ACCESS</h1>
+ <p>Create login access for Students, Lecturers and Staff from one place. Firebase Authentication stores the login credential; Firestore stores the school profile and Firebase UID. Passwords are never written to Firestore.</p>
+
+ <div class="category-grid">
+  <button type="button" class="category active" data-category="student">
+   🎓 <strong>Student Bulk Registration</strong><span>Create multiple student accounts and school records at once.</span>
+  </button>
+  <button type="button" class="category" data-category="lecturer">
+   👨‍🏫 <strong>Lecturer</strong><span>Create a new lecturer account and school record.</span>
+  </button>
+  <button type="button" class="category" data-category="staff">
+   👤 <strong>Staff</strong><span>Create access for Registrar, Bursary, Admin, Security and other staff.</span>
+  </button>
+  <button type="button" class="category" data-category="hod">
+   👨‍💼 <strong>HOD</strong><span>Create HOD access and assign a Programme.</span>
+  </button>
+ </div>
+</section>
+
+<section class="panel">
+ <div class="identity">
+  <strong id="formTitle">Student Access</strong>
+  <span id="formDescription">Create a brand-new student school record and Firebase login.</span>
+ </div>
+
+ <div id="studentForm" style="margin-top:14px">
+ <div class="identity"><strong>Bulk Student Registration</strong><span>Paste multiple students using: <b>Full Name | Student ID | Admission Number | Email | Password | Programme | Level | Status</b>. No account is created until you press CREATE VALID STUDENTS.</span></div>
+ <div class="form-grid" style="margin-top:13px"><div><label>Default Account Status</label><select id="bulkDefaultStatus"><option>Active</option><option>Deactivated</option></select></div><div><label>Separator</label><select id="bulkSeparator"><option value="|">Pipe |</option><option value=",">Comma ,</option><option value="\t">Tab</option></select></div><div><label>Import File</label><input id="bulkFile" type="file" accept=".csv,.tsv,.txt,.xlsx,.xls"></div></div>
+ <label style="margin-top:13px">Bulk Student Data</label>
+ <textarea id="bulkInput" placeholder="Full Name | Student ID | Admission Number | Email | Password | Programme | Level | Status
+Musa Garba | GGCHST/2026/001 | ADM/001 | musa@example.com | Musa@123 | Medical Laboratory Technician | Level 1 | Active"></textarea>
+ <div class="bulk-note">Programme and Academic Level are matched against the same <b>programmes</b> and <b>academicLevels</b> collections used by Create Access. The exact Firestore programme document ID and its <b>name</b> are written to the student record.</div>
+ <div class="bulk-actions"><button type="button" id="bulkParseBtn" onclick="return window.__bulkButton('parse', event)">PARSE &amp; PREVIEW</button><button type="button" id="bulkSampleBtn" class="secondary" onclick="return window.__bulkButton('sample', event)">LOAD SAMPLE</button><button type="button" id="bulkClearBtn" class="secondary" onclick="return window.__bulkButton('clear', event)">CLEAR BULK DATA</button></div><div id="bulkMessage" class="message"></div>
+ <section class="panel hidden" id="bulkPreviewPanel" style="margin-top:14px;padding:12px"><div class="identity"><strong>Preview &amp; Validation</strong><span>Review programme and validation before creation.</span></div><div class="bulk-stats"><div class="bulk-stat"><b id="bulkTotal">0</b><span>Total</span></div><div class="bulk-stat"><b id="bulkValid">0</b><span>Valid</span></div><div class="bulk-stat"><b id="bulkInvalid">0</b><span>Invalid</span></div><div class="bulk-stat"><b id="bulkReady">0</b><span>Ready</span></div></div><div class="bulk-table"><table><thead><tr><th>#</th><th>Name</th><th>Student ID</th><th>Admission</th><th>Email</th><th>Programme</th><th>Level</th><th>Status</th><th>Validation</th></tr></thead><tbody id="bulkPreviewRows"></tbody></table></div></section>
+ <section class="panel hidden" id="bulkProgressPanel" style="margin-top:14px;padding:12px"><div class="identity"><strong>Bulk Creation Progress</strong><span id="bulkProgressText">Preparing...</span></div><div class="bulk-progress"><i id="bulkBar"></i></div><div class="bulk-stats"><div class="bulk-stat"><b id="bulkCreated">0</b><span>Created</span></div><div class="bulk-stat"><b id="bulkFailed">0</b><span>Failed</span></div><div class="bulk-stat"><b id="bulkRemaining">0</b><span>Remaining</span></div><div class="bulk-stat"><b id="bulkCurrent">—</b><span>Current</span></div></div></section>
+ <section class="panel hidden" id="bulkResultPanel" style="margin-top:14px;padding:12px"><div class="identity"><strong>Creation Results</strong><span>Passwords are never stored in Firestore. Export successful credentials if needed.</span></div><div class="bulk-actions"><button type="button" id="bulkDownloadCredentials" type="button">DOWNLOAD SUCCESSFUL CREDENTIALS</button><button type="button" id="bulkDownloadErrors" type="button" class="secondary">DOWNLOAD ERROR REPORT</button></div><div class="bulk-table"><table><thead><tr><th>Name</th><th>Email</th><th>Admission</th><th>Programme</th><th>Level</th><th>UID</th><th>Result</th></tr></thead><tbody id="bulkResultRows"></tbody></table></div></section>
+</div>
+<div id="lecturerForm" class="form-grid hidden" style="margin-top:14px">
+  <div><label>Full Name *</label><input id="lecturerName" placeholder="Lecturer full name"></div>
+  <div><label>Staff ID</label><input id="staffId" placeholder="Assigned by Admin"></div>
+  <div><label>Programme</label><select id="lecturerProgramme"><option value="">Select programme</option></select></div>
+  <div><label>Rank *</label><input id="lecturerRank" placeholder="e.g. Lecturer II"></div>
+  <div><label>Account Status</label><select id="lecturerStatus"><option>Active</option><option>Deactivated</option></select></div>
+ </div>
+
+ <div id="hodForm" class="form-grid hidden" style="margin-top:14px">
+  <div><label>HOD Full Name *</label><input id="hodName" placeholder="HOD full name"></div>
+  <div><label>HOD Staff ID</label><input id="hodStaffId" placeholder="Assigned by Admin"></div>
+  <div><label>Programme *</label><select id="hodProgramme"><option value="">Select Programme</option></select><div class="hint">The selected Programme will be attached to this HOD account.</div></div>
+  <div><label>Account Status</label><select id="hodStatus"><option>Active</option><option>Deactivated</option></select></div>
+</div>
+
+<div id="staffForm" class="form-grid hidden" style="margin-top:14px">
+  <div><label>Full Name *</label><input id="staffName" placeholder="e.g. Amina Musa"></div>
+  <div><label>Staff ID</label><input id="newStaffId" placeholder="Optional staff ID"></div>
+  <div><label>Staff Category / Role *</label>
+   <select id="staffRole">
+    <option value="Bursary">Bursary</option>
+    <option value="Registrar">Registrar</option>
+    <option value="Admin">Admin</option>
+    <option value="Security Guard">Security Guard</option>
+    <option value="Watchman">Watchman</option>
+    <option value="Admissions Officer">Admissions Officer</option>
+    <option value="Examination Officer">Examination Officer</option>
+    <option value="Other Staff">Other Staff</option>
+   </select>
+  </div>
+  <div><label>Account Status</label><select id="staffStatus"><option>Active</option><option>Deactivated</option></select></div>
+  <div class="full"><label>Permissions</label><input id="staffPermissions" value="profile"></div>
+ </div>
+
+ <div class="form-grid" style="margin-top:14px">
+  <div>
+   <label id="loginEmailLabel">Email to use as login *</label>
+   <input id="loginEmail" type="email" placeholder="login email">
+   <div class="hint" id="loginEmailHint">This email becomes the Firebase Authentication login email.</div>
+  </div>
+  <div>
+   <label>Account Status</label>
+   <input id="statusMirror" readonly>
+  </div>
+  <div>
+   <label>Password to use as login *</label>
+   <div class="password-wrap"><input id="password" type="password" minlength="6" autocomplete="new-password" placeholder="Minimum 6 characters"><button class="show" type="button" id="showPassword">Show</button></div>
+   <div class="hint">Used only by Firebase Authentication. It is never stored in Firestore.</div>
+  </div>
+  <div>
+   <label>Confirm Password *</label>
+   <input id="password2" type="password" minlength="6" autocomplete="new-password" placeholder="Repeat password">
+  </div>
+ </div>
+
+ <div id="message" class="message"></div>
+ <div class="actions">
+  <button type="button" id="createBtn" onclick="if(window.__createBulkStudents){return window.__createBulkStudents(event)}; var m=document.getElementById('bulkMessage'); if(m){m.textContent='Create Account handler is not loaded. Refresh the page and try again.';m.className='message bad';} return false;">CREATE ACCOUNT</button>
+  <button type="button" id="clearBtn" type="button" class="secondary">Clear</button>
+ </div>
+</section>
+
+<section class="panel">
+ <h2 class="small-title">Created Access Accounts</h2>
+ <p class="hint">This table shows newly created access accounts only. Passwords are intentionally never displayed or stored here.</p>
+ <div class="table-wrap" style="margin-top:12px">
+  <table><thead><tr><th>Category</th><th>Name</th><th>School ID</th><th>Email</th><th>Programme / Role</th><th>Level</th><th>UID</th><th>Status</th><th>Action</th></tr></thead>
+  <tbody id="rows"><tr><td colspan="9" style="text-align:center;padding:25px;color:#667c73">Loading...</td></tr></tbody></table>
+ </div>
+</section>
+</main>
+
+<div id="toast" class="toast"></div>
+
+<script type="module">
+import {initializeApp,getApps,getApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getFirestore,collection,getDocs,addDoc,doc,updateDoc,onSnapshot,serverTimestamp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import {getAuth,createUserWithEmailAndPassword,signOut} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+const firebaseConfig={
+ apiKey:"AIzaSyAoT3LGcdw3A0FzHDrPEuhTNCnfiTklGXY",
+ authDomain:"ggchst-sms-new.firebaseapp.com",
+ projectId:"ggchst-sms-new",
+ storageBucket:"ggchst-sms-new.firebasestorage.app",
+ messagingSenderId:"942770190211",
+ appId:"1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+
+window.addEventListener("error",e=>{
+  const m=document.getElementById("bulkMessage");
+  if(m && e?.error){m.textContent="Page script error: "+(e.error.message||e.message);m.className="message bad";}
+});
+window.addEventListener("unhandledrejection",e=>{
+  const m=document.getElementById("bulkMessage");
+  if(m){m.textContent="Page script error: "+(e?.reason?.message||e?.reason||"Unhandled error");m.className="message bad";}
+});
+const app=getApps().length?getApp():initializeApp(firebaseConfig);
+const db=getFirestore(app), auth=getAuth(app);
+const $=id=>document.getElementById(id);
+const norm=v=>String(v??"").trim().toLowerCase();
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+const first=(o,keys,def="")=>{for(const k of keys)if(o?.[k]!==undefined&&o[k]!==null&&String(o[k]).trim()!=="")return String(o[k]).trim();return def;};
+const msg=(t,b=false)=>{$("message").textContent=t;$("message").className="message "+(b?"bad":"ok");};
+const toast=t=>{const x=$("toast");x.textContent=t;x.style.display="block";clearTimeout(window.__toast);window.__toast=setTimeout(()=>x.style.display="none",3000)}
+
+async function initializeCreateAccess(){
+  try{
+    // Admin authentication is intentionally NOT required on this page.
+    // Firebase Authentication is still used to create each new login account.
+    const gateMessage=$("adminSessionText");
+    if(gateMessage) gateMessage.textContent="Create Access is ready. You can create a Firebase login account.";
+    $("createBtn").disabled=false;
+    await loadSourceData();
+    await loadAccounts();
+  }catch(e){
+    console.error("Create Access initialization failed:",e);
+    $("createBtn").disabled=false;
+    const gateMessage=$("adminSessionText");
+    if(gateMessage) gateMessage.textContent="Create Access is ready, but source data could not be loaded.";
+    msg("Could not load programmes/levels: "+(e?.message||e),true);
+  }
+}
+
+const nameOf=x=>first(x,["name","fullName","studentName","lecturerName","displayName"]);
+const emailOf=x=>first(x,["email","emailAddress","studentEmail","lecturerEmail","authEmail"]);
+const uidOf=x=>first(x,["authUid","firebaseUid","studentUid","uid"]);
+const programmeOf=x=>first(x,["programmeName","programme","programName","program"]);
+const levelOf=x=>first(x,["levelName","level","academicLevelName","academicLevel"]);
+const schoolIdOf=x=>first(x,["studentId","matricNo","matricNumber","staffId","staffID","employeeId","schoolId"]);
+const admissionOf=x=>first(x,["admissionNumber","admissionNo","admission"]);
+const roleOf=x=>first(x,["role","staffRole","accountType"],"Staff");
+
+let category="student", programmes=[], levels=[], bulkRows=[], bulkResults=[], bulkCredentials=[];
+
+function setCategory(c){
+ category=c;
+ document.querySelectorAll(".category").forEach(b=>b.classList.toggle("active",b.dataset.category===c));
+ $("studentForm").classList.toggle("hidden",c!=="student");
+ $("lecturerForm").classList.toggle("hidden",c!=="lecturer");
+ $("staffForm").classList.toggle("hidden",c!=="staff");
+ $("hodForm").classList.toggle("hidden",c!=="hod");
+ $("formTitle").textContent=c==="student"?"New Student Access":c==="lecturer"?"New Lecturer Access":c==="hod"?"New HOD Access":"New Staff Access";
+ $("formDescription").textContent=c==="student"?"Create a brand-new student school record and Firebase login. The student can complete the remaining profile after first login.":c==="lecturer"?"Create a brand-new lecturer school record and Firebase login. The lecturer can complete the personal profile after first login.":c==="hod"?"Create a new HOD account and attach it to a Programme.":"Create a new staff login and school access role.";
+ $("loginEmail").readOnly=false;
+ $("loginEmailHint").textContent="This email becomes the Firebase Authentication login email.";
+ syncGeneral(); msg("");
+}
+document.querySelectorAll(".category").forEach(b=>b.onclick=()=>setCategory(b.dataset.category));
+
+
+function syncGeneral(){
+ let status="Active";
+ if(category==="student") status=$("bulkDefaultStatus")?.value || "Active";
+ if(category==="lecturer") status=$("lecturerStatus").value;
+ if(category==="staff") status=$("staffStatus").value;
+ if(category==="hod") status=$("hodStatus").value;
+ $("statusMirror").value=status;
+}
+["studentStatus","bulkDefaultStatus","lecturerStatus","staffStatus","hodStatus","loginEmail"].forEach(id=>{const el=$(id);if(el)el.addEventListener("input",syncGeneral);});
+
+$("showPassword").onclick=()=>{
+ const hide=$("password").type==="password";$("password").type=hide?"text":"password";$("password2").type=hide?"text":"password";$("showPassword").textContent=hide?"Hide":"Show";
+};
+$("clearBtn").onclick=()=>{
+ ["password","password2","loginEmail","staffName","newStaffId","studentId","admissionNumber","studentName","lecturerName","staffId","lecturerRank"].forEach(id=>$(id).value="");
+ ["studentProgramme","studentLevel","lecturerProgramme"].forEach(id=>$(id).value="");
+ $("staffPermissions").value="profile"; syncGeneral(); msg("");
+};
+
+async function createSecondary(email,password){
+ const cfg=app.options;
+ const sa=getApps().some(a=>a.name==="GGCHSTAccountCreator")?getApp("GGCHSTAccountCreator"):initializeApp(cfg,"GGCHSTAccountCreator");
+ const a=getAuth(sa);
+ const c=await createUserWithEmailAndPassword(a,email,password);
+ const uid=c.user.uid;await signOut(a);return uid;
+}
+function authError(e){
+ const c=e?.code||"";
+ const map={"auth/email-already-in-use":"This email already has a Firebase Authentication account.","auth/invalid-email":"Invalid login email.","auth/weak-password":"Password is too weak. Use at least 6 characters.","auth/operation-not-allowed":"Firebase Email/Password Authentication is not enabled.","auth/network-request-failed":"Network error. Check your internet connection."};
+ return map[c]||e?.message||"Could not create the Firebase login.";
+}
+
+async function duplicateEmail(email){
+ const snap=await getDocs(collection(db,"users"));
+ return snap.docs.some(d=>norm(emailOf(d.data())||d.data().authEmail)===norm(email));
+}
+
+async function createBulkStudent(r){
+ const uid=await createSecondary(r.email,r.password);
+ const now=new Date().toISOString();
+ const permissions=["student-dashboard","profile","my-courses","timetable","assignments","results","attendance","my-payment"];
+ const profileData={studentId:r.studentId,admissionNumber:r.admissionNumber,fullName:r.name,name:r.name,email:r.email,programmeId:r.programmeId,programmeName:r.programmeName,levelId:r.levelId,levelName:r.levelName,status:r.status,accountStatus:r.status,accountLinked:false,profileCompleted:false};
+ const studentRef=await addDoc(collection(db,"students"),{...profileData,authUid:uid,studentUid:uid,firebaseUid:uid,authEmail:r.email,createdAt:now,updatedAt:now});
+ await addDoc(collection(db,"users"),{uid,authUid:uid,authEmail:r.email,email:r.email,name:r.name,accountType:"Student",role:"Student",status:r.status,permissions,schoolId:r.studentId,studentId:r.studentId,admissionNumber:r.admissionNumber,lecturerId:"",staffId:"",programmeId:r.programmeId,programmeName:r.programmeName,levelId:r.levelId,levelName:r.levelName,profileId:studentRef.id,profileCompleted:false,createdAt:now,updatedAt:now});
+ await addDoc(collection(db,"auditLogs"),{action:"bulk_create_access",module:"users",entityType:"student",entityId:studentRef.id,uid,email:r.email,name:r.name,role:"Student",accountType:"Student",timestamp:now,result:"success"}); return uid;
+}
+function splitBulkRow(s,sep){if(sep!==",")return s.split(sep).map(x=>x.trim());const out=[];let v="",quoted=false;for(let i=0;i<s.length;i++){const c=s[i];if(c==='"'){if(quoted&&s[i+1]==='"'){v+='"';i++;}else quoted=!quoted;}else if(c===','&&!quoted){out.push(v.trim());v="";}else v+=c;}out.push(v.trim());return out;}
+function resolveBulkProgramme(v){const n=norm(v);if(!n)return null;let p=programmes.find(x=>norm(x.id)===n||norm(x.code)===n||norm(x.name)===n||norm(x.programmeName)===n||norm(x.title)===n);if(p)return p;const key=s=>norm(s).replace(/[^a-z0-9]+/g,"");const k=key(v);const hits=programmes.filter(x=>[x.id,x.code,x.name,x.programmeName,x.title].some(y=>key(y)===k));return hits.length===1?hits[0]:null;}
+function resolveBulkLevel(v){const n=norm(v);if(!n)return null;let l=levels.find(x=>norm(x.id)===n||norm(x.code)===n||norm(x.name)===n||norm(x.levelName)===n||norm(x.title)===n);if(l)return l;const key=s=>norm(s).replace(/[^a-z0-9]+/g,"");const k=key(v);const hits=levels.filter(x=>[x.id,x.code,x.name,x.levelName,x.title].some(y=>key(y)===k));return hits.length===1?hits[0]:null;}
+async function validateBulkRows(){const text=$("bulkInput").value.replace(/\r/g,"");const lines=text.split("\n").map(x=>x.trim()).filter(Boolean);const sep=$("bulkSeparator").value;if(!lines.length)return[];let parsed=lines.map(x=>splitBulkRow(x,sep));const head=parsed[0].map(norm);if(head.includes("email")&&head.includes("password"))parsed.shift();const [us,ss]=await Promise.all([getDocs(collection(db,"users")),getDocs(collection(db,"students"))]);const usersNow=us.docs.map(d=>d.data()),studentsNow=ss.docs.map(d=>d.data());const emailSet=new Set(usersNow.map(x=>norm(emailOf(x)||x.authEmail)).filter(Boolean));const sidSet=new Set(studentsNow.map(x=>norm(x.studentId||x.studentID||x.matricNo||x.schoolId)).filter(Boolean));const admSet=new Set(studentsNow.map(x=>norm(x.admissionNumber||x.admissionNo||x.admission)).filter(Boolean));const se=new Set(),ssids=new Set(),sa=new Set();return parsed.map((x,i)=>{const r={row:i+1,name:(x[0]||"").trim(),studentId:(x[1]||"").trim(),admissionNumber:(x[2]||"").trim(),email:(x[3]||"").trim(),password:(x[4]||"").trim(),programmeInput:(x[5]||"").trim(),levelInput:(x[6]||"").trim(),status:(x[7]||$("bulkDefaultStatus").value).trim(),programme:null,level:null,programmeId:"",programmeName:"",levelId:"",levelName:"",errors:[]};r.programme=resolveBulkProgramme(r.programmeInput);r.level=resolveBulkLevel(r.levelInput);r.programmeId=r.programme?.id||"";r.programmeName=r.programme?.name||r.programme?.programmeName||r.programme?.title||"";r.levelId=r.level?.id||"";r.levelName=r.level?.name||r.level?.levelName||r.level?.title||r.level?.code||"";if(!r.name)r.errors.push("Full name required");if(!r.email||!/\S+@\S+\.\S+/.test(r.email))r.errors.push("Valid email required");if(r.password.length<6)r.errors.push("Password must be at least 6 characters");if(!r.studentId)r.errors.push("Student ID required");if(!r.admissionNumber)r.errors.push("Admission number required");if(!r.programme)r.errors.push("Programme not found in programmes collection");if(!r.level)r.errors.push("Academic level not found in academicLevels collection");const e=norm(r.email),sid=norm(r.studentId),ad=norm(r.admissionNumber);if(e){if(se.has(e))r.errors.push("Duplicate email in upload");se.add(e);if(emailSet.has(e))r.errors.push("Email already exists");}if(sid){if(ssids.has(sid))r.errors.push("Duplicate Student ID in upload");ssids.add(sid);if(sidSet.has(sid))r.errors.push("Student ID already exists");}if(ad){if(sa.has(ad))r.errors.push("Duplicate admission number in upload");sa.add(ad);if(admSet.has(ad))r.errors.push("Admission number already exists");}return r;});}
+function renderBulkPreview(){const view=bulkRows;$("bulkPreviewRows").innerHTML=view.length?view.map(r=>`<tr><td>${r.row}</td><td>${esc(r.name)}</td><td>${esc(r.studentId||"—")}</td><td>${esc(r.admissionNumber||"—")}</td><td>${esc(r.email)}</td><td>${esc(r.programmeName||r.programmeInput||"—")}</td><td>${esc(r.levelName||r.levelInput||"—")}</td><td>${esc(r.status)}</td><td class="${r.errors.length?'bad':'good'}">${r.errors.length?esc(r.errors.join('; ')):'VALID'}</td></tr>`).join(""): `<tr><td colspan="9" style="text-align:center;padding:25px">No rows.</td></tr>`;const valid=bulkRows.filter(r=>!r.errors.length).length;$("bulkTotal").textContent=bulkRows.length;$("bulkValid").textContent=valid;$("bulkInvalid").textContent=bulkRows.length-valid;$("bulkReady").textContent=valid;$("createBtn").disabled=!valid;}
+async function handleBulkParse(e){
+  e.preventDefault();
+  e.stopPropagation();
+  const btn=$("bulkParseBtn");
+  btn.disabled=true;
+  try{
+    $("bulkMessage").textContent="Reading and validating bulk students…";
+    $("bulkMessage").className="message ok";
+    bulkRows=await validateBulkRows();
+    $("bulkPreviewPanel").classList.remove("hidden");
+    renderBulkPreview();
+    $("bulkMessage").textContent=`${bulkRows.length} row(s) parsed. Review validation before creating accounts.`;
+    $("bulkMessage").className="message ok";
+  }catch(e){
+    console.error(e);
+    $("bulkMessage").textContent="Could not parse bulk data: "+(e?.message||e);
+    $("bulkMessage").className="message bad";
+  }finally{
+    btn.disabled=false;
+  }
+}
+
+function handleBulkSample(e){
+  e.preventDefault();
+  e.stopPropagation();
+  $("bulkSeparator").value="|";
+  $("bulkInput").value=`Full Name | Student ID | Admission Number | Email | Password | Programme | Level | Status
+Musa Garba | GGCHST/2026/001 | ADM/001 | musa.garba@example.com | Musa@123 | Medical Laboratory Technician | Level 1 | Active
+Aisha Bello | GGCHST/2026/002 | ADM/002 | aisha.bello@example.com | Aisha@123 | Community Health Extension Worker (CHEW) | Level 2 | Active`;
+  $("bulkMessage").textContent="Sample loaded. Click PARSE & PREVIEW.";
+  $("bulkMessage").className="message ok";
+}
+
+function handleBulkClear(e){
+  e.preventDefault();
+  e.stopPropagation();
+  $("bulkInput").value="";
+  $("bulkFile").value="";
+  bulkRows=[];
+  bulkResults=[];
+  bulkCredentials=[];
+  $("bulkPreviewPanel").classList.add("hidden");
+  $("bulkProgressPanel").classList.add("hidden");
+  $("bulkResultPanel").classList.add("hidden");
+  $("bulkMessage").textContent="";
+  $("createBtn").disabled=true;
+  $("bulkTotal").textContent="0";
+  $("bulkValid").textContent="0";
+  $("bulkInvalid").textContent="0";
+  $("bulkReady").textContent="0";
+}
+
+
+window.__bulkModuleReady=true;
+window.__bulkParseFromButton=handleBulkParse;
+window.__bulkSampleFromButton=handleBulkSample;
+window.__bulkClearFromButton=handleBulkClear;
+
+$("bulkFile").onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{const ext=f.name.toLowerCase().split('.').pop();if(ext==='xlsx'||ext==='xls'){if(!window.XLSX)await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';s.onload=resolve;s.onerror=reject;document.head.appendChild(s)});const w=XLSX.read(await f.arrayBuffer(),{type:'array'});$("bulkSeparator").value=',';$("bulkInput").value=XLSX.utils.sheet_to_csv(w.Sheets[w.SheetNames[0]])}else{$("bulkSeparator").value=ext==='tsv'?'\t':',';$("bulkInput").value=await f.text()}$("bulkMessage").textContent=`${f.name} loaded. Click PARSE & PREVIEW.`;$("bulkMessage").className="message ok";}catch(err){$("bulkMessage").textContent="Could not read file: "+err.message;$("bulkMessage").className="message bad";}};
+function bulkCsv(rows,keys){const q=v=>`"${String(v??"").replace(/"/g,'""')}"`;return [keys.join(','),...rows.map(r=>keys.map(k=>q(r[k])).join(','))].join('\n');}function bulkDownload(name,data){const blob=new Blob([data],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(a.href);}
+$("bulkDownloadCredentials").onclick=()=>bulkCredentials.length&&bulkDownload('successful-student-login-credentials.csv',bulkCsv(bulkCredentials,['name','email','password','studentId','admissionNumber','programme','level','status','uid']));$("bulkDownloadErrors").onclick=()=>{const failed=bulkResults.filter(r=>r.result==='Failed');if(failed.length)bulkDownload('bulk-student-registration-errors.csv',bulkCsv(failed,['row','name','email','admissionNumber','programmeInput','levelInput','error']))};
+window.__createBulkStudents=async()=>{if(category==="student"){const validRows=bulkRows.filter(r=>!r.errors.length);if(!validRows.length){$("bulkMessage").textContent="Parse and validate at least one student first.";$("bulkMessage").className="message bad";return;}$("createBtn").disabled=true;$("bulkProgressPanel").classList.remove("hidden");$("bulkResultPanel").classList.add("hidden");bulkResults=[];bulkCredentials=[];let created=0,failed=0;for(let i=0;i<validRows.length;i++){const r=validRows[i];$("bulkProgressText").textContent=`Creating ${i+1} of ${validRows.length}: ${r.name}`;$("bulkBar").style.width=((i+1)/validRows.length*100)+"%";$("bulkCurrent").textContent=r.name;try{const uid=await createBulkStudent(r);created++;bulkResults.push({...r,uid,result:'Created',error:''});bulkCredentials.push({name:r.name,email:r.email,password:r.password,studentId:r.studentId,admissionNumber:r.admissionNumber,programme:r.programmeName,level:r.levelName,status:r.status,uid});}catch(e){failed++;bulkResults.push({...r,uid:'',result:'Failed',error:authError(e)});$("bulkCreated").textContent=created;$("bulkFailed").textContent=failed;$("bulkRemaining").textContent=validRows.length-i-1;}$("bulkCreated").textContent=created;$("bulkFailed").textContent=failed;$("bulkRemaining").textContent=validRows.length-i-1;}$("bulkResultRows").innerHTML=bulkResults.map(r=>`<tr><td>${esc(r.name)}</td><td>${esc(r.email)}</td><td>${esc(r.admissionNumber)}</td><td>${esc(r.programmeName||r.programmeInput||'—')}</td><td>${esc(r.levelName||r.levelInput||'—')}</td><td>${r.uid?esc(r.uid):'—'}</td><td class="${r.result==='Created'?'good':'bad'}">${r.result==='Created'?'CREATED':esc(r.error)}</td></tr>`).join('');$("bulkResultPanel").classList.remove("hidden");$("bulkMessage").textContent=`Finished: ${created} created, ${failed} failed.`;$("bulkMessage").className=failed?"message bad":"message ok";await loadAccounts();return;}let name="",email=$("loginEmail").value.trim(),schoolId="",programme="",level="",role="",status="Active",accountType="",permissions=[],profileData={};if(category==="lecturer"){name=$("lecturerName").value.trim();schoolId=$("staffId").value.trim();const programmeId=$("lecturerProgramme").value,p=programmes.find(x=>x.id===programmeId);programme=p?.name||"";role="Lecturer/Staff";accountType="Staff / Lecturer";status=$("lecturerStatus").value;permissions=["lecturer-profile","courses","timetable","assignments","lecture-notes","results","attendance"];if(!name||!email||!$("lecturerRank").value.trim()){msg("Enter lecturer name, rank and login email.",true);return;}profileData={staffId:schoolId,fullName:name,name,email,programmeId,programmeName:programme,rank:$("lecturerRank").value.trim(),status,accountStatus:status,accountLinked:false,profileCompleted:false};}else if(category==="staff"){name=$("staffName").value.trim();schoolId=$("newStaffId").value.trim();role=$("staffRole").value;status=$("staffStatus").value;accountType="Staff";permissions=$("staffPermissions").value.split(",").map(x=>x.trim()).filter(Boolean);if(!name||!email){msg("Enter staff name and login email.",true);return;}}else if(category==="hod"){const programmeId=$("hodProgramme").value,p=programmes.find(x=>x.id===programmeId);name=$("hodName").value.trim();schoolId=$("hodStaffId").value.trim();status=$("hodStatus").value;role="HOD";accountType="HOD";programme=p?.name||"";if(!name||!email||!p){msg("Enter HOD name, email, and select a Programme.",true);return;}profileData={programmeId,programmeName:programme,programmeCode:first(p,["code","programmeCode"]),hodName:name,hodEmail:email,staffId:schoolId,status,accountStatus:status};}const p1=$("password").value,p2=$("password2").value;if(!email||!/\S+@\S+\.\S+/.test(email)){msg("Enter a valid login email.",true);return;}if(p1.length<6){msg("Password must contain at least 6 characters.",true);return;}if(p1!==p2){msg("Passwords do not match.",true);return;}$("createBtn").disabled=true;$("createBtn").textContent="Creating account...";try{if(await duplicateEmail(email))throw new Error("This email already exists in the school users collection.");const uid=await createSecondary(email,p1),now=new Date().toISOString();let profileId="";if(category==="lecturer"){const ref=await addDoc(collection(db,"lecturers"),{...profileData,authUid:uid,authEmail:email,createdAt:now,updatedAt:now});profileId=ref.id;}else if(category==="hod"){const hodRef=await addDoc(collection(db,"hods"),{...profileData,name,email,role:"HOD",accountType:"HOD",authUid:uid,uid,createdAt:serverTimestamp(),updatedAt:serverTimestamp()});profileId=hodRef.id;await addDoc(collection(db,"programmeHodAssignments"),{programmeId:profileData.programmeId,programmeName:profileData.programmeName,programmeCode:profileData.programmeCode,hodId:profileId,hodName:name,hodEmail:email,staffId:schoolId,authUid:uid,status,createdAt:serverTimestamp(),updatedAt:serverTimestamp()});}else{profileId="staff-"+Date.now();await addDoc(collection(db,"staff"),{name,fullName:name,staffId:schoolId,email,authEmail:email,authUid:uid,uid,role,accountType,status,permissions,profileCompleted:false,createdAt:now,updatedAt:now});}const userRef=await addDoc(collection(db,"users"),{uid,authUid:uid,authEmail:email,email,name,accountType,role,status,permissions,schoolId,studentId:"",admissionNumber:"",lecturerId:category==="lecturer"?profileId:"",staffId:category==="lecturer"?schoolId:(category==="staff"?schoolId:""),programmeId:profileData.programmeId||"",programmeName:programme,levelId:profileData.levelId||"",levelName:level,profileId,profileCompleted:false,createdAt:now,updatedAt:now});await addDoc(collection(db,"auditLogs"),{action:"create_access",module:"users",entityType:category,entityId:profileId,userRecordId:userRef.id,uid,email,name,role,accountType,timestamp:now,result:"success"});$("password").value="";$("password2").value="";msg(`Account created successfully for ${name}. Firebase UID: ${uid}`);toast("New access created successfully.");await loadAccounts();}catch(e){console.error(e);msg(authError(e),true);}finally{$("createBtn").disabled=false;$("createBtn").textContent="CREATE ACCOUNT";}};
+
+$("createBtn").onclick=window.__createBulkStudents;
+
+async function loadSourceData(){
+  const [ps,ls]=await Promise.all([getDocs(collection(db,"programmes")),getDocs(collection(db,"academicLevels"))]);
+  programmes=ps.docs.map(d=>({id:d.id,...d.data()})).filter(x=>String(x.status||"active").toLowerCase()!=="inactive").sort((a,b)=>String(a.name||"").localeCompare(String(b.name||"")));
+  levels=ls.docs.map(d=>({id:d.id,...d.data()})).filter(x=>String(x.status||"active").toLowerCase()!=="inactive").sort((a,b)=>Number(a.displayOrder||0)-Number(b.displayOrder||0));
+  $("studentProgramme").innerHTML='<option value="">Select programme</option>';
+  $("lecturerProgramme").innerHTML='<option value="">Select programme (optional)</option>';
+  $("hodProgramme").innerHTML='<option value="">Select Programme</option>';
+  programmes.forEach(x=>{
+    const a=document.createElement("option");a.value=x.id;a.textContent=x.name||"Unnamed Programme";$("studentProgramme").appendChild(a);
+    const b=document.createElement("option");b.value=x.id;b.textContent=x.name||"Unnamed Programme";$("lecturerProgramme").appendChild(b);
+    const c=document.createElement("option");c.value=x.id;c.textContent=x.name||"Unnamed Programme";$("hodProgramme").appendChild(c);
+  });
+  $("studentLevel").innerHTML='<option value="">Select level</option>';
+  levels.forEach(x=>{const o=document.createElement("option");o.value=x.id;o.textContent=x.name||x.code||"Level";$("studentLevel").appendChild(o)});
+}
+
+async function loadAccounts(){
+ const snap=await getDocs(collection(db,"users"));
+ const arr=snap.docs.map(d=>({id:d.id,...d.data()}));
+ const linked=arr.filter(x=>x.uid||x.authUid).sort((a,b)=>String(a.name||"").localeCompare(String(b.name||"")));
+ $("rows").innerHTML="";
+ if(!linked.length){
+   $("rows").innerHTML='<tr><td colspan="9" style="text-align:center;padding:25px;color:#667c73">No created access accounts yet.</td></tr>';
+   return;
+ }
+ linked.forEach(x=>{
+   const tr=document.createElement("tr");
+   const active=String(x.status||"Active").toLowerCase()!=="deactivated";
+   const statusLabel=active?"Active":"Deactivated";
+   const actionLabel=active?"Deactivate":"Activate";
+   const actionClass=active?"status-off":"status-active";
+   tr.innerHTML=
+     `<td>${esc(x.accountType||"Staff")}</td>
+      <td>${esc(x.name||"—")}</td>
+      <td>${esc(x.studentId||x.staffId||x.schoolId||"—")}</td>
+      <td>${esc(x.email||"—")}</td>
+      <td>${esc(x.programmeName||x.role||"—")}</td>
+      <td>${esc(x.levelName||"—")}</td>
+      <td><span class="badge" title="${esc(x.uid||x.authUid||"")}">${esc(String(x.uid||x.authUid||"").slice(0,18))}…</span></td>
+      <td><span class="badge ${active?"status-active":"status-off"}">${statusLabel}</span></td>
+      <td><button class="status-btn ${actionClass}" data-user="${esc(x.id)}" data-uid="${esc(x.uid||x.authUid||"")}" data-status="${active?"Active":"Deactivated"}">${actionLabel}</button></td>`;
+   $("rows").appendChild(tr);
+ });
+ document.querySelectorAll(".status-btn").forEach(btn=>btn.onclick=()=>toggleAccountStatus(btn.dataset.user,btn.dataset.uid,btn.dataset.status));
+}
+
+async function toggleAccountStatus(userId, uid, currentStatus){
+ const next=String(currentStatus).toLowerCase()==="active"?"Deactivated":"Active";
+ const action=next==="Deactivated"?"deactivate":"activate";
+ if(!confirm(`${action.charAt(0).toUpperCase()+action.slice(1)} this account?`)) return;
+ try{
+   await updateDoc(doc(db,"users",userId),{
+     status:next,
+     accountStatus:next,
+     updatedAt:serverTimestamp()
+   });
+
+   // Keep the linked school profile status synchronized.
+   const snap=await getDocs(collection(db,"students"));
+   let found=false;
+   for(const d of snap.docs){
+     const x=d.data();
+     if(String(x.authUid||x.studentUid||x.firebaseUid||"")===String(uid)){
+       await updateDoc(doc(db,"students",d.id),{status:next,accountStatus:next,updatedAt:serverTimestamp()});
+       found=true; break;
+     }
+   }
+   if(!found){
+     const ls=await getDocs(collection(db,"lecturers"));
+     for(const d of ls.docs){
+       const x=d.data();
+       if(String(x.authUid||x.firebaseUid||x.uid||"")===String(uid)){
+         await updateDoc(doc(db,"lecturers",d.id),{status:next,accountStatus:next,updatedAt:serverTimestamp()});
+         found=true; break;
+       }
+     }
+   }
+
+   await addDoc(collection(db,"auditLogs"),{
+     action:next==="Active"?"activate_access":"deactivate_access",
+     module:"users",
+     entityType:"account",
+     entityId:userId,
+     uid,
+     status:next,
+     timestamp:new Date().toISOString(),
+     result:"success"
+   });
+   toast(`Account ${next.toLowerCase()}.`);
+   await loadAccounts();
+ }catch(e){
+   console.error(e);
+   msg("Could not change account status: "+(e.code||e.message),true);
+ }
+}
+
+
+setCategory("student");
+setCategory("student"); initializeCreateAccess();
+</script>
+
+<script>
+(function(){
+  function el(id){ return document.getElementById(id); }
+
+  window.__bulkButton = async function(action, ev){
+    if(ev){
+      ev.preventDefault();
+      ev.stopPropagation();
+    }
+
+    const message = el("bulkMessage");
+
+    try{
+      if(action === "sample"){
+        el("bulkSeparator").value = "|";
+        el("bulkInput").value =
+`Full Name | Student ID | Admission Number | Email | Password | Programme | Level | Status
+Musa Garba | GGCHST/2026/001 | ADM/001 | musa.garba@example.com | Musa@123 | Medical Laboratory Technician | Level 1 | Active
+Aisha Bello | GGCHST/2026/002 | ADM/002 | aisha.bello@example.com | Aisha@123 | Community Health Extension Worker (CHEW) | Level 2 | Active`;
+        message.textContent = "Sample loaded. Click PARSE & PREVIEW.";
+        message.className = "message ok";
+        return false;
+      }
+
+      if(action === "clear"){
+        el("bulkInput").value = "";
+        el("bulkFile").value = "";
+        if(window.bulkRows) window.bulkRows = [];
+        const ids = ["bulkPreviewPanel","bulkProgressPanel","bulkResultPanel"];
+        ids.forEach(id => { if(el(id)) el(id).classList.add("hidden"); });
+        ["bulkTotal","bulkValid","bulkInvalid","bulkReady","bulkCreated","bulkFailed","bulkRemaining"].forEach(id=>{
+          if(el(id)) el(id).textContent = "0";
+        });
+        if(el("createBtn")) el("createBtn").disabled = true;
+        message.textContent = "";
+        message.className = "message";
+        return false;
+      }
+
+      if(action === "parse"){
+        if(typeof window.__bulkParseFromButton === "function"){
+          await window.__bulkParseFromButton(ev);
+          return false;
+        }
+
+        // Fallback parser: the button must not depend on the module event
+        // binding. Dynamically load Firebase and resolve programmes/levels
+        // directly if the main module has not exposed its handler yet.
+        message.textContent = "Parsing bulk students…";
+        message.className = "message ok";
+
+        const [fbApp, fbStore] = await Promise.all([
+          import("https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js"),
+          import("https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js")
+        ]);
+        const cfg={
+          apiKey:"AIzaSyAoT3LGcdw3A0FzHDrPEuhTNCnfiTklGXY",
+          authDomain:"ggchst-sms-new.firebaseapp.com",
+          projectId:"ggchst-sms-new",
+          storageBucket:"ggchst-sms-new.firebasestorage.app",
+          messagingSenderId:"942770190211",
+          appId:"1:942770190211:web:aa9a085a38aaa517b368b6"
+        };
+        const app=fbApp.getApps().length?fbApp.getApp():fbApp.initializeApp(cfg);
+        const db=fbStore.getFirestore(app);
+        const norm2=v=>String(v??"").trim().toLowerCase();
+        const esc2=v=>String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+        const sep=el("bulkSeparator").value;
+        const lines=el("bulkInput").value.replace(/\r/g,"").split("\n").map(x=>x.trim()).filter(Boolean);
+        if(!lines.length){
+          el("bulkMessage").textContent="Enter or load bulk student data first.";
+          el("bulkMessage").className="message bad";
+          return false;
+        }
+        const splitRow=(row)=>{
+          if(sep!==",") return row.split(sep).map(x=>x.trim());
+          const a=[];let v="",q=false;
+          for(let i=0;i<row.length;i++){const c=row[i];if(c==='"'){if(q&&row[i+1]==='"'){v+='"';i++;}else q=!q;}else if(c===','&&!q){a.push(v.trim());v="";}else v+=c;}a.push(v.trim());return a;
+        };
+        let rows=lines.map(splitRow);
+        const head=rows[0].map(norm2);
+        if(head.includes("email")&&head.includes("password")) rows.shift();
+        const [ps,ls,us,ss]=await Promise.all([
+          fbStore.getDocs(fbStore.collection(db,"programmes")),
+          fbStore.getDocs(fbStore.collection(db,"academicLevels")),
+          fbStore.getDocs(fbStore.collection(db,"users")),
+          fbStore.getDocs(fbStore.collection(db,"students"))
+        ]);
+        const programmes=ps.docs.map(d=>({id:d.id,...d.data()}));
+        const levels=ls.docs.map(d=>({id:d.id,...d.data()}));
+        const emailSet=new Set(us.docs.map(d=>d.data()).map(x=>norm2(x.email||x.authEmail)).filter(Boolean));
+        const sidSet=new Set(ss.docs.map(d=>d.data()).map(x=>norm2(x.studentId||x.studentID||x.matricNo||x.schoolId)).filter(Boolean));
+        const admSet=new Set(ss.docs.map(d=>d.data()).map(x=>norm2(x.admissionNumber||x.admissionNo||x.admission)).filter(Boolean));
+        const key=v=>norm2(v).replace(/[^a-z0-9]+/g,"");
+        const findRef=(value,list)=>{
+          const n=norm2(value); if(!n)return null;
+          let x=list.find(p=>[p.id,p.code,p.name,p.programmeName,p.levelName,p.title].some(v=>norm2(v)===n));
+          if(x)return x;
+          const k=key(value), hits=list.filter(p=>[p.id,p.code,p.name,p.programmeName,p.levelName,p.title].some(v=>key(v)===k));
+          return hits.length===1?hits[0]:null;
+        };
+        const seenE=new Set(),seenS=new Set(),seenA=new Set();
+        const parsed=rows.map((x,i)=>{
+          const p=findRef(x[5],programmes), l=findRef(x[6],levels);
+          const r={row:i+1,name:(x[0]||"").trim(),studentId:(x[1]||"").trim(),admissionNumber:(x[2]||"").trim(),email:(x[3]||"").trim(),password:(x[4]||"").trim(),programmeInput:(x[5]||"").trim(),levelInput:(x[6]||"").trim(),status:(x[7]||el("bulkDefaultStatus").value).trim(),programme:p,level:l,programmeId:p?.id||"",programmeName:p?.name||p?.programmeName||p?.title||"",levelId:l?.id||"",levelName:l?.name||l?.levelName||l?.title||l?.code||"",errors:[]};
+          if(!r.name)r.errors.push("Full name required"); if(!/\S+@\S+\.\S+/.test(r.email))r.errors.push("Valid email required"); if(r.password.length<6)r.errors.push("Password must be at least 6 characters"); if(!r.studentId)r.errors.push("Student ID required"); if(!r.admissionNumber)r.errors.push("Admission number required"); if(!p)r.errors.push("Programme not found in programmes collection"); if(!l)r.errors.push("Academic level not found in academicLevels collection");
+          const e=norm2(r.email),sid=norm2(r.studentId),ad=norm2(r.admissionNumber); if(e){if(seenE.has(e))r.errors.push("Duplicate email in upload");seenE.add(e);if(emailSet.has(e))r.errors.push("Email already exists");} if(sid){if(seenS.has(sid))r.errors.push("Duplicate Student ID in upload");seenS.add(sid);if(sidSet.has(sid))r.errors.push("Student ID already exists");} if(ad){if(seenA.has(ad))r.errors.push("Duplicate admission number in upload");seenA.add(ad);if(admSet.has(ad))r.errors.push("Admission number already exists");}
+          return r;
+        });
+        const valid=parsed.filter(r=>!r.errors.length).length;
+        el("bulkPreviewRows").innerHTML=parsed.length?parsed.map(r=>`<tr><td>${r.row}</td><td>${esc2(r.name)}</td><td>${esc2(r.studentId||"—")}</td><td>${esc2(r.admissionNumber||"—")}</td><td>${esc2(r.email)}</td><td>${esc2(r.programmeName||r.programmeInput||"—")}</td><td>${esc2(r.levelName||r.levelInput||"—")}</td><td>${esc2(r.status)}</td><td class="${r.errors.length?'bad':'good'}">${r.errors.length?esc2(r.errors.join('; ')):"VALID"}</td></tr>`).join(""): '<tr><td colspan="9" style="text-align:center;padding:25px">No rows.</td></tr>';
+        el("bulkPreviewPanel").classList.remove("hidden"); el("bulkTotal").textContent=parsed.length; el("bulkValid").textContent=valid; el("bulkInvalid").textContent=parsed.length-valid; el("bulkReady").textContent=valid; el("createBtn").disabled=!valid;
+        // Pass the parsed records to the module if it becomes available.
+        window.__fallbackBulkRows=parsed;
+        message.textContent=`${parsed.length} row(s) parsed. ${valid} valid and ready for creation.`;
+        message.className=valid?"message ok":"message bad";
+        return false;
+      }
+    }catch(err){
+      console.error(err);
+      if(message){
+        message.textContent = "Bulk action failed: " + (err && err.message ? err.message : String(err));
+        message.className = "message bad";
+      }
+    }
+    return false;
+  };
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Attendance Management | GGCHST SMS</title>
+<style>
+:root{--bg:#061426;--card:#101f39;--card2:#142640;--line:#263955;--text:#f5f7fb;--muted:#9ba9bc;--green:#08b979;--red:#ff5d5d}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#061426,#08172b);color:var(--text);font-family:Arial,Helvetica,sans-serif;padding-bottom:120px}
+button,input,select{font:inherit}.school-header{background:#fff;color:#172033;border-bottom:1px solid #e5e7eb}.school-header-inner{max-width:1100px;margin:auto;min-height:72px;padding:9px 18px;display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:50%;overflow:hidden;display:grid;place-items:center;background:#ecfdf3;border:1px solid #ccebdc;color:#087443;font-weight:900}.logo img{width:100%;height:100%;object-fit:cover}.school-name{font-weight:900;font-size:15px;line-height:1.2;flex:1}.school-name span{display:block;font-size:11px;font-weight:500;color:#667085;margin-top:3px}.back{background:#087443;color:#fff;text-decoration:none;border-radius:9px;padding:8px 11px;font-size:12px;font-weight:800}
+.wrap{max-width:1100px;margin:auto;padding:18px}.hero{text-align:center;padding:10px 0 16px}.hero h1{font-size:27px;margin:0}.hero p{color:var(--muted);margin:7px 0}.card{background:linear-gradient(145deg,#101f39,#0d1b32);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:16px;box-shadow:0 10px 30px #0002}.setup{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.field label{display:block;color:#cbd5e1;font-size:12px;font-weight:800;margin-bottom:6px}.field select,.field input{width:100%;padding:11px;border-radius:10px;border:1px solid #2a3c58;background:#0d1b32;color:#fff;outline:none}.toolbar{display:flex;gap:10px;margin:12px 0}.search{flex:1;padding:12px;border-radius:13px;border:1px solid #2c3e59;background:#101f38;color:#fff}.btn,.all,.save{border:0;border-radius:11px;padding:11px 15px;font-weight:800}.btn{background:#08a96f;color:#fff}.all{background:transparent;border:1px solid #08d18d;color:#eafff7}.notice{display:none;padding:11px;border-radius:11px;margin-bottom:12px;font-weight:700}.notice.show{display:block;background:#3a1c24;color:#ffb5b5;border:1px solid #6a2b38}.notice.ok{background:#12392d;color:#9ff1cf;border-color:#176c50}.list{display:flex;flex-direction:column;gap:9px}.student{display:flex;align-items:center;gap:11px;padding:10px 12px;border:1px solid #253752;border-radius:17px;background:#0e1c33;min-height:82px}.num{width:35px;height:35px;border-radius:50%;background:#1b2b48;display:grid;place-items:center;font-weight:800;flex:0 0 auto}.photo{width:58px;height:58px;border-radius:50%;object-fit:cover;background:#26354c;border:2px solid #3a4a62;flex:0 0 auto}.info{flex:1;min-width:0}.name{font-weight:900;font-size:15px}.adm{color:#9ba9bc;font-size:12px;margin-top:3px}.uid{color:#36dfa4;font-size:11px;margin-top:4px;font-weight:800}.status{border:1px solid #3a4962;background:#172640;color:#fff;border-radius:11px;padding:10px;font-weight:800}.status.present{background:#078e61;border-color:#10b879}.check{display:inline-grid;place-items:center;width:21px;height:21px;border-radius:50%;background:#fff;color:#078e61;margin-right:6px}.box{display:inline-block;width:21px;height:21px;border:2px solid #fff;border-radius:6px;vertical-align:middle;margin-right:6px}.meta{color:var(--muted);font-size:12px}.hidden{display:none!important}.coursebar{display:flex;gap:12px;align-items:center}.coursebar .icon{width:55px;height:55px;border-radius:14px;background:#087d5c;display:grid;place-items:center;font-size:27px}.coursebar .grow{flex:1}.coursebar h3{margin:0}.details{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;border-top:1px solid #26354d;margin-top:14px;padding-top:12px;color:var(--muted);font-size:12px}.details b{display:block;color:#e7edf5;margin-top:3px;font-size:13px}.summary{position:fixed;bottom:0;left:0;right:0;background:#061426f5;border-top:1px solid #273953;padding:9px;z-index:20}.summaryin{max-width:1100px;margin:auto;display:flex;gap:10px;align-items:center}.counts{flex:1;display:flex;background:#10213b;border:1px solid #223651;border-radius:14px;padding:8px}.count{flex:1;text-align:center}.count:not(:last-child){border-right:1px solid #31425b}.label{font-size:9px;color:var(--muted)}.value{font-size:18px;font-weight:900}.green{color:#26dc9b}.red{color:#ff6666}.save{min-width:180px;background:#ffad0a;color:#071426}.save:disabled{opacity:.5}
+@media(max-width:750px){.setup{grid-template-columns:1fr 1fr}.school-name{font-size:12px}.school-name span{font-size:9px}}@media(max-width:560px){body{padding-bottom:105px}.wrap{padding:12px}.school-header-inner{padding:8px 10px}.logo{width:40px;height:40px}.school-name{font-size:10px}.back{font-size:10px;padding:7px}.setup{grid-template-columns:1fr}.toolbar{display:grid;grid-template-columns:1fr}.student{gap:7px;padding:8px}.num{width:29px;height:29px;font-size:11px}.photo{width:52px;height:52px}.name{font-size:13px}.adm{font-size:10px}.status{font-size:11px;padding:8px}.details{grid-template-columns:1fr 1fr}.summaryin{gap:5px}.save{min-width:115px;font-size:11px;padding:13px 6px}}
+</style>
+</head>
+<body>
+<header class="school-header"><div class="school-header-inner">
+  <div class="logo"><img src="https://ggchstgusau.edu.ng/_next/image?q=75&url=%2Flogo.png&w=384" alt="GGCHST" onerror="this.style.display='none';this.parentElement.textContent='G'"></div>
+  <div class="school-name">Green Garden College of Health Sciences &amp; Technology<span>Gusau, Zamfara State</span></div>
+  <a class="back" href="lecturer-profile.html">← Lecturer Portal</a>
+</div></header>
+
+<main class="wrap">
+<section class="hero"><h1>Student Attendance</h1><p>Each student has an Attendance UID. Lecturers only see students registered for their selected assigned course.</p></section>
+<div id="notice" class="notice"></div>
+
+<section class="card">
+<h3 style="margin-top:0">All School Students</h3>
+<div class="toolbar"><input id="studentSearch" class="search" placeholder="Search name, Student ID, Admission No. or Attendance UID..."><button id="clearFilters" class="all">Clear Filters</button></div>
+<div class="setup">
+<div class="field"><label>Programme</label><select id="studentProgramme"><option value="">All programmes</option></select></div>
+<div class="field"><label>Level</label><select id="studentLevel"><option value="">All levels</option></select></div>
+<div class="field"><label>Academic Session</label><select id="studentSession"><option value="">All sessions</option></select></div>
+<div class="field"><label>Semester</label><select id="studentSemester"><option value="">All semesters</option></select></div>
+<div class="field"><label>Status</label><select id="studentStatus"><option value="">All statuses</option><option>Active</option><option>Inactive</option><option>Suspended</option><option>Withdrawn</option><option>Graduated</option></select></div>
+</div>
+<div id="studentCount" class="meta" style="margin-top:12px">0 students</div>
+<div id="allStudents" class="list" style="margin-top:10px"></div>
+</section>
+
+<section class="card" id="classSetup">
+<h3 style="margin-top:0">Mark Attendance</h3><p class="meta">Only courses assigned to the logged-in lecturer are available.</p>
+<div class="setup">
+<div class="field"><label>Academic Session</label><select id="session"><option value="">Select session</option></select></div>
+<div class="field"><label>Semester</label><select id="semester" disabled><option value="">Select semester</option></select></div>
+<div class="field"><label>Assigned Course</label><select id="course" disabled><option value="">Select course</option></select></div>
+<div class="field"><label>Date</label><input id="date" type="date"></div>
+<div class="field"><label>Class Time</label><select id="time"><option value="">Select time</option><option>08:00 – 10:00</option><option>10:00 – 12:00</option><option>12:00 – 14:00</option><option>14:00 – 16:00</option><option>16:00 – 18:00</option></select></div>
+<div class="field"><label>Venue</label><select id="venue"><option value="">Select venue</option></select></div>
+</div>
+<div class="toolbar"><button id="load" class="btn">Load Registered Students</button></div>
+</section>
+
+<section id="attendanceArea" class="hidden">
+<section class="card"><div class="coursebar"><div class="icon">🎓</div><div class="grow"><h3 id="courseCode">—</h3><div id="courseName" class="meta">—</div><div class="meta"><span id="courseSession">—</span> • <span id="courseSemester">—</span> • <span id="courseLevel">—</span></div></div><button id="change" class="all">Change</button></div>
+<div class="details"><div>📅 Date<b id="showDate">—</b></div><div>◷ Time<b id="showTime">—</b></div><div>📍 Venue<b id="showVenue">—</b></div></div></section>
+<section class="card"><div class="toolbar"><input id="attendanceSearch" class="search" placeholder="Search registered student..."><button id="markAll" class="all">✓ Mark All Present</button></div><div id="registeredCount" class="meta"></div><div id="registeredStudents" class="list" style="margin-top:10px"></div></section>
+</section>
+</main>
+
+<footer class="summary"><div class="summaryin"><div class="counts"><div class="count"><div class="label">Registered</div><div id="total" class="value">0</div></div><div class="count"><div class="label">Present</div><div id="present" class="value green">0</div></div><div class="count"><div class="label">Absent</div><div id="absent" class="value red">0</div></div></div><button id="save" class="save" disabled>▣ Save Attendance</button></div></footer>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import{getFirestore,collection,addDoc,updateDoc,doc,onSnapshot}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import{getAuth,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+const firebaseConfig={apiKey:"AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",authDomain:"ggchst-sms-new.firebaseapp.com",projectId:"ggchst-sms-new",storageBucket:"ggchst-sms-new.firebasestorage.app",messagingSenderId:"942770190211",appId:"1:942770190211:web:aa9a085a38aaa517b368b6"};
+const app=initializeApp(firebaseConfig),db=getFirestore(app),auth=getAuth(app),$=id=>document.getElementById(id);
+let user=null,sessions=[],semesters=[],courses=[],venues=[],assignments=[],students=[],registrations=[],attendance=[],current=[],state=new Map(),selectedClass=null;
+const clean=v=>String(v??"").trim(),norm=v=>clean(v).toLowerCase(),esc=v=>String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m])),data=s=>s.docs.map(d=>({id:d.id,...d.data()}));
+const first=(o,...keys)=>{for(const k of keys)if(o&&o[k]!=null&&clean(o[k]))return o[k];return""};
+const sid=s=>clean(first(s,"studentId","studentID","matricNo","registrationNumber"));
+const adm=s=>clean(first(s,"admissionNo","admissionNumber","adminNo"));
+const sname=s=>clean(first(s,"fullName","studentName","name"));
+const photo=s=>clean(first(s,"photoURL","photoUrl","photo","profilePhoto","imageUrl","image"));
+const pid=s=>clean(first(s,"programmeId")),pname=s=>clean(first(s,"programmeName","programme","courseOfStudy"));
+const lid=s=>clean(first(s,"levelId","academicLevelId")),lname=s=>clean(first(s,"levelName","level"));
+const attendanceUid=s=>clean(s.attendanceUid)||("ATT-"+String(s.id||"").replace(/[^A-Za-z0-9]/g,"").slice(-16).toUpperCase());
+
+function message(t,ok=false){const n=$("notice");n.textContent=t;n.className="notice show"+(ok?" ok":"")}
+function active(x){return norm(x?.status||"active")!=="inactive"}
+function optionFill(id,arr,placeholder,label){const e=$(id),old=e.value;e.innerHTML='<option value="">'+esc(placeholder)+'</option>'+arr.map(x=>'<option value="'+esc(x.id)+'">'+esc(label(x))+'</option>').join("");if(arr.some(x=>String(x.id)===String(old)))e.value=old}
+function lecturerOwn(a){const uid=user?.uid||"",email=norm(user?.email||"");return[a.lecturerUid,a.staffUid,a.uid,a.authUid,a.firebaseUid,a.lecturerId,a.staffId].map(clean).includes(uid)||(email&&[a.lecturerEmail,a.staffEmail,a.email,a.authEmail].map(norm).includes(email))}
+function assignedCourses(){
+ const out=[],seen=new Set();
+ for(const a of assignments){
+  if(!lecturerOwn(a)||norm(a.status)==="inactive")continue;
+  const items=Array.isArray(a.courses)?a.courses:[a];
+  for(const x of items){
+   const id=clean(x.courseId||a.courseId);if(!id||seen.has(id))continue;
+   const c=courses.find(z=>String(z.id)===id);if(!c)continue;
+   out.push({...c,programmeId:c.programmeId||a.programmeId||"",programmeName:c.programmeName||a.programmeName||a.programme||"",levelId:c.levelId||a.levelId||"",levelName:c.levelName||a.levelName||a.level||"",sessionId:c.sessionId||a.sessionId||"",semesterId:c.semesterId||a.semesterId||""});
+   seen.add(id);
+  }
+ }
+ return out
+}
+function registeredStudents(course){
+ const sidSession=$("session").value,sem=$("semester").value,seen=new Set(),out=[];
+ for(const r of registrations){
+  const rs=norm(r.status||"Registered");if(rs!=="registered"&&rs!=="active")continue;
+  if(String(r.courseId)!==String(course.id))continue;
+  if(sidSession&&r.sessionId&&String(r.sessionId)!==String(sidSession))continue;
+  if(sem&&r.semesterId&&String(r.semesterId)!==String(sem))continue;
+  const st=students.find(s=>String(s.id)===String(r.studentId)||(clean(r.studentUid)&&[s.studentUid,s.authUid,s.firebaseUid,s.uid].map(clean).includes(clean(r.studentUid))));
+  if(!st||seen.has(st.id)||!active(st))continue;
+  seen.add(st.id);out.push(st);
+ }
+ return out.sort((a,b)=>sname(a).localeCompare(sname(b)))
+}
+async function ensureAttendanceUids(){
+ const writes=[];
+ for(const s of students)if(!clean(s.attendanceUid)){s.attendanceUid=attendanceUid(s);writes.push(updateDoc(doc(db,"students",s.id),{attendanceUid:s.attendanceUid}))}
+ if(writes.length)try{await Promise.all(writes)}catch(e){console.warn("Could not persist Attendance UID:",e.message)}
+}
+function renderAllStudents(){
+ const q=norm($("studentSearch").value),p=$("studentProgramme").value,l=$("studentLevel").value,ss=$("studentSession").value,sm=$("studentSemester").value,st=norm($("studentStatus").value);
+ const arr=students.filter(s=>{
+  const hay=[sname(s),sid(s),adm(s),attendanceUid(s),pname(s),lname(s)].map(norm).join(" ");
+  if(q&&!hay.includes(q))return false;
+  if(p&&!([String(pid(s)),norm(pname(s))].includes(String(p))))return false;
+  if(l&&!([String(lid(s)),norm(lname(s))].includes(String(l))))return false;
+  if(ss&&![String(s.academicSessionId||s.sessionId),norm(s.academicSession||s.sessionName||s.session)].includes(String(ss)))return false;
+  if(sm&&![String(s.semesterId),norm(s.semesterName||s.semester)].includes(String(sm)))return false;
+  if(st&&norm(s.status||"active")!==st)return false;return true;
+ }).sort((a,b)=>sname(a).localeCompare(sname(b)));
+ $("studentCount").textContent=arr.length+" student"+(arr.length===1?"":"s")+" found";
+ $("allStudents").innerHTML=arr.length?arr.map((s,i)=>{const ph=photo(s),im=ph?'<img class="photo" src="'+esc(ph)+'" alt="'+esc(sname(s))+'">':'<div class="photo" style="display:grid;place-items:center">👤</div>';return '<div class="student"><div class="num">'+(i+1)+'</div>'+im+'<div class="info"><div class="name">'+esc(sname(s)||"Unnamed Student")+'</div><div class="adm">Student ID: '+esc(sid(s)||"—")+' • Admission No: '+esc(adm(s)||"—")+'</div><div class="uid">Attendance UID: '+esc(attendanceUid(s))+'</div><div class="adm">'+esc(pname(s)||"—")+' • '+esc(lname(s)||"—")+'</div></div><span class="status">'+esc(s.status||"Active")+'</span></div>'}).join(""):'<div class="meta" style="padding:25px;text-align:center">No students found.</div>'
+}
+function populateStudentFilters(){
+ const p=[...new Map(students.map(s=>[pid(s)||pname(s),pname(s)]).filter(x=>x[0])).entries()].map(([id,name])=>({id,name}));
+ const l=[...new Map(students.map(s=>[lid(s)||lname(s),lname(s)]).filter(x=>x[0])).entries()].map(([id,name])=>({id,name}));
+ optionFill("studentProgramme",p,"All programmes",x=>x.name);optionFill("studentLevel",l,"All levels",x=>x.name);
+ optionFill("studentSession",sessions,"All sessions",x=>x.name||x.sessionName||"");optionFill("studentSemester",semesters,"All semesters",x=>x.name||x.semesterName||"");renderAllStudents()
+}
+function loadSemesters(){const s=sessions.find(x=>String(x.id)===String($("session").value));const a=s?semesters.filter(x=>String(x.sessionId||x.academicSessionId)===String(s.id)||norm(x.sessionName||x.academicSession||"")===norm(s.name||"")):[];optionFill("semester",a,"Select semester",x=>x.name||x.semesterName||"");$("semester").disabled=!s;loadAssignedCourses()}
+function loadAssignedCourses(){const s=$("session").value,sm=$("semester").value;const a=assignedCourses().filter(c=>(!c.sessionId||String(c.sessionId)===String(s))&&(!c.semesterId||String(c.semesterId)===String(sm)));optionFill("course",a,"Select assigned course",c=>(c.courseCode||c.code)+" — "+(c.courseTitle||c.title||c.courseName||c.name||""));$("course").disabled=!a.length}
+function oldAttendance(s){if(!selectedClass)return null;return attendance.find(r=>(clean(r.attendanceUid)===attendanceUid(s)||clean(r.studentDocId)===String(s.id)||clean(r.studentUid)===clean(s.studentUid||s.authUid||s.firebaseUid||s.uid))&&String(r.courseId)===String(selectedClass.course.id)&&String(r.sessionId)===String(selectedClass.session.id)&&String(r.semesterId)===String(selectedClass.semester.id)&&String(r.attendanceDate||r.date)===String(selectedClass.date))}
+function renderAttendance(){const q=norm($("attendanceSearch").value),arr=current.filter(s=>[sname(s),sid(s),adm(s),attendanceUid(s)].map(norm).join(" ").includes(q));$("registeredCount").textContent=arr.length+" registered student"+(arr.length===1?"":"s");$("registeredStudents").innerHTML=arr.length?arr.map((s,i)=>{const present=state.get(s.id)!==false,ph=photo(s),im=ph?'<img class="photo" src="'+esc(ph)+'" alt="'+esc(sname(s))+'">':'<div class="photo" style="display:grid;place-items:center">👤</div>';return '<div class="student"><div class="num">'+(i+1)+'</div>'+im+'<div class="info"><div class="name">'+esc(sname(s))+'</div><div class="adm">Admission No: '+esc(adm(s)||"—")+' • Student ID: '+esc(sid(s)||"—")+'</div><div class="uid">Attendance UID: '+esc(attendanceUid(s))+'</div></div><button class="status '+(present?"present":"")+'" onclick="window.markAttendance(\''+esc(s.id)+'\')" type="button">'+(present?'<span class="check">✓</span>':'<span class="box"></span>')+(present?"Present":"Absent")+'</button></div>'}).join(""):'<div class="meta" style="padding:25px;text-align:center">No registered students found for this course.</div>';updateCounts()}
+window.markAttendance=id=>{state.set(id,state.get(id)!==false?false:true);renderAttendance()}
+function updateCounts(){const t=current.length,p=current.filter(s=>state.get(s.id)!==false).length;$("total").textContent=t;$("present").textContent=p;$("absent").textContent=t-p;$("save").disabled=!t}
+function loadClass(){const s=sessions.find(x=>String(x.id)===String($("session").value)),sem=semesters.find(x=>String(x.id)===String($("semester").value)),course=assignedCourses().find(x=>String(x.id)===String($("course").value));if(!s||!sem||!course){message("Please select Academic Session, Semester and an assigned Course.");return}current=registeredStudents(course);if(!current.length){message("No students are registered for this course in the selected session and semester.");return}selectedClass={session:s,semester:sem,course,date:$("date").value,time:$("time").value,venue:venues.find(x=>String(x.id)===String($("venue").value))};state=new Map(current.map(s=>{const old=oldAttendance(s);return[s.id,old?norm(old.status)==="present":true]}));$("courseCode").textContent=course.courseCode||course.code||"Course";$("courseName").textContent=course.courseTitle||course.title||course.courseName||course.name||"";$("courseSession").textContent=s.name||s.sessionName||"";$("courseSemester").textContent=sem.name||sem.semesterName||"";$("courseLevel").textContent=course.levelName||course.level||"";$("showDate").textContent=selectedClass.date||"Not specified";$("showTime").textContent=selectedClass.time||"Not specified";$("showVenue").textContent=selectedClass.venue?.name||selectedClass.venue?.venueName||"Not specified";$("classSetup").classList.add("hidden");$("attendanceArea").classList.remove("hidden");renderAttendance();window.scrollTo({top:0,behavior:"smooth"})}
+async function saveAttendance(){if(!selectedClass)return;$("save").disabled=true;$("save").textContent="Saving…";try{const now=new Date().toISOString();for(const s of current){const old=oldAttendance(s),payload={attendanceUid:attendanceUid(s),studentDocId:s.id,studentUid:clean(s.studentUid||s.authUid||s.firebaseUid||s.uid),studentId:sid(s),admissionNo:adm(s),studentName:sname(s),studentPhoto:photo(s),programmeId:pid(s),programmeName:pname(s),levelId:lid(s),levelName:lname(s),sessionId:selectedClass.session.id,sessionName:selectedClass.session.name||"",semesterId:selectedClass.semester.id,semesterName:selectedClass.semester.name||"",courseId:selectedClass.course.id,courseCode:selectedClass.course.courseCode||selectedClass.course.code||"",courseName:selectedClass.course.courseTitle||selectedClass.course.title||selectedClass.course.courseName||selectedClass.course.name||"",attendanceDate:selectedClass.date,date:selectedClass.date,classTime:selectedClass.time||"",venueId:selectedClass.venue?.id||"",venue:selectedClass.venue?.name||"",status:state.get(s.id)!==false?"Present":"Absent",markedByUid:user?.uid||"",markedByEmail:user?.email||"",updatedAt:now};if(old)await updateDoc(doc(db,"attendance",old.id),payload);else await addDoc(collection(db,"attendance"),{...payload,createdAt:now})}message("Attendance saved successfully.",true)}catch(e){message("Unable to save attendance: "+e.message)}finally{$("save").textContent="▣ Save Attendance";updateCounts()}}
+function listenData(){onSnapshot(collection(db,"academicSessions"),s=>{sessions=data(s);optionFill("session",sessions.sort((a,b)=>(a.name||"").localeCompare(b.name||"")),"Select session",x=>x.name||x.sessionName||"");populateStudentFilters()},e=>message("Unable to load academic sessions: "+e.message));onSnapshot(collection(db,"semesters"),s=>{semesters=data(s);loadSemesters();populateStudentFilters()},e=>message("Unable to load semesters: "+e.message));onSnapshot(collection(db,"courses"),s=>{courses=data(s);loadAssignedCourses()},e=>message("Unable to load courses: "+e.message));onSnapshot(collection(db,"venues"),s=>{venues=data(s);optionFill("venue",venues,"Select venue",x=>x.name||x.venueName||x.title||"")},e=>message("Unable to load venues: "+e.message));onSnapshot(collection(db,"students"),s=>{students=data(s);populateStudentFilters();ensureAttendanceUids()},e=>message("Unable to load students: "+e.message));onSnapshot(collection(db,"courseRegistrations"),s=>{registrations=data(s);if(selectedClass){current=registeredStudents(selectedClass.course);renderAttendance()}},e=>message("Unable to load course registrations: "+e.message));onSnapshot(collection(db,"attendance"),s=>{attendance=data(s);if(selectedClass)renderAttendance()},e=>message("Unable to load attendance records: "+e.message));
+ const merge=a=>{assignments=[...assignments,...a];loadAssignedCourses()};
+ onSnapshot(collection(db,"hodCourseAssignments"),s=>{assignments=data(s);loadAssignedCourses()},()=>{});
+ onSnapshot(collection(db,"lecturerCourseAssignments"),s=>{const a=data(s);if(a.length)merge(a)},()=>{});
+}
+["studentSearch","studentProgramme","studentLevel","studentSession","studentSemester","studentStatus"].forEach(id=>$(id).addEventListener(id==="studentSearch"?"input":"change",renderAllStudents));
+$("clearFilters").onclick=()=>{["studentSearch","studentProgramme","studentLevel","studentSession","studentSemester","studentStatus"].forEach(id=>$(id).value="");renderAllStudents()};
+$("session").onchange=loadSemesters;$("semester").onchange=loadAssignedCourses;$("load").onclick=loadClass;$("save").onclick=saveAttendance;$("attendanceSearch").oninput=renderAttendance;$("markAll").onclick=()=>{current.forEach(s=>state.set(s.id,true));renderAttendance()};$("change").onclick=()=>{$("attendanceArea").classList.add("hidden");$("classSetup").classList.remove("hidden")};$("date").value=new Date().toISOString().slice(0,10);updateCounts();
+onAuthStateChanged(auth,u=>{user=u;if(u)listenData();else message("Please log in through the Lecturer Portal before using attendance.")});
+</script>
+</body></html>

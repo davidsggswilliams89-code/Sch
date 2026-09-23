@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GGCHST | Academic Level Management</title>
+<style>
+:root{--green:#08783f;--dark:#07552f;--light:#eef8f2;--border:#dce8e1;--danger:#c62828;--text:#17221c;--muted:#66736b}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f8f6;color:var(--text)}
+header{background:linear-gradient(135deg,var(--dark),var(--green));color:#fff;padding:18px 20px;position:sticky;top:0;z-index:10;box-shadow:0 3px 12px rgba(0,0,0,.15)}
+.header-inner{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.brand h1{margin:0;font-size:20px}.brand p{margin:5px 0 0;font-size:12px;opacity:.9}
+.back-btn{color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.5);padding:10px 14px;border-radius:8px;font-size:13px;white-space:nowrap}
+main{max-width:1200px;margin:25px auto;padding:0 15px}.intro{margin-bottom:20px}
+.intro h2{margin:0 0 6px;color:var(--dark)}.intro p{margin:0;color:var(--muted)}
+.grid{display:grid;grid-template-columns:360px 1fr;gap:20px;align-items:start}
+.card{background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.08);padding:20px}
+.card h3{margin:0 0 16px;color:var(--dark)}
+label{display:block;font-size:13px;font-weight:700;margin:13px 0 6px}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid #cbd8d0;border-radius:8px;outline:none;font-size:14px;background:#fff}
+input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(8,120,63,.1)}
+.actions{display:flex;gap:8px;margin-top:18px}
+button{border:0;border-radius:8px;padding:11px 14px;cursor:pointer;font-weight:700;font-size:13px}
+.primary{background:var(--green);color:#fff}.secondary{background:#e9f0ec;color:var(--dark)}.danger{background:#fdecec;color:var(--danger)}
+button:disabled{opacity:.6;cursor:not-allowed}
+.toolbar{display:flex;gap:10px;margin-bottom:15px;flex-wrap:wrap}.toolbar input{flex:1;min-width:200px}
+.count{background:var(--light);color:var(--dark);border-radius:8px;padding:10px 12px;font-size:13px;font-weight:700}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:650px}
+th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--border);vertical-align:middle;font-size:13px}
+th{background:#f3f7f4;color:var(--dark)}
+.badge{display:inline-block;padding:5px 8px;border-radius:20px;font-size:11px;font-weight:700}
+.active{background:#e3f5ea;color:#08783f}.inactive{background:#eee;color:#666}
+.empty{text-align:center;padding:35px 10px;color:var(--muted)}
+.row-actions{display:flex;gap:6px;flex-wrap:wrap}.row-actions button{padding:7px 9px;font-size:11px}
+.status{margin-top:12px;padding:10px 12px;border-radius:8px;display:none;font-size:13px}
+.status.success{display:block;background:#e8f7ed;color:#126237}.status.error{display:block;background:#fdeaea;color:#a51e1e}.status.info{display:block;background:#edf4ff;color:#24578f}
+.hint{margin-top:8px;color:var(--muted);font-size:11px;line-height:1.5}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:50;align-items:center;justify-content:center;padding:15px}
+.modal.show{display:flex}.modal-box{width:100%;max-width:440px;background:#fff;border-radius:14px;padding:22px;box-shadow:0 20px 50px rgba(0,0,0,.2)}
+.modal-box h3{margin-top:0;color:var(--dark)}
+footer{text-align:center;padding:25px 15px;color:var(--muted);font-size:12px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.header-inner{align-items:flex-start}.brand h1{font-size:17px}}
+
+.school-header{background:#fff;border-bottom:1px solid #dfe9e4;position:sticky;top:0;z-index:20;box-shadow:0 2px 10px rgba(15,73,58,.05)}
+.school-header-inner{max-width:1180px;margin:auto;min-height:68px;padding:10px 18px;display:grid;grid-template-columns:46px 1fr auto;align-items:center;gap:14px}
+.school-logo{width:42px;height:42px;border-radius:10px;background:#f4faf7;display:grid;place-items:center;overflow:hidden;color:#075c45;font-weight:800;border:1px solid #d9e9e2}
+.school-logo img{width:100%;height:100%;object-fit:contain}
+.school-name{text-align:center;font-size:16px;font-weight:800;color:#12352d}
+.school-back{display:inline-block;text-decoration:none;background:#087f5b;color:#fff;border-radius:8px;padding:8px 11px;font-size:11px;font-weight:800;white-space:nowrap}
+.school-back:hover{background:#075c45}
+@media(max-width:550px){.school-header-inner{grid-template-columns:40px 1fr auto;padding:9px 12px;gap:9px}.school-logo{width:38px;height:38px}.school-name{font-size:12px;line-height:1.25}.school-back{padding:7px 9px;font-size:10px}}
+</style>
+
+<style id="school-header-logo-size">
+.school-header .school-logo,.school-header .logo,header .school-logo,header .logo{width:50px!important;height:50px!important;border-radius:50%!important;object-fit:cover!important;}
+</style>
+</head>
+<body>
+
+<header class="school-header">
+<div class="school-header-inner">
+  <div class="school-logo"><img src="https://ggchstgusau.edu.ng/_next/image?q=75&url=%2Flogo.png&w=384" alt="GGCHST logo" onerror="this.style.display='none';this.parentElement.textContent='G'"></div>
+  <div class="school-name">Green Garden College of Health Sciences &amp; Technology</div>
+  <a class="school-back" href="admin.html">← Back</a>
+</div>
+</header>
+
+<main>
+<section class="intro">
+  <h2>Academic Level Management</h2>
+  <p>Create and manage the academic levels used throughout course registration, student records and results.</p>
+</section>
+
+<div class="grid">
+<section class="card">
+<h3 id="formTitle">Add Academic Level</h3>
+
+<form id="levelForm">
+<input type="hidden" id="levelId">
+
+<label for="levelName">Level Name *</label>
+<input id="levelName" type="text" placeholder="e.g. ND1" required>
+
+<label for="levelCode">Level Code</label>
+<input id="levelCode" type="text" placeholder="e.g. ND1" maxlength="20">
+
+<label for="levelOrder">Display Order *</label>
+<input id="levelOrder" type="number" min="1" step="1" placeholder="e.g. 1" required>
+
+<label for="description">Description</label>
+<textarea id="description" rows="3" placeholder="Optional description"></textarea>
+
+<label for="status">Status</label>
+<select id="status">
+<option value="active">Active</option>
+<option value="inactive">Inactive</option>
+</select>
+
+<div class="actions">
+<button class="primary" id="saveBtn" type="submit">Save Level</button>
+<button class="secondary" id="cancelBtn" type="button" style="display:none">Cancel</button>
+</div>
+</form>
+
+<div id="formStatus" class="status"></div>
+<div class="hint">
+Levels are stored in the Firestore <b>academicLevels</b> collection. The numeric display order keeps levels in the correct academic sequence.
+</div>
+</section>
+
+<section class="card">
+<h3>Academic Level List</h3>
+<div class="toolbar">
+<input id="searchInput" type="search" placeholder="Search level or code...">
+<div class="count" id="levelCount">0 Levels</div>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Code</th>
+<th>Order</th>
+<th>Status</th>
+<th>Created</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="levelTableBody">
+<tr><td colspan="6" class="empty">Loading levels...</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</main>
+
+<div class="modal" id="deleteModal">
+<div class="modal-box">
+<h3>Delete Academic Level?</h3>
+<p id="deleteMessage">This action cannot be undone.</p>
+<div class="actions">
+<button class="danger" id="confirmDelete">Delete</button>
+<button class="secondary" id="closeDelete">Cancel</button>
+</div>
+</div>
+</div>
+
+<footer>GGCHST Academic Management • Academic Levels</footer>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getFirestore,collection,addDoc,updateDoc,deleteDoc,doc,onSnapshot,query,orderBy,serverTimestamp}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig={
+ apiKey:"AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
+ authDomain:"ggchst-sms-new.firebaseapp.com",
+ projectId:"ggchst-sms-new",
+ storageBucket:"ggchst-sms-new.firebasestorage.app",
+ messagingSenderId:"942770190211",
+ appId:"1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+async function writeAudit(action,entityId,result="success",extra={}){
+  try{await addDoc(collection(db,"auditLogs"),{action,module:"academicLevels",entityType:"academicLevel",entityId,timestamp:serverTimestamp(),result,...extra});}
+  catch(err){console.warn("Audit log failed:",err);}
+}
+
+const levelForm=document.getElementById("levelForm");
+const levelId=document.getElementById("levelId");
+const levelName=document.getElementById("levelName");
+const levelCode=document.getElementById("levelCode");
+const levelOrder=document.getElementById("levelOrder");
+const description=document.getElementById("description");
+const status=document.getElementById("status");
+const formTitle=document.getElementById("formTitle");
+const saveBtn=document.getElementById("saveBtn");
+const cancelBtn=document.getElementById("cancelBtn");
+const formStatus=document.getElementById("formStatus");
+const searchInput=document.getElementById("searchInput");
+const tableBody=document.getElementById("levelTableBody");
+const levelCount=document.getElementById("levelCount");
+const deleteModal=document.getElementById("deleteModal");
+const deleteMessage=document.getElementById("deleteMessage");
+const confirmDelete=document.getElementById("confirmDelete");
+const closeDelete=document.getElementById("closeDelete");
+
+let levels=[];
+let pendingDeleteId=null;
+
+function showStatus(message,type="info"){
+formStatus.textContent=message;
+formStatus.className="status "+type;
+}
+function clearStatus(){
+formStatus.textContent="";
+formStatus.className="status";
+}
+function escapeHTML(value){
+return String(value??"").replaceAll("&","&amp;").replaceAll("<","&lt;")
+.replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+}
+function formatDate(timestamp){
+if(!timestamp)return "—";
+try{
+const date=timestamp.toDate?timestamp.toDate():new Date(timestamp);
+return date.toLocaleDateString("en-NG",{day:"2-digit",month:"short",year:"numeric"});
+}catch{return "—";}
+}
+function resetForm(){
+levelForm.reset();
+levelId.value="";
+formTitle.textContent="Add Academic Level";
+saveBtn.textContent="Save Level";
+cancelBtn.style.display="none";
+clearStatus();
+}
+function startEdit(id){
+const item=levels.find(x=>x.id===id);
+if(!item)return;
+levelId.value=item.id;
+levelName.value=item.name||"";
+levelCode.value=item.code||"";
+levelOrder.value=item.displayOrder??"";
+description.value=item.description||"";
+status.value=item.status||"active";
+formTitle.textContent="Edit Academic Level";
+saveBtn.textContent="Update Level";
+cancelBtn.style.display="inline-block";
+clearStatus();
+window.scrollTo({top:0,behavior:"smooth"});
+}
+function renderLevels(){
+const term=searchInput.value.trim().toLowerCase();
+const filtered=levels.filter(x=>{
+const name=String(x.name||"").toLowerCase();
+const code=String(x.code||"").toLowerCase();
+return name.includes(term)||code.includes(term);
+});
+levelCount.textContent=`${filtered.length} ${filtered.length===1?"Level":"Levels"}`;
+if(!filtered.length){
+tableBody.innerHTML=`<tr><td colspan="6" class="empty">${term?"No level matches your search.":"No academic levels have been created yet."}</td></tr>`;
+return;
+}
+tableBody.innerHTML=filtered.map(x=>{
+const active=x.status!=="inactive";
+return `<tr>
+<td>
+<strong>${escapeHTML(x.name||"Unnamed Level")}</strong>
+${x.description?`<div style="font-size:11px;color:#66736b;margin-top:4px">${escapeHTML(x.description)}</div>`:""}
+</td>
+<td>${escapeHTML(x.code||"—")}</td>
+<td>${escapeHTML(x.displayOrder??"—")}</td>
+<td><span class="badge ${active?"active":"inactive"}">${active?"Active":"Inactive"}</span></td>
+<td>${formatDate(x.createdAt)}</td>
+<td><div class="row-actions">
+<button class="secondary" data-edit="${escapeHTML(x.id)}">Edit</button>
+<button class="danger" data-delete="${escapeHTML(x.id)}">Delete</button>
+</div></td>
+</tr>`;
+}).join("");
+tableBody.querySelectorAll("[data-edit]").forEach(b=>b.addEventListener("click",()=>startEdit(b.dataset.edit)));
+tableBody.querySelectorAll("[data-delete]").forEach(b=>b.addEventListener("click",()=>openDelete(b.dataset.delete)));
+}
+function openDelete(id){
+const item=levels.find(x=>x.id===id);
+if(!item)return;
+pendingDeleteId=id;
+deleteMessage.textContent=`You are about to delete "${item.name}". Courses or student records that reference this level may be affected, so verify its use before deleting.`;
+deleteModal.classList.add("show");
+}
+function closeDeleteModal(){
+pendingDeleteId=null;
+deleteModal.classList.remove("show");
+}
+
+levelForm.addEventListener("submit",async e=>{
+e.preventDefault();
+const name=levelName.value.trim();
+const code=levelCode.value.trim().toUpperCase();
+const order=Number(levelOrder.value);
+const desc=description.value.trim();
+const selectedStatus=status.value;
+const id=levelId.value;
+
+if(!name){showStatus("Level name is required.","error");return;}
+if(!Number.isInteger(order)||order<1){showStatus("Display order must be a whole number greater than 0.","error");return;}
+
+const duplicate=levels.find(x=>x.id!==id && (String(x.name||"").trim().toLowerCase()===name.toLowerCase() || (code && String(x.code||"").trim().toLowerCase()===code.toLowerCase())));
+if(duplicate){showStatus("That academic level name or code already exists.","error");return;}
+
+saveBtn.disabled=true;
+showStatus(id?"Updating academic level...":"Saving academic level...","info");
+
+try{
+const data={
+name,
+code,
+displayOrder:order,
+description:desc,
+status:selectedStatus,
+updatedAt:serverTimestamp()
+};
+if(id){
+await updateDoc(doc(db,"academicLevels",id),data);
+await writeAudit("update",id);
+showStatus("Academic level updated successfully.","success");
+}else{
+const ref=await addDoc(collection(db,"academicLevels"),{...data,createdAt:serverTimestamp()});
+await writeAudit("create",ref.id);
+showStatus("Academic level created successfully.","success");
+}
+resetForm();
+}catch(error){
+console.error(error);
+showStatus("Could not save the academic level. Check your Firebase configuration and Firestore rules.","error");
+}finally{saveBtn.disabled=false;}
+});
+
+cancelBtn.addEventListener("click",resetForm);
+searchInput.addEventListener("input",renderLevels);
+
+confirmDelete.addEventListener("click",async()=>{
+if(!pendingDeleteId)return;
+confirmDelete.disabled=true;
+try{
+await deleteDoc(doc(db,"academicLevels",pendingDeleteId));
+await writeAudit("delete",pendingDeleteId);
+closeDeleteModal();
+showStatus("Academic level deleted successfully.","success");
+}catch(error){
+console.error(error);
+closeDeleteModal();
+showStatus("Could not delete the academic level. Check your Firestore rules.","error");
+}finally{confirmDelete.disabled=false;}
+});
+closeDelete.addEventListener("click",closeDeleteModal);
+deleteModal.addEventListener("click",e=>{if(e.target===deleteModal)closeDeleteModal();});
+
+onSnapshot(query(collection(db,"academicLevels"),orderBy("displayOrder","asc")),snapshot=>{
+levels=snapshot.docs.map(x=>({id:x.id,...x.data()}));
+renderLevels();
+},error=>{
+console.error(error);
+tableBody.innerHTML='<tr><td colspan="6" class="empty">Unable to load academic levels. Check Firestore permissions and Firebase connection.</td></tr>';
+showStatus("Firebase could not load the academic level list.","error");
+});
+</script>
+</body>
+</html>

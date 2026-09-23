@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reports & Export | GGCHST Admin</title>
+<style>
+:root{--bg:#f3f8f5;--card:#fff;--text:#15352b;--muted:#668078;--line:#dce9e3;--brand:#087443;--brand2:#075c45;--soft:#e7f4ee;--danger:#b42318;}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{background:linear-gradient(135deg,#075c45,#087443);color:white;padding:18px 20px;position:sticky;top:0;z-index:10}
+.head{max-width:1200px;margin:auto;display:flex;justify-content:space-between;gap:16px;align-items:center} h1{font-size:20px;margin:0} header p{margin:4px 0 0;opacity:.85;font-size:12px}
+nav{background:#064b39;overflow:auto} nav .inner{max-width:1200px;margin:auto;display:flex;gap:4px;padding:8px 12px} nav a{color:#fff;text-decoration:none;padding:9px 11px;border-radius:8px;white-space:nowrap;font-size:13px} nav a:hover{background:#ffffff18}
+main{max-width:1200px;margin:22px auto;padding:0 14px} .hero{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
+h2{margin:0 0 6px;font-size:20px} h3{margin:0 0 8px} .muted{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px} .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 4px 16px #12321a0b}
+form,.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px} label{font-size:12px;font-weight:700;display:block;margin-bottom:5px} input,select,textarea{width:100%;padding:10px;border:1px solid #cfded7;border-radius:9px;background:#fff;font:inherit} textarea{min-height:100px;resize:vertical}
+.full{grid-column:1/-1} .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px} button,.btn{border:0;border-radius:9px;padding:10px 13px;background:var(--brand);color:white;text-decoration:none;cursor:pointer;font-weight:700} .secondary{background:#e8f0ed;color:var(--text)} .danger{background:var(--danger)}
+table{width:100%;border-collapse:collapse;background:#fff} th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left;font-size:12px;vertical-align:top} th{background:#f1f7f4} .tablewrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+.stat{font-size:28px;font-weight:800;color:var(--brand)} .badge{display:inline-block;padding:4px 8px;border-radius:999px;background:var(--soft);color:var(--brand2);font-size:11px;font-weight:700}
+.toast{position:fixed;right:15px;bottom:15px;background:#15352b;color:#fff;padding:12px 15px;border-radius:10px;display:none;z-index:30}
+@media(max-width:650px){.fields{grid-template-columns:1fr} .head{align-items:flex-start;flex-direction:column}}
+</style>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getFirestore,collection,addDoc,doc,setDoc,updateDoc,deleteDoc,onSnapshot,getDocs,query,orderBy,limit} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import {getAuth,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
+  authDomain: "ggchst-sms-new.firebaseapp.com",
+  projectId: "ggchst-sms-new",
+  storageBucket: "ggchst-sms-new.firebasestorage.app",
+  messagingSenderId: "942770190211",
+  appId: "1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+
+const app=initializeApp(firebaseConfig); const db=getFirestore(app); const auth=getAuth(app);
+window.GG={app,db,auth,collection,addDoc,doc,setDoc,updateDoc,deleteDoc,onSnapshot,getDocs,query,orderBy,limit};
+window.toast=(m)=>{const e=document.getElementById('toast');if(!e)return;e.textContent=m;e.style.display='block';setTimeout(()=>e.style.display='none',2600)};
+window.esc=(s='')=>String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+</script>
+</head><body>
+<header><div class="head"><div><h1>Green Garden College of Health Sciences &amp; Technology</h1><p>Gusau • Administration Control Center</p></div><a class="btn secondary" href="admin.html">Admin Home</a></div></header>
+<nav><div class="inner">
+<a href="admin.html">Dashboard</a><a href="admin-users.html">1 Users</a><a href="admin-dashboard.html">2 Overview</a><a href="admin-notes.html">3 Notes</a><a href="admin-assignments.html">4 Assignments</a><a href="admin-finance.html">5 Finance</a><a href="admin-notices.html">6 Notices</a><a href="admin-calendar.html">7 Calendar</a><a href="admin-settings.html">8 Settings</a><a href="admin-audit.html">9 Audit</a><a href="admin-reports.html">10 Reports</a>
+</div></nav>
+<main>
+<section class="hero"><h2>10. Reports & Export</h2><p class="muted">Select a core collection, optionally filter a field, then export the records currently visible as CSV.</p></section>
+<section class="panel"><div class="fields">
+<div><label>Collection</label><select id="col"><option>students</option><option>lecturers</option><option>departments</option><option>programmes</option><option>courses</option><option>results</option><option>attendance</option><option>payments</option><option>notifications</option><option>auditLogs</option><option>assignments</option><option>lectureNotes</option></select></div>
+<div><label>Filter field</label><input id="field" placeholder="status"></div><div><label>Filter value</label><input id="value"></div>
+</div><div class="actions"><button id="load">Load Report</button><button id="csv" class="secondary">Export CSV</button></div></section>
+<div class="tablewrap"><table><thead id="head"></thead><tbody id="rows"></tbody></table></div>
+<script type="module">
+let data=[];load.onclick=async()=>{try{const s=await window.GG.getDocs(window.GG.collection(window.GG.db,col.value));data=s.docs.map(d=>({id:d.id,...d.data()}));const f=field.value.trim(),v=value.value.trim().toLowerCase();if(f&&v)data=data.filter(x=>String(x[f]??'').toLowerCase().includes(v));render();toast(`${data.length} records loaded`)}catch(e){toast('Could not read collection: '+e.message)}};
+function render(){const keys=[...new Set(data.flatMap(x=>Object.keys(x)))].slice(0,12);head.innerHTML='<tr>'+keys.map(k=>`<th>${esc(k)}</th>`).join('')+'</tr>';rows.innerHTML=data.map(x=>'<tr>'+keys.map(k=>`<td>${esc(Array.isArray(x[k])?x[k].join(', '):typeof x[k]==='object'&&x[k]?JSON.stringify(x[k]):x[k]??'')}</td>`).join('')+'</tr>').join('')}
+csv.onclick=()=>{if(!data.length)return toast('Load a report first');const keys=[...new Set(data.flatMap(x=>Object.keys(x)))];const q=v=>`"${String(v??'').replace(/"/g,'""')}"`;const out=[keys.map(q).join(','),...data.map(x=>keys.map(k=>q(typeof x[k]==='object'&&x[k]?JSON.stringify(x[k]):Array.isArray(x[k])?x[k].join(';'):x[k])).join(','))].join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([out],{type:'text/csv'}));a.download=col.value+'-report.csv';a.click()};
+</script>
+</main><div id="toast" class="toast"></div>
+</body></html>

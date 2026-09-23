@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GGCHST | Bulk Student Registration</title>
+<style>
+:root{--bg:#f4f8f6;--card:#fff;--text:#17352b;--muted:#667c73;--line:#dce8e2;--brand:#15803d;--dark:#14532d;--soft:#ecfdf3;--danger:#b42318;--good:#087443}
+*{box-sizing:border-box}html,body{margin:0;width:100%;max-width:100%;overflow-x:hidden}body{background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;box-shadow:0 2px 8px #14532d12}.head{max-width:1200px;height:64px;margin:auto;padding:8px 14px;display:grid;grid-template-columns:55px 1fr 80px;align-items:center;gap:10px}.school-logo{width:46px;height:46px;object-fit:contain}.header-title{text-align:center;font-size:18px;font-weight:800;color:var(--dark);line-height:1.2}.back{justify-self:end;background:var(--brand);color:#fff;text-decoration:none;border-radius:8px;padding:8px 11px;font-size:12px;font-weight:700}
+nav{background:#064b39;overflow:auto}nav .inner{max-width:1200px;margin:auto;display:flex;gap:5px;padding:7px 12px}nav a{color:#fff;text-decoration:none;padding:8px 10px;border-radius:8px;font-size:12px;white-space:nowrap}nav a:hover{background:#ffffff18}
+main{max-width:1200px;margin:20px auto;padding:0 14px}.hero,.panel{background:#fff;border:1px solid var(--line);border-radius:15px;padding:18px;margin-bottom:16px}.hero h1{margin:0 0 6px;font-size:22px;color:var(--dark)}.hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+.identity{background:var(--soft);border:1px solid #bbf7d0;border-radius:10px;padding:12px;font-size:12px;color:#166534}.identity strong{display:block;font-size:14px;margin-bottom:4px}.hint{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4}
+.steps,.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:13px}.step,.stat{border:1px solid var(--line);border-radius:10px;padding:10px}.step b{display:block;color:var(--dark);font-size:12px}.step span,.stat span{font-size:10px;color:var(--muted)}.stat b{display:block;font-size:20px;color:var(--dark)}
+.form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}label{display:block;font-size:12px;font-weight:800;margin-bottom:6px}input,select{width:100%;min-width:0;padding:10px;border:1px solid #cfded7;border-radius:9px;background:#fff;font:inherit;outline:none}input:focus,select:focus,textarea:focus{border-color:#22c55e;box-shadow:0 0 0 3px #22c55e18}textarea{width:100%;min-height:220px;resize:vertical;padding:12px;border:1px solid #cfded7;border-radius:10px;font:12px/1.5 Consolas,monospace;outline:none}
+.actions,.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.toolbar input{flex:1;min-width:180px}button{border:0;border-radius:9px;padding:10px 14px;background:var(--brand);color:#fff;font-weight:800;cursor:pointer;pointer-events:auto}button:hover{filter:brightness(.96)}button:disabled{opacity:.55;cursor:not-allowed;pointer-events:none}.utility-btn{background:var(--brand)!important;color:#fff!important;opacity:1!important;pointer-events:auto!important}.secondary{background:#e8f0ed;color:var(--text)}
+.file-label{display:inline-block;background:#e8f0ed;color:var(--text);border-radius:9px;padding:10px 14px;font-size:12px;font-weight:800;cursor:pointer}.file-label input{display:none}.message{min-height:20px;margin-top:10px;font-size:12px;font-weight:700}.ok{color:var(--good)}.bad{color:var(--danger)}.hidden{display:none!important}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px;background:#fff}table{width:100%;border-collapse:collapse;min-width:1050px}th,td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:left;font-size:11px;vertical-align:middle}th{background:#f1f7f4;color:#526b61;font-size:10px;text-transform:uppercase}.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:var(--soft);font-size:10px;font-weight:800}.good{background:#dcfce7;color:#166534}.bad{background:#fee2e2;color:#991b1b}.progress{height:10px;background:#e7eee9;border-radius:99px;overflow:hidden;margin-top:10px}.progress i{display:block;height:100%;width:0;background:var(--brand)}pre{white-space:pre-wrap;background:#102c20;color:#e7fff0;border-radius:10px;padding:12px;font-size:11px;line-height:1.5}.toast{position:fixed;right:16px;bottom:16px;background:var(--dark);color:#fff;padding:11px 14px;border-radius:9px;display:none;z-index:50;font-size:12px;max-width:calc(100vw - 32px)}
+@media(max-width:700px){.head{height:58px;grid-template-columns:44px 1fr 62px;padding:6px 10px}.school-logo{width:40px;height:40px}.header-title{font-size:13px}.back{font-size:10px;padding:7px 8px}.form-grid{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){main{padding:0 10px;margin-top:14px}.hero,.panel{padding:14px}.form-grid,.steps{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header><div class="head"><img class="school-logo" src="logo.png" alt="Green Garden College of Health Sciences & Technology logo"><div class="header-title">Green Garden College of Health Sciences &amp; Technology, Gusau</div><a class="back" href="admin.html">← Back</a></div></header>
+<nav><div class="inner"><a href="admin.html">Dashboard</a><a href="student.html">Students</a><a href="create-access.html">Create Access</a><a href="hod-management.html">HOD Management</a><a href="assignment-management.html">Assignments</a><a href="admin-finance.html">Finance</a><a href="admin-users.html">Users</a></div></nav>
+<main>
+<section class="panel" id="adminSession" style="background:#ecfdf3;border-color:#bbf7d0"><div class="identity"><strong>🔐 Bulk Student Registration</strong><span id="adminSessionText">Ready. This page uses the same Student fields and Firestore structure as Create Access.</span></div></section>
+<section class="hero"><h1>BULK STUDENT REGISTRATION</h1><p>Register many students at once using the same Student record structure used by <b>create-access.html</b>. Firebase Authentication creates the login, while Firestore stores the student school record and linked user record.</p><div class="steps"><div class="step"><b>01 Prepare</b><span>Paste pipe, CSV or TSV rows.</span></div><div class="step"><b>02 Preview</b><span>Check Programme and Level.</span></div><div class="step"><b>03 Create</b><span>Create Auth + student + user.</span></div><div class="step"><b>04 Export</b><span>Download successful credentials.</span></div></div></section>
+<section class="panel">
+<div class="identity"><strong>Fields — exactly matched to Create Access</strong><span>Full Name, Student ID / Matric No., Admission Number, Programme, Academic Level, Account Status, login Email and Password. Programme is taken from the selected <b>programmes</b> document <b>name</b> field, exactly like Create Access. Academic Level is taken from the selected <b>academicLevels</b> document.</span></div>
+<div class="form-grid" style="margin-top:13px"><div><label>Default Account Status</label><select id="defaultStatus"><option>Active</option><option>Deactivated</option></select></div><div><label>Separator</label><select id="separator"><option value="|">Pipe |</option><option value=",">Comma ,</option><option value="\t">Tab</option></select></div><div><label>Import CSV / TSV / XLSX</label><label class="file-label">📄 Choose File<input id="fileInput" type="file" accept=".csv,.tsv,.txt,.xlsx,.xls"></label></div></div>
+<label style="margin-top:13px">Bulk Student Data</label><textarea id="bulkInput" placeholder="Full Name | Student ID | Admission Number | Email | Password | Programme | Level | Status
+Musa Garba | GGCHST/2026/001 | ADM/001 | musa@example.com | Musa@123 | Medical Laboratory Technician | Level 1 | Active"></textarea>
+<div class="hint">Header row is optional. Column order is fixed: <b>Full Name | Student ID | Admission Number | Email | Password | Programme | Level | Status</b>. Status may be omitted and will use the Default Account Status. Programme and Level must match the values loaded from Create Access.</div>
+<div class="actions"><button id="parseBtn" type="button">PARSE &amp; PREVIEW</button><button id="sampleBtn" type="button" class="utility-btn">LOAD SAMPLE</button><button id="clearBtn" type="button" class="utility-btn">CLEAR</button></div><div id="sourceMsg" class="message"></div>
+</section>
+<section class="panel hidden" id="previewPanel"><div class="identity"><strong>Preview &amp; Validation</strong><span>No account is created until you press CREATE VALID STUDENTS.</span></div><div class="stats"><div class="stat"><b id="total">0</b><span>Total</span></div><div class="stat"><b id="valid">0</b><span>Valid</span></div><div class="stat"><b id="invalid">0</b><span>Invalid</span></div><div class="stat"><b id="ready">0</b><span>Ready</span></div></div><div class="toolbar"><input id="search" placeholder="Search preview..."><button id="createBtn" type="button">CREATE VALID STUDENTS</button></div><div class="table-wrap"><table><thead><tr><th>#</th><th>Name</th><th>Student ID</th><th>Admission</th><th>Email</th><th>Programme</th><th>Level</th><th>Status</th><th>Validation</th></tr></thead><tbody id="previewRows"></tbody></table></div><div id="previewMsg" class="message"></div></section>
+<section class="panel hidden" id="progressPanel"><div class="identity"><strong>Bulk Creation Progress</strong><span id="progressText">Preparing...</span></div><div class="progress"><i id="bar"></i></div><div class="stats"><div class="stat"><b id="created">0</b><span>Created</span></div><div class="stat"><b id="failed">0</b><span>Failed</span></div><div class="stat"><b id="remaining">0</b><span>Remaining</span></div><div class="stat"><b id="current">—</b><span>Current</span></div></div></section>
+<section class="panel hidden" id="resultPanel"><div class="identity"><strong>Creation Results</strong><span>Passwords are never stored in Firestore. Successful credentials remain only in this browser session until exported.</span></div><div class="actions"><button id="downloadCredentials" type="button">DOWNLOAD SUCCESSFUL CREDENTIALS</button><button id="downloadErrors" type="button" class="secondary">DOWNLOAD ERROR REPORT</button></div><div class="table-wrap" style="margin-top:12px"><table><thead><tr><th>#</th><th>Name</th><th>Email</th><th>Admission</th><th>Programme</th><th>Level</th><th>UID</th><th>Result</th></tr></thead><tbody id="resultRows"></tbody></table></div></section>
+<section class="panel"><h2 style="margin:0;color:var(--dark);font-size:17px">Recommended Format</h2><pre>Full Name | Student ID | Admission Number | Email | Password | Programme | Level | Status
+Musa Garba | GGCHST/2026/001 | ADM/001 | Musa@2026 | Musa@123 | Medical Laboratory Technician | Level 1 | Active
+Aisha Bello | GGCHST/2026/002 | ADM/002 | aisha@example.com | Aisha@123 | Community Health Extension Worker (CHEW) | Level 2 | Active</pre><div class="hint"><b>Important:</b> This file does not create a different student structure. It writes the same student fields used by Create Access: <b>studentId, admissionNumber, fullName/name, email, programmeId/programmeName/programme, levelId/levelName/level, status/accountStatus, accountLinked, profileCompleted, authUid/studentUid/firebaseUid/authEmail</b>, and the same linked <b>users</b> record fields.</div></section>
+</main><div id="toast" class="toast"></div>
+<script type="module">
+import {initializeApp,getApps,getApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getFirestore,collection,getDocs,addDoc,serverTimestamp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import {getAuth,createUserWithEmailAndPassword,signOut,deleteUser} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+const firebaseConfig={apiKey:"AIzaSyAoT3LGcdw3A0FzHDrPEuhTNCnfiTklGXY",authDomain:"ggchst-sms-new.firebaseapp.com",projectId:"ggchst-sms-new",storageBucket:"ggchst-sms-new.firebasestorage.app",messagingSenderId:"942770190211",appId:"1:942770190211:web:aa9a085a38aaa517b368b6"};
+const app=getApps().length?getApp():initializeApp(firebaseConfig);const db=getFirestore(app);const $=id=>document.getElementById(id);
+const norm=v=>String(v??"").trim().toLowerCase();const clean=v=>String(v??"").trim();const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+const toast=t=>{const x=$("toast");x.textContent=t;x.style.display="block";clearTimeout(window.__toast);window.__toast=setTimeout(()=>x.style.display="none",3500)};
+const msg=(id,t,c="ok")=>{$(id).textContent=t;$(id).className="message "+c};
+let programmes=[],levels=[],users=[],students=[],rows=[],results=[],credentials=[];
+
+async function loadSourceData(){
+ const [ps,ls,us,ss]=await Promise.all([getDocs(collection(db,"programmes")),getDocs(collection(db,"academicLevels")),getDocs(collection(db,"users")),getDocs(collection(db,"students"))]);
+ programmes=ps.docs.map(d=>({id:d.id,...d.data()})).filter(x=>norm(x.status||"active")!=="inactive").sort((a,b)=>clean(a.name).localeCompare(clean(b.name)));
+ levels=ls.docs.map(d=>({id:d.id,...d.data()})).filter(x=>norm(x.status||"active")!=="inactive").sort((a,b)=>Number(a.displayOrder||0)-Number(b.displayOrder||0));
+ users=us.docs.map(d=>d.data());students=ss.docs.map(d=>d.data());
+ msg("sourceMsg",`Ready. ${programmes.length} active programme(s) and ${levels.length} active level(s) loaded from the same collections used by Create Access.`);
+}
+const findP=v=>{
+  const n=norm(v);
+  if(!n)return null;
+
+  // Create Access uses the Firestore document ID as programmeId.
+  // Bulk registration accepts either that ID, the programme code, or the
+  // exact programme name shown in the programmes collection.
+  let p=programmes.find(x=>norm(x.id)===n);
+  if(p)return p;
+
+  p=programmes.find(x=>norm(x.code)===n);
+  if(p)return p;
+
+  p=programmes.find(x=>norm(x.name)===n || norm(x.programmeName)===n || norm(x.title)===n);
+  if(p)return p;
+
+  // Tolerate harmless differences in spacing/punctuation/case.
+  const key=s=>norm(s).replace(/[^a-z0-9]+/g,"");
+  const k=key(v);
+  if(!k)return null;
+  const matches=programmes.filter(x=>[x.name,x.programmeName,x.title,x.code,x.id].some(y=>key(y)===k));
+  return matches.length===1?matches[0]:null;
+};
+const findL=v=>{const n=norm(v);return levels.find(x=>norm(x.name)===n||norm(x.code)===n||norm(x.id)===n)};
+function splitRow(s,sep){if(sep!==",")return s.split(sep).map(clean);let out=[],v="",quoted=false;for(let i=0;i<s.length;i++){const c=s[i];if(c==='"'){if(quoted&&s[i+1]==='"'){v+='"';i++}else quoted=!quoted}else if(c===','&&!quoted){out.push(clean(v));v=""}else v+=c}out.push(clean(v));return out}
+function parseRows(){
+ const sep=$("separator").value;const text=$("bulkInput").value.replace(/\r/g,"");const lines=text.split("\n").map(clean).filter(Boolean);if(!lines.length)return[];
+ const parsed=lines.map(line=>splitRow(line,sep));const firstRow=parsed[0].map(norm);if(firstRow.includes("email")&&firstRow.includes("password"))parsed.shift();
+ return parsed.map((x,i)=>({
+  row:i+1,
+  name:clean(x[0]),
+  studentId:clean(x[1]),
+  admissionNumber:clean(x[2]),
+  email:clean(x[3]),
+  password:clean(x[4]),
+  programmeInput:clean(x[5]),
+  levelInput:clean(x[6]),
+  status:clean(x[7])||$("defaultStatus").value,
+  programme:null,
+  programmeId:"",
+  programmeName:"",
+  level:null,
+  levelId:"",
+  levelName:"",
+  errors:[]
+}));
+}
+function validate(arr){
+ const emails=new Map(),admissions=new Map(),studentIds=new Map();
+ arr.forEach(r=>{
+  r.errors=[];
+  r.programme=findP(r.programmeInput);
+  r.level=findL(r.levelInput);
+
+  // These are the canonical values that will be written to Firestore and
+  // displayed in Creation Results.
+  r.programmeId=r.programme?.id||"";
+  r.programmeName=r.programme?.name||r.programme?.programmeName||r.programme?.title||"";
+  r.levelId=r.level?.id||"";
+  r.levelName=r.level?.name||r.level?.levelName||r.level?.title||r.level?.code||"";
+
+  if(!r.name)r.errors.push("Full Name missing");
+  if(!r.email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(r.email))r.errors.push("Invalid email");
+  if(!r.password||r.password.length<6)r.errors.push("Password must be at least 6 characters");
+  if(!r.programme)r.errors.push("Programme not found in programmes collection");
+  if(!r.level)r.errors.push("Level not found in Create Access level list");
+  const e=norm(r.email);if(e){if(emails.has(e))r.errors.push("Duplicate email in this upload");else emails.set(e,r.row);if(users.some(x=>norm(x.email||x.authEmail)===e))r.errors.push("Email already exists in users");}
+  const sid=norm(r.studentId);
+   if(sid){
+     if(studentIds.has(sid))r.errors.push("Duplicate Student ID in this upload");
+     else studentIds.set(sid,r.row);
+     if(students.some(x=>norm(x.studentId||x.studentID||x.matricNo||x.schoolId)===sid))r.errors.push("Student ID already exists in students");
+   }
+   const ad=norm(r.admissionNumber);
+   if(ad){
+     if(admissions.has(ad))r.errors.push("Duplicate admission number in this upload");
+     else admissions.set(ad,r.row);
+     if(students.some(x=>norm(x.admissionNumber||x.admissionNo||x.admission)===ad))r.errors.push("Admission number already exists in students");
+   }
+ });return arr;
+}
+function render(){
+ const q=norm($("search").value);const view=rows.filter(r=>!q||[r.name,r.studentId,r.admissionNumber,r.email,r.programmeInput,r.levelInput].some(x=>norm(x).includes(q)));
+ $("previewRows").innerHTML=view.length?view.map(r=>`<tr><td>${r.row}</td><td>${esc(r.name)}</td><td>${esc(r.studentId||"—")}</td><td>${esc(r.admissionNumber||"—")}</td><td>${esc(r.email)}</td><td>${esc(r.programmeName||r.programmeInput||"—")}</td><td>${esc(r.levelName||r.levelInput||"—")}</td><td>${esc(r.status)}</td><td><span class="badge ${r.errors.length?"bad":"good"}">${r.errors.length?esc(r.errors.join("; ")):"VALID"}</span></td></tr>`).join(""):`<tr><td colspan="9" style="text-align:center;padding:25px">No rows.</td></tr>`;
+ const valid=rows.filter(r=>!r.errors.length).length;$("total").textContent=rows.length;$("valid").textContent=valid;$("invalid").textContent=rows.length-valid;$("ready").textContent=valid;$("createBtn").disabled=!valid;
+}
+$("search").oninput=render;
+$("parseBtn").onclick=()=>{try{rows=validate(parseRows());$("previewPanel").classList.remove("hidden");render();msg("sourceMsg",`${rows.length} row(s) parsed. Review the validation column before creating accounts.`);$("previewPanel").scrollIntoView({behavior:"smooth"})}catch(e){console.error(e);msg("sourceMsg","Could not parse the data: "+e.message,"bad")}};
+$("sampleBtn").onclick=()=>{$("separator").value="|";$("bulkInput").value=`Full Name | Student ID | Admission Number | Email | Password | Programme | Level | Status\nMusa Garba | GGCHST/2026/001 | ADM/001 | musa.garba@gmail.com | Musa@123 | Medical Laboratory Technician | Level 1 | Active\nAisha Bello | GGCHST/2026/002 | ADM/002 | aisha.bello@gmail.com | Aisha@123 | Community Health Extension Worker (CHEW) | Level 2 | Active`;msg("sourceMsg","Sample loaded. Click PARSE & PREVIEW.")};
+$("clearBtn").onclick=()=>{$("bulkInput").value="";rows=[];results=[];credentials=[];$("previewPanel").classList.add("hidden");$("progressPanel").classList.add("hidden");$("resultPanel").classList.add("hidden");$("sourceMsg").textContent=""};
+$("fileInput").onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{const ext=f.name.toLowerCase().split(".").pop();if(ext==="xlsx"||ext==="xls"){if(!window.XLSX)await new Promise((resolve,reject)=>{const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js";s.onload=resolve;s.onerror=reject;document.head.appendChild(s)});const w=XLSX.read(await f.arrayBuffer(),{type:"array"});$("separator").value=",";$("bulkInput").value=XLSX.utils.sheet_to_csv(w.Sheets[w.SheetNames[0]])}else{$("separator").value=ext==="tsv"?"\t":",";$("bulkInput").value=await f.text()}msg("sourceMsg",`${f.name} loaded. Click PARSE & PREVIEW.`)}catch(err){msg("sourceMsg","Could not read file: "+err.message,"bad")}};
+
+async function createSecondary(email,password){const sa=getApps().some(a=>a.name==="GGCHSTAccountCreator")?getApp("GGCHSTAccountCreator"):initializeApp(app.options,"GGCHSTAccountCreator");const auth=getAuth(sa);const c=await createUserWithEmailAndPassword(auth,email,password);return{uid:c.user.uid,auth};}
+function authError(e){return({"auth/email-already-in-use":"Email already has a Firebase Authentication account.","auth/invalid-email":"Invalid login email.","auth/weak-password":"Password is too weak. Use at least 6 characters.","auth/operation-not-allowed":"Firebase Email/Password Authentication is not enabled.","auth/network-request-failed":"Network error. Check your internet connection."}[e?.code]||e?.message||"Account creation failed.")}
+async function createStudent(r){
+ const created=await createSecondary(r.email,r.password);const uid=created.uid;const auth=created.auth;const now=new Date().toISOString();
+ try{
+  // This object is intentionally the same student profile structure used by create-access.html.
+  const profileData={
+  studentId:r.studentId,
+  admissionNumber:r.admissionNumber,
+  fullName:r.name,
+  name:r.name,
+  email:r.email,
+
+  // EXACT Create Access programme fields
+  programmeId:r.programmeId,
+  programmeName:r.programmeName,
+
+  // Compatibility aliases used by Student Profile
+  programme:r.programmeName,
+
+  // EXACT Create Access level fields
+  levelId:r.levelId,
+  levelName:r.levelName,
+
+  // Compatibility alias used by Student Profile
+  level:r.levelName,
+
+  status:r.status,
+  accountStatus:r.status,
+  accountLinked:false,
+  profileCompleted:false
+};
+  const studentRef=await addDoc(collection(db,"students"),{...profileData,authUid:uid,studentUid:uid,firebaseUid:uid,authEmail:r.email,createdAt:now,updatedAt:now});
+  await addDoc(collection(db,"users"),{
+  uid,
+  authUid:uid,
+  authEmail:r.email,
+  email:r.email,
+  name:r.name,
+  accountType:"Student",
+  role:"Student",
+  status:r.status,
+  permissions:["student-dashboard","profile","my-courses","timetable","assignments","results","attendance","my-payment"],
+  schoolId:r.studentId,
+  studentId:r.studentId,
+  admissionNumber:r.admissionNumber,
+  lecturerId:"",
+  staffId:"",
+
+  // EXACT Create Access programme fields
+  programmeId:r.programmeId,
+  programmeName:r.programmeName,
+  programme:r.programmeName,
+
+  // EXACT Create Access level fields
+  levelId:r.levelId,
+  levelName:r.levelName,
+  level:r.levelName,
+
+  // Critical link used by Student Profile:
+  // users.profileId -> students/{profileId}
+  profileId:studentRef.id,
+  profileCompleted:false,
+  createdAt:now,
+  updatedAt:now
+});
+  await addDoc(collection(db,"auditLogs"),{action:"bulk_create_access",module:"users",entityType:"student",entityId:studentRef.id,uid,email:r.email,name:r.name,role:"Student",accountType:"Student",timestamp:now,result:"success"});
+  await signOut(auth);return uid;
+ }catch(e){
+  try{if(auth.currentUser)await deleteUser(auth.currentUser)}catch(cleanupError){console.warn("Auth cleanup failed",cleanupError)}
+  try{await signOut(auth)}catch(_){}
+  throw e;
+ }
+}
+$("createBtn").onclick=async()=>{
+ const validRows=rows.filter(r=>!r.errors.length);if(!validRows.length){msg("previewMsg","There are no valid students ready to create.","bad");return}
+ if(!confirm(`Create ${validRows.length} student account(s) now?`))return;
+ $("createBtn").disabled=true;$("progressPanel").classList.remove("hidden");$("resultPanel").classList.add("hidden");results=[];credentials=[];let created=0,failed=0;
+ for(let i=0;i<validRows.length;i++){const r=validRows[i];$("progressText").textContent=`Creating ${i+1} of ${validRows.length}: ${r.name}`;$("bar").style.width=((i+1)/validRows.length*100)+"%";$("current").textContent=r.name;try{const uid=await createStudent(r);created++;results.push({...r,uid,result:"Created",error:""});credentials.push({name:r.name,email:r.email,password:r.password,studentId:r.studentId,admissionNumber:r.admissionNumber,programme:r.programmeName,level:r.levelName,status:r.status,uid})}catch(e){failed++;results.push({...r,uid:"",result:"Failed",error:authError(e)})}$("created").textContent=created;$("failed").textContent=failed;$("remaining").textContent=validRows.length-i-1}
+ renderResults();$("resultPanel").classList.remove("hidden");toast(`Finished: ${created} created, ${failed} failed.`);$("createBtn").disabled=true;
+};
+function renderResults(){$("resultRows").innerHTML=results.map((r,i)=>`<tr><td>${i+1}</td><td>${esc(r.name)}</td><td>${esc(r.email)}</td><td>${esc(r.admissionNumber||"—")}</td><td>${esc(r.programmeName||r.programmeInput||"—")}</td><td>${esc(r.levelName||r.levelInput||"—")}</td><td>${r.uid?esc(r.uid):"—"}</td><td><span class="badge ${r.result==="Created"?"good":"bad"}">${r.result==="Created"?"CREATED":esc(r.error)}</span></td></tr>`).join("")}
+function download(name,data){const blob=new Blob([data],{type:"text/csv;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(a.href)}
+function csv(arr,keys){return [keys.join(","),...arr.map(x=>keys.map(k=>`"${String(x[k]??"").replace(/"/g,'""')}"`).join(","))].join("\n")}
+$("downloadCredentials").onclick=()=>credentials.length&&download("successful-student-login-credentials.csv",csv(credentials,["name","email","password","studentId","admissionNumber","programme","level","status","uid"]));
+$("downloadErrors").onclick=()=>{const failed=results.filter(r=>r.result==="Failed");if(failed.length)download("bulk-student-registration-errors.csv",csv(failed,["row","name","email","admissionNumber","programmeInput","levelInput","error"]))};
+(async()=>{try{await loadSourceData()}catch(e){console.error(e);msg("sourceMsg","Could not load Programme/Level data: "+e.message,"bad")}})();
+</script>
+</body>
+</html>

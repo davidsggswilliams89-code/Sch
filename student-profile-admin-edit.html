@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GGCHST | Edit Student Profile</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7f6;color:#17231f}
+header{background:#fff;border-bottom:4px solid #087443;box-shadow:0 2px 10px rgba(0,0,0,.08);padding:12px 18px}
+.school-head{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.school-brand{display:flex;align-items:center;gap:12px;min-width:0}
+.school-logo{width:56px;height:56px;object-fit:contain;border-radius:8px}
+.school-name strong{color:#087443;font-size:18px;line-height:1.2}
+.school-name span{display:block;font-size:12px;color:#65736c;margin-top:3px}
+.back{background:#087443;color:#fff;text-decoration:none;padding:10px 14px;border-radius:8px;font-weight:700;white-space:nowrap}
+.container{width:min(1100px,calc(100% - 24px));margin:18px auto}
+.card{background:#fff;border:1px solid #dce6e1;border-radius:12px;padding:18px;box-shadow:0 3px 12px rgba(0,0,0,.05);margin-bottom:16px}
+h1{font-size:21px;margin:0 0 4px;color:#17362a}
+h2{font-size:17px;color:#087443;margin:0 0 14px}
+.sub{color:#68756f;font-size:13px;margin:0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.field label{display:block;font-size:12px;font-weight:700;margin-bottom:5px}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid #cbd8d2;border-radius:8px;font-size:14px;background:#fff}
+textarea{min-height:90px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#087443;box-shadow:0 0 0 2px rgba(8,116,67,.1)}
+.full{grid-column:1/-1}
+.photo-wrap{display:flex;align-items:center;gap:14px}
+.photo{width:86px;height:86px;border-radius:50%;object-fit:cover;background:#e5f0eb;border:2px solid #d6e5de}
+.actions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}
+button{border:0;border-radius:8px;padding:11px 16px;font-weight:700;cursor:pointer}
+.cancel{background:#e9efec;color:#17362a}
+.save{background:#087443;color:#fff}
+.save:disabled{opacity:.6;cursor:not-allowed}
+.message{display:none;padding:11px 13px;border-radius:8px;margin-bottom:14px;font-size:13px}
+.success{display:block;background:#e3f6ea;color:#11733f}
+.error{display:block;background:#fde8e8;color:#a51d1d}
+.loading{text-align:center;padding:30px;color:#68756f}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.meta span{background:#edf5f1;color:#087443;border-radius:8px;padding:7px 10px;font-size:12px;font-weight:700}
+@media(max-width:700px){
+ header{padding:10px}
+ .school-head{align-items:flex-start}
+ .school-logo{width:45px;height:45px}
+ .school-name strong{font-size:13px}
+ .school-name span{font-size:10px}
+ .back{font-size:11px;padding:8px 9px}
+ .container{width:calc(100% - 16px);margin:12px auto}
+ .card{padding:13px}
+ .grid{grid-template-columns:1fr}
+ .full{grid-column:auto}
+ h1{font-size:18px}
+ input,select,textarea{font-size:16px}
+ .actions{position:sticky;bottom:0;background:#fff;padding-top:10px}
+}
+</style>
+</head>
+<body>
+<header>
+ <div class="school-head">
+  <div class="school-brand">
+   <img class="school-logo" src="https://ggchstgusau.edu.ng/_next/image?q=75&url=%2Flogo.png&w=384" alt="Green Garden College logo">
+   <div class="school-name">
+    <strong>Green Garden College of Health Sciences &amp; Technology</strong>
+    <span>Gusau, Zamfara State</span>
+   </div>
+  </div>
+  <a class="back" href="student.html">← Back to Students</a>
+ </div>
+</header>
+
+<main class="container">
+ <div id="message" class="message"></div>
+ <section class="card">
+  <h1>Edit Student Profile</h1>
+  <p class="sub">Admin can update a student's record here at any time, including after the student's 7-day editing period.</p>
+  <div class="meta"><span id="studentRef">Student: Loading...</span></div>
+ </section>
+
+ <div id="loading" class="card loading">Loading student profile...</div>
+
+ <form id="editForm" style="display:none">
+  <section class="card">
+   <h2>Student Information</h2>
+   <div class="grid">
+    <div class="field"><label>Full Name</label><input id="fullName" required></div>
+    <div class="field"><label>Student ID</label><input id="studentId"></div>
+    <div class="field"><label>Admission Number</label><input id="admissionNo"></div>
+    <div class="field"><label>Email</label><input id="email" type="email"></div>
+    <div class="field"><label>Programme</label><input id="programme"></div>
+    <div class="field"><label>Level</label><input id="level"></div>
+    <div class="field"><label>Semester</label>
+      <select id="semester"><option value="">Select Semester</option><option>First</option><option>Second</option></select>
+    </div>
+    <div class="field"><label>Academic Session</label><input id="academicSession"></div>
+    <div class="field"><label>Status</label>
+      <select id="status"><option>Active</option><option>Inactive</option><option>Graduated</option><option>Suspended</option><option>Withdrawn</option></select>
+    </div>
+    <div class="field"><label>Payment Status</label>
+      <select id="paymentStatus"><option>Paid</option><option>Pending</option><option>Part Payment</option><option>Not Paid</option></select>
+    </div>
+   </div>
+  </section>
+
+  <section class="card">
+   <h2>Personal Details</h2>
+   <div class="grid">
+    <div class="field"><label>Phone Number</label><input id="phone"></div>
+    <div class="field"><label>Date of Birth</label><input id="dateOfBirth" type="date"></div>
+    <div class="field"><label>Gender</label><input id="gender"></div>
+    <div class="field"><label>State of Origin</label><input id="stateOfOrigin"></div>
+    <div class="field"><label>LGA</label><input id="lga"></div>
+    <div class="field full"><label>Address</label><textarea id="address"></textarea></div>
+   </div>
+  </section>
+
+  <section class="card">
+   <h2>Profile Photo</h2>
+   <div class="photo-wrap">
+    <img id="photoPreview" class="photo" alt="Student photo">
+    <div class="field" style="flex:1">
+     <label>Choose Photo from Device Gallery</label>
+     <input id="photoInput" type="file" accept="image/*">
+     <div style="font-size:11px;color:#68756f;margin-top:5px">Select a photo from your phone's gallery. The image will be compressed before saving.</div>
+    </div>
+   </div>
+  </section>
+
+  <input id="photo" type="hidden">
+
+  <section class="card">
+   <h2>Additional Information</h2>
+   <div class="grid">
+    <div class="field"><label>Guardian Name</label><input id="guardianName"></div>
+    <div class="field"><label>Guardian Phone</label><input id="guardianPhone"></div>
+    <div class="field full"><label>Notes</label><textarea id="notes"></textarea></div>
+   </div>
+   <div class="actions">
+    <button class="cancel" type="button" onclick="location.href='student.html'">Cancel</button>
+    <button class="save" id="saveBtn" type="submit">Save Student Profile</button>
+   </div>
+  </section>
+ </form>
+</main>
+
+<script type="module">
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getFirestore, collection, getDocs, query, where, doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+const firebaseConfig={
+ apiKey:"AIzaSyAoT3LGcdw3A0FzHDrPEuhTNCnfiTklGXY",
+ authDomain:"ggchst-sms-new.firebaseapp.com",
+ projectId:"ggchst-sms-new",
+ storageBucket:"ggchst-sms-new.firebasestorage.app",
+ messagingSenderId:"942770190211",
+ appId:"1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+const app=getApps().length?getApps()[0]:initializeApp(firebaseConfig);
+const db=getFirestore(app);
+const $=id=>document.getElementById(id);
+const params=new URLSearchParams(location.search);
+const requestedId=params.get("studentId")||params.get("id")||"";
+let studentDocId="";
+let original={};
+
+function val(obj,keys,fallback=""){
+ for(const k of keys) if(obj?.[k]!==undefined && obj[k]!==null && String(obj[k]).trim()!=="") return String(obj[k]).trim();
+ return fallback;
+}
+function show(type,text){
+ const m=$("message");m.className="message "+type;m.textContent=text;m.style.display="block";
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function set(id,v=""){ if($(id)) $(id).value=v; }
+function setPhoto(v){
+ $("photoPreview").src=v||"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='86' height='86'%3E%3Crect width='100%25' height='100%25' fill='%23e5f0eb'/%3E%3C/svg%3E";
+}
+function compressImage(file,max=1000,quality=.80){
+ return new Promise((resolve,reject)=>{
+  const reader=new FileReader();
+  reader.onload=()=>{
+   const img=new Image();
+   img.onload=()=>{
+    let w=img.width,h=img.height;
+    if(Math.max(w,h)>max){
+     const scale=max/Math.max(w,h);
+     w=Math.round(w*scale);h=Math.round(h*scale);
+    }
+    const canvas=document.createElement("canvas");
+    canvas.width=w;canvas.height=h;
+    canvas.getContext("2d").drawImage(img,0,0,w,h);
+    resolve(canvas.toDataURL("image/jpeg",quality));
+   };
+   img.onerror=reject;
+   img.src=reader.result;
+  };
+  reader.onerror=reject;
+  reader.readAsDataURL(file);
+ });
+}
+function loadForm(s){
+ set("fullName",val(s,["fullName","studentName","name"]));
+ set("studentId",val(s,["studentId","studentID","matricNo","schoolId"]));
+ set("admissionNo",val(s,["admissionNumber","admissionNo","registrationNumber"]));
+ set("email",val(s,["email","authEmail"]));
+ set("programme",val(s,["programmeName","programme","courseOfStudy"]));
+ set("level",val(s,["levelName","level"]));
+ set("semester",val(s,["semester"]));
+ set("academicSession",val(s,["academicSession","session"]));
+ set("status",val(s,["status","accountStatus"],"Active"));
+ set("paymentStatus",val(s,["paymentStatus","feesStatus","feeStatus","schoolFeesStatus","payment_state","fee_state"],"Not Paid"));
+ set("phone",val(s,["phone","phoneNumber","mobile"]));
+ set("dateOfBirth",val(s,["dateOfBirth","dob"]));
+ set("gender",val(s,["gender"]));
+ set("stateOfOrigin",val(s,["stateOfOrigin","state"]));
+ set("lga",val(s,["lga","localGovernment","localGovernmentArea"]));
+ set("address",val(s,["address","homeAddress"]));
+ set("guardianName",val(s,["guardianName","parentName","nextOfKinName"]));
+ set("guardianPhone",val(s,["guardianPhone","parentPhone","nextOfKinPhone"]));
+ set("notes",val(s,["notes","adminNotes"]));
+ const existingPhoto=val(s,["photo","photoURL","photoUrl","profilePhoto","profilePicture"]);
+ $("photo").value=existingPhoto;
+ $("photo").dataset.galleryPhoto="";
+ setPhoto(existingPhoto);
+ $("studentRef").textContent="Student: "+val(s,["fullName","studentName","name"],"Unknown")+" • "+val(s,["studentId","studentID","matricNo"],studentDocId);
+}
+async function findStudent(){
+ if(!requestedId) throw new Error("No student ID was supplied. Open this page from a student's Edit button.");
+ let ref=doc(db,"students",requestedId);
+ let snap=await getDoc(ref);
+ if(snap.exists()){studentDocId=snap.id;return {id:snap.id,...snap.data()};}
+ const fields=["studentId","studentID","matricNo","schoolId","admissionNo","admissionNumber","registrationNumber"];
+ for(const field of fields){
+  const q=await getDocs(query(collection(db,"students"),where(field,"==",requestedId)));
+  if(!q.empty){const d=q.docs[0];studentDocId=d.id;return {id:d.id,...d.data()};}
+ }
+ throw new Error("Student record not found.");
+}
+$("photoInput").addEventListener("change",async e=>{
+ const file=e.target.files?.[0];
+ if(!file)return;
+ if(!file.type.startsWith("image/")){
+  show("error","Please select an image from your device gallery.");
+  e.target.value="";
+  return;
+ }
+ try{
+  const compressed=await compressImage(file);
+  $("photoPreview").src=compressed;
+  $("photo").dataset.galleryPhoto=compressed;
+ }catch(err){
+  console.error(err);
+  show("error","Could not read the selected photo.");
+ }
+});
+$("editForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const btn=$("saveBtn");btn.disabled=true;btn.textContent="Saving...";
+ try{
+  const updates={
+   fullName:$("fullName").value.trim(),
+   studentName:$("fullName").value.trim(),
+   name:$("fullName").value.trim(),
+   studentId:$("studentId").value.trim(),
+   admissionNo:$("admissionNo").value.trim(),
+   admissionNumber:$("admissionNo").value.trim(),
+   email:$("email").value.trim(),
+   programme:$("programme").value.trim(),
+   programmeName:$("programme").value.trim(),
+   courseOfStudy:$("programme").value.trim(),
+   level:$("level").value.trim(),
+   levelName:$("level").value.trim(),
+   semester:$("semester").value,
+   academicSession:$("academicSession").value.trim(),
+   session:$("academicSession").value.trim(),
+   status:$("status").value,
+   paymentStatus:$("paymentStatus").value,
+   phone:$("phone").value.trim(),
+   dateOfBirth:$("dateOfBirth").value,
+   gender:$("gender").value.trim(),
+   stateOfOrigin:$("stateOfOrigin").value.trim(),
+   lga:$("lga").value.trim(),
+   address:$("address").value.trim(),
+   guardianName:$("guardianName").value.trim(),
+   guardianPhone:$("guardianPhone").value.trim(),
+   notes:$("notes").value.trim(),
+   photo:$("photo").dataset.galleryPhoto || $("photo").value.trim(),
+   photoURL:$("photo").dataset.galleryPhoto || $("photo").value.trim(),
+   updatedAt:serverTimestamp(),
+   updatedBy:"Admin"
+  };
+  await updateDoc(doc(db,"students",studentDocId),updates);
+  show("success","Student profile updated successfully.");
+  original={...original,...updates};
+ }catch(err){
+  console.error(err);
+  show("error","Could not update student profile: "+(err.message||err));
+ }finally{
+  btn.disabled=false;btn.textContent="Save Student Profile";
+ }
+});
+(async()=>{
+ try{
+  original=await findStudent();
+  loadForm(original);
+  $("loading").style.display="none";
+  $("editForm").style.display="block";
+ }catch(err){
+  $("loading").textContent=err.message||"Could not load student profile.";
+  show("error",err.message||"Could not load student profile.");
+ }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Course Registration | GGCHST</title>
+<style>
+:root{--g:#176b43;--g2:#0f5132;--soft:#edf8f2;--line:#d8e4de;--text:#17231d;--muted:#66736c;--red:#b42318}
+*{box-sizing:border-box}body{margin:0;background:#f5f8f6;color:var(--text);font-family:Arial,Helvetica,sans-serif}
+header{min-height:76px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:10px 18px;gap:16px;position:sticky;top:0;z-index:10}
+.logo{width:56px;height:56px;object-fit:contain}.school{flex:1;text-align:center;font-size:18px;font-weight:800;color:var(--g2);line-height:1.25}.back{background:var(--g);color:#fff;text-decoration:none;padding:10px 15px;border-radius:10px;font-weight:700}
+main{max-width:1180px;margin:24px auto;padding:0 16px 40px}.hero{background:linear-gradient(135deg,var(--g2),var(--g));color:#fff;border-radius:18px;padding:25px;margin-bottom:18px}.hero h1{margin:0 0 7px;font-size:27px}.hero p{margin:0;line-height:1.5;opacity:.92}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:18px;box-shadow:0 10px 30px rgba(15,81,50,.07)}h2{margin:0 0 16px;color:var(--g2);font-size:21px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}label{display:block;font-weight:800;margin-bottom:8px}select,input{font:inherit;width:100%;height:50px;border:1px solid #cbd8d1;border-radius:12px;padding:0 14px;background:#fff;color:var(--text)}select:focus,input:focus{outline:3px solid rgba(23,107,67,.12);border-color:var(--g)}
+.help,.meta,.note{font-size:13px;color:var(--muted);line-height:1.5}.required{color:var(--red)}.summary{background:var(--soft);border:1px solid #cfe5d8;border-radius:14px;padding:15px;margin-top:16px}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.search{flex:1;min-width:220px}.count{font-weight:800;color:var(--g2);background:var(--soft);padding:10px 13px;border-radius:10px;white-space:nowrap}
+button{font:inherit;border:0;border-radius:11px;padding:12px 17px;font-weight:800;cursor:pointer}.primary{background:var(--g);color:#fff}.secondary{background:#edf1ef;color:var(--text)}.remove{background:#fff0ef;color:var(--red);padding:7px 10px;font-size:12px}button:disabled{opacity:.55;cursor:not-allowed}
+.message{display:none;padding:12px 14px;border-radius:10px;margin-bottom:14px;font-weight:700}.message.success{display:block;background:#eaf7ef;color:var(--g)}.message.error{display:block;background:#fff0ef;color:var(--red)}
+.list{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:15px}.head,.row{display:grid;grid-template-columns:42px 120px 1fr 70px 95px;gap:10px;align-items:center;padding:12px 14px}.head{background:#f1f7f3;font-size:12px;text-transform:uppercase;font-weight:800;color:var(--muted)}.row{border-top:1px solid #edf1ee;cursor:pointer}.row:hover{background:#fbfdfc}.row input{width:20px;height:20px}.code{font-weight:800;color:var(--g2)}.title{font-weight:700}.unit{text-align:center;font-weight:800}.tag{font-size:12px;background:#f1f4f2;padding:6px 8px;border-radius:8px;text-align:center}.empty{text-align:center;padding:34px;color:var(--muted)}
+.actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:18px}.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:700px}.table th,.table td{padding:11px 10px;border-bottom:1px solid #e8eeea;text-align:left;font-size:14px}.table th{background:#f4f8f5;color:var(--muted);font-size:12px;text-transform:uppercase}.badge{display:inline-block;padding:5px 8px;border-radius:8px;background:#eaf7ef;color:var(--g2);font-weight:800;font-size:12px}.note{background:#fafcfb;border:1px dashed #cbd8d1;padding:14px;border-radius:12px;margin-top:16px}
+@media(max-width:760px){header{padding:9px 12px}.logo{width:48px;height:48px}.school{font-size:14px}.back{padding:8px 10px;font-size:13px}.grid{grid-template-columns:1fr}.hero h1{font-size:22px}.head{display:none}.row{grid-template-columns:35px 90px 1fr 55px}.row .tag{grid-column:3/5;justify-self:start}}
+</style>
+</head>
+<body>
+<header>
+<img src="logo.png" alt="Green Garden College of Health Sciences & Technology logo" class="logo">
+<div class="school">Green Garden College of Health Sciences &amp; Technology, Gusau</div>
+<a class="back" href="admin.html">← Back</a>
+</header>
+<main>
+
+<section class="card"><h2>Programme Curriculum Setup</h2><div id="msg" class="message"></div>
+<div class="grid">
+<div><label>Programme <span class="required">*</span></label><select id="programme"><option value="">Select programme</option></select><div class="help">Choose the Programme first.</div></div>
+<div><label>Academic Level <span class="required">*</span></label><select id="level"><option value="">Select academic level</option></select><div class="help">100 Level, 200 Level or 300 Level.</div></div>
+</div>
+<div class="summary"><b>Curriculum mapping:</b> Select the Programme and Academic Level, then tick the courses that belong to that level. This page uses existing master courses and does not create new courses.</div>
+</section>
+
+<section class="card"><h2>Available Courses</h2>
+<div class="toolbar"><input id="search" class="search" type="search" placeholder="Search course code or title..."><span id="courseCount" class="count">0 Courses</span><button id="select" class="secondary" type="button">Select Visible</button><button id="clearVisible" class="secondary" type="button">Clear Visible</button></div>
+<div id="courseList" class="list"><div class="empty">Select a Programme and Academic Level to load courses.</div></div>
+<div class="actions"><button id="save" class="primary" type="button" disabled>Save Selected Courses</button><button id="clear" class="secondary" type="button">Clear Selection</button><span id="selected" class="count">0 Selected</span></div>
+<div class="note">A course may be attached to more than one Programme or Level when required by the school's curriculum. The course's existing Semester value is preserved in the curriculum mapping. Semester comes from the Course Management record; this page does not create a separate semester assignment.</div>
+</section>
+
+<section class="card"><h2>Saved Curriculum Mappings</h2>
+<div class="toolbar"><input id="mapSearch" class="search" type="search" placeholder="Search programme, level, course code or title..."><span id="mapCount" class="count">0 Mappings</span></div>
+<div class="tablewrap"><table class="table"><thead><tr><th>Programme</th><th>Level</th><th>Course</th><th>Unit</th><th>Semester</th><th>Status</th><th>Action</th></tr></thead><tbody id="maps"><tr><td colspan="7" class="empty">Loading saved course mappings...</td></tr></tbody></table></div>
+</section>
+</main>
+
+<script type="module">
+import{initializeApp,getApps,getApp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import{getFirestore,collection,addDoc,updateDoc,deleteDoc,doc,onSnapshot,serverTimestamp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig={apiKey:"AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",authDomain:"ggchst-sms-new.firebaseapp.com",projectId:"ggchst-sms-new",storageBucket:"ggchst-sms-new.firebasestorage.app",messagingSenderId:"942770190211",appId:"1:942770190211:web:aa9a085a38aaa517b368b6"};
+const app=getApps().length?getApp():initializeApp(firebaseConfig),db=getFirestore(app),$=id=>document.getElementById(id);
+let programmes=[],levels=[],courses=[],maps=[],selected=new Set(),busy=false;
+
+const active=x=>{let s=String(x??"").toLowerCase();return x!==false&&s!=="inactive"&&s!=="disabled"},
+norm=x=>String(x??"").trim().toLowerCase(),
+pname=x=>x?.name||x?.programmeName||x?.title||"",
+lname=x=>x?.name||x?.levelName||x?.label||"",
+cc=x=>x?.courseCode||x?.code||"",
+ct=x=>x?.courseTitle||x?.courseName||x?.title||"",
+cu=x=>Number(x?.courseUnit??x?.unit??x?.creditUnit??0),
+cs=x=>x?.semester||x?.semesterName||"",
+esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+
+function message(t,type="success"){$("msg").textContent=t;$("msg").className="message "+type;$("msg").style.display="block";clearTimeout(window.mt);window.mt=setTimeout(()=>$("msg").style.display="none",4500)}
+function fill(id,rows,placeholder,namefn){let el=$(id),old=el.value;el.innerHTML='<option value="">'+placeholder+'</option>';rows.filter(x=>active(x.status)).sort((a,b)=>namefn(a).localeCompare(namefn(b))).forEach(x=>{let o=document.createElement("option");o.value=x.id;o.textContent=namefn(x);el.appendChild(o)});if(rows.some(x=>x.id===old))el.value=old}
+function visible(){let q=norm($("search").value);return courses.filter(x=>active(x.status)).filter(x=>!q||norm(cc(x)).includes(q)||norm(ct(x)).includes(q)).sort((a,b)=>cc(a).localeCompare(cc(b)))}
+function render(){
+ let rows=visible();$("courseCount").textContent=rows.length+" Course"+(rows.length===1?"":"s");
+ if(!$("programme").value||!$("level").value){$("courseList").innerHTML='<div class="empty">Select a Programme and Academic Level to load courses.</div>';$("save").disabled=true;return}
+ if(!rows.length){$("courseList").innerHTML='<div class="empty">No active courses found in the courses collection.</div>';$("save").disabled=false;return}
+ $("courseList").innerHTML='<div class="head"><div></div><div>Code</div><div>Course Title</div><div>Unit</div><div>Semester</div></div>'+rows.map(c=>'<label class="row"><input type="checkbox" data-id="'+esc(c.id)+'" '+(selected.has(c.id)?"checked":"")+'><div class="code">'+esc(cc(c))+'</div><div><div class="title">'+esc(ct(c))+'</div><div class="meta">'+esc(c.courseType||c.type||"Course")+'</div></div><div class="unit">'+esc(cu(c))+'</div><div class="tag">'+esc(cs(c)||"—")+'</div></label>').join("");
+ $("save").disabled=false;$("selected").textContent=selected.size+" Selected";
+}
+function loadSelected(){selected=new Set();let p=$("programme").value,l=$("level").value;if(p&&l)maps.filter(m=>String(m.programmeId||"")===p&&String(m.levelId||"")===l&&norm(m.status)!=="inactive"&&m.courseId).forEach(m=>selected.add(m.courseId));render();$("selected").textContent=selected.size+" Selected"}
+$("programme").onchange=()=>loadSelected();$("level").onchange=()=>loadSelected();$("search").oninput=render;
+$("courseList").onchange=e=>{let c=e.target.closest("[data-id]");if(!c)return;c.checked?selected.add(c.dataset.id):selected.delete(c.dataset.id);$("selected").textContent=selected.size+" Selected"};
+$("select").onclick=()=>{if(!$("programme").value||!$("level").value)return message("Select a Programme and Academic Level first.","error");visible().forEach(c=>selected.add(c.id));render()};
+$("clearVisible").onclick=()=>{visible().forEach(c=>selected.delete(c.id));render()};
+$("clear").onclick=()=>{selected=new Set();render()};
+
+async function saveStructure(){
+ if(busy)return;let p=programmes.find(x=>x.id===$("programme").value),l=levels.find(x=>x.id===$("level").value);if(!p||!l)return message("Please select a Programme and Academic Level.","error");
+ busy=true;$("save").disabled=true;$("save").textContent="Saving...";
+ try{
+  let old=maps.filter(m=>String(m.programmeId||"")===p.id&&String(m.levelId||"")===l.id),chosen=courses.filter(c=>selected.has(c.id)),chosenSet=new Set(chosen.map(c=>c.id));
+  for(let c of chosen){let found=old.find(m=>String(m.courseId||"")===c.id),data={programmeId:p.id,programmeName:pname(p),levelId:l.id,levelName:lname(l),courseId:c.id,courseCode:cc(c),courseName:ct(c),courseTitle:ct(c),courseUnit:cu(c),semester:cs(c),courseType:c.courseType||c.type||"Core",status:"Active",updatedAt:serverTimestamp()};if(found)await updateDoc(doc(db,"curriculumMappings",found.id),data);else await addDoc(collection(db,"curriculumMappings"),{...data,createdAt:serverTimestamp()})}
+  for(let m of old)if(m.courseId&&!chosenSet.has(m.courseId)&&norm(m.status)!=="inactive")await updateDoc(doc(db,"curriculumMappings",m.id),{status:"Inactive",updatedAt:serverTimestamp()});
+  message(chosen.length+" course"+(chosen.length===1?"":"s")+" saved for "+pname(p)+" — "+lname(l)+".");
+ }catch(e){console.error(e);message(e.message||"Could not save course structure. Check Firebase permissions.","error")}
+ finally{busy=false;$("save").disabled=false;$("save").textContent="Save Selected Courses"}
+}
+$("save").onclick=saveStructure;
+
+function renderMaps(){
+ let q=norm($("mapSearch").value),rows=maps.filter(m=>norm(m.status)!=="inactive").filter(m=>!q||[m.programmeName,m.programme,m.levelName,m.level,m.courseCode,m.courseName,m.courseTitle,m.semester].some(v=>norm(v).includes(q))).sort((a,b)=>String(a.programmeName||"").localeCompare(String(b.programmeName||""))||String(a.levelName||"").localeCompare(String(b.levelName||""))||String(a.courseCode||"").localeCompare(String(b.courseCode||"")));
+ $("mapCount").textContent=rows.length+" Mapping"+(rows.length===1?"":"s");
+ $("maps").innerHTML=rows.length?rows.map(m=>'<tr><td>'+esc(m.programmeName||m.programme||"—")+'</td><td>'+esc(m.levelName||m.level||"—")+'</td><td><b>'+esc(m.courseCode||"")+'</b><br><span class="meta">'+esc(m.courseName||m.courseTitle||"")+'</span></td><td>'+esc(m.courseUnit||0)+'</td><td>'+esc(m.semester||"—")+'</td><td><span class="badge">Active</span></td><td><button class="remove" data-remove="'+esc(m.id)+'" type="button">Remove</button></td></tr>').join(""):'<tr><td colspan="7" class="empty">No saved course mappings found.</td></tr>';
+}
+$("mapSearch").oninput=renderMaps;
+$("maps").onclick=async e=>{let b=e.target.closest("[data-remove]");if(!b)return;let m=maps.find(x=>x.id===b.dataset.remove);if(!m||!confirm("Remove "+(m.courseCode||"this course")+" from "+(m.programmeName||m.programme)+" — "+(m.levelName||m.level)+"?"))return;b.disabled=true;try{await updateDoc(doc(db,"curriculumMappings",m.id),{status:"Inactive",updatedAt:serverTimestamp()});message("Course removed from the Programme + Level structure.")}catch(e){message(e.message||"Could not remove course.","error")}finally{b.disabled=false}};
+
+onSnapshot(collection(db,"programmes"),s=>{programmes=s.docs.map(d=>({id:d.id,...d.data()}));fill("programme",programmes,"Select programme",pname);render()},e=>message("Could not load programmes: "+e.message,"error"));
+onSnapshot(collection(db,"academicLevels"),s=>{levels=s.docs.map(d=>({id:d.id,...d.data()}));fill("level",levels,"Select academic level",lname);render()},e=>message("Could not load levels: "+e.message,"error"));
+onSnapshot(collection(db,"courses"),s=>{courses=s.docs.map(d=>({id:d.id,...d.data()}));render()},e=>message("Could not load courses: "+e.message,"error"));
+onSnapshot(collection(db,"curriculumMappings"),s=>{maps=s.docs.map(d=>({id:d.id,...d.data()}));loadSelected();renderMaps()},e=>message("Could not load mappings: "+e.message,"error"));
+</script>
+</body></html>

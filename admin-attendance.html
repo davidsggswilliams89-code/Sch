@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin Attendance Management | GGCHST SMS</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--text:#10233f;--muted:#667085;--green:#086b45;--green2:#0b7a50;--line:#dfe5ec;--red:#b42318;--orange:#9a6700}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+.header{background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;padding:12px 24px;min-height:96px}
+.logo{width:76px;height:76px;border-radius:50%;object-fit:cover;flex:0 0 auto}.school{flex:1;text-align:center}.school h1{margin:0;color:var(--green);font-size:25px}.school p{margin:5px 0 0;color:var(--muted);font-size:14px}.back{background:#e9eef3;color:var(--text);text-decoration:none;font-weight:700;padding:13px 18px;border-radius:16px}
+.wrap{max-width:1350px;margin:auto;padding:25px 20px 55px}.hero{background:linear-gradient(135deg,var(--green),var(--green2));color:#fff;border-radius:25px;padding:32px 35px;margin-bottom:20px}.hero h2{margin:0 0 8px;font-size:36px}.hero p{margin:0;font-size:17px;line-height:1.5}
+.notice{display:none;padding:13px 16px;border-radius:12px;margin-bottom:15px;font-weight:700}.notice.show{display:block}.error{background:#fde8e7;color:var(--red)}.ok{background:#e9f8ef;color:#067647}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:13px;margin-bottom:20px}.stat{background:#fff;border-radius:18px;padding:18px;box-shadow:0 4px 15px #10233f0b}.stat label{font-size:13px;color:var(--muted)}.stat b{display:block;font-size:27px;color:var(--green);margin-top:6px}
+.card{background:#fff;border-radius:22px;padding:23px;margin-bottom:20px;box-shadow:0 4px 18px #10233f0a}.card h3{margin:0 0 18px;font-size:22px}
+.filters{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.filters input,.filters select{width:100%;padding:12px;border:1px solid #cfd6df;border-radius:11px;background:#fff;color:var(--text)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}button{border:0;border-radius:11px;padding:12px 17px;font-weight:700;cursor:pointer}.primary{background:var(--green);color:#fff}.secondary{background:#eef2f6;color:var(--text)}.danger{background:#fde8e7;color:var(--red)}.warning{background:#fff1c7;color:#7a4f00}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:15px}table{border-collapse:collapse;width:100%;min-width:1250px}th,td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:left;font-size:13px;vertical-align:middle}th{background:#f7f9fb;white-space:nowrap}tr:last-child td{border-bottom:0}
+.student-cell{display:flex;align-items:center;gap:10px}.student-photo{width:45px;height:45px;border-radius:50%;object-fit:cover;background:#e9eef3}.student-photo.placeholder{display:grid;place-items:center;font-size:20px}
+.badge{display:inline-block;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800}.present{background:#e9f8ef;color:#067647}.absent{background:#fde8e7;color:#b42318}
+.small{padding:7px 9px;font-size:12px}.empty{text-align:center;padding:35px;color:var(--muted)}.loading{text-align:center;padding:35px;color:var(--muted)}
+.modal{position:fixed;inset:0;background:#071426b8;display:none;align-items:center;justify-content:center;padding:20px;z-index:50}.modal.show{display:flex}.modal-box{background:#fff;width:min(760px,100%);max-height:90vh;overflow:auto;border-radius:22px;padding:24px}.modal-head{display:flex;justify-content:space-between;gap:15px;align-items:center}.modal-head h3{margin:0;font-size:23px}.close{background:#eef2f6}.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}.summary-box{background:#f6f8fa;border:1px solid var(--line);border-radius:14px;padding:14px}.summary-box span{display:block;color:var(--muted);font-size:12px}.summary-box b{font-size:22px;color:var(--green)}
+.student-history{margin-top:15px}.history-row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding:11px 0}.history-row:last-child{border-bottom:0}
+@media(max-width:1000px){.stats{grid-template-columns:repeat(3,1fr)}.filters{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){.header{padding:10px 12px}.logo{width:60px;height:60px}.school h1{font-size:17px;text-align:left}.school p{font-size:11px;text-align:left}.back{padding:10px;font-size:12px}.wrap{padding:17px 11px 40px}.hero{padding:25px 21px;border-radius:20px}.hero h2{font-size:28px}.hero p{font-size:14px}.stats{grid-template-columns:1fr 1fr}.filters{grid-template-columns:1fr}.card{padding:17px;border-radius:18px}.summary-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header class="header">
+  <img class="logo" src="logo.png" alt="Green Garden College of Health Sciences & Technology logo">
+  <div class="school">
+    <h1>Green Garden College of Health Sciences &amp; Technology, Gusau</h1>
+    <p>School Management System • Admin Attendance Management</p>
+  </div>
+  <a class="back" href="admin.html">← Back</a>
+</header>
+
+<main class="wrap">
+<section class="hero"><h2>Attendance Management</h2><p>View, search, filter and manage attendance records submitted by lecturers across the school.</p></section>
+<div id="notice" class="notice"></div>
+
+<section class="stats">
+  <div class="stat"><label>Attendance Records</label><b id="statRecords">0</b></div>
+  <div class="stat"><label>Present</label><b id="statPresent">0</b></div>
+  <div class="stat"><label>Absent</label><b id="statAbsent">0</b></div>
+  <div class="stat"><label>Students</label><b id="statStudents">0</b></div>
+  <div class="stat"><label>Class Sessions</label><b id="statSessions">0</b></div>
+</section>
+
+<section class="card">
+<h3>Attendance Filters</h3>
+<div class="filters">
+  <input id="search" placeholder="Search student, ID, course or lecturer...">
+  <select id="session"><option value="">All Academic Sessions</option></select>
+  <select id="semester"><option value="">All Semesters</option></select>
+  <select id="department"><option value="">All Departments</option></select>
+  <select id="programme"><option value="">All Programmes</option></select>
+  <select id="level"><option value="">All Levels</option></select>
+  <select id="course"><option value="">All Courses</option></select>
+  <select id="status"><option value="">All Attendance Status</option><option>Present</option><option>Absent</option></select>
+  <input id="date" type="date" title="Attendance date">
+</div>
+<div class="actions"><button id="clearFilters" class="secondary">Clear Filters</button></div>
+</section>
+
+<section class="card">
+<h3>Attendance Records</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>#</th><th>Student</th><th>Course</th><th>Department</th><th>Programme</th><th>Level</th><th>Session</th><th>Semester</th><th>Date</th><th>Time</th><th>Venue</th><th>Lecturer</th><th>Status</th><th>Action</th></tr></thead>
+<tbody id="table"><tr><td colspan="14" class="loading">Loading attendance...</td></tr></tbody>
+</table>
+</div>
+</section>
+</main>
+
+<div id="modal" class="modal">
+<div class="modal-box">
+  <div class="modal-head"><h3 id="modalTitle">Student Attendance</h3><button class="close" onclick="closeModal()">Close</button></div>
+  <div id="modalBody"></div>
+</div>
+</div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getFirestore,collection,onSnapshot,doc,updateDoc,addDoc} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import {getAuth,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+const firebaseConfig={
+  apiKey:"AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
+  authDomain:"ggchst-sms-new.firebaseapp.com",
+  projectId:"ggchst-sms-new",
+  storageBucket:"ggchst-sms-new.firebasestorage.app",
+  messagingSenderId:"942770190211",
+  appId:"1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+const app=initializeApp(firebaseConfig),db=getFirestore(app),auth=getAuth(app);
+const $=id=>document.getElementById(id);
+let currentUser=null,records=[],students=[],sessions=[],semesters=[],departments=[],programmes=[],levels=[],courses=[],lecturers=[];
+
+const clean=v=>String(v??"").trim();
+const norm=v=>clean(v).toLowerCase();
+const esc=v=>String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+const dataOf=s=>s.docs.map(d=>({id:d.id,...d.data()}));
+function first(o,...keys){for(const k of keys)if(o&&o[k]!=null&&clean(o[k])!=="")return o[k];return""}
+function photoOf(s){return clean(first(s,"photoURL","photoUrl","photo","profilePhoto","imageUrl","image"))}
+function studentName(s){return clean(first(s,"fullName","studentName","name"))}
+function studentId(s){return clean(first(s,"studentId","studentID","matricNo","registrationNumber"))}
+function admission(s){return clean(first(s,"admissionNo","admissionNumber"))}
+function show(msg,error=false){const n=$("notice");n.textContent=msg;n.className="notice show "+(error?"error":"ok")}
+function populate(id,items,placeholder,label){
+  const e=$(id),old=e.value;e.innerHTML=`<option value="">${esc(placeholder)}</option>`+items.map(x=>`<option value="${esc(x.id)}">${esc(label(x))}</option>`).join("");
+  if(items.some(x=>String(x.id)===String(old)))e.value=old;
+}
+function fmtDate(v){if(!v)return"—";const d=new Date(v+"T00:00:00");return isNaN(d)?v:d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"})}
+
+function lecturerName(r){
+  const uid=clean(r.lecturerUid||r.staffUid||r.markedByUid);
+  const em=norm(r.lecturerEmail||r.staffEmail||r.markedByEmail);
+  const l=lecturers.find(x=>uid&&(String(x.uid||x.authUid||x.firebaseUid||x.lecturerUid)===uid)||em&&norm(x.email||x.lecturerEmail)===em);
+  return l?studentName(l):clean(r.lecturerName||r.markedByName||r.markedByEmail);
+}
+function filtered(){
+  const q=norm($("search").value),fs=$("session").value,fsem=$("semester").value,fd=$("department").value,fp=$("programme").value,fl=$("level").value,fc=$("course").value,st=$("status").value,dt=$("date").value;
+  return records.filter(r=>{
+    const hay=[r.studentName,r.studentId,r.admissionNo,r.courseCode,r.courseName,r.departmentName,r.programmeName,r.levelName,r.sessionName,r.semesterName,lecturerName(r),r.venue].map(norm).join(" ");
+    return (!q||hay.includes(q))&&(!fs||String(r.sessionId||"")===String(fs)||(!r.sessionId&&norm(r.sessionName)===norm($("session").selectedOptions[0]?.textContent||""))) &&
+      (!fsem||String(r.semesterId||"")===String(fsem)||(!r.semesterId&&norm(r.semesterName)===norm($("semester").selectedOptions[0]?.textContent||""))) &&
+      (!fd||String(r.departmentId||"")===String(fd)||(!r.departmentId&&norm(r.departmentName)===norm($("department").selectedOptions[0]?.textContent||""))) &&
+      (!fp||String(r.programmeId||"")===String(fp)||(!r.programmeId&&norm(r.programmeName)===norm($("programme").selectedOptions[0]?.textContent||""))) &&
+      (!fl||String(r.levelId||"")===String(fl)||(!r.levelId&&norm(r.levelName)===norm($("level").selectedOptions[0]?.textContent||""))) &&
+      (!fc||String(r.courseId||"")===String(fc))&&(!st||r.status===st)&&(!dt||String(r.attendanceDate||r.date||"")===dt);
+  });
+}
+function render(){
+  const rows=filtered();
+  const uniqueStudents=new Set(records.map(r=>r.studentUid||r.studentDocId||r.studentId||r.admissionNo).filter(Boolean));
+  const sessionsKey=new Set(records.map(r=>[r.courseId,r.sessionId,r.semesterId,r.attendanceDate].join("|")));
+  $("statRecords").textContent=records.length;
+  $("statPresent").textContent=records.filter(r=>r.status==="Present").length;
+  $("statAbsent").textContent=records.filter(r=>r.status==="Absent").length;
+  $("statStudents").textContent=uniqueStudents.size;
+  $("statSessions").textContent=sessionsKey.size;
+  const t=$("table");
+  if(!rows.length){t.innerHTML='<tr><td colspan="14" class="empty">No attendance records found.</td></tr>';return}
+  t.innerHTML=rows.map((r,i)=>{
+    const p=clean(r.studentPhoto);const img=p?`<img class="student-photo" src="${esc(p)}" onerror="this.outerHTML='<div class=&quot;student-photo placeholder&quot;>👤</div>'">`:`<div class="student-photo placeholder">👤</div>`;
+    return `<tr>
+      <td>${i+1}</td><td><div class="student-cell">${img}<div><b>${esc(r.studentName)}</b><br><small>${esc(r.studentId||"")}</small><br><small>${esc(r.admissionNo||"")}</small></div></div></td>
+      <td><b>${esc(r.courseCode||"")}</b><br>${esc(r.courseName||"")}</td><td>${esc(r.departmentName||"")}</td><td>${esc(r.programmeName||"")}</td><td>${esc(r.levelName||"")}</td>
+      <td>${esc(r.sessionName||"")}</td><td>${esc(r.semesterName||"")}</td><td>${esc(fmtDate(r.attendanceDate||r.date))}</td><td>${esc(r.classTime||"")}</td><td>${esc(r.venue||"")}</td><td>${esc(lecturerName(r))}</td>
+      <td><span class="badge ${r.status==="Present"?"present":"absent"}">${esc(r.status||"")}</span></td>
+      <td><button class="small secondary" onclick="viewStudent('${esc(r.studentUid||r.studentDocId||r.studentId||r.admissionNo)}')">View</button>
+      <button class="small ${r.status==="Present"?"danger":"primary"}" onclick="toggleRecord('${esc(r.id)}')">${r.status==="Present"?"Absent":"Present"}</button></td>
+    </tr>`;
+  }).join("");
+}
+
+window.toggleRecord=async function(id){
+  const r=records.find(x=>x.id===id);if(!r)return;
+  const next=r.status==="Present"?"Absent":"Present";
+  if(!confirm(`Change ${r.studentName}'s attendance to ${next}?`))return;
+  try{
+    await updateDoc(doc(db,"attendance",id),{status:next,correctedByUid:currentUser?.uid||"",correctedByEmail:currentUser?.email||"",correctedAt:new Date().toISOString()});
+    await addDoc(collection(db,"auditLogs"),{action:"attendance_correction",module:"attendance",entityType:"attendance",entityId:id,uid:currentUser?.uid||"",timestamp:new Date().toISOString(),previousStatus:r.status,newStatus:next,result:"success"});
+    show("Attendance updated successfully.");
+  }catch(e){show(e.message||"Unable to update attendance.",true)}
+};
+
+window.viewStudent=function(key){
+  const rows=records.filter(r=>String(r.studentUid||r.studentDocId||r.studentId||r.admissionNo)===String(key));
+  if(!rows.length)return;
+  const r=rows[0],present=rows.filter(x=>x.status==="Present").length,absent=rows.filter(x=>x.status==="Absent").length,total=rows.length,pct=total?((present/total)*100).toFixed(1):"0.0";
+  $("modalTitle").textContent=r.studentName||"Student Attendance";
+  $("modalBody").innerHTML=`<div class="student-cell" style="margin-top:18px">${r.studentPhoto?`<img class="student-photo" style="width:70px;height:70px" src="${esc(r.studentPhoto)}">`:'<div class="student-photo placeholder" style="width:70px;height:70px">👤</div>'}<div><b style="font-size:20px">${esc(r.studentName)}</b><br>${esc(r.studentId||"")} • ${esc(r.admissionNo||"")}</div></div>
+  <div class="summary-grid"><div class="summary-box"><span>Classes Held</span><b>${total}</b></div><div class="summary-box"><span>Present</span><b>${present}</b></div><div class="summary-box"><span>Absent</span><b>${absent}</b></div><div class="summary-box"><span>Attendance</span><b>${pct}%</b></div></div>
+  <div class="student-history">${rows.sort((a,b)=>String(b.attendanceDate||"").localeCompare(String(a.attendanceDate||""))).map(x=>`<div class="history-row"><div><b>${esc(x.courseCode||"")} — ${esc(x.courseName||"")}</b><br><small>${esc(fmtDate(x.attendanceDate||x.date))} • ${esc(x.semesterName||"")}</small></div><span class="badge ${x.status==="Present"?"present":"absent"}">${esc(x.status)}</span></div>`).join("")}</div>`;
+  $("modal").classList.add("show");
+};
+window.closeModal=()=>$("modal").classList.remove("show");
+
+function wire(){
+  ["search","session","semester","department","programme","level","course","status","date"].forEach(id=>$(id).addEventListener(id==="search"?"input":"change",render));
+  $("clearFilters").onclick=()=>{["session","semester","department","programme","level","course","status","date"].forEach(id=>$(id).value="");$("search").value="";render()};
+}
+function listeners(){
+  onSnapshot(collection(db,"attendance"),s=>{records=dataOf(s);render()},e=>show("Unable to load attendance: "+e.message,true));
+  onSnapshot(collection(db,"students"),s=>{students=dataOf(s)},()=>{});
+  onSnapshot(collection(db,"academicSessions"),s=>{sessions=dataOf(s);populate("session",sessions,"All Academic Sessions",x=>x.name||x.sessionName||"")},()=>{});
+  onSnapshot(collection(db,"semesters"),s=>{semesters=dataOf(s);populate("semester",semesters,"All Semesters",x=>x.name||x.semesterName||"")},()=>{});
+  onSnapshot(collection(db,"departments"),s=>{departments=dataOf(s);populate("department",departments,"All Departments",x=>x.name||x.departmentName||"")},()=>{});
+  onSnapshot(collection(db,"programmes"),s=>{programmes=dataOf(s);populate("programme",programmes,"All Programmes",x=>x.name||x.programmeName||"")},()=>{});
+  onSnapshot(collection(db,"academicLevels"),s=>{levels=dataOf(s);populate("level",levels,"All Levels",x=>x.name||x.levelName||"")},()=>{});
+  onSnapshot(collection(db,"courses"),s=>{courses=dataOf(s);populate("course",courses,"All Courses",x=>x.code?`${x.code} — ${x.title||x.name||""}`:(x.title||x.name||""))},()=>{});
+  onSnapshot(collection(db,"lecturers"),s=>{lecturers=dataOf(s)},()=>{});
+}
+wire();
+onAuthStateChanged(auth,u=>{currentUser=u;listeners()});
+</script>
+</body>
+</html>

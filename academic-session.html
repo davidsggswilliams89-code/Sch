@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GGCHST | Academic Session & Semester Management</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f8f7;color:#17352e}
+.school-header{background:#fff;border-bottom:1px solid #e4ece8}
+.school-head{max-width:1180px;margin:auto;min-height:68px;padding:10px 18px;display:grid;grid-template-columns:52px 1fr 100px;align-items:center;gap:12px}
+.logo{width:42px;height:42px;border-radius:10px;overflow:hidden;display:grid;place-items:center;background:#eef8f3;color:#075c45;font-weight:800}
+.logo img{width:100%;height:100%;object-fit:contain}
+.school-name{text-align:center;font-weight:800;font-size:16px;color:#17352e}
+.back{text-decoration:none;background:#087f5b;color:#fff;border-radius:8px;padding:9px 11px;font-size:11px;font-weight:700;justify-self:end}
+.hero{background:#075c45;color:#fff}
+.hero-inner{max-width:1180px;margin:auto;padding:20px 18px}
+.hero h1{margin:0;font-size:23px}
+.hero p{margin:6px 0 0;font-size:12px;opacity:.85}
+main{max-width:1180px;margin:auto;padding:20px 18px 45px}
+.section{background:#fff;border:1px solid #d9e9e2;border-radius:16px;padding:20px;margin-top:18px;box-shadow:0 5px 18px #0f493a08}
+.section:first-child{margin-top:0}
+.section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:17px}
+.section-head h2{margin:0;color:#075c45;font-size:18px}
+.section-head p{margin:4px 0 0;color:#668078;font-size:12px}
+.count{font-size:11px;color:#075c45;background:#e9f7f1;padding:7px 10px;border-radius:999px;white-space:nowrap}
+.current-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.current{border:1px solid #d9e9e2;background:#f8fcfa;border-radius:12px;padding:15px}
+.current small{display:block;color:#668078;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.current strong{display:block;color:#075c45;font-size:20px;margin-top:5px}
+.current span{font-size:11px;color:#64766f}
+.form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.field label{display:block;font-weight:700;font-size:12px;margin-bottom:6px;color:#31534a}
+.field input,.field select{width:100%;padding:11px 12px;border:1px solid #d9e9e2;border-radius:9px;background:#fff;color:#12352d;outline:none}
+.field input:focus,.field select:focus{border-color:#087f5b;box-shadow:0 0 0 3px #087f5b12}
+.actions-row{display:flex;justify-content:flex-end;gap:9px;margin-top:16px}
+.btn{border:0;border-radius:9px;padding:10px 13px;font-size:12px;font-weight:700;cursor:pointer}
+.save{background:#087f5b;color:#fff}
+.clear{background:#fff;border:1px solid #d9e9e2;color:#536a65}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.tools{display:flex;gap:9px;flex-wrap:wrap;margin:20px 0 12px}
+.tools input,.tools select{padding:10px 11px;border:1px solid #d9e9e2;border-radius:9px;background:#fff;min-width:180px}
+.tools input{flex:1;min-width:240px}
+.table-wrap{overflow:auto;border:1px solid #dfeae5;border-radius:10px}
+table{width:100%;border-collapse:collapse;min-width:900px}
+th{background:#f1f6f4;color:#526b64;text-align:left;font-size:11px;padding:11px 9px}
+td{padding:10px 9px;border-top:1px solid #edf2ef;font-size:11px;vertical-align:middle}
+.action-btn{border:0;border-radius:7px;padding:7px 9px;font-size:10px;font-weight:750;cursor:pointer;margin-right:4px;margin-bottom:3px}
+.edit{background:#e9f7f1;color:#087f5b}
+.del{background:#fff0ef;color:#a61b16}
+.activate{background:#075c45;color:#fff}
+.status{display:inline-block;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:700}
+.active{background:#e7f7ee;color:#087f5b}
+.inactive{background:#f2f2f2;color:#6b7471}
+.closed{background:#fff4df;color:#946200}
+.empty{padding:28px;text-align:center;color:#758782;font-size:12px}
+.info{margin-top:18px;background:#eef7f3;border-left:4px solid #087f5b;padding:12px 14px;border-radius:8px;font-size:12px;color:#31534a}
+.toast{position:fixed;right:18px;bottom:18px;background:#17352e;color:#fff;padding:12px 15px;border-radius:10px;font-size:12px;box-shadow:0 8px 25px #0002;display:none;z-index:30}
+.toast.show{display:block}
+.error-box{display:none;margin-top:12px;background:#fff0ef;color:#8d211b;border:1px solid #f0c7c3;border-radius:9px;padding:11px;font-size:12px}
+@media(max-width:800px){.school-head{grid-template-columns:45px 1fr 86px}.school-name{font-size:13px}.form-grid{grid-template-columns:1fr 1fr}.current-grid{grid-template-columns:1fr}.hero h1{font-size:19px}}
+@media(max-width:550px){.school-head{min-height:62px;padding:8px 12px}.logo{width:38px;height:38px}.school-name{font-size:11px}.back{font-size:10px;padding:8px}.hero-inner{padding:16px 12px}main{padding:14px 12px 35px}.form-grid{grid-template-columns:1fr}.section{padding:15px}.tools input{min-width:100%}.section-head{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<header class="school-header">
+  <div class="school-head">
+    <div class="logo"><img src="https://ggchstgusau.edu.ng/_next/image?q=75&url=%2Flogo.png&w=384" alt="GGCHST logo" onerror="this.style.display='none';this.parentElement.textContent='G'"></div>
+    <div class="school-name">Green Garden College of Health Sciences &amp; Technology</div>
+    <a class="back" href="admin.html">← Back</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Academic Session &amp; Semester Management</h1>
+    <p>Manage the academic periods used throughout the school management system.</p>
+  </div>
+</div>
+
+<main>
+<section class="section">
+  <div class="section-head">
+    <div><h2>Current Academic Period</h2><p>These values show the currently active session and semester.</p></div>
+    <span class="count">LIVE SETTINGS</span>
+  </div>
+  <div class="current-grid">
+    <div class="current">
+      <small>Active Academic Session</small>
+      <strong id="currentSession">Not set</strong>
+      <span id="currentSessionDates">Set an active session below.</span>
+    </div>
+    <div class="current">
+      <small>Active Semester</small>
+      <strong id="currentSemester">Not set</strong>
+      <span id="currentSemesterSession">Set an active semester below.</span>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div><h2>Academic Session</h2><p>Create academic sessions such as 2026/2027.</p></div>
+    <span class="count" id="sessionCount">0 SESSIONS</span>
+  </div>
+
+  <form id="sessionForm">
+    <input type="hidden" id="sessionDocId">
+    <div class="form-grid">
+      <div class="field"><label>Academic Session *</label><input id="sessionName" required placeholder="e.g. 2026/2027"></div>
+      <div class="field"><label>Start Date</label><input id="sessionStart" type="date"></div>
+      <div class="field"><label>End Date</label><input id="sessionEnd" type="date"></div>
+      <div class="field"><label>Status *</label><select id="sessionStatus"><option>Active</option><option>Inactive</option><option>Closed</option></select></div>
+      <div class="field"><label>Description</label><input id="sessionDescription" placeholder="Optional description"></div>
+    </div>
+    <div class="actions-row">
+      <button class="btn clear" type="button" id="sessionClear">Clear</button>
+      <button class="btn save" type="submit" id="sessionSave">＋ Save Session</button>
+    </div>
+    <div class="error-box" id="sessionError"></div>
+  </form>
+
+  <div class="tools">
+    <input id="sessionSearch" placeholder="Search academic session...">
+    <select id="sessionFilter"><option value="">All Statuses</option><option>Active</option><option>Inactive</option><option>Closed</option></select>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Session</th><th>Start</th><th>End</th><th>Status</th><th>Description</th><th>Actions</th></tr></thead>
+      <tbody id="sessionRows"><tr><td colspan="7" class="empty">Loading sessions...</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div><h2>Semester Management</h2><p>Create a semester and connect it to an academic session.</p></div>
+    <span class="count" id="semesterCount">0 SEMESTERS</span>
+  </div>
+
+  <form id="semesterForm">
+    <input type="hidden" id="semesterDocId">
+    <div class="form-grid">
+      <div class="field"><label>Academic Session *</label><select id="semesterSession" required><option value="">Select session</option></select></div>
+      <div class="field"><label>Semester *</label><select id="semesterName" required><option value="">Select semester</option><option>First</option><option>Second</option></select></div>
+      <div class="field"><label>Start Date</label><input id="semesterStart" type="date"></div>
+      <div class="field"><label>End Date</label><input id="semesterEnd" type="date"></div>
+      <div class="field"><label>Status *</label><select id="semesterStatus"><option>Active</option><option>Inactive</option><option>Closed</option></select></div>
+      <div class="field"><label>Description</label><input id="semesterDescription" placeholder="Optional description"></div>
+    </div>
+    <div class="actions-row">
+      <button class="btn clear" type="button" id="semesterClear">Clear</button>
+      <button class="btn save" type="submit" id="semesterSave">＋ Save Semester</button>
+    </div>
+    <div class="error-box" id="semesterError"></div>
+  </form>
+
+  <div class="tools">
+    <input id="semesterSearch" placeholder="Search session or semester...">
+    <select id="semesterFilter"><option value="">All Statuses</option><option>Active</option><option>Inactive</option><option>Closed</option></select>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Academic Session</th><th>Semester</th><th>Start</th><th>End</th><th>Status</th><th>Description</th><th>Actions</th></tr></thead>
+      <tbody id="semesterRows"><tr><td colspan="8" class="empty">Loading semesters...</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<div class="info"><b>Firestore collections:</b> Academic sessions are stored in <b>academicSessions</b> and semesters in <b>semesters</b>. Each semester stores the related <b>sessionId</b> and <b>sessionName</b>.</div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, updateDoc, deleteDoc, doc,
+  onSnapshot, serverTimestamp, writeBatch
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAoT3LGcdw3A0FzHDrPEuhTNCnfiTklGXY",
+  authDomain: "ggchst-sms-new.firebaseapp.com",
+  projectId: "ggchst-sms-new",
+  storageBucket: "ggchst-sms-new.firebasestorage.app",
+  messagingSenderId: "942770190211",
+  appId: "1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const $ = id => document.getElementById(id);
+const clean = value => String(value ?? "").trim();
+
+let sessions = [];
+let semesters = [];
+
+function esc(value) {
+  return clean(value).replace(/[&<>"']/g, char => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[char]));
+}
+
+function showToast(message) {
+  const box = $("toast");
+  box.textContent = message;
+  box.classList.add("show");
+  setTimeout(() => box.classList.remove("show"), 2600);
+}
+
+function showError(id, message) {
+  const box = $(id);
+  box.textContent = message;
+  box.style.display = "block";
+  setTimeout(() => box.style.display = "none", 6000);
+}
+
+function statusClass(status) {
+  return status === "Active" ? "active" : status === "Closed" ? "closed" : "inactive";
+}
+
+function resetSession() {
+  $("sessionDocId").value = "";
+  $("sessionName").value = "";
+  $("sessionStart").value = "";
+  $("sessionEnd").value = "";
+  $("sessionStatus").value = "Active";
+  $("sessionDescription").value = "";
+  $("sessionSave").textContent = "＋ Save Session";
+}
+
+function resetSemester() {
+  $("semesterDocId").value = "";
+  $("semesterSession").value = "";
+  $("semesterName").value = "";
+  $("semesterStart").value = "";
+  $("semesterEnd").value = "";
+  $("semesterStatus").value = "Active";
+  $("semesterDescription").value = "";
+  $("semesterSave").textContent = "＋ Save Semester";
+}
+
+function fillSessionSelect() {
+  const selected = $("semesterSession").value;
+
+  $("semesterSession").innerHTML =
+    '<option value="">Select session</option>' +
+    sessions
+      .slice()
+      .sort((a,b) => String(b.name).localeCompare(String(a.name)))
+      .map(s => `<option value="${esc(s.id)}">${esc(s.name)}</option>`)
+      .join("");
+
+  if (sessions.some(s => s.id === selected)) {
+    $("semesterSession").value = selected;
+  }
+}
+
+function renderCurrent() {
+  const activeSession = sessions.find(s => s.status === "Active");
+  const activeSemester = semesters.find(s => s.status === "Active");
+
+  $("currentSession").textContent = activeSession?.name || "Not set";
+  $("currentSessionDates").textContent = activeSession
+    ? (activeSession.startDate && activeSession.endDate
+        ? `${activeSession.startDate} → ${activeSession.endDate}`
+        : "Active session")
+    : "Set an active session below.";
+
+  $("currentSemester").textContent = activeSemester?.name
+    ? `${activeSemester.name} Semester`
+    : "Not set";
+
+  $("currentSemesterSession").textContent = activeSemester
+    ? (activeSemester.sessionName || "Active semester")
+    : "Set an active semester below.";
+}
+
+function renderSessions() {
+  const q = clean($("sessionSearch").value).toLowerCase();
+  const filter = $("sessionFilter").value;
+
+  const list = sessions.filter(s => {
+    const text = `${s.name || ""} ${s.description || ""}`.toLowerCase();
+    return (!q || text.includes(q)) && (!filter || s.status === filter);
+  });
+
+  $("sessionCount").textContent =
+    `${sessions.length} SESSION${sessions.length === 1 ? "" : "S"}`;
+
+  $("sessionRows").innerHTML = list.length
+    ? list.map((s, index) => `
+      <tr>
+        <td>${index + 1}</td>
+        <td><b>${esc(s.name)}</b></td>
+        <td>${esc(s.startDate || "—")}</td>
+        <td>${esc(s.endDate || "—")}</td>
+        <td><span class="status ${statusClass(s.status)}">${esc(s.status || "Inactive")}</span></td>
+        <td>${esc(s.description || "—")}</td>
+        <td>
+          ${s.status !== "Active"
+            ? `<button class="action-btn activate" data-activate-session="${esc(s.id)}">Set Active</button>`
+            : `<span style="font-size:10px;color:#087f5b;font-weight:700">CURRENT</span>`}
+          <button class="action-btn edit" data-edit-session="${esc(s.id)}">Edit</button>
+          <button class="action-btn del" data-delete-session="${esc(s.id)}">Delete</button>
+        </td>
+      </tr>
+    `).join("")
+    : `<tr><td colspan="7" class="empty">No academic sessions found.</td></tr>`;
+}
+
+function renderSemesters() {
+  const q = clean($("semesterSearch").value).toLowerCase();
+  const filter = $("semesterFilter").value;
+
+  const list = semesters.filter(s => {
+    const text = `${s.sessionName || ""} ${s.name || ""} ${s.description || ""}`.toLowerCase();
+    return (!q || text.includes(q)) && (!filter || s.status === filter);
+  });
+
+  $("semesterCount").textContent =
+    `${semesters.length} SEMESTER${semesters.length === 1 ? "" : "S"}`;
+
+  $("semesterRows").innerHTML = list.length
+    ? list.map((s, index) => `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${esc(s.sessionName || "—")}</td>
+        <td><b>${esc(s.name)}</b></td>
+        <td>${esc(s.startDate || "—")}</td>
+        <td>${esc(s.endDate || "—")}</td>
+        <td><span class="status ${statusClass(s.status)}">${esc(s.status || "Inactive")}</span></td>
+        <td>${esc(s.description || "—")}</td>
+        <td>
+          ${s.status !== "Active"
+            ? `<button class="action-btn activate" data-activate-semester="${esc(s.id)}">Set Active</button>`
+            : `<span style="font-size:10px;color:#087f5b;font-weight:700">CURRENT</span>`}
+          <button class="action-btn edit" data-edit-semester="${esc(s.id)}">Edit</button>
+          <button class="action-btn del" data-delete-semester="${esc(s.id)}">Delete</button>
+        </td>
+      </tr>
+    `).join("")
+    : `<tr><td colspan="8" class="empty">No semesters found.</td></tr>`;
+}
+
+async function writeAudit(action, entityType, entityId, extra = {}) {
+  try {
+    await addDoc(collection(db, "auditLogs"), {
+      action,
+      module: "academic-session",
+      entityType,
+      entityId,
+      timestamp: serverTimestamp(),
+      ...extra
+    });
+  } catch (error) {
+    console.warn("Audit log could not be written:", error);
+  }
+}
+
+async function activateSession(id) {
+  const target = sessions.find(s => s.id === id);
+  if (!target) return;
+
+  if (!confirm(`Set ${target.name} as the active academic session? Other sessions will become Inactive.`)) return;
+
+  try {
+    const batch = writeBatch(db);
+
+    sessions.forEach(s => {
+      if (s.id !== id && s.status !== "Inactive") {
+        batch.update(doc(db, "academicSessions", s.id), {
+          status: "Inactive",
+          updatedAt: serverTimestamp()
+        });
+      }
+    });
+
+    batch.update(doc(db, "academicSessions", id), {
+      status: "Active",
+      updatedAt: serverTimestamp()
+    });
+
+    await batch.commit();
+    await writeAudit("activate", "academicSession", id, { sessionName: target.name });
+    showToast(`${target.name} is now active.`);
+  } catch (error) {
+    console.error(error);
+    alert(error.message || "Could not activate academic session.");
+  }
+}
+
+async function activateSemester(id) {
+  const target = semesters.find(s => s.id === id);
+  if (!target) return;
+
+  if (!confirm(`Set ${target.name} Semester for ${target.sessionName} as the active semester? Other semesters will become Inactive.`)) return;
+
+  try {
+    const batch = writeBatch(db);
+
+    semesters.forEach(s => {
+      if (s.id !== id && s.status !== "Inactive") {
+        batch.update(doc(db, "semesters", s.id), {
+          status: "Inactive",
+          updatedAt: serverTimestamp()
+        });
+      }
+    });
+
+    batch.update(doc(db, "semesters", id), {
+      status: "Active",
+      updatedAt: serverTimestamp()
+    });
+
+    if (target.sessionId) {
+      sessions.forEach(s => {
+        if (s.id === target.sessionId) {
+          batch.update(doc(db, "academicSessions", s.id), {
+            status: "Active",
+            updatedAt: serverTimestamp()
+          });
+        } else if (s.status === "Active") {
+          batch.update(doc(db, "academicSessions", s.id), {
+            status: "Inactive",
+            updatedAt: serverTimestamp()
+          });
+        }
+      });
+    }
+
+    await batch.commit();
+    await writeAudit("activate", "semester", id, {
+      semester: target.name,
+      sessionName: target.sessionName
+    });
+    showToast(`${target.name} Semester is now active.`);
+  } catch (error) {
+    console.error(error);
+    alert(error.message || "Could not activate semester.");
+  }
+}
+
+$("sessionForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const id = clean($("sessionDocId").value);
+  const name = clean($("sessionName").value).replace(/\s+/g, " ");
+  const startDate = clean($("sessionStart").value);
+  const endDate = clean($("sessionEnd").value);
+  const status = $("sessionStatus").value;
+
+  if (!name) {
+    alert("Academic Session is required.");
+    return;
+  }
+
+  if (startDate && endDate && startDate > endDate) {
+    alert("Session end date cannot be before the start date.");
+    return;
+  }
+
+  const duplicate = sessions.some(s =>
+    s.id !== id &&
+    clean(s.name).toLowerCase() === name.toLowerCase()
+  );
+
+  if (duplicate) {
+    alert("That academic session already exists.");
+    return;
+  }
+
+  const button = $("sessionSave");
+  button.disabled = true;
+  button.textContent = id ? "Updating…" : "Saving…";
+
+  try {
+    const payload = {
+      name,
+      startDate,
+      endDate,
+      status,
+      description: clean($("sessionDescription").value),
+      updatedAt: serverTimestamp()
+    };
+
+    if (status === "Active") {
+      const batch = writeBatch(db);
+
+      sessions.forEach(s => {
+        if (s.id !== id && s.status === "Active") {
+          batch.update(doc(db, "academicSessions", s.id), {
+            status: "Inactive",
+            updatedAt: serverTimestamp()
+          });
+        }
+      });
+
+      if (id) {
+        batch.update(doc(db, "academicSessions", id), payload);
+      } else {
+        const ref = doc(collection(db, "academicSessions"));
+        batch.set(ref, {
+          ...payload,
+          createdAt: serverTimestamp()
+        });
+      }
+
+      await batch.commit();
+    } else if (id) {
+      await updateDoc(doc(db, "academicSessions", id), payload);
+    } else {
+      await addDoc(collection(db, "academicSessions"), {
+        ...payload,
+        createdAt: serverTimestamp()
+      });
+    }
+
+    await writeAudit(id ? "update" : "create", "academicSession", id || "new", {
+      sessionName: name
+    });
+
+    resetSession();
+    showToast(id ? "Academic session updated." : "Academic session created.");
+  } catch (error) {
+    console.error(error);
+    showError("sessionError", error.message || "Could not save academic session. Check your Firestore rules.");
+  } finally {
+    button.disabled = false;
+    button.textContent = "＋ Save Session";
+  }
+});
+
+$("semesterForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const id = clean($("semesterDocId").value);
+  const sessionId = $("semesterSession").value;
+  const name = $("semesterName").value;
+  const session = sessions.find(s => s.id === sessionId);
+  const startDate = clean($("semesterStart").value);
+  const endDate = clean($("semesterEnd").value);
+  const status = $("semesterStatus").value;
+
+  if (!session || !name) {
+    alert("Academic Session and Semester are required.");
+    return;
+  }
+
+  if (startDate && endDate && startDate > endDate) {
+    alert("Semester end date cannot be before the start date.");
+    return;
+  }
+
+  const duplicate = semesters.some(s =>
+    s.id !== id &&
+    s.sessionId === sessionId &&
+    s.name === name
+  );
+
+  if (duplicate) {
+    alert(`${name} Semester already exists for ${session.name}.`);
+    return;
+  }
+
+  const button = $("semesterSave");
+  button.disabled = true;
+  button.textContent = id ? "Updating…" : "Saving…";
+
+  try {
+    const payload = {
+      sessionId,
+      sessionName: session.name,
+      name,
+      startDate,
+      endDate,
+      status,
+      description: clean($("semesterDescription").value),
+      updatedAt: serverTimestamp()
+    };
+
+    if (status === "Active") {
+      const batch = writeBatch(db);
+
+      semesters.forEach(s => {
+        if (s.id !== id && s.status === "Active") {
+          batch.update(doc(db, "semesters", s.id), {
+            status: "Inactive",
+            updatedAt: serverTimestamp()
+          });
+        }
+      });
+
+      sessions.forEach(s => {
+        if (s.id === sessionId && s.status !== "Active") {
+          batch.update(doc(db, "academicSessions", s.id), {
+            status: "Active",
+            updatedAt: serverTimestamp()
+          });
+        } else if (s.id !== sessionId && s.status === "Active") {
+          batch.update(doc(db, "academicSessions", s.id), {
+            status: "Inactive",
+            updatedAt: serverTimestamp()
+          });
+        }
+      });
+
+      if (id) {
+        batch.update(doc(db, "semesters", id), payload);
+      } else {
+        const ref = doc(collection(db, "semesters"));
+        batch.set(ref, {
+          ...payload,
+          createdAt: serverTimestamp()
+        });
+      }
+
+      await batch.commit();
+    } else if (id) {
+      await updateDoc(doc(db, "semesters", id), payload);
+    } else {
+      await addDoc(collection(db, "semesters"), {
+        ...payload,
+        createdAt: serverTimestamp()
+      });
+    }
+
+    await writeAudit(id ? "update" : "create", "semester", id || "new", {
+      semester: name,
+      sessionName: session.name
+    });
+
+    resetSemester();
+    showToast(id ? "Semester updated." : "Semester created.");
+  } catch (error) {
+    console.error(error);
+    showError("semesterError", error.message || "Could not save semester. Check your Firestore rules.");
+  } finally {
+    button.disabled = false;
+    button.textContent = "＋ Save Semester";
+  }
+});
+
+$("sessionClear").onclick = resetSession;
+$("semesterClear").onclick = resetSemester;
+$("sessionSearch").oninput = renderSessions;
+$("sessionFilter").onchange = renderSessions;
+$("semesterSearch").oninput = renderSemesters;
+$("semesterFilter").onchange = renderSemesters;
+
+$("sessionRows").addEventListener("click", async event => {
+  const activate = event.target.closest("[data-activate-session]")?.dataset.activateSession;
+  const edit = event.target.closest("[data-edit-session]")?.dataset.editSession;
+  const del = event.target.closest("[data-delete-session]")?.dataset.deleteSession;
+
+  if (activate) {
+    await activateSession(activate);
+    return;
+  }
+
+  if (edit) {
+    const s = sessions.find(x => x.id === edit);
+    if (!s) return;
+
+    $("sessionDocId").value = s.id;
+    $("sessionName").value = s.name || "";
+    $("sessionStart").value = s.startDate || "";
+    $("sessionEnd").value = s.endDate || "";
+    $("sessionStatus").value = s.status || "Inactive";
+    $("sessionDescription").value = s.description || "";
+    $("sessionSave").textContent = "Update Session";
+    window.scrollTo({top: 0, behavior: "smooth"});
+    return;
+  }
+
+  if (del) {
+    const s = sessions.find(x => x.id === del);
+    if (!s) return;
+
+    if (semesters.some(x => x.sessionId === del)) {
+      alert("This session cannot be deleted while semesters are connected to it. Delete its semesters first.");
+      return;
+    }
+
+    if (!confirm(`Delete academic session "${s.name}"? This cannot be undone.`)) return;
+
+    try {
+      await deleteDoc(doc(db, "academicSessions", del));
+      await writeAudit("delete", "academicSession", del, {sessionName: s.name});
+      showToast("Academic session deleted.");
+    } catch (error) {
+      console.error(error);
+      alert(error.message || "Could not delete academic session.");
+    }
+  }
+});
+
+$("semesterRows").addEventListener("click", async event => {
+  const activate = event.target.closest("[data-activate-semester]")?.dataset.activateSemester;
+  const edit = event.target.closest("[data-edit-semester]")?.dataset.editSemester;
+  const del = event.target.closest("[data-delete-semester]")?.dataset.deleteSemester;
+
+  if (activate) {
+    await activateSemester(activate);
+    return;
+  }
+
+  if (edit) {
+    const s = semesters.find(x => x.id === edit);
+    if (!s) return;
+
+    $("semesterDocId").value = s.id;
+    $("semesterSession").value = s.sessionId || "";
+    $("semesterName").value = s.name || "";
+    $("semesterStart").value = s.startDate || "";
+    $("semesterEnd").value = s.endDate || "";
+    $("semesterStatus").value = s.status || "Inactive";
+    $("semesterDescription").value = s.description || "";
+    $("semesterSave").textContent = "Update Semester";
+    document.querySelectorAll(".section")[2].scrollIntoView({behavior:"smooth"});
+    return;
+  }
+
+  if (del) {
+    const s = semesters.find(x => x.id === del);
+    if (!s) return;
+
+    if (!confirm(`Delete ${s.name} Semester for "${s.sessionName}"? This cannot be undone.`)) return;
+
+    try {
+      await deleteDoc(doc(db, "semesters", del));
+      await writeAudit("delete", "semester", del, {
+        semester: s.name,
+        sessionName: s.sessionName
+      });
+      showToast("Semester deleted.");
+    } catch (error) {
+      console.error(error);
+      alert(error.message || "Could not delete semester.");
+    }
+  }
+});
+
+onSnapshot(
+  collection(db, "academicSessions"),
+  snapshot => {
+    sessions = snapshot.docs.map(d => ({id:d.id, ...d.data()}))
+      .sort((a,b) => String(b.name || "").localeCompare(String(a.name || "")));
+
+    fillSessionSelect();
+    renderSessions();
+    renderCurrent();
+  },
+  error => {
+    console.error(error);
+    $("sessionRows").innerHTML =
+      `<tr><td colspan="7" class="empty">${esc(error.message || "Could not read academicSessions.")}</td></tr>`;
+  }
+);
+
+onSnapshot(
+  collection(db, "semesters"),
+  snapshot => {
+    semesters = snapshot.docs.map(d => ({id:d.id, ...d.data()}))
+      .sort((a,b) =>
+        String(b.sessionName || "").localeCompare(String(a.sessionName || "")) ||
+        String(a.name || "").localeCompare(String(b.name || ""))
+      );
+
+    renderSemesters();
+    renderCurrent();
+  },
+  error => {
+    console.error(error);
+    $("semesterRows").innerHTML =
+      `<tr><td colspan="8" class="empty">${esc(error.message || "Could not read semesters.")}</td></tr>`;
+  }
+);
+</script>
+</body>
+</html>

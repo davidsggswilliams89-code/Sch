@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GGCHST SMS | Attendance</title>
+<style>
+:root{--p:#15803D;--d:#14532D;--a:#22C55E;--s:#ECFDF3;--bg:#F6F8FA;--card:#fff;--t:#172033;--m:#667085;--b:#E5E7EB;--danger:#DC2626}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(180deg,#f8fffa,#f1f7f3);color:var(--t)}
+.top{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--b);box-shadow:0 2px 12px #0000000d}
+.bar{display:flex;justify-content:space-between;align-items:center;padding:13px 20px}
+.brand{display:flex;gap:11px;align-items:center}.logo{width:43px;height:43px;object-fit:contain}.brand b{display:block;font-size:15px}.brand small{font-size:10px;color:var(--m)}
+.role{background:var(--s);color:var(--p);border:1px solid #bbe8cb;border-radius:999px;padding:7px 11px;font-size:10px;font-weight:800}
+nav{display:flex;gap:5px;overflow:auto;padding:8px 20px;border-top:1px solid #f1f3f5}
+nav a{text-decoration:none;white-space:nowrap;padding:9px 11px;border-radius:9px;color:#475467;font-size:12px;font-weight:700}
+nav a:hover,nav a.active{background:var(--s);color:var(--p)}
+main{max-width:1050px;margin:22px auto;padding:0 15px}
+.hero{background:linear-gradient(135deg,var(--d),var(--p));color:#fff;border-radius:20px;padding:24px;margin-bottom:16px}
+.hero h1{margin:0 0 5px;font-size:25px}.hero p{margin:0;color:#dcfce7;font-size:12px;line-height:1.5}
+.headrow{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:18px 0 12px}.headrow h2{margin:0;font-size:20px}.muted{color:var(--m);font-size:12px}
+.count{background:var(--s);color:var(--p);border-radius:999px;padding:8px 12px;font-weight:800}
+.courses{display:grid;grid-template-columns:1fr;gap:16px}
+.course{background:#fff;border:1px solid #dfe5e2;border-radius:19px;padding:20px;box-shadow:0 5px 20px #102a2a0a}
+.course-top{display:flex;justify-content:space-between;align-items:flex-start;gap:15px}
+.code{font-size:25px;font-weight:900;margin-bottom:5px}.name{font-size:16px;color:#64748b;line-height:1.4;max-width:600px}
+.level{background:#dcfce7;color:#15803d;border-radius:28px;padding:14px 20px;font-size:17px;font-weight:900;min-width:125px;text-align:center}
+.students{font-size:15px;color:#667085;margin:20px 0 15px}.students b{color:#475467}
+.actions{display:flex;flex-wrap:wrap;gap:10px}.btn{border:0;border-radius:12px;padding:13px 20px;font-size:14px;font-weight:900;cursor:pointer}.primary{background:#15803D;color:#fff}.secondary{background:#effbf3;color:#15803D}.danger{background:#fef2f2;color:#b91c1c}
+.status{margin-top:12px;padding:11px 13px;border-radius:10px;background:#f8fafc;color:var(--m);font-size:12px}.ok{background:var(--s);color:#166534}.bad{background:#fef2f2;color:#991b1b}
+.empty{background:#fff;border:1px dashed #cfd8d3;border-radius:17px;padding:35px;text-align:center;color:var(--m)}
+.overlay{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:20px;z-index:50}.overlay.show{display:flex}
+.modal{width:min(720px,100%);background:#fff;border-radius:26px;padding:28px;box-shadow:0 25px 80px #0004}
+.modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:15px}.modal h2{margin:0;font-size:28px}.close{border:0;background:transparent;font-size:30px;cursor:pointer}
+.modal p{font-size:17px;line-height:1.5;color:#344054}.modal-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.live{text-align:center}.live h2{font-size:25px}.live-details{color:var(--m);font-size:13px;line-height:1.6}
+.live-code{font-size:72px;font-weight:900;letter-spacing:12px;color:var(--d);margin:20px 0 4px;font-variant-numeric:tabular-nums}
+.live-timer{font-size:20px;font-weight:900;color:var(--p)}.live-note{font-size:12px;color:var(--m);margin-top:12px}
+.records{max-height:330px;overflow:auto;margin-top:15px;border:1px solid var(--b);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:12px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--b)}th{font-size:10px;color:var(--m);text-transform:uppercase}
+@media(max-width:600px){.bar{padding:11px 13px}nav{padding:8px 12px}main{padding:0 11px}.course{padding:16px}.course-top{flex-direction:column}.level{min-width:110px}.modal{padding:20px;border-radius:20px}.modal h2{font-size:23px}.live-code{font-size:52px;letter-spacing:7px}.btn{width:100%}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="bar">
+    <div class="brand">
+      <img class="logo" src="https://ggchstgusau.edu.ng/_next/image?q=75&url=%2Flogo.png&w=384" alt="GGCHST">
+      <div><b>GGCHST SMS</b><small>Lecturer Attendance Management</small></div>
+    </div>
+    <span class="role" id="roleLabel">LECTURER</span>
+  </div>
+  <nav>
+    <a href="lecturer-profile.html">▦ Dashboard</a>
+    <a href="lecturer-profile.html">👨‍🏫 My Profile</a>
+    <a class="active" href="registrar-attendance.html">📋 Attendance</a>
+    <a href="timetable.html">▣ Timetable</a>
+    <a href="results.html">✓ Results</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>My Courses</h1>
+    <p>Select the course you are teaching. Press <b>Attendance</b> to open the attendance action, then press <b>Start Attendance</b> when you are physically in the lecture venue.</p>
+  </section>
+
+  <div class="headrow">
+    <div><h2>Courses Assigned To Me</h2><div class="muted">Attendance can only be started from an assigned course.</div></div>
+    <span class="count" id="courseCount">0 Courses</span>
+  </div>
+
+  <div id="courses" class="courses">
+    <div class="empty">Loading your assigned courses…</div>
+  </div>
+  <div id="pageMsg" class="status">Connecting to the shared Firebase attendance system…</div>
+</main>
+
+<div class="overlay" id="actionOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div><h2 id="actionTitle">Attendance</h2><p>Select the attendance action for this course.</p></div>
+      <button class="close" id="closeAction">×</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn primary" id="startBtn">Start Attendance</button>
+      <button class="btn secondary" id="recordsBtn">View Records</button>
+    </div>
+    <div id="actionMsg" class="status"></div>
+  </div>
+</div>
+
+<div class="overlay" id="liveOverlay">
+  <div class="modal live">
+    <div class="modal-head">
+      <div><h2>Live Attendance</h2><div class="live-details" id="liveDetails">—</div></div>
+      <button class="close" id="closeLive">×</button>
+    </div>
+    <div class="live-code" id="liveCode">----</div>
+    <div class="live-timer" id="liveTimer">00:00 remaining</div>
+    <div class="live-note">The number changes automatically every 5 seconds. Students use the displayed number during the active lecture.</div>
+    <div id="liveMsg" class="status ok">Attendance is active.</div>
+    <div class="modal-actions">
+      <button class="btn danger" id="stopBtn">Stop Attendance</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="recordsOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div><h2 id="recordsTitle">Attendance Records</h2><div class="muted">Records submitted for this course.</div></div>
+      <button class="close" id="closeRecords">×</button>
+    </div>
+    <div id="recordsBox" class="records"><div class="empty">Loading records…</div></div>
+  </div>
+</div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import{getAuth,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import{getFirestore,collection,getDocs,addDoc,onSnapshot,query,orderBy,where,doc,updateDoc,serverTimestamp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
+  authDomain: "ggchst-sms-new.firebaseapp.com",
+  projectId: "ggchst-sms-new",
+  storageBucket: "ggchst-sms-new.firebasestorage.app",
+  messagingSenderId: "942770190211",
+  appId: "1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
+const $=id=>document.getElementById(id);
+const norm=v=>String(v??"").trim().toLowerCase();
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+const first=(o,keys,f="")=>{for(const k of keys)if(o?.[k]!==undefined&&o[k]!==null&&String(o[k]).trim()!=="")return o[k];return f};
+
+let user=null,lecturer=null,courses=[],selected=null,currentSession=null,timer=null;
+let stopCourses=null,stopSessions=null;
+
+function courseCode(c){return String(first(c,["code","courseCode","courseId","subjectCode"],""))}
+function courseName(c){return String(first(c,["name","courseName","title","courseTitle"],courseCode(c)))}
+function courseLecturerId(c){return String(first(c,["lecturerId","lecturerID","staffId","staffID","assignedLecturerId","lecturerUid","lecturerUID"],""))}
+function courseLecturerName(c){return String(first(c,["lecturerName","lecturer","teacher","instructor"],""))}
+function lecturerName(l){return String(first(l,["name","fullName","displayName","lecturerName"],user?.displayName||user?.email||""))}
+function lecturerIds(l){return [l?.id,l?.uid,l?.staffId,l?.staffID,l?.employeeId,l?.employeeID,user?.uid].filter(Boolean).map(norm)}
+function sameLecturer(c){
+  const ids=lecturerIds(lecturer);
+  const cid=norm(courseLecturerId(c));
+  const cname=norm(courseLecturerName(c));
+  return (cid && ids.includes(cid)) || (cname && ids.includes(cname));
+}
+function registeredCount(course){
+  return course._registeredCount ?? 0;
+}
+
+async function loadLecturer(){
+  const snap=await getDocs(collection(db,"lecturers"));
+  const rows=snap.docs.map(d=>({id:d.id,...d.data()}));
+  const ids=lecturerIds(null);
+  lecturer=rows.find(x=>lecturerIds(x).some(v=>ids.includes(v)))||{
+    id:user?.uid,uid:user?.uid,name:user?.displayName||user?.email||"Lecturer"
+  };
+  await loadCourses();
+}
+
+async function loadCourses(){
+  try{
+    const snap=await getDocs(collection(db,"courses"));
+    const rows=snap.docs.map(d=>({id:d.id,...d.data()}));
+    courses=rows.filter(sameLecturer);
+    if(!courses.length){
+      // Some installations store the lecturer assignment by name instead of ID.
+      courses=rows.filter(c=>norm(courseLecturerName(c))===norm(lecturerName(lecturer)));
+    }
+
+    const regSnap=await getDocs(collection(db,"courseRegistrations"));
+    const regs=regSnap.docs.map(d=>d.data());
+    courses.forEach(c=>{
+      const code=norm(courseCode(c)),cid=norm(c.id);
+      c._registeredCount=regs.filter(r=>{
+        const rc=norm(first(r,["courseCode","course","courseId","courseID","code"],""));
+        return rc===code||rc===cid;
+      }).length;
+    });
+    renderCourses();
+  }catch(e){
+    console.error(e);
+    $("courses").innerHTML='<div class="empty">Could not load assigned courses. '+esc(e.code||e.message)+'</div>';
+    $("pageMsg").textContent="Firebase error: "+(e.code||e.message||"unknown error");
+    $("pageMsg").className="status bad";
+  }
+}
+
+function renderCourses(){
+  $("courseCount").textContent=courses.length+" Course"+(courses.length===1?"":"s");
+  if(!courses.length){
+    $("courses").innerHTML='<div class="empty"><b>No assigned courses found.</b><br><br>The lecturer must first be assigned to courses in the shared <b>courses</b> collection.</div>';
+    return;
+  }
+  $("courses").innerHTML=courses.map((c,i)=>`
+    <article class="course">
+      <div class="course-top">
+        <div>
+          <div class="code">${esc(courseCode(c)||"COURSE")}</div>
+          <div class="name">${esc(courseName(c))}</div>
+        </div>
+        <div class="level">${esc(first(c,["level","classLevel"],"Level"))}</div>
+      </div>
+      <div class="students">Registered students: <b>${registeredCount(c)}</b></div>
+      <div class="actions">
+        <button class="btn primary attendanceBtn" data-index="${i}">Attendance</button>
+        <button class="btn secondary" data-records="${i}">View Records</button>
+      </div>
+    </article>
+  `).join("");
+  document.querySelectorAll(".attendanceBtn").forEach(b=>b.onclick=()=>openActions(courses[+b.dataset.index]));
+  document.querySelectorAll("[data-records]").forEach(b=>b.onclick=()=>openRecords(courses[+b.dataset.records]));
+}
+
+function openActions(c){
+  selected=c;
+  $("actionTitle").textContent="Attendance — "+courseCode(c);
+  $("actionMsg").textContent="Select the attendance action for this course.";
+  $("actionMsg").className="status";
+  $("actionOverlay").classList.add("show");
+}
+
+$("closeAction").onclick=()=>$("actionOverlay").classList.remove("show");
+$("startBtn").onclick=()=>startAttendance();
+$("recordsBtn").onclick=()=>selected&&openRecords(selected);
+
+function sessionState(s){
+  if(s.status==="stopped")return"Stopped";
+  const now=new Date();
+  const a=new Date(`${s.date}T${s.startTime}:00`);
+  const b=new Date(`${s.date}T${s.endTime}:00`);
+  return now<a?"Scheduled":now<b?"Active":"Ended";
+}
+function makeCode(s){
+  const epoch=Math.floor(Date.now()/5000),seed=String(s.codeSeed||s.id),text=seed;
+  let x=0;for(let i=0;i<text.length;i++)x=(x*31+text.charCodeAt(i))>>>0;
+  return String(1000+(((x+epoch*2654435761)>>>0)%9000));
+}
+function openLive(s){
+  currentSession=s;
+  $("liveDetails").textContent=`${s.courseCode} • ${s.courseName} • ${s.date} • ${s.startTime}–${s.endTime} • ${s.venue||"Venue not specified"}`;
+  $("liveOverlay").classList.add("show");
+  if(timer)clearInterval(timer);
+  const update=()=>{
+    const st=sessionState(currentSession);
+    if(st==="Active"){
+      $("liveCode").textContent=makeCode(currentSession);
+      const left=Math.max(0,Math.floor((new Date(`${currentSession.date}T${currentSession.endTime}:00`)-Date.now())/1000));
+      $("liveTimer").textContent=String(Math.floor(left/60)).padStart(2,"0")+":"+String(left%60).padStart(2,"0")+" remaining";
+      $("liveMsg").textContent="Attendance is LIVE. Students can record attendance now.";
+      $("liveMsg").className="status ok";
+    }else{
+      $("liveCode").textContent="----";
+      $("liveTimer").textContent=st==="Scheduled"?"Waiting for start":"Session ended";
+      $("liveMsg").textContent=st==="Scheduled"?"The scheduled attendance session has not started yet.":"This attendance session has ended.";
+      $("liveMsg").className="status";
+    }
+  };
+  update();timer=setInterval(update,1000);
+}
+$("closeLive").onclick=()=>{if(timer)clearInterval(timer);$("liveOverlay").classList.remove("show")};
+
+async function startAttendance(){
+  if(!user||!selected)return;
+  $("actionMsg").textContent="Starting attendance session…";
+  $("actionMsg").className="status";
+  const now=new Date();
+  const date=now.toISOString().slice(0,10);
+  const start=now.toTimeString().slice(0,5);
+  const endDate=new Date(now.getTime()+60*60*1000);
+  const end=endDate.toTimeString().slice(0,5);
+  const p={
+    courseId:selected.id||"",
+    courseCode:courseCode(selected),
+    courseName:courseName(selected),
+    lecturerId:lecturer?.id||lecturer?.uid||user.uid,
+    lecturerUid:user.uid,
+    lecturerName:lecturerName(lecturer),
+    level:first(selected,["level","classLevel"],""),
+    academicSession:first(selected,["academicSession","session"],"2026/2027"),
+    date,startTime:start,endTime:end,
+    venue:first(selected,["venue","room","location"],""),
+    status:"scheduled",
+    codeIntervalSeconds:5,
+    codeSeed:(crypto.randomUUID?crypto.randomUUID():Date.now()+"-"+Math.random()),
+    source:"lecturer-attendance",
+    createdBy:user.uid,
+    createdAt:serverTimestamp()
+  };
+  try{
+    const r=await addDoc(collection(db,"attendanceSessions"),p);
+    p.id=r.id;
+    $("actionOverlay").classList.remove("show");
+    openLive(p);
+  }catch(e){
+    console.error(e);
+    $("actionMsg").textContent="Could not start attendance: "+(e.code||e.message||"Firebase error");
+    $("actionMsg").className="status bad";
+  }
+}
+
+$("stopBtn").onclick=async()=>{
+  if(!currentSession)return;
+  try{
+    await updateDoc(doc(db,"attendanceSessions",currentSession.id),{
+      status:"stopped",stoppedAt:serverTimestamp(),updatedAt:serverTimestamp()
+    });
+    currentSession.status="stopped";
+    openLive(currentSession);
+  }catch(e){
+    alert("Could not stop attendance: "+(e.code||e.message));
+  }
+};
+
+async function openRecords(c){
+  selected=c;
+  $("recordsTitle").textContent="Attendance Records — "+courseCode(c);
+  $("recordsOverlay").classList.add("show");
+  $("recordsBox").innerHTML='<div class="empty">Loading records…</div>';
+  try{
+    const snap=await getDocs(collection(db,"attendance"));
+    const rows=snap.docs.map(d=>({id:d.id,...d.data()})).filter(r=>{
+      const rc=norm(first(r,["courseCode","course","courseId","courseID"],""));
+      return rc===norm(courseCode(c))||rc===norm(c.id);
+    });
+    $("recordsBox").innerHTML=rows.length?`<table><thead><tr><th>Student</th><th>Matric No.</th><th>Date</th><th>Time</th><th>Status</th></tr></thead><tbody>${
+      rows.map(r=>`<tr><td>${esc(first(r,["studentName","fullName","name"],"—"))}</td><td>${esc(first(r,["matricNo","matricNumber","studentId"],"—"))}</td><td>${esc(first(r,["date","attendanceDate"],"—"))}</td><td>${esc(first(r,["time","attendanceTime"],"—"))}</td><td>${esc(first(r,["status","attendanceStatus"],"Present"))}</td></tr>`).join("")
+    }</tbody></table>`:'<div class="empty">No attendance records found for this course yet.</div>';
+  }catch(e){
+    $("recordsBox").innerHTML='<div class="empty">Cannot read attendance records: '+esc(e.code||e.message)+'</div>';
+  }
+}
+$("closeRecords").onclick=()=>$("recordsOverlay").classList.remove("show");
+
+onAuthStateChanged(auth,async u=>{
+  user=u;
+  if(!u){
+    $("pageMsg").textContent="Please log in as a lecturer to view assigned courses and conduct attendance.";
+    $("pageMsg").className="status bad";
+    $("courses").innerHTML='<div class="empty">Lecturer login required.</div>';
+    return;
+  }
+  try{
+    await loadLecturer();
+    $("pageMsg").textContent="Connected as "+(u.email||u.uid)+". Attendance is controlled by the lecturer.";
+    $("pageMsg").className="status ok";
+  }catch(e){
+    console.error(e);
+    $("pageMsg").textContent="Could not load lecturer profile: "+(e.code||e.message);
+    $("pageMsg").className="status bad";
+  }
+});
+</script>
+<script type="module" id="ggchst-auth-uid">
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+const GGCHST_CONFIG = {
+  apiKey: "AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
+  authDomain: "ggchst-sms-new.firebaseapp.com",
+  projectId: "ggchst-sms-new",
+  storageBucket: "ggchst-sms-new.firebasestorage.app",
+  messagingSenderId: "942770190211",
+  appId: "1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+const app=getApps().length?getApp():initializeApp(GGCHST_CONFIG);
+const auth=getAuth(app);
+window.GGCHST_FIREBASE_APP=app; window.GGCHST_FIREBASE_AUTH=auth; window.GGCHST_FIREBASE_CONFIG=GGCHST_CONFIG;
+const ready=setPersistence(auth,browserLocalPersistence).catch(e=>console.warn("Firebase Auth persistence:",e));
+window.GGCHST_AUTH_READY=ready;
+window.GGCHST_UID=()=>auth.currentUser?.uid||null;
+window.GGCHST_CURRENT_USER=()=>auth.currentUser||null;
+onAuthStateChanged(auth,async user=>{await ready; window.GGCHST_AUTH_USER=user||null; window.GGCHST_AUTH_UID=user?.uid||null; window.dispatchEvent(new CustomEvent("ggchst-auth-changed",{detail:{user,uid:user?.uid||null}));});
+</script>
+</body>
+</html>

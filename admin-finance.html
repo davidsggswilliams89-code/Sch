@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Finance & Fees | GGCHST Admin</title>
+<style>
+:root{--bg:#f3f8f5;--card:#fff;--text:#15352b;--muted:#668078;--line:#dce9e3;--brand:#087443;--brand2:#075c45;--soft:#e7f4ee;--danger:#b42318;--warning:#b54708}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.head{max-width:1200px;margin:auto;min-height:68px;padding:10px 16px;display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:12px}
+.school-logo{width:42px;height:42px;border-radius:50%;background:var(--soft);border:2px solid #b9dfcf;display:grid;place-items:center;color:var(--brand);font-size:11px;font-weight:900;letter-spacing:.4px}
+.school-title{text-align:center;font-size:18px;font-weight:800;line-height:1.25}
+.header-back{justify-self:end;background:var(--brand);color:#fff;text-decoration:none;padding:8px 12px;border-radius:9px;font-size:12px;font-weight:800}
+nav{background:#064b39;overflow:auto}
+nav .inner{max-width:1200px;margin:auto;display:flex;gap:4px;padding:8px 12px}
+nav a{color:#fff;text-decoration:none;padding:9px 11px;border-radius:8px;white-space:nowrap;font-size:13px}
+nav a.active,nav a:hover{background:#ffffff20}
+main{max-width:1200px;margin:auto;padding:22px 14px 45px}
+.hero{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
+.hero h1{margin:0 0 6px;font-size:24px}.hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+.startup,.notice{margin:0 0 14px;padding:11px 13px;border:1px solid #d8ebe0;background:#f4fbf6;border-radius:10px;color:#356b52;font-size:12px}
+.grid{display:grid;gap:14px}
+.stats{grid-template-columns:repeat(4,1fr);margin-bottom:16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 4px 16px #12321a0b}
+.stat-label{font-size:12px;color:var(--muted);margin-bottom:7px}.stat-value{font-size:25px;font-weight:800}.stat-note{font-size:11px;color:var(--muted);margin-top:4px}
+.green{color:#15803d}.orange{color:#b54708}.red{color:#b42318}.blue{color:#175cd3}
+.two{grid-template-columns:1fr 1fr}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.card-head h2{font-size:17px;margin:0}
+.form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.full{grid-column:1/-1}
+label{display:block;font-size:12px;color:var(--muted);font-weight:700;margin-bottom:5px}
+input,select,textarea{width:100%;padding:10px 11px;border:1px solid #cfded7;border-radius:9px;background:#fff;font:inherit;color:var(--text);outline:none}
+input:focus,select:focus,textarea:focus{border-color:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.12)}
+textarea{min-height:85px;resize:vertical}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{border:0;border-radius:9px;padding:10px 13px;background:var(--brand);color:#fff;font-weight:800;cursor:pointer}
+.btn.secondary{background:#e8f0ed;color:var(--text)}.btn.warning{background:#b54708}.btn.danger{background:#b42318}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:11px}
+table{width:100%;border-collapse:collapse;background:#fff;min-width:820px}
+th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;font-size:12px;vertical-align:top}
+th{background:#f1f7f4;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.04em}
+.status{display:inline-block;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:800}
+.status.Paid{background:#dcfce7;color:#166534}.status.Pending{background:#fef3c7;color:#92400e}.status.Unpaid{background:#fee2e2;color:#991b1b}.status.Waived{background:#e0e7ff;color:#3730a3}
+.status.Verified{background:#dcfce7;color:#166534}
+.row-actions{display:flex;gap:5px;flex-wrap:wrap}.row-actions button{border:0;border-radius:7px;padding:6px 8px;font-size:10px;font-weight:800;cursor:pointer}
+.approve{background:#dcfce7;color:#166534}.mark-unpaid{background:#fee2e2;color:#991b1b}.edit{background:#e8f0ed;color:#075c45}.del{background:#fdecea;color:#b42318}
+.empty{padding:22px;text-align:center;color:var(--muted);font-size:12px}
+.message{font-size:12px;margin-top:9px;line-height:1.4}.ok{color:#15803d}.err{color:#b42318}
+.search-row{display:grid;grid-template-columns:1fr 180px 180px;gap:10px;margin-bottom:12px}
+.student-box{background:#f4fbf6;border:1px solid #d8ebe0;border-radius:10px;padding:10px 12px;font-size:12px;display:none;margin-top:8px}
+.toast{position:fixed;right:15px;bottom:15px;background:#15352b;color:#fff;padding:12px 15px;border-radius:10px;display:none;z-index:50}
+
+.fee-banner{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 4px 16px #12321a0b}
+.fee-banner-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.fee-banner-head h2{margin:0;font-size:22px}.session-pill{background:#dcfce7;color:#166534;border-radius:999px;padding:9px 14px;font-weight:800;font-size:12px}
+.fee-table{min-width:760px}.fee-table th,.fee-table td{font-size:13px}.fee-table th{font-size:11px}.fee-table td.amount-cell{font-weight:800;white-space:nowrap}.fee-table .fee-actions{display:flex;gap:5px;flex-wrap:wrap}.fee-form{margin-top:15px;padding:14px;border:1px dashed #cfe3d8;border-radius:11px;background:#f8fcfa}
+.fee-form h3{margin:0 0 12px;font-size:15px}.fee-level-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.active-check{display:flex;align-items:center;gap:7px;margin-top:26px;font-size:12px;color:var(--muted);font-weight:700}.active-check input{width:auto}
+@media(max-width:900px){.fee-level-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.fee-banner-head{align-items:flex-start;flex-direction:column}.fee-level-grid{grid-template-columns:1fr}.active-check{margin-top:0}}
+@media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){
+ .head{grid-template-columns:42px 1fr auto;min-height:62px;padding:9px 12px}.school-title{font-size:13px}.header-back{font-size:11px;padding:7px 9px}
+ main{padding:16px 11px 35px}.hero h1{font-size:22px}
+ .stats{grid-template-columns:1fr 1fr;gap:9px}.card{padding:13px}
+ .form-grid,.search-row{grid-template-columns:1fr}.full{grid-column:auto}
+ .actions .btn{flex:1 1 120px}.tablewrap{max-width:100%;overflow-x:auto}
+}
+@media(max-width:390px){.school-logo{width:38px;height:38px}.school-title{font-size:12px}.stats{grid-template-columns:1fr}.header-back{font-size:10px;padding:6px 8px}}
+</style>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getFirestore,collection,addDoc,doc,getDoc,getDocs,updateDoc,deleteDoc,onSnapshot,query,orderBy} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import {getAuth,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+const firebaseConfig={
+  apiKey:"AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
+  authDomain:"ggchst-sms-new.firebaseapp.com",
+  projectId:"ggchst-sms-new",
+  storageBucket:"ggchst-sms-new.firebasestorage.app",
+  messagingSenderId:"942770190211",
+  appId:"1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+const auth=getAuth(app);
+window.GG={app,db,auth,collection,addDoc,doc,getDoc,getDocs,updateDoc,deleteDoc,onSnapshot,query,orderBy};
+window.esc=(s='')=>String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+window.toast=(m)=>{const e=document.getElementById('toast');e.textContent=m;e.style.display='block';clearTimeout(window.__toast);window.__toast=setTimeout(()=>e.style.display='none',2800)};
+</script>
+</head>
+
+<body>
+<header>
+ <div class="head">
+  <div class="school-logo" aria-label="GGCHST">GGCHST</div>
+  <div class="school-title">Green Garden College of Health Sciences &amp; Technology</div>
+  <a class="header-back" href="admin.html">← Back</a>
+ </div>
+</header>
+
+
+
+<main>
+<section class="hero">
+ <h1>Finance &amp; Fees</h1>
+ <p>Admin/Bursary control center for student fees, payment submissions, approval, payment status and balances. Student records remain the identity source for payment records.</p>
+</section>
+
+<div id="startup" class="startup">Loading students and payment records…</div>
+
+<section class="fee-banner" id="fee-management">
+ <div class="fee-banner-head">
+  <h2>Fee Management</h2>
+  <span class="session-pill" id="feeScheduleLabel">School Fee Schedule</span>
+ </div>
+ <p style="margin:0 0 14px;color:var(--muted);font-size:12px;line-height:1.5">Create and manage the official school fee schedule for each academic session. Admin/Bursary can change prices, add new fee categories and keep different amounts for each level.</p>
+ <div class="tablewrap">
+  <table class="fee-table"><thead><tr><th>Fee Category</th><th>ND I</th><th>ND II</th><th>HND I</th><th>HND II</th><th>Session</th><th>Status</th><th>Action</th></tr></thead><tbody id="feeRows"></tbody></table>
+ </div>
+ <div class="fee-form">
+  <h3 id="feeFormTitle">Add School Fee</h3>
+  <div class="form-grid">
+   <div><label>Academic Session *</label><input id="feeSession" placeholder="2026/2027"></div>
+   <div><label>Fee Category *</label><input id="feeCategory" placeholder="Tuition / Registration / Examination"></div>
+   <div><label>ND I Amount (₦)</label><input id="feeNd1" type="number" min="0" step="0.01" placeholder="55000"></div>
+   <div><label>ND II Amount (₦)</label><input id="feeNd2" type="number" min="0" step="0.01" placeholder="58000"></div>
+   <div><label>HND I Amount (₦)</label><input id="feeHnd1" type="number" min="0" step="0.01" placeholder=""></div>
+   <div><label>HND II Amount (₦)</label><input id="feeHnd2" type="number" min="0" step="0.01" placeholder=""></div>
+   <div><label>Note / Description</label><input id="feeDescription" placeholder="Optional description"></div>
+   <label class="active-check"><input id="feeActive" type="checkbox" checked> Active fee for this session</label>
+  </div>
+  <div class="actions"><button class="btn" id="saveFeeBtn">Add Fee</button><button class="btn secondary" type="button" id="clearFeeBtn">Clear</button></div>
+  <div id="feeMessage" class="message"></div>
+ </div>
+</section>
+
+<section class="grid stats">
+ <div class="card"><div class="stat-label">Total Payment Records</div><div class="stat-value blue" id="totalCount">0</div><div class="stat-note">All recorded payment items</div></div>
+ <div class="card"><div class="stat-label">Pending Approval</div><div class="stat-value orange" id="pendingCount">0</div><div class="stat-note">Awaiting bursary/admin review</div></div>
+ <div class="card"><div class="stat-label">Paid / Approved</div><div class="stat-value green" id="paidCount">0</div><div class="stat-note">Approved payment records</div></div>
+ <div class="card"><div class="stat-label">Unpaid</div><div class="stat-value red" id="unpaidCount">0</div><div class="stat-note">Outstanding records</div></div>
+</section>
+
+<section class="card" id="record-payment">
+ <div class="card-head"><h2>Create Student Fee / Payment Record</h2><span class="status Pending">Admin / Bursary</span></div>
+ <div class="form-grid">
+  <div><label>Student ID / Matric *</label><input id="studentId" placeholder="Enter Student ID" required></div>
+  <div><label>Admission Number</label><input id="admissionNo" placeholder="Admission No."></div>
+  <div><label>Student Name</label><input id="studentName" placeholder="Student name"></div>
+  <div><label>Fee Category *</label><input id="category" placeholder="Tuition / Registration / Hostel" required></div>
+  <div><label>Amount (₦) *</label><input id="amount" type="number" min="0" step="0.01" required></div>
+  <div><label>Academic Session</label><input id="session" placeholder="2026/2027"></div>
+  <div><label>Semester</label><select id="semester"><option value="">Select semester</option><option>First Semester</option><option>Second Semester</option></select></div>
+  <div><label>Payment Status</label><select id="status"><option>Unpaid</option><option>Pending</option><option>Paid</option><option>Waived</option></select></div>
+  <div><label>Payment Mode</label><select id="paymentMode"><option value="">Select payment mode</option><option>Cash</option><option>Bank Transfer</option><option>POS</option><option>Online Payment</option><option>Waiver</option><option>Scholarship</option><option>Other</option></select></div>
+  <div><label>Reference / Receipt No.</label><input id="reference" placeholder="Payment reference / receipt number"></div>
+  <div class="full"><label>Admin/Bursary Note</label><textarea id="note" placeholder="Optional note about this fee or payment..."></textarea></div>
+ </div>
+ <div id="studentMatch" class="student-box"></div>
+ <div class="actions"><button class="btn" id="saveBtn">Save Finance Record</button><button class="btn secondary" type="button" id="clearBtn">Clear</button></div>
+ <div id="formMessage" class="message"></div>
+</section>
+
+<section class="card" id="payments">
+ <div class="card-head"><h2>Student Payment Approval &amp; Records</h2><span class="status Pending" id="viewCount">0 records</span></div>
+ <div class="search-row">
+  <input id="search" placeholder="Search Student ID, name, admission no., category or reference">
+  <select id="filterStatus"><option value="">All statuses</option><option>Pending</option><option>Paid</option><option>Unpaid</option><option>Waived</option></select>
+  <select id="filterSession"><option value="">All sessions</option></select>
+ </div>
+ <div class="tablewrap">
+  <table><thead><tr>
+   <th>Student</th><th>Fee</th><th>Amount</th><th>Session / Semester</th><th>Reference</th><th>Status</th><th>Action</th>
+  </tr></thead><tbody id="rows"></tbody></table>
+ </div>
+</section>
+
+<section class="card" id="student-balances">
+ <div class="card-head"><h2>Student Payment Summary</h2><span class="status Paid">Connected to Students</span></div>
+ <p class="muted" style="font-size:12px;color:var(--muted)">This summary groups payment records by student so the student's profile can display the same payment history and status.</p>
+ <div class="tablewrap">
+  <table><thead><tr><th>Student</th><th>Admission No.</th><th>Paid</th><th>Pending</th><th>Unpaid</th><th>Total Records</th></tr></thead><tbody id="summaryRows"></tbody></table>
+ </div>
+</section>
+</main>
+
+<div id="toast" class="toast"></div>
+
+<script type="module">
+const {auth,db,collection,addDoc,doc,getDoc,getDocs,updateDoc,deleteDoc,onSnapshot}=window.GG;
+
+let currentUser=null;
+let students=[];
+let payments=[];
+let feeSchedules=[];
+let feeEditId=null;
+let unsubscribe=null;
+let feeUnsubscribe=null;
+
+const $=id=>document.getElementById(id);
+const normalize=s=>String(s??'').trim().toLowerCase();
+
+function setMsg(text,type=''){ $('formMessage').textContent=text; $('formMessage').className='message '+type; }
+
+function studentFields(s){
+ return {
+  id:String(s.id||''),
+  studentId:String(s.studentId||s.matricNo||s.matric||s.registrationNo||'').trim(),
+  admissionNo:String(s.admissionNo||s.admissionNumber||'').trim(),
+  name:String(s.fullName||s.name||s.studentName||'').trim(),
+  email:String(s.email||s.studentEmail||'').trim(),
+  level:String(s.level||s.currentLevel||s.classLevel||'').trim()
+ };
+}
+
+function findStudent(value){
+ const v=normalize(value);
+ return students.find(s=>{
+  const x=studentFields(s);
+  return normalize(x.studentId)===v || normalize(x.admissionNo)===v;
+ });
+}
+
+async function loadStudents(){
+ const snap=await getDocs(collection(db,'students'));
+ students=snap.docs.map(d=>({id:d.id,...d.data()}));
+}
+
+function showStudentMatch(){
+ const box=$('studentMatch');
+ const s=findStudent($('studentId').value||$('admissionNo').value);
+ if(!s){box.style.display='none';return}
+ const x=studentFields(s);
+ $('studentId').value=x.studentId;
+ $('admissionNo').value=x.admissionNo;
+ $('studentName').value=x.name;
+ box.innerHTML='<strong>Student matched:</strong> '+window.esc(x.name||'Unnamed')+' · '+window.esc(x.studentId)+' · Admission No. '+window.esc(x.admissionNo||'—');
+ box.style.display='block';
+}
+
+$('studentId').addEventListener('blur',showStudentMatch);
+$('admissionNo').addEventListener('blur',showStudentMatch);
+
+$('clearBtn').onclick=()=>{
+ $('studentId').value='';$('admissionNo').value='';$('studentName').value='';$('category').value='';
+ $('amount').value='';$('session').value='';$('semester').value='';$('status').value='Unpaid';$('paymentMode').value='';$('reference').value='';$('note').value='';
+ $('studentMatch').style.display='none';setMsg('');
+};
+
+$('saveBtn').onclick=async()=>{
+ const sid=$('studentId').value.trim();
+ const admission=$('admissionNo').value.trim();
+ const found=findStudent(sid||admission);
+ if(!sid||!$('category').value.trim()||!Number($('amount').value||0)){setMsg('Student ID, fee category and amount are required.','err');return}
+ if(!found){setMsg('Student not found. Enter a Student ID or Admission Number that exists in the Students section.','err');return}
+
+ const s=studentFields(found);
+ if(admission && s.admissionNo && normalize(admission)!==normalize(s.admissionNo)){
+  setMsg('Student ID and Admission Number do not match the same student.','err');return;
+ }
+
+ $('saveBtn').disabled=true;
+ try{
+  const now=new Date().toISOString();
+  await addDoc(collection(db,'payments'),{
+   studentDocId:found.id,
+   studentId:s.studentId,
+   admissionNo:s.admissionNo,
+   studentName:s.name,
+   studentEmail:s.email,
+   category:$('category').value.trim(),
+   amount:Number($('amount').value||0),
+   reference:$('reference').value.trim(),
+   paymentMode:$('paymentMode').value,
+   status:$('status').value,
+   session:$('session').value.trim(),
+   semester:$('semester').value,
+   note:$('note').value.trim(),
+   createdByUid:currentUser?.uid||'',
+   createdByRole:'admin',
+   createdAt:now,
+   updatedAt:now
+  });
+  setMsg('Finance record saved successfully.','ok');
+  window.toast('Payment record saved');
+  $('clearBtn').click();
+ }catch(e){console.error(e);setMsg(e?.message||'Could not save the finance record.','err')}
+ finally{$('saveBtn').disabled=false}
+};
+
+function feeAmountValue(v){
+ const n=Number(v||0); return Number.isFinite(n)?n:0;
+}
+function feeLevelAmount(fee, level){
+ const l=normalize(level).replace(/\s+/g,'');
+ if(l.includes('nd1')||l.includes('nd-i')||l==='100'||l==='nd 1') return fee.nd1;
+ if(l.includes('nd2')||l.includes('nd-ii')||l==='200'||l==='nd 2') return fee.nd2;
+ if(l.includes('hnd1')||l.includes('hnd-i')||l==='300'||l==='hnd 1') return fee.hnd1;
+ if(l.includes('hnd2')||l.includes('hnd-ii')||l==='400'||l==='hnd 2') return fee.hnd2;
+ return fee.nd1||fee.nd2||fee.hnd1||fee.hnd2||0;
+}
+function renderFeeSchedules(){
+ const rows=$('feeRows');
+ const data=[...feeSchedules].sort((a,b)=>String(b.session||'').localeCompare(String(a.session||''))||String(a.category||'').localeCompare(String(b.category||'')));
+ if(!data.length){rows.innerHTML='<tr><td colspan="8"><div class="empty">No school fee schedule has been created yet. Add the first fee below.</div></td></tr>';return}
+ rows.innerHTML=data.map(x=>`<tr>
+  <td><strong>${window.esc(x.category||'—')}</strong>${x.description?`<br><small>${window.esc(x.description)}</small>`:''}</td>
+  <td class="amount-cell">${x.nd1?`₦${feeAmountValue(x.nd1).toLocaleString()}`:'—'}</td>
+  <td class="amount-cell">${x.nd2?`₦${feeAmountValue(x.nd2).toLocaleString()}`:'—'}</td>
+  <td class="amount-cell">${x.hnd1?`₦${feeAmountValue(x.hnd1).toLocaleString()}`:'—'}</td>
+  <td class="amount-cell">${x.hnd2?`₦${feeAmountValue(x.hnd2).toLocaleString()}`:'—'}</td>
+  <td>${window.esc(x.session||'—')}</td>
+  <td><span class="status ${x.active===false?'Unpaid':'Paid'}">${x.active===false?'Inactive':'Active'}</span></td>
+  <td><div class="fee-actions"><button class="edit" onclick="window.editFee('${x.id}')">Edit</button><button class="del" onclick="window.deleteFee('${x.id}')">Delete</button></div></td>
+ </tr>`).join('');
+}
+function clearFeeForm(){
+ feeEditId=null;$('feeFormTitle').textContent='Add School Fee';$('saveFeeBtn').textContent='Add Fee';
+ $('feeSession').value='';$('feeCategory').value='';$('feeNd1').value='';$('feeNd2').value='';$('feeHnd1').value='';$('feeHnd2').value='';$('feeDescription').value='';$('feeActive').checked=true;$('feeMessage').textContent='';
+}
+$('clearFeeBtn').onclick=clearFeeForm;
+$('saveFeeBtn').onclick=async()=>{
+ const session=$('feeSession').value.trim(), category=$('feeCategory').value.trim();
+ if(!session||!category){$('feeMessage').textContent='Academic session and fee category are required.';$('feeMessage').className='message err';return}
+ const values={nd1:feeAmountValue($('feeNd1').value),nd2:feeAmountValue($('feeNd2').value),hnd1:feeAmountValue($('feeHnd1').value),hnd2:feeAmountValue($('feeHnd2').value)};
+ if(!Object.values(values).some(v=>v>0)){$('feeMessage').textContent='Enter at least one fee amount.';$('feeMessage').className='message err';return}
+ $('saveFeeBtn').disabled=true;
+ try{
+  const now=new Date().toISOString();
+  const data={session,category,...values,description:$('feeDescription').value.trim(),active:$('feeActive').checked,updatedAt:now,updatedByUid:currentUser?.uid||''};
+  if(feeEditId){await updateDoc(doc(db,'feeSchedules',feeEditId),data);window.toast('School fee updated');}
+  else {await addDoc(collection(db,'feeSchedules'),{...data,createdAt:now,createdByUid:currentUser?.uid||''});window.toast('School fee added');}
+  clearFeeForm();
+ }catch(e){console.error(e);$('feeMessage').textContent=e?.message||'Could not save school fee.';$('feeMessage').className='message err';}
+ finally{$('saveFeeBtn').disabled=false}
+};
+window.editFee=id=>{
+ const x=feeSchedules.find(v=>v.id===id);if(!x)return; feeEditId=id;$('feeFormTitle').textContent='Edit School Fee';$('saveFeeBtn').textContent='Save Changes';
+ $('feeSession').value=x.session||'';$('feeCategory').value=x.category||'';$('feeNd1').value=x.nd1||'';$('feeNd2').value=x.nd2||'';$('feeHnd1').value=x.hnd1||'';$('feeHnd2').value=x.hnd2||'';$('feeDescription').value=x.description||'';$('feeActive').checked=x.active!==false;
+ $('feeMessage').textContent='Loaded fee schedule for editing.';$('feeMessage').className='message';window.scrollTo({top:document.getElementById('fee-management').offsetTop-85,behavior:'smooth'});
+};
+window.deleteFee=async id=>{
+ const x=feeSchedules.find(v=>v.id===id);if(!x)return;
+ if(!confirm(`Delete ${x.category||'this fee'} for ${x.session||'this session'}?`))return;
+ try{await deleteDoc(doc(db,'feeSchedules',id));window.toast('School fee deleted');}catch(e){window.toast('Could not delete school fee')}
+};
+function subscribeFees(){
+ if(feeUnsubscribe)feeUnsubscribe();
+ feeUnsubscribe=onSnapshot(collection(db,'feeSchedules'),snap=>{
+  feeSchedules=snap.docs.map(d=>({id:d.id,...d.data()}));renderFeeSchedules();
+ },err=>{console.error(err);$('feeRows').innerHTML='<tr><td colspan="8"><div class="empty">Unable to load school fee schedules. Check Firestore rules.</div></td></tr>';});
+}
+function applyScheduledFee(){
+ const category=normalize($('category').value), session=normalize($('session').value), found=findStudent($('studentId').value||$('admissionNo').value);
+ if(!category||!session)return;
+ const fee=feeSchedules.find(x=>x.active!==false&&normalize(x.category)===category&&normalize(x.session)===session);
+ if(!fee)return;
+ const level=found?studentFields(found).level:''; const amount=feeLevelAmount(fee,level);
+ if(amount>0 && !$('amount').value) $('amount').value=amount;
+}
+$('category').addEventListener('blur',applyScheduledFee);$('session').addEventListener('blur',applyScheduledFee);
+
+function renderStats(){
+ const p=payments;
+ $('totalCount').textContent=p.length;
+ $('pendingCount').textContent=p.filter(x=>normalize(x.status)==='pending').length;
+ $('paidCount').textContent=p.filter(x=>['paid','verified'].includes(normalize(x.status))).length;
+ $('unpaidCount').textContent=p.filter(x=>normalize(x.status)==='unpaid').length;
+}
+
+function populateSessions(){
+ const sel=$('filterSession');
+ const current=sel.value;
+ const sessions=[...new Set(payments.map(x=>String(x.session||'').trim()).filter(Boolean))].sort().reverse();
+ sel.innerHTML='<option value="">All sessions</option>'+sessions.map(x=>'<option>'+window.esc(x)+'</option>').join('');
+ if(sessions.includes(current))sel.value=current;
+}
+
+function filteredPayments(){
+ const q=normalize($('search').value);
+ const st=normalize($('filterStatus').value);
+ const se=normalize($('filterSession').value);
+ return payments.filter(x=>{
+  const hay=[x.studentId,x.admissionNo,x.studentName,x.category,x.reference,x.session,x.semester].map(normalize).join(' ');
+  return (!q||hay.includes(q))&&(!st||normalize(x.status)===st)&&(!se||normalize(x.session)===se);
+ });
+}
+
+function renderPayments(){
+ const rows=$('rows'), data=filteredPayments();
+ $('viewCount').textContent=data.length+' records';
+ if(!data.length){rows.innerHTML='<tr><td colspan="7"><div class="empty">No payment records found.</div></td></tr>';return}
+ rows.innerHTML=data.map(x=>{
+  const status=x.status||'Unpaid';
+  const canApprove=['pending','unpaid'].includes(normalize(status));
+  const canUnpay=['paid','verified'].includes(normalize(status));
+  return `<tr>
+   <td><strong>${window.esc(x.studentName||'Unknown')}</strong><br>${window.esc(x.studentId||'—')}<br><small>Adm: ${window.esc(x.admissionNo||'—')}</small></td>
+   <td>${window.esc(x.category||'—')}</td>
+   <td>₦${Number(x.amount||0).toLocaleString()}</td>
+   <td>${window.esc(x.session||'—')}<br>${window.esc(x.semester||'—')}</td>
+   <td>${window.esc(x.reference||'—')}</td>
+   <td><span class="status ${window.esc(status)}">${window.esc(status)}</span></td>
+   <td><div class="row-actions">
+    ${canApprove?`<button class="approve" onclick="window.approvePayment('${x.id}')">Approve / Paid</button>`:''}
+    ${canUnpay?`<button class="mark-unpaid" onclick="window.markUnpaid('${x.id}')">Mark Unpaid</button>`:''}
+    <button class="edit" onclick="window.editPayment('${x.id}')">Edit</button>
+    <button class="del" onclick="window.deletePayment('${x.id}')">Delete</button>
+   </div></td>
+  </tr>`;
+ }).join('');
+}
+
+function renderSummary(){
+ const map=new Map();
+ for(const x of payments){
+  const key=String(x.studentDocId||x.studentId||x.admissionNo||x.studentName||'unknown');
+  if(!map.has(key))map.set(key,{name:x.studentName||'Unknown',id:x.studentId||'',adm:x.admissionNo||'',paid:0,pending:0,unpaid:0,total:0});
+  const r=map.get(key);r.total++;
+  const st=normalize(x.status);
+  if(['paid','verified'].includes(st))r.paid++;
+  else if(st==='pending')r.pending++;
+  else if(st==='unpaid')r.unpaid++;
+ }
+ const data=[...map.values()].sort((a,b)=>a.name.localeCompare(b.name));
+ $('summaryRows').innerHTML=data.length?data.map(r=>`<tr><td>${window.esc(r.name)}<br>${window.esc(r.id)}</td><td>${window.esc(r.adm||'—')}</td><td><span class="status Paid">${r.paid}</span></td><td><span class="status Pending">${r.pending}</span></td><td><span class="status Unpaid">${r.unpaid}</span></td><td>${r.total}</td></tr>`).join(''):'<tr><td colspan="6"><div class="empty">No student payment summary yet.</div></td></tr>';
+}
+
+function renderAll(){renderStats();populateSessions();renderPayments();renderSummary();renderFeeSchedules()}
+
+window.approvePayment=async id=>{
+ if(!confirm('Approve this payment and mark it Paid?'))return;
+ try{
+  await updateDoc(doc(db,'payments',id),{status:'Paid',approvedByUid:currentUser?.uid||'',approvedAt:new Date().toISOString(),updatedAt:new Date().toISOString()});
+  window.toast('Payment approved');
+ }catch(e){window.toast('Approval failed')}
+};
+
+window.markUnpaid=async id=>{
+ if(!confirm('Mark this payment Unpaid?'))return;
+ try{await updateDoc(doc(db,'payments',id),{status:'Unpaid',updatedAt:new Date().toISOString()});window.toast('Payment marked Unpaid')}catch(e){window.toast('Update failed')}
+};
+
+window.editPayment=async id=>{
+ const x=payments.find(v=>v.id===id);if(!x)return;
+ const found=students.find(s=>s.id===x.studentDocId);
+ if(found){
+  const sf=studentFields(found);$('studentId').value=sf.studentId;$('admissionNo').value=sf.admissionNo;$('studentName').value=sf.name;showStudentMatch();
+ }
+ $('category').value=x.category||'';$('amount').value=x.amount||0;$('session').value=x.session||'';$('semester').value=x.semester||'';
+ $('status').value=x.status||'Unpaid';$('paymentMode').value=x.paymentMode||'';$('reference').value=x.reference||'';$('note').value=x.note||'';
+ setMsg('Loaded this record into the form. Saving will create a new record; use the row actions for status approval.','');
+ window.scrollTo({top:document.getElementById('record-payment').offsetTop-90,behavior:'smooth'});
+};
+
+window.deletePayment=async id=>{
+ if(!confirm('Delete this payment record? This will remove it from the student payment history.'))return;
+ try{await deleteDoc(doc(db,'payments',id));window.toast('Payment record deleted')}catch(e){window.toast('Delete failed')}
+};
+
+function subscribe(){
+ if(unsubscribe)unsubscribe();
+ unsubscribe=onSnapshot(collection(db,'payments'),snap=>{
+  payments=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||'')));
+  $('startup').style.display='none';renderAll();
+ },err=>{$('startup').textContent='Unable to load payment records. Check Firestore rules.';console.error(err)});
+}
+
+$('search').addEventListener('input',renderPayments);
+$('filterStatus').addEventListener('change',renderPayments);
+$('filterSession').addEventListener('change',renderPayments);
+
+async function init(user){
+ currentUser=user||null;
+ try{
+  await loadStudents();
+  $('startup').style.display='none';
+  subscribe();
+  subscribeFees();
+ }catch(e){console.error(e);$('startup').textContent='Students could not be loaded. Check Firestore access.'}
+}
+init(auth.currentUser);
+onAuthStateChanged(auth,u=>{if(u)init(u)});
+</script>
+</body>
+</html>

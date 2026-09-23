@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GGCHST | Programme Management</title>
+<style>
+:root{--green:#08783f;--dark:#07552f;--light:#eef8f2;--border:#dce8e1;--danger:#c62828;--text:#17221c;--muted:#66736b}
+*{box-sizing:border-box}
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f8f6;color:var(--text)}
+.school-header{background:#fff;border-bottom:1px solid var(--border);box-shadow:0 2px 10px rgba(0,0,0,.06);position:sticky;top:0;z-index:20}
+.school-header-inner{width:100%;max-width:1180px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:14px;min-height:76px}
+.school-logo{width:62px;height:62px;flex:0 0 62px;border-radius:50%;object-fit:cover;border:2px solid #e1eee7;background:#fff}
+.school-title{min-width:0;flex:1;text-align:center}
+.school-title h1{margin:0;color:var(--dark);font-size:18px;line-height:1.25;font-weight:800}
+.school-title p{margin:4px 0 0;color:var(--muted);font-size:12px}
+.back-btn{display:inline-flex;align-items:center;justify-content:center;color:#fff;background:var(--green);text-decoration:none;border:0;padding:9px 13px;border-radius:8px;font-size:13px;font-weight:700;white-space:nowrap;flex:0 0 auto}
+main{width:100%;max-width:1180px;margin:22px auto;padding:0 16px}
+.intro{
+  margin-bottom:20px;
+  background:linear-gradient(135deg,#08783f,#0b8f4d);
+  color:#fff;
+  border-radius:28px;
+  padding:30px 34px;
+  text-align:center;
+  box-shadow:0 8px 24px rgba(8,120,63,.16);
+}
+.intro h2{
+  margin:0 0 12px;
+  color:#fff;
+  font-size:28px;
+  line-height:1.2;
+  font-weight:800;
+}
+.intro p{
+  margin:0;
+  color:#fff;
+  font-size:17px;
+  line-height:1.55;
+  opacity:.98;
+}
+.grid{display:grid;grid-template-columns:minmax(300px,360px) minmax(0,1fr);gap:18px;align-items:start}
+.card{min-width:0;background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 6px 20px rgba(0,0,0,.06);padding:18px}
+.card h3{margin:0 0 14px;color:var(--dark);font-size:17px}
+label{display:block;font-size:13px;font-weight:700;margin:12px 0 6px}
+input,select,textarea{display:block;width:100%;max-width:100%;padding:11px 12px;border:1px solid #cbd8d0;border-radius:8px;outline:none;font-size:14px;background:#fff}
+textarea{resize:vertical;min-height:84px}
+input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(8,120,63,.1)}
+.actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+button{border:0;border-radius:8px;padding:11px 14px;cursor:pointer;font-weight:700;font-size:13px}
+.primary{background:var(--green);color:#fff}.secondary{background:#e9f0ec;color:var(--dark)}.danger{background:#fdecec;color:var(--danger)}
+button:disabled{opacity:.6;cursor:not-allowed}
+.toolbar{display:flex;gap:10px;margin-bottom:14px;align-items:center}
+.toolbar input{flex:1;min-width:0}
+.count{background:var(--light);color:var(--dark);border-radius:8px;padding:10px 12px;font-size:13px;font-weight:700;white-space:nowrap}
+.table-wrap{width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--border);border-radius:10px}
+table{width:100%;border-collapse:collapse;min-width:680px}
+th,td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--border);vertical-align:middle;font-size:13px}
+th{background:#f3f7f4;color:var(--dark);position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+.badge{display:inline-block;padding:5px 8px;border-radius:20px;font-size:11px;font-weight:700}
+.active{background:#e3f5ea;color:#08783f}.inactive{background:#eee;color:#666}
+.empty{text-align:center;padding:32px 10px;color:var(--muted)}
+.row-actions{display:flex;gap:6px;flex-wrap:wrap}.row-actions button{padding:7px 9px;font-size:11px}
+.status{margin-top:12px;padding:10px 12px;border-radius:8px;display:none;font-size:13px}
+.status.success{display:block;background:#e8f7ed;color:#126237}.status.error{display:block;background:#fdeaea;color:#a51e1e}.status.info{display:block;background:#edf4ff;color:#24578f}
+.hint{margin-top:8px;color:var(--muted);font-size:11px;line-height:1.5}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:50;align-items:center;justify-content:center;padding:15px}
+.modal.show{display:flex}.modal-box{width:100%;max-width:460px;background:#fff;border-radius:14px;padding:22px;box-shadow:0 20px 50px rgba(0,0,0,.2)}
+.modal-box h3{margin-top:0;color:var(--dark)}
+footer{text-align:center;padding:24px 15px;color:var(--muted);font-size:12px}
+@media(max-width:900px){
+  .grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .school-header-inner{min-height:66px;padding:7px 10px;gap:9px}
+  .school-logo{width:48px;height:48px;flex-basis:48px}
+  .school-title h1{font-size:14px;line-height:1.18}
+  .school-title p{font-size:10px;margin-top:2px}
+  .back-btn{padding:8px 9px;font-size:11px}
+  main{margin:16px auto;padding:0 10px}
+  .intro{
+    margin-bottom:14px;
+    padding:22px 16px;
+    border-radius:22px;
+  }
+  .intro h2{
+    font-size:20px;
+    line-height:1.25;
+    margin-bottom:8px;
+  }
+  .intro p{
+    font-size:13px;
+    line-height:1.5;
+  }
+  .card{padding:14px;border-radius:12px}
+  .card h3{font-size:16px}
+  .toolbar{align-items:stretch;flex-direction:column}
+  .toolbar input{width:100%}
+  .count{text-align:center}
+  .actions button{flex:1;min-width:120px}
+}
+@media(max-width:380px){
+  .school-header-inner{padding-left:7px;padding-right:7px;gap:6px}
+  .school-logo{width:44px;height:44px;flex-basis:44px}
+  .school-title h1{font-size:12px}
+  .school-title p{display:none}
+  .back-btn{font-size:10px;padding:7px 8px}
+  main{padding:0 8px}
+}
+</style>
+</head>
+<body>
+
+<header class="school-header">
+  <div class="school-header-inner">
+    <img src="logo.png" alt="Green Garden College of Health Sciences & Technology logo" class="school-logo">
+    <div class="school-title">
+      <h1>Green Garden College of Health Sciences &amp; Technology, Gusau</h1>
+      <p>Programme Management</p>
+    </div>
+    <a class="back-btn" href="admin.html">← Back</a>
+  </div>
+</header>
+
+<main>
+<section class="intro">
+  <h2>Programme Management</h2>
+  <p>Create and manage academic programmes for GGCHST.</p>
+</section>
+
+<div class="grid">
+<section class="card">
+<h3 id="formTitle">Add Programme</h3>
+
+<form id="programmeForm">
+<input type="hidden" id="programmeId">
+
+<label for="programmeName">Programme Name *</label>
+<input id="programmeName" type="text" placeholder="e.g. National Diploma Community Health" required>
+
+<label for="programmeCode">Programme Code</label>
+<input id="programmeCode" type="text" placeholder="e.g. NDCH" maxlength="30">
+
+
+
+
+<label for="programmeType">Programme Type</label>
+<select id="programmeType">
+<option value="">Select type</option>
+<option value="Certificate">Certificate</option>
+<option value="Diploma">Diploma</option>
+<option value="National Diploma">National Diploma</option>
+<option value="Higher National Diploma">Higher National Diploma</option>
+</select>
+
+<label for="duration">Duration</label>
+<input id="duration" type="text" placeholder="e.g. 2 Years">
+
+<label for="description">Description</label>
+<textarea id="description" rows="3" placeholder="Optional programme description"></textarea>
+
+<label for="status">Status</label>
+<select id="status">
+<option value="active">Active</option>
+<option value="inactive">Inactive</option>
+</select>
+
+<div class="actions">
+<button class="primary" id="saveBtn" type="submit">Save Programme</button>
+<button class="secondary" id="cancelBtn" type="button" style="display:none">Cancel</button>
+</div>
+</form>
+
+<div id="formStatus" class="status"></div>
+<div class="hint">
+The programme is linked directly to its department. Courses created later can therefore be filtered by programme and department.
+</div>
+</section>
+
+<section class="card">
+<h3>Programme List</h3>
+<div class="toolbar">
+<input id="searchInput" type="search" placeholder="Search programme, code or type...">
+<div class="count" id="programmeCount">0 Programmes</div>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Programme</th>
+<th>Code</th>
+<th>Type</th>
+<th>Status</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="programmeTableBody">
+<tr><td colspan="5" class="empty">Loading programmes...</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</main>
+
+<div class="modal" id="deleteModal">
+<div class="modal-box">
+<h3>Delete Programme?</h3>
+<p id="deleteMessage">This action cannot be undone.</p>
+<div class="actions">
+<button class="danger" id="confirmDelete">Delete</button>
+<button class="secondary" id="closeDelete">Cancel</button>
+</div>
+</div>
+</div>
+
+<footer>GGCHST Student &amp; Management System</footer>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getFirestore,collection,addDoc,updateDoc,deleteDoc,doc,onSnapshot,query,orderBy,serverTimestamp}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig={
+  apiKey:"AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
+  authDomain:"ggchst-sms-new.firebaseapp.com",
+  projectId:"ggchst-sms-new",
+  storageBucket:"ggchst-sms-new.firebasestorage.app",
+  messagingSenderId:"942770190211",
+  appId:"1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+
+const programmeForm=document.getElementById("programmeForm");
+const programmeId=document.getElementById("programmeId");
+const programmeName=document.getElementById("programmeName");
+const programmeCode=document.getElementById("programmeCode");
+const programmeType=document.getElementById("programmeType");
+const duration=document.getElementById("duration");
+const description=document.getElementById("description");
+const status=document.getElementById("status");
+const formTitle=document.getElementById("formTitle");
+const saveBtn=document.getElementById("saveBtn");
+const cancelBtn=document.getElementById("cancelBtn");
+const formStatus=document.getElementById("formStatus");
+const searchInput=document.getElementById("searchInput");
+const tableBody=document.getElementById("programmeTableBody");
+const programmeCount=document.getElementById("programmeCount");
+const deleteModal=document.getElementById("deleteModal");
+const deleteMessage=document.getElementById("deleteMessage");
+const confirmDelete=document.getElementById("confirmDelete");
+const closeDelete=document.getElementById("closeDelete");
+
+let programmes=[];
+let pendingDeleteId=null;
+
+function showStatus(message,type="info"){
+  formStatus.textContent=message;
+  formStatus.className="status "+type;
+}
+function clearStatus(){
+  formStatus.textContent="";
+  formStatus.className="status";
+}
+function escapeHTML(value){
+  return String(value??"").replaceAll("&","&amp;").replaceAll("<","&lt;")
+    .replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+}
+function resetForm(){
+  programmeForm.reset();
+  programmeId.value="";
+  formTitle.textContent="Add Programme";
+  saveBtn.textContent="Save Programme";
+  cancelBtn.style.display="none";
+  clearStatus();
+}
+function startEdit(id){
+  const item=programmes.find(x=>x.id===id);
+  if(!item)return;
+  programmeId.value=item.id;
+  programmeName.value=item.name||"";
+  programmeCode.value=item.code||"";
+  programmeType.value=item.programmeType||"";
+  duration.value=item.duration||"";
+  description.value=item.description||"";
+  status.value=item.status||"active";
+  formTitle.textContent="Edit Programme";
+  saveBtn.textContent="Update Programme";
+  cancelBtn.style.display="inline-block";
+  clearStatus();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function renderProgrammes(){
+  const term=searchInput.value.trim().toLowerCase();
+  const filtered=programmes.filter(p=>{
+    const name=String(p.name||"").toLowerCase();
+    const code=String(p.code||"").toLowerCase();
+    const type=String(p.programmeType||"").toLowerCase();
+    return name.includes(term)||code.includes(term)||type.includes(term);
+  });
+
+  programmeCount.textContent=`${filtered.length} ${filtered.length===1?"Programme":"Programmes"}`;
+
+  if(!filtered.length){
+    tableBody.innerHTML=`<tr><td colspan="5" class="empty">${term?"No programme matches your search.":"No programmes have been created yet."}</td></tr>`;
+    return;
+  }
+
+  tableBody.innerHTML=filtered.map(p=>{
+    const active=p.status!=="inactive";
+    return `<tr>
+      <td><strong>${escapeHTML(p.name||"Unnamed Programme")}</strong>
+        ${p.duration?`<div style="font-size:11px;color:#66736b;margin-top:4px">${escapeHTML(p.duration)}</div>`:""}
+      </td>
+      <td>${escapeHTML(p.code||"—")}</td>
+      <td>${escapeHTML(p.programmeType||"—")}</td>
+      <td><span class="badge ${active?"active":"inactive"}">${active?"Active":"Inactive"}</span></td>
+      <td><div class="row-actions">
+        <button class="secondary" data-edit="${escapeHTML(p.id)}">Edit</button>
+        <button class="danger" data-delete="${escapeHTML(p.id)}">Delete</button>
+      </div></td>
+    </tr>`;
+  }).join("");
+
+  tableBody.querySelectorAll("[data-edit]").forEach(b=>b.addEventListener("click",()=>startEdit(b.dataset.edit)));
+  tableBody.querySelectorAll("[data-delete]").forEach(b=>b.addEventListener("click",()=>openDelete(b.dataset.delete)));
+}
+function openDelete(id){
+  const item=programmes.find(x=>x.id===id);
+  if(!item)return;
+  pendingDeleteId=id;
+  deleteMessage.textContent=`You are about to delete "${item.name}". Courses linked to this programme may lose their programme reference.`;
+  deleteModal.classList.add("show");
+}
+function closeDeleteModal(){
+  pendingDeleteId=null;
+  deleteModal.classList.remove("show");
+}
+
+programmeForm.addEventListener("submit",async e=>{
+  e.preventDefault();
+
+  const name=programmeName.value.trim();
+  const code=programmeCode.value.trim().toUpperCase();
+  const type=programmeType.value;
+  const durationValue=duration.value.trim();
+  const desc=description.value.trim();
+  const selectedStatus=status.value;
+  const id=programmeId.value;
+
+  if(!name){showStatus("Programme name is required.","error");return;}
+  const duplicate=programmes.find(p=>
+    p.id!==id &&
+    String(p.name||"").trim().toLowerCase()===name.toLowerCase()
+  );
+  if(duplicate){
+    showStatus("A programme with this name already exists.","error");
+    return;
+  }
+
+  saveBtn.disabled=true;
+  showStatus(id?"Updating programme...":"Saving programme...","info");
+
+  try{
+    const data={
+      name,
+      code,
+      programmeType:type,
+      duration:durationValue,
+      description:desc,
+      status:selectedStatus,
+      updatedAt:serverTimestamp()
+    };
+
+    if(id){
+      await updateDoc(doc(db,"programmes",id),data);
+      showStatus("Programme updated successfully.","success");
+    }else{
+      await addDoc(collection(db,"programmes"),{...data,createdAt:serverTimestamp()});
+      showStatus("Programme created successfully.","success");
+    }
+    resetForm();
+  }catch(error){
+    console.error(error);
+    showStatus("Could not save the programme. Check your Firebase configuration and Firestore rules.","error");
+  }finally{
+    saveBtn.disabled=false;
+  }
+});
+
+cancelBtn.addEventListener("click",resetForm);
+searchInput.addEventListener("input",renderProgrammes);
+
+confirmDelete.addEventListener("click",async()=>{
+  if(!pendingDeleteId)return;
+  confirmDelete.disabled=true;
+  try{
+    await deleteDoc(doc(db,"programmes",pendingDeleteId));
+    closeDeleteModal();
+    showStatus("Programme deleted successfully.","success");
+  }catch(error){
+    console.error(error);
+    closeDeleteModal();
+    showStatus("Could not delete the programme. Check your Firestore rules.","error");
+  }finally{
+    confirmDelete.disabled=false;
+  }
+});
+closeDelete.addEventListener("click",closeDeleteModal);
+deleteModal.addEventListener("click",e=>{if(e.target===deleteModal)closeDeleteModal();});
+
+onSnapshot(query(collection(db,"programmes"),orderBy("name","asc")),snapshot=>{
+  programmes=snapshot.docs.map(x=>({id:x.id,...x.data()}));
+  renderProgrammes();
+},error=>{
+  console.error(error);
+  tableBody.innerHTML='<tr><td colspan="6" class="empty">Unable to load programmes. Check Firestore permissions and Firebase connection.</td></tr>';
+  showStatus("Firebase could not load the programme list.","error");
+});
+</script>
+</body>
+</html>

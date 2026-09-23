@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin Dashboard | GGCHST</title>
+<style>
+:root{
+  --bg:#f4f8f6;
+  --card:#fff;
+  --text:#17352b;
+  --muted:#6b8179;
+  --line:#dce9e3;
+  --brand:#087443;
+  --brand-dark:#075c45;
+  --soft:#e8f5ef;
+  --soft2:#f1f8f5;
+  --danger:#b42318;
+  --shadow:0 8px 28px rgba(21,53,43,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+a{color:inherit}
+.school-header{
+  background:#fff;
+  border-bottom:1px solid var(--line);
+  position:sticky;
+  top:0;
+  z-index:20;
+}
+.header-inner{
+  max-width:1250px;
+  margin:auto;
+  min-height:68px;
+  padding:10px 16px;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:12px;
+}
+.school-brand{
+  justify-self:start;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:var(--soft);
+  border:2px solid #b9dfcf;
+  display:grid;
+  place-items:center;
+  color:var(--brand);
+  font-weight:900;
+  font-size:11px;
+  letter-spacing:.4px;
+}
+.school-name{
+  text-align:center;
+  font-size:18px;
+  font-weight:800;
+  line-height:1.25;
+}
+.header-right{justify-self:end}
+.back-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:8px 12px;
+  border-radius:9px;
+  background:var(--brand);
+  color:#fff;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:800;
+}
+.main{
+  max-width:1250px;
+  margin:0 auto;
+  padding:22px 16px 45px;
+}
+.page-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:18px;
+  margin-bottom:18px;
+}
+.kicker{
+  margin:0 0 5px;
+  color:var(--brand);
+  font-size:12px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.7px;
+}
+h1{margin:0;font-size:28px;line-height:1.15}
+.subtitle{margin:7px 0 0;color:var(--muted);font-size:13px}
+.refresh-btn{
+  border:1px solid #cfe1d9;
+  background:#fff;
+  color:var(--text);
+  padding:10px 14px;
+  border-radius:10px;
+  font-weight:800;
+  cursor:pointer;
+}
+.refresh-btn:hover{background:var(--soft2)}
+
+.overview{
+  background:linear-gradient(135deg,var(--brand-dark),var(--brand));
+  color:#fff;
+  border-radius:18px;
+  padding:22px;
+  margin-bottom:18px;
+  box-shadow:var(--shadow);
+}
+.overview-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
+.overview h2{margin:0 0 6px;font-size:20px}
+.overview p{margin:0;color:#e5f5ee;font-size:13px;line-height:1.55}
+.live{
+  flex:0 0 auto;
+  padding:8px 11px;
+  border-radius:999px;
+  background:#ffffff18;
+  border:1px solid #ffffff35;
+  font-size:11px;
+  font-weight:800;
+}
+.live-dot{
+  display:inline-block;
+  width:7px;height:7px;border-radius:50%;
+  background:#fff;margin-right:5px;
+}
+
+.section-title{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:10px;
+  margin:22px 0 10px;
+}
+.section-title h2{margin:0;font-size:17px}
+.section-title span{color:var(--muted);font-size:11px}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:13px;
+}
+.stat-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:16px;
+  box-shadow:var(--shadow);
+}
+.stat-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.stat-label{font-size:12px;color:var(--muted);font-weight:700}
+.stat-icon{
+  width:32px;height:32px;border-radius:9px;
+  background:var(--soft);
+  display:grid;place-items:center;
+  color:var(--brand);
+  font-weight:900;font-size:13px;
+}
+.stat-number{font-size:28px;font-weight:900;color:var(--brand);margin-top:12px}
+.stat-note{font-size:10px;color:var(--muted);margin-top:3px}
+
+.dashboard-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);
+  gap:15px;
+  margin-top:15px;
+}
+.panel{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:17px;
+  box-shadow:var(--shadow);
+}
+.panel-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:13px;
+}
+.panel-head h3{margin:0;font-size:15px}
+.panel-head small{color:var(--muted);font-size:10px}
+.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:11px}
+table{width:100%;border-collapse:collapse;background:#fff}
+th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;font-size:11px;vertical-align:top}
+th{background:#f1f7f4;color:#49635a;font-size:10px;text-transform:uppercase;letter-spacing:.3px}
+tr:last-child td{border-bottom:0}
+.empty{padding:22px;text-align:center;color:var(--muted);font-size:12px}
+
+.quick-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+.quick{
+  display:block;
+  text-decoration:none;
+  border:1px solid var(--line);
+  background:var(--soft2);
+  border-radius:11px;
+  padding:12px;
+  transition:.15s ease;
+}
+.quick:hover{border-color:#9fcbb9;background:var(--soft);transform:translateY(-1px)}
+.quick strong{display:block;font-size:12px;margin-bottom:3px}
+.quick span{display:block;color:var(--muted);font-size:10px;line-height:1.35}
+
+.system-list{display:grid;gap:8px;margin-top:14px}
+.system-row{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:10px;padding:10px 0;border-bottom:1px solid var(--line);
+}
+.system-row:last-child{border-bottom:0}
+.system-name{font-size:11px;font-weight:700}
+.status{font-size:10px;font-weight:800;padding:4px 7px;border-radius:999px;background:var(--soft);color:var(--brand)}
+.status.warn{background:#fff5e6;color:#9a6700}
+.status.error{background:#fdecea;color:var(--danger)}
+
+.activity-tools{display:flex;gap:7px;align-items:center}
+.filter{
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:7px 9px;
+  background:#fff;
+  color:var(--text);
+  font-size:11px;
+}
+.footer-note{
+  margin-top:16px;
+  padding:12px 14px;
+  border-radius:11px;
+  background:var(--soft);
+  color:#49675c;
+  font-size:11px;
+  line-height:1.5;
+}
+.toast{
+  position:fixed;right:15px;bottom:15px;
+  background:#15352b;color:#fff;
+  padding:12px 15px;border-radius:10px;
+  display:none;z-index:50;font-size:12px;
+}
+
+@media(max-width:900px){
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dashboard-grid{grid-template-columns:1fr}
+}
+@media(max-width:620px){
+  .header-inner{grid-template-columns:42px 1fr auto;min-height:62px}
+  .school-name{font-size:14px}
+  .back-btn{font-size:11px;padding:7px 9px}
+  .main{padding:17px 11px 35px}
+  .page-top{align-items:flex-start;flex-direction:column}
+  h1{font-size:23px}
+  .overview-row{align-items:flex-start;flex-direction:column}
+  .stats{grid-template-columns:1fr 1fr;gap:9px}
+  .stat-card{padding:13px}
+  .stat-number{font-size:24px}
+  .quick-grid{grid-template-columns:1fr}
+}
+@media(max-width:390px){
+  .school-name{font-size:12px}
+  .stats{grid-template-columns:1fr}
+}
+</style>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getFirestore,collection,getDocs,query,orderBy,limit,onSnapshot} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import {getAuth,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
+  authDomain: "ggchst-sms-new.firebaseapp.com",
+  projectId: "ggchst-sms-new",
+  storageBucket: "ggchst-sms-new.firebasestorage.app",
+  messagingSenderId: "942770190211",
+  appId: "1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+const auth=getAuth(app);
+
+window.GG={app,db,auth,collection,getDocs,query,orderBy,limit,onSnapshot};
+window.toast=(m)=>{
+  const e=document.getElementById('toast');
+  if(!e)return;
+  e.textContent=m;
+  e.style.display='block';
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer=setTimeout(()=>e.style.display='none',2600);
+};
+window.esc=(s='')=>String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+</script>
+</head>
+
+<body>
+<header class="school-header">
+  <div class="header-inner">
+    <div class="school-brand" aria-label="GGCHST">GGCHST</div>
+    <div class="school-name">Green Garden College of Health Sciences &amp; Technology</div>
+    <div class="header-right"><a class="back-btn" href="admin.html">← Back</a></div>
+  </div>
+</header>
+
+<main class="main">
+  <div class="page-top">
+    <div>
+      <p class="kicker">Administration</p>
+      <h1>Admin Dashboard</h1>
+      <p class="subtitle">Central overview of the school's live academic and administrative records.</p>
+    </div>
+    <button class="refresh-btn" id="refreshBtn" type="button">↻ Refresh Data</button>
+  </div>
+<div class="section-title">
+    <h2>System Overview</h2>
+    <span id="lastUpdated">Loading...</span>
+  </div>
+  <section class="stats" id="stats"></section>
+
+  <div class="dashboard-grid">
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h3>Recent Audit Activity</h3>
+          <small>Latest recorded administrative actions</small>
+        </div>
+        <div class="activity-tools">
+          <select class="filter" id="auditFilter" aria-label="Filter audit activity">
+            <option value="all">All actions</option>
+            <option value="create">Create</option>
+            <option value="update">Update</option>
+            <option value="delete">Delete</option>
+            <option value="login">Login</option>
+          </select>
+        </div>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr><th>Time</th><th>Action</th><th>Module</th><th>Entity</th><th>Result</th></tr>
+          </thead>
+          <tbody id="audit">
+            <tr><td colspan="5" class="empty">Loading audit activity...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <aside class="panel">
+      <div class="panel-head">
+        <div>
+          <h3>Quick Access</h3>
+          <small>Open major administration modules</small>
+        </div>
+      </div>
+      <div class="quick-grid">
+        <a class="quick" href="admin-users.html"><strong>User Management</strong><span>Accounts and login access</span></a>
+        <a class="quick" href="student.html"><strong>Students</strong><span>Student master records</span></a>
+        <a class="quick" href="academic-session.html"><strong>Academic Sessions</strong><span>Sessions and academic periods</span></a>
+        <a class="quick" href="course-registration.html"><strong>Course Registration</strong><span>Student course registration</span></a>
+        <a class="quick" href="results.html"><strong>Results</strong><span>Academic result records</span></a>
+        <a class="quick" href="timetable.html"><strong>Timetable</strong><span>Classes and schedules</span></a>
+        <a class="quick" href="admissions.html"><strong>Admissions</strong><span>Applicant processing</span></a>
+        <a class="quick" href="admin-reports.html"><strong>Reports</strong><span>Administrative reporting</span></a>
+      </div>
+
+      <div class="section-title" style="margin-top:20px">
+        <h2 style="font-size:14px">Collection Status</h2>
+        <span>Availability</span>
+      </div>
+      <div class="system-list" id="collectionStatus"></div>
+    </aside>
+  </div>
+
+  <div class="footer-note">
+    <strong>Access model:</strong> account roles define the permitted functions, while course assignments, registrations, departments and other school records determine which data each portal can access.
+  </div>
+</main>
+
+<div id="toast" class="toast"></div>
+
+<script type="module">
+const statsEl=document.getElementById('stats');
+const auditEl=document.getElementById('audit');
+const statusEl=document.getElementById('collectionStatus');
+const updatedEl=document.getElementById('lastUpdated');
+const auditFilter=document.getElementById('auditFilter');
+
+const collectionConfig=[
+  ['students','Students','ST'],
+  ['lecturers','Lecturers','LC'],
+  ['departments','Departments','DP'],
+  ['programmes','Programmes','PR'],
+  ['courses','Courses','CR'],
+  ['applications','Applications','AP'],
+  ['results','Results','RS'],
+  ['payments','Payments','PY'],
+  ['notifications','Notifications','NT'],
+  ['users','User Accounts','US'],
+];
+
+let auditRows=[];
+
+function niceTime(value){
+  if(!value)return '—';
+  let d;
+  if(typeof value?.toDate==='function') d=value.toDate();
+  else d=new Date(value);
+  if(Number.isNaN(d.getTime())) return String(value);
+  return d.toLocaleString([],{dateStyle:'short',timeStyle:'short'});
+}
+
+function renderStats(data){
+  statsEl.innerHTML='';
+  const first=[
+    ['students','Students','ST'],
+    ['lecturers','Lecturers','LC'],
+    ['courses','Courses','CR'],
+    ['users','User Accounts','US']
+  ];
+  for(const [key,label,icon] of first){
+    const item=data.find(x=>x.key===key);
+    statsEl.innerHTML+=`
+      <article class="stat-card">
+        <div class="stat-top">
+          <div class="stat-label">${window.esc(label)}</div>
+          <div class="stat-icon">${window.esc(icon)}</div>
+        </div>
+        <div class="stat-number">${item?.count ?? 0}</div>
+        <div class="stat-note">${item?.ok ? 'Live collection count' : 'Collection unavailable or restricted'}</div>
+      </article>`;
+  }
+}
+
+function renderStatus(data){
+  statusEl.innerHTML=data.map(x=>`
+    <div class="system-row">
+      <span class="system-name">${window.esc(x.label)}</span>
+      <span class="status ${x.ok?'':'warn'}">${x.ok?'Available':'Unavailable'}</span>
+    </div>`).join('');
+}
+
+async function loadCollections(){
+  const results=[];
+  for(const [key,label] of collectionConfig){
+    try{
+      const snap=await window.GG.getDocs(window.GG.collection(window.GG.db,key));
+      results.push({key,label,count:snap.size,ok:true});
+    }catch(e){
+      results.push({key,label,count:0,ok:false});
+    }
+  }
+  renderStats(results);
+  renderStatus(results);
+  updatedEl.textContent='Updated '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+}
+
+function renderAudit(){
+  const filter=auditFilter.value;
+  const rows=filter==='all'
+    ? auditRows
+    : auditRows.filter(d=>String(d.action||'').toLowerCase().includes(filter));
+  if(!rows.length){
+    auditEl.innerHTML='<tr><td colspan="5" class="empty">No matching audit activity found.</td></tr>';
+    return;
+  }
+  auditEl.innerHTML=rows.map(d=>`
+    <tr>
+      <td>${window.esc(niceTime(d.timestamp))}</td>
+      <td>${window.esc(d.action||'—')}</td>
+      <td>${window.esc(d.module||'—')}</td>
+      <td>${window.esc((d.entityType||'')+' '+(d.entityId||''))}</td>
+      <td>${window.esc(d.result||'—')}</td>
+    </tr>`).join('');
+}
+
+async function loadAudit(){
+  try{
+    const q=window.GG.query(
+      window.GG.collection(window.GG.db,'auditLogs'),
+      window.GG.orderBy('timestamp','desc'),
+      window.GG.limit(15)
+    );
+    window.GG.onSnapshot(q,snap=>{
+      auditRows=[];
+      snap.forEach(x=>auditRows.push(x.data()));
+      renderAudit();
+    },()=>{
+      auditEl.innerHTML='<tr><td colspan="5" class="empty">Audit activity could not be loaded.</td></tr>';
+    });
+  }catch(e){
+    auditEl.innerHTML='<tr><td colspan="5" class="empty">Audit index may need to be created in Firestore.</td></tr>';
+  }
+}
+
+document.getElementById('refreshBtn').addEventListener('click',async()=>{
+  const b=document.getElementById('refreshBtn');
+  b.disabled=true;
+  b.textContent='Refreshing...';
+  try{
+    await loadCollections();
+    window.toast('Dashboard data refreshed');
+  }finally{
+    b.disabled=false;
+    b.textContent='↻ Refresh Data';
+  }
+});
+auditFilter.addEventListener('change',renderAudit);
+
+await loadCollections();
+await loadAudit();
+</script>
+</body>
+</html>

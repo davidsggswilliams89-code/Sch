@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Venue Management - GGCHST SMS</title>
+<style>
+:root{--primary:#0b6b45;--dark:#12352b;--bg:#f4f7f6;--card:#fff;--border:#dfe7e3;--danger:#b42318;--muted:#667085;--shadow:0 8px 25px rgba(18,53,43,.08)}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:#172b24}header{background:linear-gradient(135deg,#0b6b45,#12352b);color:#fff;padding:22px 16px}header .wrap{max-width:1200px;margin:auto}h1{margin:0 0 5px;font-size:25px}header p{margin:0;opacity:.9}.wrap{max-width:1200px;margin:auto;padding:20px 16px}.topbar{display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:16px}.back{display:inline-block;background:#fff;color:var(--primary);border:1px solid var(--border);padding:10px 14px;border-radius:9px;text-decoration:none;font-weight:700}.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--shadow);margin-bottom:18px}.card h2{margin:0 0 14px;font-size:19px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}label{font-size:13px;font-weight:700;color:#344054}input,select,textarea{width:100%;padding:11px 12px;border:1px solid #cfd9d5;border-radius:9px;background:#fff;font:inherit;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(11,107,69,.1)}textarea{min-height:85px;resize:vertical}.actions{display:flex;gap:10px;margin-top:15px;flex-wrap:wrap}.btn{border:0;border-radius:9px;padding:11px 16px;cursor:pointer;font-weight:700}.primary{background:var(--primary);color:#fff}.secondary{background:#eef3f1;color:var(--dark)}.danger{background:#fff0ef;color:var(--danger)}.small{padding:7px 10px;font-size:12px}.toolbar{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:14px}.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:10px}table{width:100%;border-collapse:collapse;min-width:1050px}th,td{padding:11px 10px;border-bottom:1px solid var(--border);text-align:left;font-size:13px;vertical-align:top}th{background:#f0f5f3;color:#344054}tr:last-child td{border-bottom:0}.status{display:inline-block;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:700}.active{background:#e8f7ef;color:#067647}.inactive{background:#f2f4f7;color:#667085}.empty{text-align:center;padding:30px;color:var(--muted)}.hint{font-size:12px;color:var(--muted);margin-top:5px}.toast{position:fixed;right:18px;bottom:18px;z-index:10;padding:13px 16px;border-radius:10px;background:#12352b;color:#fff;box-shadow:var(--shadow);display:none}.error{color:var(--danger);font-size:13px;margin-top:8px}@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.grid,.toolbar{grid-template-columns:1fr}.wrap{padding:14px 10px}header{padding:18px 10px}}
+ .school-header{background:#fff;border-bottom:1px solid #e5e7eb;width:100%}.school-header-inner{max-width:1200px;margin:auto;min-height:76px;padding:10px 18px;display:flex;align-items:center;gap:12px}.school-logo{width:52px;height:52px;border-radius:50%;overflow:hidden;border:1px solid #d1fae5}.school-logo img{width:100%;height:100%;object-fit:cover}.school-name{flex:1;color:#172033;font-size:17px;font-weight:800}.school-name span{display:block;margin-top:3px;color:#667085;font-size:12px;font-weight:500}.school-back{background:#087443;color:#fff;padding:9px 13px;border-radius:9px;text-decoration:none;font-size:13px;font-weight:700}@media(max-width:600px){.school-header-inner{padding:8px 10px}.school-logo{width:42px;height:42px}.school-name{font-size:12px}.school-name span{font-size:10px}.school-back{font-size:10px;padding:7px 9px}} </style>
+</head>
+<body>
+<header class="school-header"><div class="school-header-inner">
+<div class="school-logo"><img src="https://ggchstgusau.edu.ng/_next/image?q=75&url=%2Flogo.png&w=384" alt="GGCHST logo"></div>
+<div class="school-name">Green Garden College of Health Sciences &amp; Technology<span>Gusau, Zamfara State</span></div>
+<a class="school-back" href="admin.html">← Back to Admin</a>
+</div></header>
+<div class="wrap">
+<div class="topbar"><a class="back" href="admin.html">← Back to Admin</a><span id="countText" class="hint">Loading venues...</span></div>
+<section class="card">
+<h2 id="formTitle">Add Venue</h2>
+<form id="venueForm">
+<div class="grid">
+<div class="field"><label for="venueName">Venue Name *</label><input id="venueName" required placeholder="e.g. Lecture Hall 1"></div>
+<div class="field"><label for="venueCode">Venue Code *</label><input id="venueCode" required placeholder="e.g. LH001"></div>
+<div class="field"><label for="venueType">Venue Type *</label><select id="venueType" required><option value="">Select type</option><option>Lecture Hall</option><option>Classroom</option><option>Laboratory</option><option>Practical Room</option><option>Computer Laboratory</option><option>Workshop</option><option>Examination Hall</option><option>Conference Room</option><option>Other</option></select></div>
+<div class="field"><label for="capacity">Capacity</label><input id="capacity" type="number" min="1" placeholder="e.g. 100"></div>
+
+<div class="field"><label for="programmeId">Programme</label><select id="programmeId"><option value="">All / Not specified</option></select></div>
+<div class="field"><label for="status">Status *</label><select id="status" required><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
+<div class="field full"><label for="description">Description</label><textarea id="description" placeholder="Optional details about the venue"></textarea></div>
+</div>
+<div id="formError" class="error"></div>
+<div class="actions"><button class="btn primary" id="saveBtn" type="submit">Save Venue</button><button class="btn secondary" id="cancelBtn" type="button" style="display:none">Cancel Edit</button></div>
+</form>
+</section>
+<section class="card">
+<h2>Venue List</h2>
+<div class="toolbar"><input id="search" placeholder="Search venue name, code, type or programme..."><select id="statusFilter"><option value="">All Status</option><option value="Active">Active</option><option value="Inactive">Inactive</option></select><select id="typeFilter"><option value="">All Types</option></select></div>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Venue</th><th>Code</th><th>Type</th><th>Capacity</th><th>Programme</th><th>Status</th><th>Actions</th></tr></thead><tbody id="venueBody"><tr><td colspan="8" class="empty">Loading...</td></tr></tbody></table></div>
+</section>
+</div><div id="toast" class="toast"></div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",authDomain:"ggchst-sms-new.firebaseapp.com",projectId:"ggchst-sms-new",storageBucket:"ggchst-sms-new.firebasestorage.app",messagingSenderId:"942770190211",appId:"1:942770190211:web:aa9a085a38aaa517b368b6"};
+const app=initializeApp(firebaseConfig),db=getFirestore(app);
+const $=id=>document.getElementById(id);let venues=[],programmes=[],editingId=null;
+function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+function toast(msg){$('toast').textContent=msg;$('toast').style.display='block';setTimeout(()=>{$('toast').style.display='none'},2500)}
+async function loadMasters(){
+ try{
+  const ps=await getDocs(collection(db,'programmes'));
+  programmes=ps.docs.map(d=>({
+   id:d.id,
+   name:d.data().name||'',
+   code:d.data().code||'',
+   status:d.data().status||'Active'
+  })).filter(p=>p.name).sort((a,b)=>a.name.localeCompare(b.name));
+
+  $('programmeId').innerHTML='<option value="">All / Not specified</option>'+
+   programmes.map(p=>`<option value="${esc(p.id)}">${esc(p.name)}${p.code?' — '+esc(p.code):''}</option>`).join('');
+ }catch(e){
+  console.error(e);
+  $('programmeId').innerHTML='<option value="">Unable to load programmes</option>';
+ }
+}
+
+function listen(){onSnapshot(query(collection(db,'venues'),orderBy('name')),snap=>{venues=snap.docs.map(d=>({id:d.id,...d.data()}));render();$('countText').textContent=`${venues.length} venue${venues.length===1?'':'s'}`},err=>{$('venueBody').innerHTML=`<tr><td colspan="8" class="empty">Unable to load venues: ${esc(err.message)}</td></tr>`});}
+function render(){
+ const search=$('search').value.toLowerCase().trim(),sf=$('statusFilter').value,tf=$('typeFilter').value,pf=$('programmeId').value;
+ const filtered=venues.filter(v=>{
+  const hay=[v.name,v.code,v.type,v.programmeName,v.description].join(' ').toLowerCase();
+  return (!search||hay.includes(search))&&(!sf||v.status===sf)&&(!tf||v.type===tf)&&(!pf||String(v.programmeId||'')===String(pf));
+ });
+ const types=[...new Set(venues.map(v=>v.type).filter(Boolean))].sort();
+ const cur=$('typeFilter').value;
+ $('typeFilter').innerHTML='<option value="">All Types</option>'+types.map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join('');
+ if(types.includes(cur))$('typeFilter').value=cur;
+ $('venueBody').innerHTML=filtered.length?filtered.map((v,i)=>`<tr><td>${i+1}</td><td><b>${esc(v.name)}</b><div class="hint">${esc(v.description||'')}</div></td><td>${esc(v.code)}</td><td>${esc(v.type)}</td><td>${esc(v.capacity||'—')}</td><td>${esc(v.programmeName||'—')}</td><td><span class="status ${v.status==='Active'?'active':'inactive'}">${esc(v.status||'Inactive')}</span></td><td><button class="btn secondary small" onclick="editVenue('${v.id}')">Edit</button> <button class="btn danger small" onclick="removeVenue('${v.id}')">Delete</button></td></tr>`).join(''):'<tr><td colspan="8" class="empty">No venues found.</td></tr>';
+}
+
+function reset(){editingId=null;$('venueForm').reset();$('status').value='Active';$('formTitle').textContent='Add Venue';$('saveBtn').textContent='Save Venue';$('cancelBtn').style.display='none';$('formError').textContent='';}
+$('venueForm').addEventListener('submit',async e=>{e.preventDefault();$('formError').textContent='';const name=$('venueName').value.trim(),code=$('venueCode').value.trim().toUpperCase(),type=$('venueType').value,status=$('status').value,capacity=$('capacity').value?Number($('capacity').value):null,programmeId=$('programmeId').value; if(!name||!code||!type)return;$('saveBtn').disabled=true;try{const duplicate=venues.find(v=>v.id!==editingId&&String(v.code||'').toUpperCase()===code);if(duplicate)throw new Error('A venue with this code already exists.');const p=programmes.find(x=>x.id===programmeId);const payload={name,code,type,capacity,programmeId:programmeId||null,programmeName:p?(p.name||''):null,programmeCode:p?(p.code||''):null,status,description:$('description').value.trim(),updatedAt:serverTimestamp()};if(editingId)await updateDoc(doc(db,'venues',editingId),payload);else await addDoc(collection(db,'venues'),{...payload,createdAt:serverTimestamp()});toast(editingId?'Venue updated successfully.':'Venue created successfully.');reset();}catch(err){console.error(err);$('formError').textContent=err.message||'Unable to save venue.'}finally{$('saveBtn').disabled=false}});
+window.editVenue=id=>{const v=venues.find(x=>x.id===id);if(!v)return;editingId=id;$('venueName').value=v.name||'';$('venueCode').value=v.code||'';$('venueType').value=v.type||'';$('capacity').value=v.capacity??'';$('programmeId').value=v.programmeId||'';$('status').value=v.status||'Active';$('description').value=v.description||'';$('formTitle').textContent='Edit Venue';$('saveBtn').textContent='Update Venue';$('cancelBtn').style.display='inline-block';window.scrollTo({top:0,behavior:'smooth'});};
+window.removeVenue=async id=>{const v=venues.find(x=>x.id===id);if(!v)return;if(!confirm(`Delete venue "${v.name}"?`))return;try{await deleteDoc(doc(db,'venues',id));toast('Venue deleted.');if(editingId===id)reset()}catch(e){alert(e.message)}};
+$('cancelBtn').onclick=reset;$('search').oninput=render;$('statusFilter').onchange=render;$('typeFilter').onchange=render;$('programmeId').onchange=render;
+loadMasters();listen();
+</script></body></html>

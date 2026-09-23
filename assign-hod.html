@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GGCHST | Assign HOD</title>
+<style>
+:root{
+  --green:#08783f;--dark:#07552f;--light:#eef8f2;--border:#dce8e1;
+  --danger:#c62828;--text:#17221c;--muted:#66736b;
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;max-width:100%;overflow-x:hidden}
+body{font-family:Arial,Helvetica,sans-serif;background:#f5f8f6;color:var(--text)}
+.school-header{background:#fff;border-bottom:1px solid var(--border);box-shadow:0 2px 10px rgba(0,0,0,.06);position:sticky;top:0;z-index:20}
+.school-header-inner{width:100%;max-width:1180px;margin:auto;padding:10px 18px;display:flex;align-items:center;gap:14px;min-height:76px}
+.school-logo{width:62px;height:62px;flex:0 0 62px;border-radius:50%;object-fit:cover;border:2px solid #e1eee7;background:#fff}
+.school-title{min-width:0;flex:1;text-align:center}
+.school-title h1{margin:0;color:var(--dark);font-size:18px;line-height:1.25;font-weight:800}
+.school-title p{margin:4px 0 0;color:var(--muted);font-size:12px}
+.back-btn{display:inline-flex;align-items:center;justify-content:center;color:#fff;background:var(--green);text-decoration:none;padding:9px 13px;border-radius:8px;font-size:13px;font-weight:700;white-space:nowrap}
+main{width:100%;max-width:1180px;margin:22px auto;padding:0 16px}
+.hero{background:linear-gradient(135deg,#08783f,#0a9850);color:#fff;border-radius:30px;padding:38px 50px;margin-bottom:20px;box-shadow:0 8px 24px rgba(8,120,63,.14)}
+.hero h2{margin:0 0 12px;font-size:36px}.hero p{margin:0;font-size:18px;line-height:1.55}
+.hod-grid{display:grid;grid-template-columns:360px minmax(0,1fr);gap:18px;align-items:start}
+.card{background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 6px 20px rgba(0,0,0,.06);padding:18px;min-width:0}
+.card h2{margin:0 0 15px;color:var(--dark);font-size:17px}
+label{display:block;font-size:13px;font-weight:700;margin:12px 0 6px}
+select,input{width:100%;padding:11px 12px;border:1px solid #cbd8d0;border-radius:8px;background:#fff;font-size:14px;outline:none}
+select:focus,input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(8,120,63,.1)}
+select:disabled{background:#f1f4f2;color:#78837d;cursor:not-allowed}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+button{border:0;border-radius:8px;padding:11px 14px;cursor:pointer;font-weight:700;font-size:13px}
+.primary{background:var(--green);color:#fff}.secondary{background:#e9f0ec;color:var(--dark)}
+.danger{background:#fdecec;color:var(--danger)}button:disabled{opacity:.6;cursor:not-allowed}
+.message{display:none;margin:0 0 12px;padding:10px 12px;border-radius:8px;font-size:13px}
+.success{background:#e8f7ed;color:#126237}.error{background:#fdeaea;color:#a51e1e}
+.hint{margin-top:10px;color:var(--muted);font-size:11px;line-height:1.5}
+.toolbar{display:flex;gap:10px;margin-bottom:14px;align-items:center}
+.toolbar input{flex:1}.count{background:var(--light);color:var(--dark);border-radius:8px;padding:10px 12px;font-size:13px;font-weight:700;white-space:nowrap}
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px}
+table{width:100%;min-width:820px;border-collapse:collapse}
+th,td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+th{background:#f3f7f4;color:var(--dark);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.badge{display:inline-block;padding:5px 8px;border-radius:20px;font-size:11px;font-weight:700}
+.active{background:#e3f5ea;color:#08783f}.inactive{background:#eee;color:#666}
+.actions{display:flex;gap:6px;flex-wrap:wrap}.actions button{padding:7px 9px;font-size:11px}
+.empty{text-align:center;padding:32px 10px;color:var(--muted)}
+footer{text-align:center;padding:24px 15px;color:var(--muted);font-size:12px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+@media(max-width:600px){
+ .school-header-inner{min-height:66px;padding:7px 10px;gap:9px}.school-logo{width:48px;height:48px;flex-basis:48px}
+ .school-title h1{font-size:14px}.school-title p{font-size:10px}.back-btn{padding:8px 9px;font-size:11px}
+ main{margin:16px auto;padding:0 10px}.hero{padding:25px 20px;border-radius:22px}.hero h2{font-size:26px}.hero p{font-size:15px}
+ .card{padding:14px}.toolbar{flex-direction:column;align-items:stretch}.count{text-align:center}
+}
+
+</style>
+</head>
+<body>
+<header class="school-header">
+  <div class="school-header-inner">
+    <img src="logo.png" alt="Green Garden College of Health Sciences & Technology logo" class="school-logo">
+    <div class="school-title">
+      <h1>Green Garden College of Health Sciences &amp; Technology, Gusau</h1>
+      <p>Assign HOD</p>
+    </div>
+    <a class="back-btn" href="admin.html">← Back</a>
+  </div>
+</header>
+
+<main>
+<section id="hodModule" class="module active">
+  
+
+<div class="hod-grid">
+<section class="card">
+  <h2 id="formTitle">Assign HOD to Programme</h2>
+  <div id="message" class="message"></div>
+  <form id="assignmentForm">
+    <label for="programme">Programme *</label>
+    <select id="programme" required disabled><option value="">Loading programmes...</option></select>
+
+    <label for="hod">HOD / Lecturer *</label>
+    <select id="hod" required disabled><option value="">Loading lecturers...</option></select>
+
+    <label for="staffId">Staff ID</label>
+    <input id="staffId" readonly placeholder="Automatically shown">
+
+    <label for="email">Email</label>
+    <input id="email" readonly placeholder="Automatically shown">
+
+    <label for="status">Status</label>
+    <select id="status"><option>Active</option><option>Inactive</option></select>
+
+    <div class="btns">
+      <button class="primary" id="saveBtn" type="submit">Assign HOD</button>
+      <button class="secondary" id="cancelBtn" type="button" style="display:none">Cancel</button>
+    </div>
+  </form>
+  <div class="hint">The selected lecturer's Firebase UID is also saved with the HOD assignment, so the HOD Profile can identify the same account without creating a second login. Each Programme can have one active HOD assignment. Reassigning the Programme automatically deactivates its previous active HOD assignment.</div>
+</section>
+
+<section class="card">
+  <h2>Programme HOD Assignments</h2>
+  <div class="toolbar">
+    <input id="search" type="search" placeholder="Search programme, HOD, Staff ID or email...">
+    <span class="count" id="count">0 Assignments</span>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Programme</th><th>HOD</th><th>Staff ID</th><th>Email</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody id="table"><tr><td colspan="6" class="empty">Loading assignments...</td></tr></tbody>
+    </table>
+  </div>
+</section>
+</div>
+</section>
+</main>
+
+<script type="module">
+import {initializeApp,getApps,getApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getFirestore,collection,addDoc,updateDoc,doc,onSnapshot,getDocs,query,orderBy,serverTimestamp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig={apiKey:"AIzaSyAoT3LGcdw3A0FzHDrPEuhTNCnfiTklGXY",authDomain:"ggchst-sms-new.firebaseapp.com",projectId:"ggchst-sms-new",storageBucket:"ggchst-sms-new.firebasestorage.app",messagingSenderId:"942770190211",appId:"1:942770190211:web:aa9a085a38aaa517b368b6"};
+const app=getApps().length?getApp():initializeApp(firebaseConfig);
+const db=getFirestore(app);
+
+// ===== Assign HOD module =====
+const $h=id=>document.getElementById(id);
+let programmesH=[],lecturersH=[],assignmentsH=[],editingH=null;
+const normH=v=>String(v??'').trim().toLowerCase();
+const escH=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+const activeH=x=>x.filter(a=>normH(a.status)!=='inactive');
+const nameH=l=>l.name||l.fullName||l.lecturerName||l.staffName||l.displayName||l.email||'';
+const staffH=l=>l.staffId||l.staffID||l.employeeId||l.employeeID||'';
+const emailH=l=>l.email||l.emailAddress||l.lecturerEmail||'';
+const uidH=l=>l.firebaseUid||l.authUid||l.uid||l.userId||l.firebaseUserId||'';
+function showH(m,type='success'){const e=$h('message');e.textContent=m;e.className='message '+type;e.style.display='block';setTimeout(()=>e.style.display='none',4500)}
+function programmeNameH(p){return p.name||''}
+function programmeCodeH(p){return p.code||''}
+function fillPH(sel=''){
+  const e=$h('programme');
+  e.innerHTML='<option value="">Select programme</option>';
+  const rows=activeH(programmesH).filter(p=>programmeNameH(p));
+  rows.sort((a,b)=>normH(programmeNameH(a)).localeCompare(normH(programmeNameH(b))));
+  rows.forEach(p=>{
+    const o=document.createElement('option');
+    o.value=p.id;
+    o.textContent=programmeNameH(p)+(programmeCodeH(p)?` (${programmeCodeH(p)})`:'');
+    e.appendChild(o);
+  });
+  e.disabled=false;
+  if(sel)e.value=sel;
+}
+function fillLH(sel=''){const e=$h('hod');e.innerHTML='<option value="">Select HOD / Lecturer</option>';activeH(lecturersH).sort((a,b)=>normH(nameH(a)).localeCompare(normH(nameH(b)))).forEach(l=>{const o=document.createElement('option');o.value=l.id;o.textContent=nameH(l)+(staffH(l)?` — ${staffH(l)}`:''),e.appendChild(o)});e.disabled=false;if(sel)e.value=sel;updateHodInfo()}
+function updateHodInfo(){const l=lecturersH.find(x=>x.id===$h('hod').value);$h('staffId').value=l?staffH(l):'';$h('email').value=l?emailH(l):''}
+function resetH(){editingH=null;$h('assignmentForm').reset();$h('formTitle').textContent='Assign HOD to Programme';$h('saveBtn').textContent='Assign HOD';$h('cancelBtn').style.display='none';fillPH();fillLH();$h('staffId').value='';$h('email').value='';$h('status').value='Active'}
+function renderH(){const term=normH($h('search').value);const list=assignmentsH.filter(a=>[a.programmeName,a.hodName,a.staffId,a.hodEmail,a.status].some(v=>normH(v).includes(term)));$h('count').textContent=`${list.length} ${list.length===1?'Assignment':'Assignments'}`;if(!list.length){$h('table').innerHTML='<tr><td colspan="6" class="empty">No Programme HOD assignments found.</td></tr>';return}$h('table').innerHTML=list.map(a=>`<tr><td><strong>${escH(a.programmeName||'—')}</strong></td><td>${escH(a.hodName||'—')}</td><td>${escH(a.staffId||'—')}</td><td>${escH(a.hodEmail||'—')}</td><td><span class="badge ${normH(a.status)==='inactive'?'inactive':'active'}">${escH(a.status||'Active')}</span></td><td><div class="actions"><button class="secondary" data-h-edit="${escH(a.id)}">Edit</button><button class="danger" data-h-deactivate="${escH(a.id)}">${normH(a.status)==='inactive'?'Delete':'Deactivate'}</button></div></td></tr>`).join('')}
+$h('programme').addEventListener('change',()=>{const existing=assignmentsH.find(a=>a.programmeId===$h('programme').value&&normH(a.status)!=='inactive');if(existing&&!editingH)showH('This Programme already has an active HOD. Saving another will replace the current assignment.','error')});
+$h('hod').addEventListener('change',updateHodInfo);
+$h('assignmentForm').addEventListener('submit',async e=>{e.preventDefault();const p=programmesH.find(x=>x.id===$h('programme').value),l=lecturersH.find(x=>x.id===$h('hod').value);if(!p||!l)return showH('Please select a Programme and HOD.','error');const duplicate=assignmentsH.find(a=>a.id!==editingH&&a.programmeId===p.id&&normH(a.status)!=='inactive');const b=$h('saveBtn');b.disabled=true;b.textContent='Saving...';try{const hodUid=uidH(l);
+      const data={programmeId:p.id,programmeName:programmeNameH(p),programmeCode:programmeCodeH(p),hodId:l.id,hodUid:hodUid,hodName:nameH(l),hodEmail:emailH(l),staffId:staffH(l),status:$h('status').value,updatedAt:serverTimestamp()};if(editingH){await updateDoc(doc(db,'programmeHodAssignments',editingH),data);showH('Programme HOD assignment updated successfully.')}else{if(duplicate)await updateDoc(doc(db,'programmeHodAssignments',duplicate.id),data);else await addDoc(collection(db,'programmeHodAssignments'),{...data,createdAt:serverTimestamp()});showH(duplicate?'Programme HOD reassigned successfully.':'HOD assigned to Programme successfully.')}resetH()}catch(err){console.error(err);showH('Could not save the HOD assignment. Check Firebase permissions.','error')}finally{b.disabled=false;b.textContent='Assign HOD'}});
+$h('cancelBtn').addEventListener('click',resetH);$h('search').addEventListener('input',renderH);
+$h('table').addEventListener('click',async e=>{const edit=e.target.closest('[data-h-edit]'),de=e.target.closest('[data-h-deactivate]');if(edit){const a=assignmentsH.find(x=>x.id===edit.dataset.hEdit);if(!a)return;editingH=a.id;$h('formTitle').textContent='Edit Programme HOD Assignment';$h('saveBtn').textContent='Update Assignment';$h('cancelBtn').style.display='inline-block';fillPH(a.programmeId);fillLH(a.hodId);$h('status').value=a.status||'Active';window.scrollTo({top:0,behavior:'smooth'})}if(de){const a=assignmentsH.find(x=>x.id===de.dataset.hDeactivate);if(!a)return;if(confirm(`Deactivate HOD assignment for ${a.programmeName||'this Programme'}?`))try{await updateDoc(doc(db,'programmeHodAssignments',a.id),{status:'Inactive',updatedAt:serverTimestamp()});showH('HOD assignment deactivated successfully.')}catch(err){console.error(err);showH('Could not deactivate assignment.','error')}}});
+
+
+
+// ===== Firebase listeners for Assign HOD =====
+async function loadProgrammesH(){
+  const select=$h('programme');
+  select.disabled=true;
+  select.innerHTML='<option value="">Loading programmes...</option>';
+
+  try{
+    const snap=await getDocs(collection(db,'programmes'));
+    programmesH=snap.docs.map(d=>({id:d.id,...d.data()}))
+      .filter(p=>programmeNameH(p));
+
+    console.log('GGCHST programmes loaded:',programmesH.length,programmesH);
+
+    if(!programmesH.length){
+      select.innerHTML='<option value="">No programmes found</option>';
+      select.disabled=true;
+      showH("No Programme records were found in the Firestore 'programmes' collection. Please create a Programme in programme.html first.",'error');
+      renderH();
+      return;
+    }
+
+    fillPH();
+    renderH();
+  }catch(err){
+    console.error('Programme load error:',err);
+    select.disabled=false;
+    select.innerHTML='<option value="">Unable to load programmes</option>';
+    showH('Could not load programmes: '+(err.message||'Check Firestore rules and the programmes collection.'),'error');
+  }
+}
+
+onSnapshot(collection(db,'programmes'),snap=>{
+  programmesH=snap.docs.map(d=>({id:d.id,...d.data()}))
+    .filter(p=>programmeNameH(p));
+  console.log('GGCHST programmes realtime update:',programmesH.length,programmesH);
+  const current=$h('programme').value;
+  fillPH(current);
+  renderH();
+},err=>{
+  console.error('Programme realtime listener error:',err);
+});
+
+loadProgrammesH();
+
+onSnapshot(query(collection(db,'programmeHodAssignments'),orderBy('programmeName','asc')),snap=>{
+  assignmentsH=snap.docs.map(d=>({id:d.id,...d.data()}));
+  renderH();
+},err=>{
+  console.error(err);
+  $h('table').innerHTML='<tr><td colspan="6" class="empty">Could not load HOD assignments. Check Firestore permissions.</td></tr>';
+  showH('Could not load Programme HOD assignments.','error');
+});
+
+onSnapshot(collection(db,'lecturers'),snap=>{
+  lecturersH=snap.docs.map(d=>({id:d.id,...d.data()}));
+  const current=$h('hod').value;
+  fillLH(current);
+},err=>{
+  console.error(err);
+  $h('hod').disabled=false;
+  $h('hod').innerHTML='<option value="">Unable to load lecturers</option>';
+  showH('Could not load lecturers. '+(err.message||''),'error');
+});
+
+resetH();
+
+</script>
+</body>
+</html>
