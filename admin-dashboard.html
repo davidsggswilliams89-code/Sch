@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Admin Dashboard | GGCHST</title>
+
 <style>
 :root{
   --bg:#f4f8f6;
@@ -18,70 +19,255 @@
   --danger:#b42318;
   --shadow:0 8px 28px rgba(21,53,43,.07);
 }
+
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+
+html{
+  scroll-behavior:smooth;
+}
+
 body{
   margin:0;
   font-family:Inter,Arial,sans-serif;
   background:var(--bg);
   color:var(--text);
 }
-a{color:inherit}
+
+a{
+  color:inherit;
+}
+
+/* =========================================================
+   GUSAU HEADER
+   ========================================================= */
+
 .school-header{
-  background:#fff;
-  border-bottom:1px solid var(--line);
-  position:sticky;
-  top:0;
-  z-index:20;
+  display:block !important;
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  background:linear-gradient(135deg,#075c45,#087443) !important;
+  color:#fff !important;
+  position:sticky !important;
+  top:0 !important;
+  left:0 !important;
+  right:0 !important;
+  z-index:9999 !important;
+  box-shadow:0 3px 14px rgba(0,0,0,.14) !important;
 }
-.header-inner{
-  max-width:1250px;
-  margin:auto;
-  min-height:68px;
-  padding:10px 16px;
-  display:grid;
-  grid-template-columns:1fr auto 1fr;
-  align-items:center;
-  gap:12px;
+
+.school-header *{
+  box-sizing:border-box !important;
 }
-.school-brand{
-  justify-self:start;
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  background:var(--soft);
-  border:2px solid #b9dfcf;
-  display:grid;
-  place-items:center;
-  color:var(--brand);
-  font-weight:900;
-  font-size:11px;
-  letter-spacing:.4px;
+
+/* TOP SCHOOL BAR */
+
+.school-header-top{
+  display:block !important;
+  width:100% !important;
+  min-height:74px !important;
+  margin:0 !important;
+  padding:0 !important;
+  border-bottom:1px solid rgba(255,255,255,.15) !important;
 }
-.school-name{
-  text-align:center;
-  font-size:18px;
-  font-weight:800;
-  line-height:1.25;
+
+.school-header-inner{
+  width:100% !important;
+  max-width:1250px !important;
+  min-height:74px !important;
+  margin:0 auto !important;
+  padding:10px 16px !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:14px !important;
 }
-.header-right{justify-self:end}
-.back-btn{
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  padding:8px 12px;
-  border-radius:9px;
-  background:var(--brand);
-  color:#fff;
-  text-decoration:none;
-  font-size:12px;
-  font-weight:800;
+
+/* LOGO */
+
+.school-header .school-logo{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:50px !important;
+  height:50px !important;
+  min-width:50px !important;
+  max-width:50px !important;
+  min-height:50px !important;
+  max-height:50px !important;
+  flex:0 0 50px !important;
+  margin:0 !important;
+  padding:4px !important;
+  background:#fff !important;
+  border-radius:10px !important;
+  overflow:hidden !important;
+  box-shadow:0 2px 8px rgba(0,0,0,.18) !important;
 }
+
+.school-header .school-logo img{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:0 !important;
+  max-width:100% !important;
+  min-height:0 !important;
+  max-height:100% !important;
+  margin:0 !important;
+  padding:0 !important;
+  object-fit:contain !important;
+  border:0 !important;
+}
+
+/* SCHOOL NAME */
+
+.school-header .school-name{
+  display:block !important;
+  flex:1 1 auto !important;
+  width:auto !important;
+  min-width:0 !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  color:#fff !important;
+  font-size:17px !important;
+  font-weight:800 !important;
+  line-height:1.25 !important;
+}
+
+.school-header .school-name span{
+  display:block !important;
+  margin:3px 0 0 !important;
+  padding:0 !important;
+  color:#fff !important;
+  font-size:11px !important;
+  font-weight:500 !important;
+  opacity:.82 !important;
+}
+
+/* BACK BUTTON */
+
+.school-header .school-back{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  flex:0 0 auto !important;
+  width:auto !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:9px 12px !important;
+  color:#fff !important;
+  background:rgba(255,255,255,.08) !important;
+  border:1px solid rgba(255,255,255,.25) !important;
+  border-radius:9px !important;
+  text-decoration:none !important;
+  font-size:12px !important;
+  font-weight:800 !important;
+  white-space:nowrap !important;
+}
+
+.school-header .school-back:hover{
+  background:rgba(255,255,255,.17) !important;
+}
+
+/* PORTAL TITLE */
+
+.portal-title-row{
+  display:block !important;
+  width:100% !important;
+  margin:0 !important;
+  padding:0 !important;
+  background:#075c45 !important;
+  border-bottom:1px solid rgba(255,255,255,.10) !important;
+}
+
+.portal-title-inner{
+  width:100% !important;
+  max-width:1250px !important;
+  margin:0 auto !important;
+  padding:11px 16px !important;
+}
+
+.school-header .portal-title{
+  display:block !important;
+  margin:0 !important;
+  padding:0 !important;
+  color:#fff !important;
+  font-size:18px !important;
+  font-weight:800 !important;
+  line-height:1.25 !important;
+}
+
+.school-header .portal-subtitle{
+  display:block !important;
+  margin:3px 0 0 !important;
+  padding:0 !important;
+  color:#fff !important;
+  font-size:11px !important;
+  opacity:.78 !important;
+}
+
+/* NAVIGATION */
+
+.portal-nav{
+  display:block !important;
+  width:100% !important;
+  margin:0 !important;
+  padding:0 !important;
+  background:#064b39 !important;
+}
+
+.portal-nav-inner{
+  width:100% !important;
+  max-width:1250px !important;
+  margin:0 auto !important;
+  padding:7px 12px !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:4px !important;
+  overflow-x:auto !important;
+  overflow-y:hidden !important;
+  scrollbar-width:none !important;
+}
+
+.portal-nav-inner::-webkit-scrollbar{
+  display:none !important;
+}
+
+.portal-nav a{
+  display:block !important;
+  width:auto !important;
+  min-width:max-content !important;
+  margin:0 !important;
+  padding:8px 11px !important;
+  color:#fff !important;
+  background:transparent !important;
+  border-radius:8px !important;
+  text-decoration:none !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  white-space:nowrap !important;
+}
+
+.portal-nav a:hover{
+  background:rgba(255,255,255,.12) !important;
+}
+
+.portal-nav a.active{
+  color:#075c45 !important;
+  background:#fff !important;
+  font-weight:800 !important;
+}
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
 .main{
   max-width:1250px;
   margin:0 auto;
   padding:22px 16px 45px;
 }
+
 .page-top{
   display:flex;
   justify-content:space-between;
@@ -89,6 +275,7 @@ a{color:inherit}
   gap:18px;
   margin-bottom:18px;
 }
+
 .kicker{
   margin:0 0 5px;
   color:var(--brand);
@@ -97,8 +284,19 @@ a{color:inherit}
   text-transform:uppercase;
   letter-spacing:.7px;
 }
-h1{margin:0;font-size:28px;line-height:1.15}
-.subtitle{margin:7px 0 0;color:var(--muted);font-size:13px}
+
+h1{
+  margin:0;
+  font-size:28px;
+  line-height:1.15;
+}
+
+.subtitle{
+  margin:7px 0 0;
+  color:var(--muted);
+  font-size:13px;
+}
+
 .refresh-btn{
   border:1px solid #cfe1d9;
   background:#fff;
@@ -108,38 +306,19 @@ h1{margin:0;font-size:28px;line-height:1.15}
   font-weight:800;
   cursor:pointer;
 }
-.refresh-btn:hover{background:var(--soft2)}
 
-.overview{
-  background:linear-gradient(135deg,var(--brand-dark),var(--brand));
-  color:#fff;
-  border-radius:18px;
-  padding:22px;
-  margin-bottom:18px;
-  box-shadow:var(--shadow);
+.refresh-btn:hover{
+  background:var(--soft2);
 }
-.overview-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:20px;
+
+.refresh-btn:disabled{
+  opacity:.65;
+  cursor:not-allowed;
 }
-.overview h2{margin:0 0 6px;font-size:20px}
-.overview p{margin:0;color:#e5f5ee;font-size:13px;line-height:1.55}
-.live{
-  flex:0 0 auto;
-  padding:8px 11px;
-  border-radius:999px;
-  background:#ffffff18;
-  border:1px solid #ffffff35;
-  font-size:11px;
-  font-weight:800;
-}
-.live-dot{
-  display:inline-block;
-  width:7px;height:7px;border-radius:50%;
-  background:#fff;margin-right:5px;
-}
+
+/* =========================================================
+   SECTION
+   ========================================================= */
 
 .section-title{
   display:flex;
@@ -148,14 +327,27 @@ h1{margin:0;font-size:28px;line-height:1.15}
   gap:10px;
   margin:22px 0 10px;
 }
-.section-title h2{margin:0;font-size:17px}
-.section-title span{color:var(--muted);font-size:11px}
+
+.section-title h2{
+  margin:0;
+  font-size:17px;
+}
+
+.section-title span{
+  color:var(--muted);
+  font-size:11px;
+}
+
+/* =========================================================
+   STATS
+   ========================================================= */
 
 .stats{
   display:grid;
   grid-template-columns:repeat(4,minmax(0,1fr));
   gap:13px;
 }
+
 .stat-card{
   background:var(--card);
   border:1px solid var(--line);
@@ -163,22 +355,48 @@ h1{margin:0;font-size:28px;line-height:1.15}
   padding:16px;
   box-shadow:var(--shadow);
 }
+
 .stat-top{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:10px;
 }
-.stat-label{font-size:12px;color:var(--muted);font-weight:700}
-.stat-icon{
-  width:32px;height:32px;border-radius:9px;
-  background:var(--soft);
-  display:grid;place-items:center;
-  color:var(--brand);
-  font-weight:900;font-size:13px;
+
+.stat-label{
+  font-size:12px;
+  color:var(--muted);
+  font-weight:700;
 }
-.stat-number{font-size:28px;font-weight:900;color:var(--brand);margin-top:12px}
-.stat-note{font-size:10px;color:var(--muted);margin-top:3px}
+
+.stat-icon{
+  width:32px;
+  height:32px;
+  border-radius:9px;
+  background:var(--soft);
+  display:grid;
+  place-items:center;
+  color:var(--brand);
+  font-weight:900;
+  font-size:13px;
+}
+
+.stat-number{
+  font-size:28px;
+  font-weight:900;
+  color:var(--brand);
+  margin-top:12px;
+}
+
+.stat-note{
+  font-size:10px;
+  color:var(--muted);
+  margin-top:3px;
+}
+
+/* =========================================================
+   DASHBOARD
+   ========================================================= */
 
 .dashboard-grid{
   display:grid;
@@ -186,6 +404,7 @@ h1{margin:0;font-size:28px;line-height:1.15}
   gap:15px;
   margin-top:15px;
 }
+
 .panel{
   background:var(--card);
   border:1px solid var(--line);
@@ -193,6 +412,7 @@ h1{margin:0;font-size:28px;line-height:1.15}
   padding:17px;
   box-shadow:var(--shadow);
 }
+
 .panel-head{
   display:flex;
   align-items:center;
@@ -200,20 +420,71 @@ h1{margin:0;font-size:28px;line-height:1.15}
   gap:10px;
   margin-bottom:13px;
 }
-.panel-head h3{margin:0;font-size:15px}
-.panel-head small{color:var(--muted);font-size:10px}
-.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:11px}
-table{width:100%;border-collapse:collapse;background:#fff}
-th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;font-size:11px;vertical-align:top}
-th{background:#f1f7f4;color:#49635a;font-size:10px;text-transform:uppercase;letter-spacing:.3px}
-tr:last-child td{border-bottom:0}
-.empty{padding:22px;text-align:center;color:var(--muted);font-size:12px}
+
+.panel-head h3{
+  margin:0;
+  font-size:15px;
+}
+
+.panel-head small{
+  color:var(--muted);
+  font-size:10px;
+}
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.tablewrap{
+  overflow:auto;
+  border:1px solid var(--line);
+  border-radius:11px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:#fff;
+}
+
+th,
+td{
+  padding:10px;
+  border-bottom:1px solid var(--line);
+  text-align:left;
+  font-size:11px;
+  vertical-align:top;
+}
+
+th{
+  background:#f1f7f4;
+  color:#49635a;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.3px;
+}
+
+tr:last-child td{
+  border-bottom:0;
+}
+
+.empty{
+  padding:22px;
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* =========================================================
+   QUICK ACCESS
+   ========================================================= */
 
 .quick-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:9px;
 }
+
 .quick{
   display:block;
   text-decoration:none;
@@ -223,22 +494,78 @@ tr:last-child td{border-bottom:0}
   padding:12px;
   transition:.15s ease;
 }
-.quick:hover{border-color:#9fcbb9;background:var(--soft);transform:translateY(-1px)}
-.quick strong{display:block;font-size:12px;margin-bottom:3px}
-.quick span{display:block;color:var(--muted);font-size:10px;line-height:1.35}
 
-.system-list{display:grid;gap:8px;margin-top:14px}
-.system-row{
-  display:flex;justify-content:space-between;align-items:center;
-  gap:10px;padding:10px 0;border-bottom:1px solid var(--line);
+.quick:hover{
+  border-color:#9fcbb9;
+  background:var(--soft);
+  transform:translateY(-1px);
 }
-.system-row:last-child{border-bottom:0}
-.system-name{font-size:11px;font-weight:700}
-.status{font-size:10px;font-weight:800;padding:4px 7px;border-radius:999px;background:var(--soft);color:var(--brand)}
-.status.warn{background:#fff5e6;color:#9a6700}
-.status.error{background:#fdecea;color:var(--danger)}
 
-.activity-tools{display:flex;gap:7px;align-items:center}
+.quick strong{
+  display:block;
+  font-size:12px;
+  margin-bottom:3px;
+}
+
+.quick span{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.35;
+}
+
+/* =========================================================
+   COLLECTION STATUS
+   ========================================================= */
+
+.system-list{
+  display:grid;
+  gap:8px;
+  margin-top:14px;
+}
+
+.system-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:10px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.system-row:last-child{
+  border-bottom:0;
+}
+
+.system-name{
+  font-size:11px;
+  font-weight:700;
+}
+
+.status{
+  font-size:10px;
+  font-weight:800;
+  padding:4px 7px;
+  border-radius:999px;
+  background:var(--soft);
+  color:var(--brand);
+}
+
+.status.warn{
+  background:#fff5e6;
+  color:#9a6700;
+}
+
+/* =========================================================
+   FILTER
+   ========================================================= */
+
+.activity-tools{
+  display:flex;
+  gap:7px;
+  align-items:center;
+}
+
 .filter{
   border:1px solid var(--line);
   border-radius:8px;
@@ -247,6 +574,11 @@ tr:last-child td{border-bottom:0}
   color:var(--text);
   font-size:11px;
 }
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
 .footer-note{
   margin-top:16px;
   padding:12px 14px;
@@ -256,40 +588,210 @@ tr:last-child td{border-bottom:0}
   font-size:11px;
   line-height:1.5;
 }
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
 .toast{
-  position:fixed;right:15px;bottom:15px;
-  background:#15352b;color:#fff;
-  padding:12px 15px;border-radius:10px;
-  display:none;z-index:50;font-size:12px;
+  position:fixed;
+  right:15px;
+  bottom:15px;
+  background:#15352b;
+  color:#fff;
+  padding:12px 15px;
+  border-radius:10px;
+  display:none;
+  z-index:200;
+  font-size:12px;
+  box-shadow:0 5px 20px rgba(0,0,0,.18);
 }
 
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
 @media(max-width:900px){
-  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .dashboard-grid{grid-template-columns:1fr}
+
+  .stats{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .dashboard-grid{
+    grid-template-columns:1fr;
+  }
 }
-@media(max-width:620px){
-  .header-inner{grid-template-columns:42px 1fr auto;min-height:62px}
-  .school-name{font-size:14px}
-  .back-btn{font-size:11px;padding:7px 9px}
-  .main{padding:17px 11px 35px}
-  .page-top{align-items:flex-start;flex-direction:column}
-  h1{font-size:23px}
-  .overview-row{align-items:flex-start;flex-direction:column}
-  .stats{grid-template-columns:1fr 1fr;gap:9px}
-  .stat-card{padding:13px}
-  .stat-number{font-size:24px}
-  .quick-grid{grid-template-columns:1fr}
+
+@media(max-width:700px){
+
+  .school-header-inner{
+    min-height:64px !important;
+    padding:9px 11px !important;
+    gap:9px !important;
+  }
+
+  .school-header .school-logo{
+    width:44px !important;
+    height:44px !important;
+    min-width:44px !important;
+    max-width:44px !important;
+    min-height:44px !important;
+    max-height:44px !important;
+    flex-basis:44px !important;
+    padding:3px !important;
+    border-radius:8px !important;
+  }
+
+  .school-header .school-name{
+    font-size:14px !important;
+    line-height:1.2 !important;
+  }
+
+  .school-header .school-name span{
+    font-size:10px !important;
+  }
+
+  .school-header .school-back{
+    padding:7px 9px !important;
+    font-size:11px !important;
+  }
+
+  .portal-title-inner{
+    padding:10px 12px !important;
+  }
+
+  .school-header .portal-title{
+    font-size:16px !important;
+  }
+
+  .school-header .portal-subtitle{
+    font-size:10px !important;
+  }
+
+  .portal-nav-inner{
+    padding:6px 8px !important;
+  }
+
+  .portal-nav a{
+    padding:8px 10px !important;
+    font-size:11px !important;
+  }
+
+  .main{
+    padding:17px 11px 35px;
+  }
+
+  .page-top{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  h1{
+    font-size:23px;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+
+  .stat-card{
+    padding:13px;
+  }
+
+  .stat-number{
+    font-size:24px;
+  }
+
+  .quick-grid{
+    grid-template-columns:1fr;
+  }
 }
+
+@media(max-width:480px){
+
+  .school-header-inner{
+    gap:8px !important;
+  }
+
+  .school-header .school-logo{
+    width:40px !important;
+    height:40px !important;
+    min-width:40px !important;
+    max-width:40px !important;
+    min-height:40px !important;
+    max-height:40px !important;
+    flex-basis:40px !important;
+  }
+
+  .school-header .school-name{
+    font-size:12px !important;
+  }
+
+  .school-header .school-name span{
+    font-size:9px !important;
+  }
+
+  .school-header .school-back{
+    padding:7px 8px !important;
+    font-size:10px !important;
+  }
+
+  .school-header .portal-title{
+    font-size:15px !important;
+  }
+}
+
 @media(max-width:390px){
-  .school-name{font-size:12px}
-  .stats{grid-template-columns:1fr}
+
+  .school-header .school-back{
+    width:34px !important;
+    height:34px !important;
+    padding:0 !important;
+    font-size:0 !important;
+  }
+
+  .school-header .school-back::before{
+    content:"←";
+    font-size:16px !important;
+  }
+
+  .school-header .school-name{
+    font-size:11px !important;
+  }
+
+  .school-header .school-name span{
+    font-size:8px !important;
+  }
+
+  .stats{
+    grid-template-columns:1fr;
+  }
 }
 </style>
 
 <script type="module">
-import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import {getFirestore,collection,getDocs,query,orderBy,limit,onSnapshot} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-import {getAuth,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+import {initializeApp}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  query,
+  orderBy,
+  limit,
+  onSnapshot
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
@@ -300,249 +802,1027 @@ const firebaseConfig = {
   appId: "1:942770190211:web:aa9a085a38aaa517b368b6"
 };
 
-const app=initializeApp(firebaseConfig);
-const db=getFirestore(app);
-const auth=getAuth(app);
 
-window.GG={app,db,auth,collection,getDocs,query,orderBy,limit,onSnapshot};
-window.toast=(m)=>{
-  const e=document.getElementById('toast');
-  if(!e)return;
-  e.textContent=m;
-  e.style.display='block';
-  clearTimeout(window.__toastTimer);
-  window.__toastTimer=setTimeout(()=>e.style.display='none',2600);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+
+window.GG = {
+  app,
+  db,
+  auth,
+  collection,
+  getDocs,
+  query,
+  orderBy,
+  limit,
+  onSnapshot
 };
-window.esc=(s='')=>String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+
+
+window.toast = (message) => {
+
+  const element =
+    document.getElementById("toast");
+
+  if(!element) return;
+
+  element.textContent = message;
+  element.style.display = "block";
+
+  clearTimeout(window.__toastTimer);
+
+  window.__toastTimer =
+    setTimeout(() => {
+      element.style.display = "none";
+    },2600);
+
+};
+
+
+window.esc = (value = "") =>
+  String(value).replace(
+    /[&<>"']/g,
+    match => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+    }[match])
+  );
+
 </script>
+
 </head>
 
 <body>
-  
-<header class="school-header">
-‎  <div class="school-header-inner">
-‎    <div class="school-logo">
-‎      <img src="logo.png"
-‎           alt="Gusau College of Health Sciences & Technology logo"
-‎           onerror="this.style.display='none';this.parentElement.textContent='G';">
-‎    </div>
-‎    <div class="school-name">
-‎      Gusau College of Health Sciences &amp; Technology
-‎      <span>Gusau, Zamfara State</span>
-‎    </div>
-‎    <a class="school-back" href="admin.html">← Back to Admin</a>
-‎  </div>
-‎</header>
 
-  
+<!-- =======================================================
+     GUSAU HEADER
+     ======================================================= -->
+
+<header class="school-header">
+
+  <!-- PART 1 — SCHOOL HEADER -->
+
+  <div class="school-header-top">
+
+    <div class="school-header-inner">
+
+      <div class="school-logo">
+
+        <img
+          src="logo.png"
+          alt="Gusau College of Health Sciences & Technology"
+        >
+
+      </div>
+
+
+      <div class="school-name">
+
+        Gusau College of Health Sciences &amp; Technology
+
+        <span>
+          Gusau, Zamfara State
+        </span>
+
+      </div>
+
+
+      <a
+        class="school-back"
+        href="admin.html"
+      >
+        ← Back to Admin
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <!-- PART 2 — PORTAL TITLE -->
+
+  <div class="portal-title-row">
+
+    <div class="portal-title-inner">
+
+      <h2 class="portal-title">
+        Admin Dashboard
+      </h2>
+
+      <p class="portal-subtitle">
+        GGCHST Administration Portal
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- PART 3 — NAVIGATION -->
+
+  <nav class="portal-nav">
+
+    <div class="portal-nav-inner">
+
+      <a
+        href="admin.html"
+        class="active"
+      >
+        Dashboard
+      </a>
+
+      <a href="admin-users.html">
+        Users
+      </a>
+
+      <a href="student.html">
+        Students
+      </a>
+
+      <a href="lecturers.html">
+        Lecturers
+      </a>
+
+      <a href="academic-session.html">
+        Academic Sessions
+      </a>
+
+      <a href="course-registration.html">
+        Registration
+      </a>
+
+      <a href="courses.html">
+        Courses
+      </a>
+
+      <a href="results.html">
+        Results
+      </a>
+
+      <a href="timetable.html">
+        Timetable
+      </a>
+
+      <a href="admissions.html">
+        Admissions
+      </a>
+
+      <a href="admin-reports.html">
+        Reports
+      </a>
+
+      <a href="audit-logs.html">
+        Audit Logs
+      </a>
+
+    </div>
+
+  </nav>
+
+</header>
+
+
+<!-- =======================================================
+     MAIN DASHBOARD
+     ======================================================= -->
 
 <main class="main">
+
   <div class="page-top">
+
     <div>
-      <p class="kicker">Administration</p>
-      <h1>Admin Dashboard</h1>
-      <p class="subtitle">Central overview of the school's live academic and administrative records.</p>
+
+      <p class="kicker">
+        Administration
+      </p>
+
+      <h1>
+        Admin Dashboard
+      </h1>
+
+      <p class="subtitle">
+        Central overview of the school's live academic and administrative records.
+      </p>
+
     </div>
-    <button class="refresh-btn" id="refreshBtn" type="button">↻ Refresh Data</button>
+
+
+    <button
+      class="refresh-btn"
+      id="refreshBtn"
+      type="button"
+    >
+      ↻ Refresh Data
+    </button>
+
   </div>
-<div class="section-title">
-    <h2>System Overview</h2>
-    <span id="lastUpdated">Loading...</span>
+
+
+  <!-- SYSTEM OVERVIEW -->
+
+  <div class="section-title">
+
+    <h2>
+      System Overview
+    </h2>
+
+    <span id="lastUpdated">
+      Loading...
+    </span>
+
   </div>
-  <section class="stats" id="stats"></section>
+
+
+  <section
+    class="stats"
+    id="stats"
+  ></section>
+
+
+  <!-- DASHBOARD GRID -->
 
   <div class="dashboard-grid">
+
+
+    <!-- RECENT AUDIT ACTIVITY -->
+
     <section class="panel">
+
       <div class="panel-head">
+
         <div>
-          <h3>Recent Audit Activity</h3>
-          <small>Latest recorded administrative actions</small>
+
+          <h3>
+            Recent Audit Activity
+          </h3>
+
+          <small>
+            Latest recorded administrative actions
+          </small>
+
         </div>
+
+
         <div class="activity-tools">
-          <select class="filter" id="auditFilter" aria-label="Filter audit activity">
-            <option value="all">All actions</option>
-            <option value="create">Create</option>
-            <option value="update">Update</option>
-            <option value="delete">Delete</option>
-            <option value="login">Login</option>
+
+          <select
+            class="filter"
+            id="auditFilter"
+            aria-label="Filter audit activity"
+          >
+
+            <option value="all">
+              All actions
+            </option>
+
+            <option value="create">
+              Create
+            </option>
+
+            <option value="update">
+              Update
+            </option>
+
+            <option value="delete">
+              Delete
+            </option>
+
+            <option value="login">
+              Login
+            </option>
+
           </select>
+
         </div>
+
       </div>
+
+
       <div class="tablewrap">
+
         <table>
+
           <thead>
-            <tr><th>Time</th><th>Action</th><th>Module</th><th>Entity</th><th>Result</th></tr>
+
+            <tr>
+              <th>Time</th>
+              <th>Action</th>
+              <th>Module</th>
+              <th>Entity</th>
+              <th>Result</th>
+            </tr>
+
           </thead>
+
+
           <tbody id="audit">
-            <tr><td colspan="5" class="empty">Loading audit activity...</td></tr>
+
+            <tr>
+
+              <td
+                colspan="5"
+                class="empty"
+              >
+                Loading audit activity...
+              </td>
+
+            </tr>
+
           </tbody>
+
         </table>
+
       </div>
+
     </section>
 
+
+    <!-- QUICK ACCESS -->
+
     <aside class="panel">
+
       <div class="panel-head">
+
         <div>
-          <h3>Quick Access</h3>
-          <small>Open major administration modules</small>
+
+          <h3>
+            Quick Access
+          </h3>
+
+          <small>
+            Open major administration modules
+          </small>
+
         </div>
-      </div>
-      <div class="quick-grid">
-        <a class="quick" href="admin-users.html"><strong>User Management</strong><span>Accounts and login access</span></a>
-        <a class="quick" href="student.html"><strong>Students</strong><span>Student master records</span></a>
-        <a class="quick" href="academic-session.html"><strong>Academic Sessions</strong><span>Sessions and academic periods</span></a>
-        <a class="quick" href="course-registration.html"><strong>Course Registration</strong><span>Student course registration</span></a>
-        <a class="quick" href="results.html"><strong>Results</strong><span>Academic result records</span></a>
-        <a class="quick" href="timetable.html"><strong>Timetable</strong><span>Classes and schedules</span></a>
-        <a class="quick" href="admissions.html"><strong>Admissions</strong><span>Applicant processing</span></a>
-        <a class="quick" href="admin-reports.html"><strong>Reports</strong><span>Administrative reporting</span></a>
+
       </div>
 
-      <div class="section-title" style="margin-top:20px">
-        <h2 style="font-size:14px">Collection Status</h2>
-        <span>Availability</span>
+
+      <div class="quick-grid">
+
+        <a
+          class="quick"
+          href="admin-users.html"
+        >
+          <strong>
+            User Management
+          </strong>
+
+          <span>
+            Accounts and login access
+          </span>
+
+        </a>
+
+
+        <a
+          class="quick"
+          href="student.html"
+        >
+          <strong>
+            Students
+          </strong>
+
+          <span>
+            Student master records
+          </span>
+
+        </a>
+
+
+        <a
+          class="quick"
+          href="academic-session.html"
+        >
+          <strong>
+            Academic Sessions
+          </strong>
+
+          <span>
+            Sessions and academic periods
+          </span>
+
+        </a>
+
+
+        <a
+          class="quick"
+          href="course-registration.html"
+        >
+          <strong>
+            Course Registration
+          </strong>
+
+          <span>
+            Student course registration
+          </span>
+
+        </a>
+
+
+        <a
+          class="quick"
+          href="results.html"
+        >
+          <strong>
+            Results
+          </strong>
+
+          <span>
+            Academic result records
+          </span>
+
+        </a>
+
+
+        <a
+          class="quick"
+          href="timetable.html"
+        >
+          <strong>
+            Timetable
+          </strong>
+
+          <span>
+            Classes and schedules
+          </span>
+
+        </a>
+
+
+        <a
+          class="quick"
+          href="admissions.html"
+        >
+          <strong>
+            Admissions
+          </strong>
+
+          <span>
+            Applicant processing
+          </span>
+
+        </a>
+
+
+        <a
+          class="quick"
+          href="admin-reports.html"
+        >
+          <strong>
+            Reports
+          </strong>
+
+          <span>
+            Administrative reporting
+          </span>
+
+        </a>
+
       </div>
-      <div class="system-list" id="collectionStatus"></div>
+
+
+      <!-- COLLECTION STATUS -->
+
+      <div
+        class="section-title"
+        style="margin-top:20px"
+      >
+
+        <h2 style="font-size:14px">
+          Collection Status
+        </h2>
+
+        <span>
+          Availability
+        </span>
+
+      </div>
+
+
+      <div
+        class="system-list"
+        id="collectionStatus"
+      ></div>
+
     </aside>
+
   </div>
+
+
+  <!-- FOOTER NOTE -->
 
   <div class="footer-note">
-    <strong>Access model:</strong> account roles define the permitted functions, while course assignments, registrations, departments and other school records determine which data each portal can access.
+
+    <strong>
+      Access model:
+    </strong>
+
+    account roles define the permitted functions, while course assignments,
+    registrations, departments and other school records determine which data
+    each portal can access.
+
   </div>
+
 </main>
 
-<div id="toast" class="toast"></div>
+
+<div
+  id="toast"
+  class="toast"
+></div>
+
+
+<!-- =======================================================
+     DASHBOARD SCRIPT
+     ======================================================= -->
 
 <script type="module">
-const statsEl=document.getElementById('stats');
-const auditEl=document.getElementById('audit');
-const statusEl=document.getElementById('collectionStatus');
-const updatedEl=document.getElementById('lastUpdated');
-const auditFilter=document.getElementById('auditFilter');
 
-const collectionConfig=[
-  ['students','Students','ST'],
-  ['lecturers','Lecturers','LC'],
-  ['departments','Departments','DP'],
-  ['programmes','Programmes','PR'],
-  ['courses','Courses','CR'],
-  ['applications','Applications','AP'],
-  ['results','Results','RS'],
-  ['payments','Payments','PY'],
-  ['notifications','Notifications','NT'],
-  ['users','User Accounts','US'],
+const statsEl =
+  document.getElementById("stats");
+
+const auditEl =
+  document.getElementById("audit");
+
+const statusEl =
+  document.getElementById("collectionStatus");
+
+const updatedEl =
+  document.getElementById("lastUpdated");
+
+const auditFilter =
+  document.getElementById("auditFilter");
+
+
+const collectionConfig = [
+
+  ["students","Students","ST"],
+
+  ["lecturers","Lecturers","LC"],
+
+  ["departments","Departments","DP"],
+
+  ["programmes","Programmes","PR"],
+
+  ["courses","Courses","CR"],
+
+  ["applications","Applications","AP"],
+
+  ["results","Results","RS"],
+
+  ["payments","Payments","PY"],
+
+  ["notifications","Notifications","NT"],
+
+  ["users","User Accounts","US"]
+
 ];
 
-let auditRows=[];
+
+let auditRows = [];
+
 
 function niceTime(value){
-  if(!value)return '—';
-  let d;
-  if(typeof value?.toDate==='function') d=value.toDate();
-  else d=new Date(value);
-  if(Number.isNaN(d.getTime())) return String(value);
-  return d.toLocaleString([],{dateStyle:'short',timeStyle:'short'});
+
+  if(!value) return "—";
+
+  let date;
+
+  if(typeof value?.toDate === "function"){
+    date = value.toDate();
+  }
+  else{
+    date = new Date(value);
+  }
+
+  if(Number.isNaN(date.getTime())){
+    return String(value);
+  }
+
+  return date.toLocaleString(
+    [],
+    {
+      dateStyle:"short",
+      timeStyle:"short"
+    }
+  );
+
 }
+
 
 function renderStats(data){
-  statsEl.innerHTML='';
-  const first=[
-    ['students','Students','ST'],
-    ['lecturers','Lecturers','LC'],
-    ['courses','Courses','CR'],
-    ['users','User Accounts','US']
+
+  statsEl.innerHTML = "";
+
+
+  const first = [
+
+    ["students","Students","ST"],
+
+    ["lecturers","Lecturers","LC"],
+
+    ["courses","Courses","CR"],
+
+    ["users","User Accounts","US"]
+
   ];
+
+
   for(const [key,label,icon] of first){
-    const item=data.find(x=>x.key===key);
-    statsEl.innerHTML+=`
+
+    const item =
+      data.find(x => x.key === key);
+
+
+    statsEl.innerHTML += `
+
       <article class="stat-card">
+
         <div class="stat-top">
-          <div class="stat-label">${window.esc(label)}</div>
-          <div class="stat-icon">${window.esc(icon)}</div>
+
+          <div class="stat-label">
+            ${window.esc(label)}
+          </div>
+
+          <div class="stat-icon">
+            ${window.esc(icon)}
+          </div>
+
         </div>
-        <div class="stat-number">${item?.count ?? 0}</div>
-        <div class="stat-note">${item?.ok ? 'Live collection count' : 'Collection unavailable or restricted'}</div>
-      </article>`;
+
+        <div class="stat-number">
+          ${item?.count ?? 0}
+        </div>
+
+        <div class="stat-note">
+          ${
+            item?.ok
+              ? "Live collection count"
+              : "Collection unavailable or restricted"
+          }
+        </div>
+
+      </article>
+
+    `;
+
   }
+
 }
+
 
 function renderStatus(data){
-  statusEl.innerHTML=data.map(x=>`
-    <div class="system-row">
-      <span class="system-name">${window.esc(x.label)}</span>
-      <span class="status ${x.ok?'':'warn'}">${x.ok?'Available':'Unavailable'}</span>
-    </div>`).join('');
+
+  statusEl.innerHTML =
+    data.map(item => `
+
+      <div class="system-row">
+
+        <span class="system-name">
+          ${window.esc(item.label)}
+        </span>
+
+        <span class="status ${item.ok ? "" : "warn"}">
+          ${item.ok ? "Available" : "Unavailable"}
+        </span>
+
+      </div>
+
+    `).join("");
+
 }
+
 
 async function loadCollections(){
-  const results=[];
-  for(const [key,label] of collectionConfig){
+
+  const results = [];
+
+
+  for(
+    const [key,label]
+    of collectionConfig
+  ){
+
     try{
-      const snap=await window.GG.getDocs(window.GG.collection(window.GG.db,key));
-      results.push({key,label,count:snap.size,ok:true});
-    }catch(e){
-      results.push({key,label,count:0,ok:false});
+
+      const snap =
+        await window.GG.getDocs(
+          window.GG.collection(
+            window.GG.db,
+            key
+          )
+        );
+
+
+      results.push({
+
+        key,
+
+        label,
+
+        count:snap.size,
+
+        ok:true
+
+      });
+
     }
+
+    catch(error){
+
+      console.error(
+        `Unable to load ${key}:`,
+        error
+      );
+
+
+      results.push({
+
+        key,
+
+        label,
+
+        count:0,
+
+        ok:false
+
+      });
+
+    }
+
   }
+
+
   renderStats(results);
+
   renderStatus(results);
-  updatedEl.textContent='Updated '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+
+
+  updatedEl.textContent =
+    "Updated " +
+    new Date().toLocaleTimeString(
+      [],
+      {
+        hour:"2-digit",
+        minute:"2-digit"
+      }
+    );
+
 }
+
 
 function renderAudit(){
-  const filter=auditFilter.value;
-  const rows=filter==='all'
-    ? auditRows
-    : auditRows.filter(d=>String(d.action||'').toLowerCase().includes(filter));
+
+  const filter =
+    auditFilter.value;
+
+
+  const rows =
+    filter === "all"
+
+      ? auditRows
+
+      : auditRows.filter(
+          item =>
+            String(item.action || "")
+              .toLowerCase()
+              .includes(filter)
+        );
+
+
   if(!rows.length){
-    auditEl.innerHTML='<tr><td colspan="5" class="empty">No matching audit activity found.</td></tr>';
+
+    auditEl.innerHTML = `
+
+      <tr>
+
+        <td
+          colspan="5"
+          class="empty"
+        >
+          No matching audit activity found.
+        </td>
+
+      </tr>
+
+    `;
+
     return;
+
   }
-  auditEl.innerHTML=rows.map(d=>`
-    <tr>
-      <td>${window.esc(niceTime(d.timestamp))}</td>
-      <td>${window.esc(d.action||'—')}</td>
-      <td>${window.esc(d.module||'—')}</td>
-      <td>${window.esc((d.entityType||'')+' '+(d.entityId||''))}</td>
-      <td>${window.esc(d.result||'—')}</td>
-    </tr>`).join('');
+
+
+  auditEl.innerHTML =
+    rows.map(item => `
+
+      <tr>
+
+        <td>
+          ${window.esc(
+            niceTime(item.timestamp)
+          )}
+        </td>
+
+        <td>
+          ${window.esc(
+            item.action || "—"
+          )}
+        </td>
+
+        <td>
+          ${window.esc(
+            item.module || "—"
+          )}
+        </td>
+
+        <td>
+          ${window.esc(
+            (item.entityType || "") +
+            " " +
+            (item.entityId || "")
+          )}
+        </td>
+
+        <td>
+          ${window.esc(
+            item.result || "—"
+          )}
+        </td>
+
+      </tr>
+
+    `).join("");
+
 }
+
 
 async function loadAudit(){
+
   try{
-    const q=window.GG.query(
-      window.GG.collection(window.GG.db,'auditLogs'),
-      window.GG.orderBy('timestamp','desc'),
-      window.GG.limit(15)
+
+    const auditQuery =
+      window.GG.query(
+
+        window.GG.collection(
+          window.GG.db,
+          "auditLogs"
+        ),
+
+        window.GG.orderBy(
+          "timestamp",
+          "desc"
+        ),
+
+        window.GG.limit(15)
+
+      );
+
+
+    window.GG.onSnapshot(
+
+      auditQuery,
+
+      snapshot => {
+
+        auditRows = [];
+
+
+        snapshot.forEach(
+          document => {
+
+            auditRows.push(
+              document.data()
+            );
+
+          }
+        );
+
+
+        renderAudit();
+
+      },
+
+      error => {
+
+        console.error(
+          "Audit activity error:",
+          error
+        );
+
+
+        auditEl.innerHTML = `
+
+          <tr>
+
+            <td
+              colspan="5"
+              class="empty"
+            >
+              Audit activity could not be loaded.
+            </td>
+
+          </tr>
+
+        `;
+
+      }
+
     );
-    window.GG.onSnapshot(q,snap=>{
-      auditRows=[];
-      snap.forEach(x=>auditRows.push(x.data()));
-      renderAudit();
-    },()=>{
-      auditEl.innerHTML='<tr><td colspan="5" class="empty">Audit activity could not be loaded.</td></tr>';
-    });
-  }catch(e){
-    auditEl.innerHTML='<tr><td colspan="5" class="empty">Audit index may need to be created in Firestore.</td></tr>';
+
   }
+
+  catch(error){
+
+    console.error(
+      "Audit query error:",
+      error
+    );
+
+
+    auditEl.innerHTML = `
+
+      <tr>
+
+        <td
+          colspan="5"
+          class="empty"
+        >
+          Audit index may need to be created in Firestore.
+        </td>
+
+      </tr>
+
+    `;
+
+  }
+
 }
 
-document.getElementById('refreshBtn').addEventListener('click',async()=>{
-  const b=document.getElementById('refreshBtn');
-  b.disabled=true;
-  b.textContent='Refreshing...';
-  try{
-    await loadCollections();
-    window.toast('Dashboard data refreshed');
-  }finally{
-    b.disabled=false;
-    b.textContent='↻ Refresh Data';
-  }
-});
-auditFilter.addEventListener('change',renderAudit);
+
+/* REFRESH */
+
+document
+  .getElementById("refreshBtn")
+  .addEventListener(
+    "click",
+    async () => {
+
+      const button =
+        document.getElementById(
+          "refreshBtn"
+        );
+
+
+      button.disabled = true;
+
+      button.textContent =
+        "Refreshing...";
+
+
+      try{
+
+        await loadCollections();
+
+        window.toast(
+          "Dashboard data refreshed"
+        );
+
+      }
+
+      finally{
+
+        button.disabled = false;
+
+        button.textContent =
+          "↻ Refresh Data";
+
+      }
+
+    }
+  );
+
+
+/* AUDIT FILTER */
+
+auditFilter.addEventListener(
+  "change",
+  renderAudit
+);
+
+
+/* INITIAL LOAD */
 
 await loadCollections();
+
 await loadAudit();
+
 </script>
+
 </body>
 </html>
