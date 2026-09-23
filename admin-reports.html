@@ -4,27 +4,496 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Reports & Export | GGCHST Admin</title>
+
 <style>
-:root{--bg:#f3f8f5;--card:#fff;--text:#15352b;--muted:#668078;--line:#dce9e3;--brand:#087443;--brand2:#075c45;--soft:#e7f4ee;--danger:#b42318;}
-*{box-sizing:border-box} body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
-header{background:linear-gradient(135deg,#075c45,#087443);color:white;padding:18px 20px;position:sticky;top:0;z-index:10}
-.head{max-width:1200px;margin:auto;display:flex;justify-content:space-between;gap:16px;align-items:center} h1{font-size:20px;margin:0} header p{margin:4px 0 0;opacity:.85;font-size:12px}
-nav{background:#064b39;overflow:auto} nav .inner{max-width:1200px;margin:auto;display:flex;gap:4px;padding:8px 12px} nav a{color:#fff;text-decoration:none;padding:9px 11px;border-radius:8px;white-space:nowrap;font-size:13px} nav a:hover{background:#ffffff18}
-main{max-width:1200px;margin:22px auto;padding:0 14px} .hero{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
-h2{margin:0 0 6px;font-size:20px} h3{margin:0 0 8px} .muted{color:var(--muted);font-size:13px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px} .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 4px 16px #12321a0b}
-form,.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
-.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px} label{font-size:12px;font-weight:700;display:block;margin-bottom:5px} input,select,textarea{width:100%;padding:10px;border:1px solid #cfded7;border-radius:9px;background:#fff;font:inherit} textarea{min-height:100px;resize:vertical}
-.full{grid-column:1/-1} .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px} button,.btn{border:0;border-radius:9px;padding:10px 13px;background:var(--brand);color:white;text-decoration:none;cursor:pointer;font-weight:700} .secondary{background:#e8f0ed;color:var(--text)} .danger{background:var(--danger)}
-table{width:100%;border-collapse:collapse;background:#fff} th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left;font-size:12px;vertical-align:top} th{background:#f1f7f4} .tablewrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
-.stat{font-size:28px;font-weight:800;color:var(--brand)} .badge{display:inline-block;padding:4px 8px;border-radius:999px;background:var(--soft);color:var(--brand2);font-size:11px;font-weight:700}
-.toast{position:fixed;right:15px;bottom:15px;background:#15352b;color:#fff;padding:12px 15px;border-radius:10px;display:none;z-index:30}
-@media(max-width:650px){.fields{grid-template-columns:1fr} .head{align-items:flex-start;flex-direction:column}}
+:root{
+  --bg:#f3f8f5;
+  --card:#fff;
+  --text:#15352b;
+  --muted:#668078;
+  --line:#dce9e3;
+  --brand:#087443;
+  --brand2:#075c45;
+  --soft:#e7f4ee;
+  --danger:#b42318;
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Inter,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+/* =========================================================
+   GUSAU THREE-PART HEADER
+   1. SCHOOL IDENTITY
+   2. PORTAL TITLE
+   3. NAVIGATION
+========================================================= */
+
+/* PART 1 — SCHOOL IDENTITY */
+.school-header{
+  background:#fff;
+  border-bottom:1px solid var(--line);
+}
+
+.school-header-inner{
+  max-width:1200px;
+  margin:0 auto;
+  min-height:72px;
+  padding:10px 16px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+}
+
+.school-identity{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.school-logo{
+  width:48px;
+  height:48px;
+  flex:0 0 48px;
+  object-fit:contain;
+  display:block;
+}
+
+.school-name{
+  min-width:0;
+  font-size:17px;
+  line-height:1.25;
+  font-weight:800;
+  color:var(--text);
+}
+
+.school-location{
+  margin-top:3px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:600;
+}
+
+/* PART 2 — PORTAL TITLE */
+.portal-header{
+  background:linear-gradient(135deg,#075c45,#087443);
+  color:#fff;
+  border-bottom:1px solid #064b39;
+}
+
+.portal-header-inner{
+  max-width:1200px;
+  margin:0 auto;
+  min-height:66px;
+  padding:12px 16px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.portal-info{
+  min-width:0;
+}
+
+.portal-title{
+  margin:0;
+  font-size:20px;
+  line-height:1.25;
+  font-weight:800;
+}
+
+.portal-subtitle{
+  margin:4px 0 0;
+  font-size:12px;
+  opacity:.88;
+}
+
+.portal-home{
+  flex:0 0 auto;
+  background:#fff;
+  color:var(--brand2);
+  text-decoration:none;
+  padding:9px 13px;
+  border-radius:9px;
+  font-size:12px;
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.portal-home:hover{
+  background:#f1faf5;
+}
+
+/* PART 3 — NAVIGATION */
+.main-nav{
+  background:#064b39;
+  overflow-x:auto;
+  overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+}
+
+.main-nav-inner{
+  max-width:1200px;
+  margin:0 auto;
+
+  display:flex;
+  align-items:center;
+  gap:4px;
+
+  padding:7px 12px;
+
+  min-width:max-content;
+}
+
+.main-nav a{
+  color:#fff;
+  text-decoration:none;
+  padding:9px 11px;
+  border-radius:8px;
+  white-space:nowrap;
+  font-size:13px;
+  font-weight:600;
+}
+
+.main-nav a:hover{
+  background:#ffffff18;
+}
+
+.main-nav a.active{
+  background:#ffffff20;
+  font-weight:800;
+}
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+main{
+  max-width:1200px;
+  margin:22px auto;
+  padding:0 14px;
+}
+
+.hero{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:20px;
+  margin-bottom:16px;
+}
+
+h1{
+  font-size:20px;
+  margin:0;
+}
+
+h2{
+  margin:0 0 6px;
+  font-size:20px;
+}
+
+h3{
+  margin:0 0 8px;
+}
+
+.muted{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:14px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:16px;
+  box-shadow:0 4px 16px #12321a0b;
+}
+
+form,
+.panel{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:16px;
+  margin-bottom:16px;
+}
+
+.fields{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+
+label{
+  font-size:12px;
+  font-weight:700;
+  display:block;
+  margin-bottom:5px;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  padding:10px;
+  border:1px solid #cfded7;
+  border-radius:9px;
+  background:#fff;
+  font:inherit;
+}
+
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+button,
+.btn{
+  border:0;
+  border-radius:9px;
+  padding:10px 13px;
+  background:var(--brand);
+  color:white;
+  text-decoration:none;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.secondary{
+  background:#e8f0ed;
+  color:var(--text);
+}
+
+.danger{
+  background:var(--danger);
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:#fff;
+}
+
+th,
+td{
+  padding:9px;
+  border-bottom:1px solid var(--line);
+  text-align:left;
+  font-size:12px;
+  vertical-align:top;
+}
+
+th{
+  background:#f1f7f4;
+}
+
+.tablewrap{
+  overflow:auto;
+  border:1px solid var(--line);
+  border-radius:12px;
+}
+
+.stat{
+  font-size:28px;
+  font-weight:800;
+  color:var(--brand);
+}
+
+.badge{
+  display:inline-block;
+  padding:4px 8px;
+  border-radius:999px;
+  background:var(--soft);
+  color:var(--brand2);
+  font-size:11px;
+  font-weight:700;
+}
+
+.toast{
+  position:fixed;
+  right:15px;
+  bottom:15px;
+  background:#15352b;
+  color:#fff;
+  padding:12px 15px;
+  border-radius:10px;
+  display:none;
+  z-index:30;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:700px){
+
+  .school-header-inner{
+    min-height:auto;
+    padding:10px 12px;
+  }
+
+  .school-logo{
+    width:42px;
+    height:42px;
+    flex-basis:42px;
+  }
+
+  .school-name{
+    font-size:14px;
+    line-height:1.25;
+  }
+
+  .school-location{
+    font-size:10px;
+  }
+
+  .portal-header-inner{
+    min-height:auto;
+    padding:11px 12px;
+  }
+
+  .portal-title{
+    font-size:17px;
+  }
+
+  .portal-subtitle{
+    font-size:11px;
+  }
+
+  .portal-home{
+    padding:8px 10px;
+    font-size:11px;
+  }
+
+  .main-nav-inner{
+    padding:7px 9px;
+  }
+
+  .main-nav a{
+    font-size:12px;
+    padding:8px 10px;
+  }
+
+  .fields{
+    grid-template-columns:1fr;
+  }
+
+  main{
+    margin:16px auto;
+    padding:0 11px;
+  }
+
+  .hero{
+    padding:16px;
+  }
+}
+
+@media(max-width:480px){
+
+  .school-header-inner{
+    align-items:flex-start;
+  }
+
+  .school-identity{
+    align-items:flex-start;
+    gap:9px;
+  }
+
+  .school-logo{
+    width:38px;
+    height:38px;
+    flex-basis:38px;
+  }
+
+  .school-name{
+    font-size:13px;
+  }
+
+  .school-location{
+    font-size:9px;
+  }
+
+  .portal-header-inner{
+    align-items:flex-start;
+  }
+
+  .portal-title{
+    font-size:15px;
+  }
+
+  .portal-subtitle{
+    font-size:10px;
+  }
+
+  .portal-home{
+    font-size:10px;
+    padding:7px 9px;
+  }
+
+  .hero h2{
+    font-size:18px;
+  }
+}
 </style>
+
 <script type="module">
-import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import {getFirestore,collection,addDoc,doc,setDoc,updateDoc,deleteDoc,onSnapshot,getDocs,query,orderBy,limit} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-import {getAuth,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  doc,
+  setDoc,
+  updateDoc,
+  deleteDoc,
+  onSnapshot,
+  getDocs,
+  query,
+  orderBy,
+  limit
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
@@ -35,27 +504,489 @@ const firebaseConfig = {
   appId: "1:942770190211:web:aa9a085a38aaa517b368b6"
 };
 
-const app=initializeApp(firebaseConfig); const db=getFirestore(app); const auth=getAuth(app);
-window.GG={app,db,auth,collection,addDoc,doc,setDoc,updateDoc,deleteDoc,onSnapshot,getDocs,query,orderBy,limit};
-window.toast=(m)=>{const e=document.getElementById('toast');if(!e)return;e.textContent=m;e.style.display='block';setTimeout(()=>e.style.display='none',2600)};
-window.esc=(s='')=>String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+window.GG = {
+  app,
+  db,
+  auth,
+  collection,
+  addDoc,
+  doc,
+  setDoc,
+  updateDoc,
+  deleteDoc,
+  onSnapshot,
+  getDocs,
+  query,
+  orderBy,
+  limit
+};
+
+
+window.toast = (m) => {
+  const e = document.getElementById('toast');
+
+  if(!e) return;
+
+  e.textContent = m;
+  e.style.display = 'block';
+
+  setTimeout(() => {
+    e.style.display = 'none';
+  },2600);
+};
+
+
+window.esc = (s='') =>
+  String(s).replace(/[&<>"']/g,m => ({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#039;'
+  }[m]));
+
 </script>
-</head><body>
-<header><div class="head"><div><h1>Green Garden College of Health Sciences &amp; Technology</h1><p>Gusau • Administration Control Center</p></div><a class="btn secondary" href="admin.html">Admin Home</a></div></header>
-<nav><div class="inner">
-<a href="admin.html">Dashboard</a><a href="admin-users.html">1 Users</a><a href="admin-dashboard.html">2 Overview</a><a href="admin-notes.html">3 Notes</a><a href="admin-assignments.html">4 Assignments</a><a href="admin-finance.html">5 Finance</a><a href="admin-notices.html">6 Notices</a><a href="admin-calendar.html">7 Calendar</a><a href="admin-settings.html">8 Settings</a><a href="admin-audit.html">9 Audit</a><a href="admin-reports.html">10 Reports</a>
-</div></nav>
+
+</head>
+
+<body>
+
+<!-- =========================================================
+     PART 1 — SCHOOL IDENTITY
+========================================================= -->
+
+<header class="school-header">
+
+  <div class="school-header-inner">
+
+    <div class="school-identity">
+
+      <img
+        src="logo.png"
+        alt="GCHST Logo"
+        class="school-logo"
+      >
+
+      <div>
+        <div class="school-name">
+          Gusau College of Health Sciences &amp; Technology
+        </div>
+
+        <div class="school-location">
+          Gusau, Zamfara State
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- =========================================================
+     PART 2 — PORTAL TITLE
+========================================================= -->
+
+<section class="portal-header">
+
+  <div class="portal-header-inner">
+
+    <div class="portal-info">
+
+      <h1 class="portal-title">
+        Reports &amp; Export
+      </h1>
+
+      <p class="portal-subtitle">
+        Administration Control Center
+      </p>
+
+    </div>
+
+    <a
+      class="portal-home"
+      href="admin.html"
+    >
+      Admin Home
+    </a>
+
+  </div>
+
+</section>
+
 <main>
-<section class="hero"><h2>10. Reports & Export</h2><p class="muted">Select a core collection, optionally filter a field, then export the records currently visible as CSV.</p></section>
-<section class="panel"><div class="fields">
-<div><label>Collection</label><select id="col"><option>students</option><option>lecturers</option><option>departments</option><option>programmes</option><option>courses</option><option>results</option><option>attendance</option><option>payments</option><option>notifications</option><option>auditLogs</option><option>assignments</option><option>lectureNotes</option></select></div>
-<div><label>Filter field</label><input id="field" placeholder="status"></div><div><label>Filter value</label><input id="value"></div>
-</div><div class="actions"><button id="load">Load Report</button><button id="csv" class="secondary">Export CSV</button></div></section>
-<div class="tablewrap"><table><thead id="head"></thead><tbody id="rows"></tbody></table></div>
+
+  <section class="hero">
+
+    <h2>
+      10. Reports &amp; Export
+    </h2>
+
+    <p class="muted">
+      Select a core collection, optionally filter a field,
+      then export the records currently visible as CSV.
+    </p>
+
+  </section>
+
+
+  <section class="panel">
+
+    <div class="fields">
+
+      <div>
+
+        <label for="col">
+          Collection
+        </label>
+
+        <select id="col">
+
+          <option value="students">
+            students
+          </option>
+
+          <option value="lecturers">
+            lecturers
+          </option>
+
+          <option value="departments">
+            departments
+          </option>
+
+          <option value="programmes">
+            programmes
+          </option>
+
+          <option value="courses">
+            courses
+          </option>
+
+          <option value="results">
+            results
+          </option>
+
+          <option value="attendance">
+            attendance
+          </option>
+
+          <option value="payments">
+            payments
+          </option>
+
+          <option value="notifications">
+            notifications
+          </option>
+
+          <option value="auditLogs">
+            auditLogs
+          </option>
+
+          <option value="assignments">
+            assignments
+          </option>
+
+          <option value="lectureNotes">
+            lectureNotes
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div>
+
+        <label for="field">
+          Filter field
+        </label>
+
+        <input
+          id="field"
+          placeholder="status"
+        >
+
+      </div>
+
+
+      <div>
+
+        <label for="value">
+          Filter value
+        </label>
+
+        <input
+          id="value"
+        >
+
+      </div>
+
+    </div>
+
+
+    <div class="actions">
+
+      <button id="load">
+        Load Report
+      </button>
+
+      <button
+        id="csv"
+        class="secondary"
+      >
+        Export CSV
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <div class="tablewrap">
+
+    <table>
+
+      <thead id="head"></thead>
+
+      <tbody id="rows"></tbody>
+
+    </table>
+
+  </div>
+
+</main>
+
+
+<div
+  id="toast"
+  class="toast"
+></div>
+
+
+<!-- =========================================================
+     REPORT LOGIC
+========================================================= -->
+
 <script type="module">
-let data=[];load.onclick=async()=>{try{const s=await window.GG.getDocs(window.GG.collection(window.GG.db,col.value));data=s.docs.map(d=>({id:d.id,...d.data()}));const f=field.value.trim(),v=value.value.trim().toLowerCase();if(f&&v)data=data.filter(x=>String(x[f]??'').toLowerCase().includes(v));render();toast(`${data.length} records loaded`)}catch(e){toast('Could not read collection: '+e.message)}};
-function render(){const keys=[...new Set(data.flatMap(x=>Object.keys(x)))].slice(0,12);head.innerHTML='<tr>'+keys.map(k=>`<th>${esc(k)}</th>`).join('')+'</tr>';rows.innerHTML=data.map(x=>'<tr>'+keys.map(k=>`<td>${esc(Array.isArray(x[k])?x[k].join(', '):typeof x[k]==='object'&&x[k]?JSON.stringify(x[k]):x[k]??'')}</td>`).join('')+'</tr>').join('')}
-csv.onclick=()=>{if(!data.length)return toast('Load a report first');const keys=[...new Set(data.flatMap(x=>Object.keys(x)))];const q=v=>`"${String(v??'').replace(/"/g,'""')}"`;const out=[keys.map(q).join(','),...data.map(x=>keys.map(k=>q(typeof x[k]==='object'&&x[k]?JSON.stringify(x[k]):Array.isArray(x[k])?x[k].join(';'):x[k])).join(','))].join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([out],{type:'text/csv'}));a.download=col.value+'-report.csv';a.click()};
+
+let data = [];
+
+
+const loadButton = document.getElementById('load');
+const csvButton = document.getElementById('csv');
+const collectionSelect = document.getElementById('col');
+const fieldInput = document.getElementById('field');
+const valueInput = document.getElementById('value');
+const tableHead = document.getElementById('head');
+const tableRows = document.getElementById('rows');
+
+
+loadButton.onclick = async () => {
+
+  try {
+
+    const snapshot =
+      await window.GG.getDocs(
+        window.GG.collection(
+          window.GG.db,
+          collectionSelect.value
+        )
+      );
+
+    data = snapshot.docs.map(d => ({
+      id:d.id,
+      ...d.data()
+    }));
+
+
+    const filterField =
+      fieldInput.value.trim();
+
+    const filterValue =
+      valueInput.value.trim().toLowerCase();
+
+
+    if(filterField && filterValue){
+
+      data = data.filter(x =>
+        String(x[filterField] ?? '')
+          .toLowerCase()
+          .includes(filterValue)
+      );
+
+    }
+
+
+    render();
+
+    window.toast(
+      `${data.length} records loaded`
+    );
+
+  } catch(e){
+
+    window.toast(
+      'Could not read collection: ' +
+      e.message
+    );
+
+    console.error(e);
+
+  }
+
+};
+
+
+function render(){
+
+  const keys = [
+    ...new Set(
+      data.flatMap(x =>
+        Object.keys(x)
+      )
+    )
+  ].slice(0,12);
+
+
+  tableHead.innerHTML =
+    '<tr>' +
+    keys
+      .map(k =>
+        `<th>${window.esc(k)}</th>`
+      )
+      .join('') +
+    '</tr>';
+
+
+  tableRows.innerHTML =
+    data.map(x => {
+
+      return '<tr>' +
+
+        keys.map(k => {
+
+          let value = x[k];
+
+          if(Array.isArray(value)){
+            value = value.join(', ');
+          }
+          else if(
+            typeof value === 'object' &&
+            value
+          ){
+            value = JSON.stringify(value);
+          }
+
+          return `<td>${
+            window.esc(value ?? '')
+          }</td>`;
+
+        }).join('') +
+
+      '</tr>';
+
+    }).join('');
+
+}
+
+
+csvButton.onclick = () => {
+
+  if(!data.length){
+
+    window.toast(
+      'Load a report first'
+    );
+
+    return;
+  }
+
+
+  const keys = [
+    ...new Set(
+      data.flatMap(x =>
+        Object.keys(x)
+      )
+    )
+  ];
+
+
+  const q = v =>
+    `"${String(v ?? '')
+      .replace(/"/g,'""')}"`;
+
+
+  const out = [
+
+    keys
+      .map(q)
+      .join(','),
+
+    ...data.map(x =>
+
+      keys.map(k => {
+
+        let value = x[k];
+
+        if(
+          typeof value === 'object' &&
+          value &&
+          !Array.isArray(value)
+        ){
+          value = JSON.stringify(value);
+        }
+
+        if(Array.isArray(value)){
+          value = value.join(';');
+        }
+
+        return q(value);
+
+      }).join(',')
+
+    )
+
+  ].join('\n');
+
+
+  const blob =
+    new Blob(
+      [out],
+      {type:'text/csv'}
+    );
+
+
+  const url =
+    URL.createObjectURL(blob);
+
+
+  const a =
+    document.createElement('a');
+
+  a.href = url;
+
+  a.download =
+    collectionSelect.value +
+    '-report.csv';
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  a.remove();
+
+  URL.revokeObjectURL(url);
+
+};
+
+
 </script>
-</main><div id="toast" class="toast"></div>
-</body></html>
+
+</body>
+</html>
