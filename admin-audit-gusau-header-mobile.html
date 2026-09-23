@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Audit & Activity Logs | GCHST Admin</title>
+<style>
+:root{--bg:#f3f8f5;--card:#fff;--text:#15352b;--muted:#668078;--line:#dce9e3;--brand:#087443;--brand2:#075c45;--soft:#e7f4ee;--danger:#b42318;}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{background:linear-gradient(135deg,#075c45,#087443);color:white;padding:18px 20px;position:sticky;top:0;z-index:10}
+.head{max-width:1200px;margin:auto;display:flex;justify-content:space-between;gap:16px;align-items:center} h1{font-size:20px;margin:0} header p{margin:4px 0 0;opacity:.85;font-size:12px}
+nav{background:#064b39;overflow:auto} nav .inner{max-width:1200px;margin:auto;display:flex;gap:4px;padding:8px 12px} nav a{color:#fff;text-decoration:none;padding:9px 11px;border-radius:8px;white-space:nowrap;font-size:13px} nav a:hover{background:#ffffff18}
+main{max-width:1200px;margin:22px auto;padding:0 14px} .hero{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
+h2{margin:0 0 6px;font-size:20px} h3{margin:0 0 8px} .muted{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px} .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 4px 16px #12321a0b}
+form,.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px} label{font-size:12px;font-weight:700;display:block;margin-bottom:5px} input,select,textarea{width:100%;padding:10px;border:1px solid #cfded7;border-radius:9px;background:#fff;font:inherit} textarea{min-height:100px;resize:vertical}
+.full{grid-column:1/-1} .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px} button,.btn{border:0;border-radius:9px;padding:10px 13px;background:var(--brand);color:white;text-decoration:none;cursor:pointer;font-weight:700} .secondary{background:#e8f0ed;color:var(--text)} .danger{background:var(--danger)}
+table{width:100%;border-collapse:collapse;background:#fff} th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left;font-size:12px;vertical-align:top} th{background:#f1f7f4} .tablewrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+.stat{font-size:28px;font-weight:800;color:var(--brand)} .badge{display:inline-block;padding:4px 8px;border-radius:999px;background:var(--soft);color:var(--brand2);font-size:11px;font-weight:700}
+.toast{position:fixed;right:15px;bottom:15px;background:#15352b;color:#fff;padding:12px 15px;border-radius:10px;display:none;z-index:30}
+@media(max-width:650px){.fields{grid-template-columns:1fr} .head{align-items:flex-start;flex-direction:column}}
+
+/* Gusau header */
+.gusau-header{width:100%;max-width:100vw;overflow:hidden;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.gusau-head-inner{width:100%;max-width:none;margin:0;min-height:58px;padding:7px 10px;display:grid;grid-template-columns:38px minmax(0,1fr) auto;align-items:center;gap:8px}
+.gusau-logo{width:36px;height:36px;border-radius:9px;overflow:hidden;display:grid;place-items:center;background:var(--soft);border:1px solid #b9dfcf;color:var(--brand);font-size:11px;font-weight:900}
+.gusau-logo img{width:100%;height:100%;object-fit:contain;display:block}
+.gusau-school-name{text-align:center;font-size:13px;font-weight:800;line-height:1.15;color:var(--text);min-width:0;overflow-wrap:anywhere}
+.gusau-back{justify-self:end;background:var(--brand);color:#fff;text-decoration:none;padding:6px 9px;border-radius:8px;font-size:10px;font-weight:800;white-space:nowrap}
+
+
+
+
+
+@media(max-width:650px){
+  .gusau-head-inner{width:100%;min-height:54px;padding:6px 9px;grid-template-columns:34px minmax(0,1fr) auto;gap:6px}
+  .gusau-logo{width:32px;height:32px}
+  .gusau-school-name{font-size:10.5px;line-height:1.15}
+  .gusau-back{font-size:9px;padding:6px 7px}
+  
+  
+}
+@media(max-width:380px){
+  .gusau-head-inner{grid-template-columns:30px minmax(0,1fr) auto;padding:5px 7px}
+  .gusau-logo{width:29px;height:29px}
+  .gusau-school-name{font-size:9.5px}
+  .gusau-back{font-size:8.5px;padding:5px 6px}
+  
+}
+
+</style>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getFirestore,collection,addDoc,doc,setDoc,updateDoc,deleteDoc,onSnapshot,getDocs,query,orderBy,limit} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import {getAuth,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
+  authDomain: "ggchst-sms-new.firebaseapp.com",
+  projectId: "ggchst-sms-new",
+  storageBucket: "ggchst-sms-new.firebasestorage.app",
+  messagingSenderId: "942770190211",
+  appId: "1:942770190211:web:aa9a085a38aaa517b368b6"
+};
+
+const app=initializeApp(firebaseConfig); const db=getFirestore(app); const auth=getAuth(app);
+window.GG={app,db,auth,collection,addDoc,doc,setDoc,updateDoc,deleteDoc,onSnapshot,getDocs,query,orderBy,limit};
+window.toast=(m)=>{const e=document.getElementById('toast');if(!e)return;e.textContent=m;e.style.display='block';setTimeout(()=>e.style.display='none',2600)};
+window.esc=(s='')=>String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+</script>
+</head><body>
+<header class="gusau-header">
+  <div class="gusau-head-inner">
+    <div class="gusau-logo">
+      <img src="logo.png" alt="Gusau College of Health Sciences and Technology logo"
+           onerror="this.style.display='none';this.parentElement.textContent='G';">
+    </div>
+    <div class="gusau-school-name">Gusau College of Health Sciences and Technology</div>
+    <a class="gusau-back" href="admin.html">Admin Home</a>
+  </div>
+</header>
+<main>
+<section class="hero"><h2>9. Audit & Activity Logs</h2><p class="muted">Search and review critical activity. The blueprint calls for timestamp, user, role, action, module, entity, old/new values and result/status where appropriate.</p></section>
+<section class="panel"><div class="fields"><div><label>Module filter</label><input id="filter" placeholder="e.g. results"></div><div><label>Action filter</label><input id="actionFilter" placeholder="create / update / delete"></div></div></section>
+<div class="tablewrap"><table><thead><tr><th>Timestamp</th><th>User</th><th>Role</th><th>Action</th><th>Module</th><th>Entity</th><th>Result</th></tr></thead><tbody id="rows"></tbody></table></div>
+<script type="module">
+let all=[];const render=()=>{const a=(filter.value||'').toLowerCase(),b=(actionFilter.value||'').toLowerCase();rows.innerHTML='';all.filter(d=>(!a||String(d.module||'').toLowerCase().includes(a))&&(!b||String(d.action||'').toLowerCase().includes(b))).forEach(d=>rows.innerHTML+=`<tr><td>${esc(d.timestamp||'')}</td><td>${esc(d.userId||'')}</td><td>${esc(d.role||'')}</td><td>${esc(d.action||'')}</td><td>${esc(d.module||'')}</td><td>${esc(d.entityType||'')}<br>${esc(d.entityId||'')}</td><td>${esc(d.result||'')}</td></tr>`)};filter.oninput=actionFilter.oninput=render;
+window.GG.onSnapshot(window.GG.collection(window.GG.db,'auditLogs'),s=>{all=s.docs.map(x=>x.data()).sort((a,b)=>String(b.timestamp).localeCompare(String(a.timestamp)));render()});
+</script>
+</main><div id="toast" class="toast"></div>
+</body></html>
