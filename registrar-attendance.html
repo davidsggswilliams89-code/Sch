@@ -3,16 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GGCHST SMS | Attendance</title>
+<title>GCHST SMS | Attendance</title>
 <style>
 :root{--p:#15803D;--d:#14532D;--a:#22C55E;--s:#ECFDF3;--bg:#F6F8FA;--card:#fff;--t:#172033;--m:#667085;--b:#E5E7EB;--danger:#DC2626}
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(180deg,#f8fffa,#f1f7f3);color:var(--t)}
 .top{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--b);box-shadow:0 2px 12px #0000000d}
-.bar{display:flex;justify-content:space-between;align-items:center;padding:13px 20px}
-.brand{display:flex;gap:11px;align-items:center}.logo{width:43px;height:43px;object-fit:contain}.brand b{display:block;font-size:15px}.brand small{font-size:10px;color:var(--m)}
+.gusau-top{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:12px 20px;min-height:68px}
+.gusau-brand{display:flex;align-items:center;gap:12px;min-width:0}
+.gusau-logo{width:46px;height:46px;object-fit:contain;flex:0 0 46px}
+.gusau-brand-text{min-width:0}
+.gusau-brand-text b{display:block;font-size:15px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gusau-brand-text small{display:block;font-size:10px;color:var(--m);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gusau-action{display:flex;align-items:center;gap:8px;flex:0 0 auto}
 .role{background:var(--s);color:var(--p);border:1px solid #bbe8cb;border-radius:999px;padding:7px 11px;font-size:10px;font-weight:800}
-nav{display:flex;gap:5px;overflow:auto;padding:8px 20px;border-top:1px solid #f1f3f5}
+.gusau-portal{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 20px;background:#f7faf8;border-top:1px solid #f1f3f5;border-bottom:1px solid var(--b)}
+.gusau-portal-title{font-size:14px;font-weight:900;color:var(--d)}
+.gusau-school{font-size:10px;font-weight:700;color:var(--m);text-align:right}
+nav{display:flex;gap:5px;overflow:auto;padding:8px 20px;border-top:0;background:#fff}
 nav a{text-decoration:none;white-space:nowrap;padding:9px 11px;border-radius:9px;color:#475467;font-size:12px;font-weight:700}
 nav a:hover,nav a.active{background:var(--s);color:var(--p)}
 main{max-width:1050px;margin:22px auto;padding:0 15px}
@@ -38,19 +46,103 @@ main{max-width:1050px;margin:22px auto;padding:0 15px}
 .live-timer{font-size:20px;font-weight:900;color:var(--p)}.live-note{font-size:12px;color:var(--m);margin-top:12px}
 .records{max-height:330px;overflow:auto;margin-top:15px;border:1px solid var(--b);border-radius:12px}
 table{width:100%;border-collapse:collapse;font-size:12px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--b)}th{font-size:10px;color:var(--m);text-transform:uppercase}
-@media(max-width:600px){.bar{padding:11px 13px}nav{padding:8px 12px}main{padding:0 11px}.course{padding:16px}.course-top{flex-direction:column}.level{min-width:110px}.modal{padding:20px;border-radius:20px}.modal h2{font-size:23px}.live-code{font-size:52px;letter-spacing:7px}.btn{width:100%}}
+@media(max-width:600px){
+  .gusau-top{padding:10px 12px;gap:10px;min-height:62px}
+  .gusau-logo{width:40px;height:40px;flex-basis:40px}
+  .gusau-brand{gap:9px}
+  .gusau-brand-text b{font-size:12px}
+  .gusau-brand-text small{font-size:9px}
+  .gusau-action .role{padding:6px 8px;font-size:9px}
+  .gusau-portal{padding:9px 12px;align-items:flex-start}
+  .gusau-portal-title{font-size:12px}
+  .gusau-school{font-size:9px;max-width:48%}
+  nav{padding:7px 12px}
+  main{padding:0 11px}.course{padding:16px}.course-top{flex-direction:column}.level{min-width:110px}
+  .modal{padding:20px;border-radius:20px}.modal h2{font-size:23px}.live-code{font-size:52px;letter-spacing:7px}.btn{width:100%}
+}nav{padding:8px 12px}main{padding:0 11px}.course{padding:16px}.course-top{flex-direction:column}.level{min-width:110px}.modal{padding:20px;border-radius:20px}.modal h2{font-size:23px}.live-code{font-size:52px;letter-spacing:7px}.btn{width:100%}}
+
+/* GUSAU HEADER */
+.school-header{
+  width:100%;
+  max-width:100%;
+  background:#fff;
+  border-bottom:1px solid #e4ece8;
+  overflow:hidden;
+}
+.school-header-inner{
+  width:100%;
+  max-width:none;
+  min-height:64px;
+  margin:0;
+  padding:8px 14px;
+  display:grid;
+  grid-template-columns:42px minmax(0,1fr) auto;
+  align-items:center;
+  gap:9px;
+}
+.school-logo{
+  width:38px;height:38px;border-radius:9px;overflow:hidden;
+  display:grid;place-items:center;background:#eef8f3;
+  border:1px solid #d9e9e2;flex-shrink:0;
+}
+.school-logo img{width:100%;height:100%;object-fit:contain;display:block}
+.school-name{
+  min-width:0;text-align:center;color:#075c45;font-weight:800;
+  font-size:14px;line-height:1.15;overflow-wrap:anywhere;
+}
+.school-name span{
+  display:block;margin-top:3px;color:#668078;font-size:10px;font-weight:600;
+}
+.school-back{
+  justify-self:end;white-space:nowrap;text-decoration:none;
+  background:#087f5b;color:#fff;border-radius:8px;
+  padding:7px 9px;font-size:10px;font-weight:700;
+}
+@media(max-width:800px){
+  .school-header-inner{min-height:60px;padding:8px 12px;grid-template-columns:38px minmax(0,1fr) auto;gap:7px}
+  .school-logo{width:35px;height:35px}
+  .school-name{font-size:12px}
+  .school-name span{font-size:9px}
+  .school-back{font-size:9px;padding:7px 8px}
+}
+@media(max-width:550px){
+  .school-header-inner{min-height:56px;padding:7px 9px;grid-template-columns:34px minmax(0,1fr) auto;gap:6px}
+  .school-logo{width:31px;height:31px}
+  .school-name{font-size:10.5px}
+  .school-name span{font-size:8.5px}
+  .school-back{font-size:8.5px;padding:6px 7px}
+}
+@media(max-width:380px){
+  .school-header-inner{min-height:53px;padding:6px 7px;grid-template-columns:30px minmax(0,1fr) auto;gap:5px}
+  .school-logo{width:28px;height:28px}
+  .school-name{font-size:9.5px}
+  .school-name span{font-size:8px}
+  .school-back{font-size:8px;padding:5px 6px}
+}
+
 </style>
 </head>
 <body>
 
 <header class="top">
-  <div class="bar">
-    <div class="brand">
-      <img class="logo" src="https://ggchstgusau.edu.ng/_next/image?q=75&url=%2Flogo.png&w=384" alt="GGCHST">
-      <div><b>GGCHST SMS</b><small>Lecturer Attendance Management</small></div>
+  <div class="gusau-top">
+    <div class="gusau-brand">
+      <img class="gusau-logo" src="logo.png" alt="GCHST">
+      <div class="gusau-brand-text">
+        <b>GCHST SMS</b>
+        <small>Gusau School Management System</small>
+      </div>
     </div>
-    <span class="role" id="roleLabel">LECTURER</span>
+    <div class="gusau-action">
+      <span class="role" id="roleLabel">LECTURER</span>
+    </div>
   </div>
+
+  <div class="gusau-portal">
+    <div class="gusau-portal-title">Lecturer Portal</div>
+    <div class="gusau-school">Gusau College of Health Sciences and Technology</div>
+  </div>
+
   <nav>
     <a href="lecturer-profile.html">▦ Dashboard</a>
     <a href="lecturer-profile.html">👨‍🏫 My Profile</a>
@@ -362,7 +454,7 @@ onAuthStateChanged(auth,async u=>{
 <script type="module" id="ggchst-auth-uid">
 import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-const GGCHST_CONFIG = {
+const GCHST_CONFIG = {
   apiKey: "AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
   authDomain: "ggchst-sms-new.firebaseapp.com",
   projectId: "ggchst-sms-new",
@@ -370,14 +462,14 @@ const GGCHST_CONFIG = {
   messagingSenderId: "942770190211",
   appId: "1:942770190211:web:aa9a085a38aaa517b368b6"
 };
-const app=getApps().length?getApp():initializeApp(GGCHST_CONFIG);
+const app=getApps().length?getApp():initializeApp(GCHST_CONFIG);
 const auth=getAuth(app);
-window.GGCHST_FIREBASE_APP=app; window.GGCHST_FIREBASE_AUTH=auth; window.GGCHST_FIREBASE_CONFIG=GGCHST_CONFIG;
+window.GCHST_FIREBASE_APP=app; window.GCHST_FIREBASE_AUTH=auth; window.GCHST_FIREBASE_CONFIG=GCHST_CONFIG;
 const ready=setPersistence(auth,browserLocalPersistence).catch(e=>console.warn("Firebase Auth persistence:",e));
-window.GGCHST_AUTH_READY=ready;
-window.GGCHST_UID=()=>auth.currentUser?.uid||null;
-window.GGCHST_CURRENT_USER=()=>auth.currentUser||null;
-onAuthStateChanged(auth,async user=>{await ready; window.GGCHST_AUTH_USER=user||null; window.GGCHST_AUTH_UID=user?.uid||null; window.dispatchEvent(new CustomEvent("ggchst-auth-changed",{detail:{user,uid:user?.uid||null}));});
+window.GCHST_AUTH_READY=ready;
+window.GCHST_UID=()=>auth.currentUser?.uid||null;
+window.GCHST_CURRENT_USER=()=>auth.currentUser||null;
+onAuthStateChanged(auth,async user=>{await ready; window.GCHST_AUTH_USER=user||null; window.GCHST_AUTH_UID=user?.uid||null; window.dispatchEvent(new CustomEvent("ggchst-auth-changed",{detail:{user,uid:user?.uid||null}));});
 </script>
 </body>
 </html>
