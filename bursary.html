@@ -932,18 +932,17 @@ main.container > section[id]{
     <div class="card">
       <div class="card-head"><h2>Outstanding Balances</h2><button class="btn" onclick="exportReport('outstanding')">Export</button></div>
       <div class="table-wrap"><table><thead><tr><th>Level</th><th>Students</th><th>Outstanding</th><th>Collection</th></tr></thead><tbody>
-        <tr><td>ND I</td><td>54</td><td>₦1,200,000</td><td>78%</td></tr>
-        <tr><td>ND II</td><td>39</td><td>₦900,000</td><td>82%</td></tr>
-        <tr><td>HND I</td><td>46</td><td>₦1,500,000</td><td>72%</td></tr>
-        <tr><td>HND II</td><td>33</td><td>₦975,000</td><td>79%</td></tr>
+        <tr><td>LEVEL 100</td><td>54</td><td>₦1,200,000</td><td>78%</td></tr>
+        <tr><td>LEVEL 200</td><td>39</td><td>₦900,000</td><td>82%</td></tr>
+        <tr><td>LEVEL 300</td><td>46</td><td>₦1,500,000</td><td>72%</td></tr>
       </tbody></table></div>
     </div>
     <div class="card">
       <div class="card-head"><h2>Priority Follow-up</h2></div>
       <p class="stat-note">Students with the largest balances</p>
-      <div style="padding:12px 0;border-bottom:1px solid var(--border)"><b>Grace Eze</b><br><small>SHT/2021/008 · HND I</small><span style="float:right;color:var(--danger);font-weight:800">₦110,000</span></div>
-      <div style="padding:12px 0;border-bottom:1px solid var(--border)"><b>Blessing Peter</b><br><small>SHT/2020/027 · HND II</small><span style="float:right;color:var(--danger);font-weight:800">₦60,000</span></div>
-      <div style="padding:12px 0"><b>David Okoro</b><br><small>SHT/2023/014 · ND I</small><span style="float:right;color:var(--warning);font-weight:800">₦35,000</span></div>
+      <div style="padding:12px 0;border-bottom:1px solid var(--border)"><b>Grace Eze</b><br><small>SHT/2021/008 · LEVEL 100</small><span style="float:right;color:var(--danger);font-weight:800">₦110,000</span></div>
+      <div style="padding:12px 0;border-bottom:1px solid var(--border)"><b>Blessing Peter</b><br><small>SHT/2020/027 · LEVEL 2006</small><span style="float:right;color:var(--danger);font-weight:800">₦60,000</span></div>
+      <div style="padding:12px 0"><b>David Okoro</b><br><small>SHT/2023/014 · LEVEL 100</small><span style="float:right;color:var(--warning);font-weight:800">₦35,000</span></div>
     </div>
   </section>
 
@@ -986,10 +985,9 @@ main.container > section[id]{
       <div><div class="stat-label">Pending Verification</div><div class="stat-value orange" style="font-size:22px">28</div><div class="stat-note">Payments to review</div></div>
     </div>
     <div class="table-wrap" style="margin-top:20px"><table><thead><tr><th>Level</th><th>Students</th><th>Assessed</th><th>Collected</th><th>Outstanding</th><th>Collection Rate</th></tr></thead><tbody>
-      <tr><td>ND I</td><td>142</td><td>₦5,150,000</td><td>₦3,950,000</td><td>₦1,200,000</td><td>76.7%</td></tr>
-      <tr><td>ND II</td><td>121</td><td>₦4,900,000</td><td>₦4,000,000</td><td>₦900,000</td><td>81.6%</td></tr>
-      <tr><td>HND I</td><td>119</td><td>₦4,700,000</td><td>₦3,200,000</td><td>₦1,500,000</td><td>68.1%</td></tr>
-      <tr><td>HND II</td><td>104</td><td>₦3,700,000</td><td>₦2,725,000</td><td>₦975,000</td><td>73.6%</td></tr>
+      <tr><td>LEVEL 100</td><td>142</td><td>₦5,150,000</td><td>₦3,950,000</td><td>₦1,200,000</td><td>76.7%</td></tr>
+      <tr><td>LEVEL 200</td><td>121</td><td>₦4,900,000</td><td>₦4,000,000</td><td>₦900,000</td><td>81.6%</td></tr>
+      <tr><td>LEVEL 300</td><td>119</td><td>₦4,700,000</td><td>₦3,200,000</td><td>₦1,500,000</td><td>68.1%</td></tr>
     </tbody></table></div>
   </section>
 
@@ -1028,14 +1026,14 @@ main.container > section[id]{
 </script>
 <script>
 const records=[
- {name:"Aisha Bello",id:"SHT/2023/001",program:"Health Technology",level:"ND I",category:"Tuition + Registration",assessed:85000,paid:85000,status:"Paid"},
- {name:"David Okoro",id:"SHT/2023/014",program:"Community Health",level:"ND I",category:"Tuition + Registration",assessed:85000,paid:50000,status:"Partial"},
- {name:"Mary James",id:"SHT/2022/031",program:"Medical Laboratory",level:"ND II",category:"Full Session Fees",assessed:95000,paid:95000,status:"Paid"},
- {name:"Samuel Musa",id:"SHT/2022/045",program:"Pharmacy Technician",level:"ND II",category:"Full Session Fees",assessed:95000,paid:25000,status:"Partial"},
- {name:"Grace Eze",id:"SHT/2021/008",program:"Health Information",level:"HND I",category:"Full Session Fees",assessed:110000,paid:0,status:"Unpaid"},
- {name:"Ibrahim Yusuf",id:"SHT/2021/019",program:"Environmental Health",level:"HND I",category:"Full Session Fees",assessed:110000,paid:110000,status:"Paid"},
- {name:"Blessing Peter",id:"SHT/2020/027",program:"Medical Laboratory",level:"HND II",category:"Full Session Fees",assessed:120000,paid:60000,status:"Partial"},
- {name:"Daniel Ade",id:"SHT/2020/034",program:"Community Health",level:"HND II",category:"Tuition + Examination",assessed:120000,paid:0,status:"Unpaid"}
+ {name:"Aisha Bello",id:"SHT/2023/001",program:"Health Technology",level:"LEVEL 200",category:"Tuition + Registration",assessed:85000,paid:85000,status:"Paid"},
+ {name:"David Okoro",id:"SHT/2023/014",program:"Community Health",level:"LEVEL 100",category:"Tuition + Registration",assessed:85000,paid:50000,status:"Partial"},
+ {name:"Mary James",id:"SHT/2022/031",program:"Medical Laboratory",level:"LEVEL 200",category:"Full Session Fees",assessed:95000,paid:95000,status:"Paid"},
+ {name:"Samuel Musa",id:"SHT/2022/045",program:"Pharmacy Technician",level:"LEVEL 200",category:"Full Session Fees",assessed:95000,paid:25000,status:"Partial"},
+ {name:"Grace Eze",id:"SHT/2021/008",program:"Health Information",level:"LEVEL 100",category:"Full Session Fees",assessed:110000,paid:0,status:"Unpaid"},
+ {name:"Ibrahim Yusuf",id:"SHT/2021/019",program:"Environmental Health",level:"LEVEL 100",category:"Full Session Fees",assessed:110000,paid:110000,status:"Paid"},
+ {name:"Blessing Peter",id:"SHT/2020/027",program:"Medical Laboratory",level:"LEVEL 100",category:"Full Session Fees",assessed:120000,paid:60000,status:"Partial"},
+ {name:"Daniel Ade",id:"SHT/2020/034",program:"Community Health",level:"LEVEL 300",category:"Tuition + Examination",assessed:120000,paid:0,status:"Unpaid"}
 ];
 function naira(n){return "₦"+Number(n).toLocaleString("en-NG")}
 function renderRecords(list=records){
