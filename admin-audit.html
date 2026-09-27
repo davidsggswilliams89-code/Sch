@@ -1,10 +1,11 @@
 <!doctype html>
-
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Audit & Activity Logs | GGCHST Admin</title><style>
+<title>Audit & Activity Logs | XYZ-CHST Admin</title>
+
+<style>
 :root{
   --bg:#f3f8f5;
   --card:#fff;
@@ -502,7 +503,9 @@ tbody tr:last-child td{
     font-size:11px;
   }
 }
-</style><script type="module">
+</style>
+
+<script type="module">
 import {initializeApp}
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
@@ -528,7 +531,6 @@ import {
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-
 const firebaseConfig = {
   apiKey: "AIzaSyAoT3LGcdwA3FzHDrPEuhTNCnfiTklGXY",
   authDomain: "ggchst-sms-new.firebaseapp.com",
@@ -537,7 +539,6 @@ const firebaseConfig = {
   messagingSenderId: "942770190211",
   appId: "1:942770190211:web:aa9a085a38aaa517b368b6"
 };
-
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -560,7 +561,6 @@ window.GG = {
   limit
 };
 
-
 window.toast = (message) => {
   const element = document.getElementById("toast");
 
@@ -574,7 +574,6 @@ window.toast = (message) => {
   },2600);
 };
 
-
 window.esc = (value = "") =>
   String(value).replace(
     /[&<>"']/g,
@@ -586,150 +585,210 @@ window.esc = (value = "") =>
       "'":"&#039;"
     }[match])
   );
-</script></head><body><!-- =======================================================
-     GUSAU HEADER
-     ======================================================= --><header class="school-header">  <!-- PART 1: SCHOOL HEADER -->  <div class="school-header-top">
-    <div class="school-header-inner">  <div class="school-logo">
-    <img
-      src="logo.png"
-      alt="Gusau College of Health Sciences & Technology logo"
-      onerror="this.style.display='none';"
-    >
+</script>
+</head>
+
+<body>
+
+<!-- =======================================================
+     X.Y.Z HEADER
+     ======================================================= -->
+
+<header class="school-header">
+
+  <!-- PART 1: SCHOOL HEADER -->
+  <div class="school-header-top">
+
+    <div class="school-header-inner">
+
+      <div class="school-logo">
+        <img
+          src="logo.png"
+          alt="X.Y.Z College of Health Sciences & Technology logo"
+          onerror="this.style.display='none';"
+        >
+      </div>
+
+      <div class="school-name">
+        X.Y.Z College of Health Sciences &amp; Technology
+        <span>L.G, Zamfara State</span>
+      </div>
+
+      <a class="school-back" href="admin.html">
+        ← Back to Admin
+      </a>
+
+    </div>
+
   </div>
 
-  <div class="school-name">
-    Gusau College of Health Sciences &amp; Technology
-    <span>Gusau, Zamfara State</span>
+  <!-- PART 2: PORTAL TITLE -->
+  <div class="portal-title-row">
+
+    <div class="portal-title-inner">
+
+      <h1 class="portal-title">
+        Audit &amp; Activity Logs
+      </h1>
+
+      <p class="portal-subtitle">
+        X.Y.Z-CHST Administration Portal
+      </p>
+
+    </div>
+
   </div>
 
-  <a class="school-back" href="admin.html">
-    ← Back to Admin
-  </a>
+  <!-- PART 3: NAVIGATION -->
+  <nav class="portal-nav">
 
-</div>
+    <div class="portal-nav-inner">
 
-  </div>  <!-- PART 2: PORTAL TITLE -->  <div class="portal-title-row">
-    <div class="portal-title-inner">  <h1 class="portal-title">
-    Audit &amp; Activity Logs
-  </h1>
+      <a href="admin.html">
+        Dashboard
+      </a>
 
-  <p class="portal-subtitle">
-    GGCHST Administration Portal
-  </p>
+      <a href="students.html">
+        Students
+      </a>
 
-</div>
+      <a href="lecturers.html">
+        Lecturers
+      </a>
 
-  </div>  <!-- PART 3: NAVIGATION -->  <nav class="portal-nav">
-    <div class="portal-nav-inner">  <a href="admin.html">
-    Dashboard
-  </a>
+      <a href="courses.html">
+        Courses
+      </a>
 
-  <a href="students.html">
-    Students
-  </a>
+      <a href="registrar.html">
+        Registrar
+      </a>
 
-  <a href="lecturers.html">
-    Lecturers
-  </a>
+      <a href="hod.html">
+        HOD
+      </a>
 
-  <a href="courses.html">
-    Courses
-  </a>
+      <a href="results.html">
+        Results
+      </a>
 
-  <a href="registrar.html">
-    Registrar
-  </a>
+      <a href="attendance.html">
+        Attendance
+      </a>
 
-  <a href="hod.html">
-    HOD
-  </a>
+      <a href="audit-logs.html" class="active">
+        Audit Logs
+      </a>
 
-  <a href="results.html">
-    Results
-  </a>
+    </div>
 
-  <a href="attendance.html">
-    Attendance
-  </a>
+  </nav>
 
-  <a href="audit-logs.html" class="active">
-    Audit Logs
-  </a>
+</header>
 
-</div>
-
-  </nav></header><!-- =======================================================
+<!-- =======================================================
      MAIN CONTENT
-     ======================================================= --><main>  <section class="hero"><h2>
-  9. Audit &amp; Activity Logs
-</h2>
+     ======================================================= -->
 
-<p class="muted">
-  Search and review critical activity. The blueprint calls for
-  timestamp, user, role, action, module, entity, old/new values
-  and result/status where appropriate.
-</p>
+<main>
 
-  </section>  <!-- FILTERS -->  <section class="panel"><div class="fields">
+  <section class="hero">
 
-  <div>
-    <label for="filter">
-      Module filter
-    </label>
+    <h2>
+      9. Audit &amp; Activity Logs
+    </h2>
 
-    <input
-      id="filter"
-      type="text"
-      placeholder="e.g. results"
-    >
+    <p class="muted">
+      Search and review critical activity. The blueprint calls for
+      timestamp, user, role, action, module, entity, old/new values
+      and result/status where appropriate.
+    </p>
+
+  </section>
+
+  <!-- FILTERS -->
+
+  <section class="panel">
+
+    <div class="fields">
+
+      <div>
+
+        <label for="filter">
+          Module filter
+        </label>
+
+        <input
+          id="filter"
+          type="text"
+          placeholder="e.g. results"
+        >
+
+      </div>
+
+      <div>
+
+        <label for="actionFilter">
+          Action filter
+        </label>
+
+        <input
+          id="actionFilter"
+          type="text"
+          placeholder="create / update / delete"
+        >
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- AUDIT TABLE -->
+
+  <div class="tablewrap">
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>Timestamp</th>
+          <th>User</th>
+          <th>Role</th>
+          <th>Action</th>
+          <th>Module</th>
+          <th>Entity</th>
+          <th>Result</th>
+        </tr>
+
+      </thead>
+
+      <tbody id="rows">
+
+        <tr>
+
+          <td colspan="7" style="text-align:center;padding:25px;">
+            Loading audit logs...
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
   </div>
 
+</main>
 
-  <div>
-    <label for="actionFilter">
-      Action filter
-    </label>
+<div id="toast" class="toast"></div>
 
-    <input
-      id="actionFilter"
-      type="text"
-      placeholder="create / update / delete"
-    >
-  </div>
-
-</div>
-
-  </section>  <!-- AUDIT TABLE -->  <div class="tablewrap"><table>
-
-  <thead>
-
-    <tr>
-      <th>Timestamp</th>
-      <th>User</th>
-      <th>Role</th>
-      <th>Action</th>
-      <th>Module</th>
-      <th>Entity</th>
-      <th>Result</th>
-    </tr>
-
-  </thead>
-
-  <tbody id="rows">
-
-    <tr>
-      <td colspan="7" style="text-align:center;padding:25px;">
-        Loading audit logs...
-      </td>
-    </tr>
-
-  </tbody>
-
-</table>
-
-  </div></main><div id="toast" class="toast"></div><!-- =======================================================
+<!-- =======================================================
      AUDIT LOGS SCRIPT
-     ======================================================= --><script type="module">
+     ======================================================= -->
+
+<script type="module">
 
 let all = [];
 
@@ -910,5 +969,7 @@ window.GG.onSnapshot(
 
 );
 
-</script></body>
+</script>
+
+</body>
 </html>
