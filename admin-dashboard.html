@@ -1,11 +1,10 @@
 <!doctype html>
+
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Admin Dashboard | GGCHST</title>
-
-<style>
+<title>Admin Dashboard | X.Y.Z-CHST</title><style>
 :root{
   --bg:#f4f8f6;
   --card:#fff;
@@ -22,9 +21,7 @@
 
 *{box-sizing:border-box}
 
-html{
-  scroll-behavior:smooth;
-}
+html{scroll-behavior:smooth}
 
 body{
   margin:0;
@@ -33,9 +30,7 @@ body{
   color:var(--text);
 }
 
-a{
-  color:inherit;
-}
+a{color:inherit}
 
 /* =========================================================
    GUSAU HEADER
@@ -50,8 +45,6 @@ a{
   z-index:9999;
   box-shadow:0 3px 14px rgba(0,0,0,.14);
 }
-
-/* PART 1 - SCHOOL HEADER */
 
 .school-header-top{
   width:100%;
@@ -69,8 +62,6 @@ a{
   align-items:center;
   gap:14px;
 }
-
-/* LOGO */
 
 .school-logo{
   width:50px;
@@ -94,8 +85,6 @@ a{
   object-fit:contain;
 }
 
-/* SCHOOL NAME */
-
 .school-name{
   flex:1;
   min-width:0;
@@ -111,8 +100,6 @@ a{
   font-weight:500;
   opacity:.82;
 }
-
-/* BACK BUTTON */
 
 .school-back{
   display:inline-flex;
@@ -133,8 +120,6 @@ a{
 .school-back:hover{
   background:rgba(255,255,255,.17);
 }
-
-/* PART 2 - PORTAL TITLE */
 
 .portal-title-row{
   width:100%;
@@ -161,8 +146,6 @@ a{
   font-size:11px;
   opacity:.78;
 }
-
-/* PART 3 - NAVIGATION */
 
 .portal-nav{
   width:100%;
@@ -265,10 +248,6 @@ h1{
   cursor:not-allowed;
 }
 
-/* =========================================================
-   SECTION TITLE
-   ========================================================= */
-
 .section-title{
   display:flex;
   align-items:end;
@@ -286,10 +265,6 @@ h1{
   color:var(--muted);
   font-size:11px;
 }
-
-/* =========================================================
-   STATS
-   ========================================================= */
 
 .stats{
   display:grid;
@@ -343,10 +318,6 @@ h1{
   margin-top:3px;
 }
 
-/* =========================================================
-   DASHBOARD
-   ========================================================= */
-
 .dashboard-grid{
   display:grid;
   grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);
@@ -379,10 +350,6 @@ h1{
   color:var(--muted);
   font-size:10px;
 }
-
-/* =========================================================
-   TABLE
-   ========================================================= */
 
 .tablewrap{
   overflow:auto;
@@ -424,10 +391,6 @@ tr:last-child td{
   font-size:12px;
 }
 
-/* =========================================================
-   QUICK ACCESS
-   ========================================================= */
-
 .quick-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -462,10 +425,6 @@ tr:last-child td{
   font-size:10px;
   line-height:1.35;
 }
-
-/* =========================================================
-   COLLECTION STATUS
-   ========================================================= */
 
 .system-list{
   display:grid;
@@ -505,10 +464,6 @@ tr:last-child td{
   color:#9a6700;
 }
 
-/* =========================================================
-   FILTER
-   ========================================================= */
-
 .activity-tools{
   display:flex;
   gap:7px;
@@ -524,10 +479,6 @@ tr:last-child td{
   font-size:11px;
 }
 
-/* =========================================================
-   FOOTER
-   ========================================================= */
-
 .footer-note{
   margin-top:16px;
   padding:12px 14px;
@@ -537,10 +488,6 @@ tr:last-child td{
   font-size:11px;
   line-height:1.5;
 }
-
-/* =========================================================
-   TOAST
-   ========================================================= */
 
 .toast{
   position:fixed;
@@ -555,10 +502,6 @@ tr:last-child td{
   font-size:12px;
   box-shadow:0 5px 20px rgba(0,0,0,.18);
 }
-
-/* =========================================================
-   RESPONSIVE GUSAU HEADER
-   ========================================================= */
 
 @media(max-width:900px){
 
@@ -714,9 +657,7 @@ tr:last-child td{
   }
 
 }
-</style>
-
-<script type="module">
+</style><script type="module">
 
 import {initializeApp}
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
@@ -798,425 +739,342 @@ window.esc = (value = "") =>
     }[match])
   );
 
-</script>
+</script></head><body><header class="school-header">  <div class="school-header-top"><div class="school-header-inner">
 
-</head>
-
-<body>
-
-<!-- =======================================================
-     GUSAU HEADER
-     ======================================================= -->
-
-<header class="school-header">
-
-  <!-- 1. SCHOOL HEADER -->
-
-  <div class="school-header-top">
-
-    <div class="school-header-inner">
-
-      <div class="school-logo">
-        <img
-          src="logo.png"
-          alt="Gusau College of Health Sciences & Technology"
-          onerror="this.style.display='none';"
-        >
-      </div>
-
-      <div class="school-name">
-        Gusau College of Health Sciences &amp; Technology
-        <span>Gusau, Zamfara State</span>
-      </div>
-
-      <a
-        class="school-back"
-        href="admin.html"
-      >
-        ← Back to Admin
-      </a>
-
-    </div>
-
+  <div class="school-logo">
+    <img
+      src="logo.png"
+      alt="X.Y.Z College of Health Sciences & Technology"
+      onerror="this.style.display='none';"
+    >
   </div>
 
-
-  <!-- 2. PORTAL TITLE -->
-
-  <div class="portal-title-row">
-
-    <div class="portal-title-inner">
-
-      <div class="portal-title">
-        Admin Dashboard
-      </div>
-
-      <div class="portal-subtitle">
-        GGCHST Administration Portal
-      </div>
-
-    </div>
-
+  <div class="school-name">
+    X.Y.Z College of Health Sciences &amp; Technology
+    <span>L.G , Zamfara State</span>
   </div>
 
+  <a
+    class="school-back"
+    href="admin.html"
+  >
+    ← Back to Admin
+  </a>
 
-  <!-- 3. NAVIGATION -->
+</div>
 
-  <nav class="portal-nav">
+  </div>  <div class="portal-title-row"><div class="portal-title-inner">
 
-    <div class="portal-nav-inner">
+  <div class="portal-title">
+    Admin Dashboard
+  </div>
 
-      <a
-        href="admin.html"
-        class="active"
-      >
-        Dashboard
-      </a>
+  <div class="portal-subtitle">
+    X.Y.Z-CHST SMS Administration Portal
+  </div>
 
-      <a href="admin-users.html">
-        Users
-      </a>
+</div>
 
-      <a href="student.html">
-        Students
-      </a>
+  </div>  <nav class="portal-nav"><div class="portal-nav-inner">
 
-      <a href="lecturers.html">
-        Lecturers
-      </a>
+  <a
+    href="admin.html"
+    class="active"
+  >
+    Dashboard
+  </a>
 
-      <a href="academic-session.html">
-        Academic Sessions
-      </a>
+  <a href="admin-users.html">
+    Users
+  </a>
 
-      <a href="course-registration.html">
-        Registration
-      </a>
+  <a href="student.html">
+    Students
+  </a>
 
-      <a href="courses.html">
-        Courses
-      </a>
+  <a href="lecturers.html">
+    Lecturers
+  </a>
 
-      <a href="results.html">
-        Results
-      </a>
+  <a href="academic-session.html">
+    Academic Sessions
+  </a>
 
-      <a href="timetable.html">
-        Timetable
-      </a>
+  <a href="course-registration.html">
+    Registration
+  </a>
 
-      <a href="admissions.html">
-        Admissions
-      </a>
+  <a href="courses.html">
+    Courses
+  </a>
 
-      <a href="admin-reports.html">
-        Reports
-      </a>
+  <a href="results.html">
+    Results
+  </a>
 
-      <a href="audit-logs.html">
-        Audit Logs
-      </a>
+  <a href="timetable.html">
+    Timetable
+  </a>
 
-    </div>
+  <a href="admissions.html">
+    Admissions
+  </a>
 
-  </nav>
+  <a href="admin-reports.html">
+    Reports
+  </a>
 
-</header>
+  <a href="audit-logs.html">
+    Audit Logs
+  </a>
 
+</div>
 
-<!-- =======================================================
-     MAIN
-     ======================================================= -->
+  </nav></header><main class="main">  <div class="page-top"><div>
 
-<main class="main">
+  <p class="kicker">
+    Administration
+  </p>
 
-  <div class="page-top">
+  <h1>
+    Admin Dashboard
+  </h1>
+
+  <p class="subtitle">
+    Central overview of the school's live academic and administrative records.
+  </p>
+
+</div>
+
+<button
+  class="refresh-btn"
+  id="refreshBtn"
+  type="button"
+>
+  ↻ Refresh Data
+</button>
+
+  </div>  <div class="section-title"><h2>
+  System Overview
+</h2>
+
+<span id="lastUpdated">
+  Loading...
+</span>
+
+  </div>  <section
+    class="stats"
+    id="stats"
+  ></section>  <div class="dashboard-grid"><section class="panel">
+
+  <div class="panel-head">
 
     <div>
 
-      <p class="kicker">
-        Administration
-      </p>
+      <h3>
+        Recent Audit Activity
+      </h3>
 
-      <h1>
-        Admin Dashboard
-      </h1>
-
-      <p class="subtitle">
-        Central overview of the school's live academic and administrative records.
-      </p>
+      <small>
+        Latest recorded administrative actions
+      </small>
 
     </div>
 
-    <button
-      class="refresh-btn"
-      id="refreshBtn"
-      type="button"
-    >
-      ↻ Refresh Data
-    </button>
+    <div class="activity-tools">
+
+      <select
+        class="filter"
+        id="auditFilter"
+        aria-label="Filter audit activity"
+      >
+
+        <option value="all">
+          All actions
+        </option>
+
+        <option value="create">
+          Create
+        </option>
+
+        <option value="update">
+          Update
+        </option>
+
+        <option value="delete">
+          Delete
+        </option>
+
+        <option value="login">
+          Login
+        </option>
+
+      </select>
+
+    </div>
 
   </div>
 
 
-  <!-- SYSTEM OVERVIEW -->
+  <div class="tablewrap">
 
-  <div class="section-title">
+    <table>
 
-    <h2>
-      System Overview
+      <thead>
+
+        <tr>
+          <th>Time</th>
+          <th>Action</th>
+          <th>Module</th>
+          <th>Entity</th>
+          <th>Result</th>
+        </tr>
+
+      </thead>
+
+      <tbody id="audit">
+
+        <tr>
+
+          <td
+            colspan="5"
+            class="empty"
+          >
+            Loading audit activity...
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</section>
+
+
+<aside class="panel">
+
+  <div class="panel-head">
+
+    <div>
+
+      <h3>
+        Quick Access
+      </h3>
+
+      <small>
+        Open major administration modules
+      </small>
+
+    </div>
+
+  </div>
+
+
+  <div class="quick-grid">
+
+    <a
+      class="quick"
+      href="admin-users.html"
+    >
+      <strong>User Management</strong>
+      <span>Accounts and login access</span>
+    </a>
+
+    <a
+      class="quick"
+      href="student.html"
+    >
+      <strong>Students</strong>
+      <span>Student master records</span>
+    </a>
+
+    <a
+      class="quick"
+      href="academic-session.html"
+    >
+      <strong>Academic Sessions</strong>
+      <span>Sessions and academic periods</span>
+    </a>
+
+    <a
+      class="quick"
+      href="course-registration.html"
+    >
+      <strong>Course Registration</strong>
+      <span>Student course registration</span>
+    </a>
+
+    <a
+      class="quick"
+      href="results.html"
+    >
+      <strong>Results</strong>
+      <span>Academic result records</span>
+    </a>
+
+    <a
+      class="quick"
+      href="timetable.html"
+    >
+      <strong>Timetable</strong>
+      <span>Classes and schedules</span>
+    </a>
+
+    <a
+      class="quick"
+      href="admissions.html"
+    >
+      <strong>Admissions</strong>
+      <span>Applicant processing</span>
+    </a>
+
+    <a
+      class="quick"
+      href="admin-reports.html"
+    >
+      <strong>Reports</strong>
+      <span>Administrative reporting</span>
+    </a>
+
+  </div>
+
+
+  <div
+    class="section-title"
+    style="margin-top:20px"
+  >
+
+    <h2 style="font-size:14px">
+      Collection Status
     </h2>
 
-    <span id="lastUpdated">
-      Loading...
+    <span>
+      Availability
     </span>
 
   </div>
 
 
-  <section
-    class="stats"
-    id="stats"
-  ></section>
+  <div
+    class="system-list"
+    id="collectionStatus"
+  ></div>
 
+</aside>
 
-  <!-- DASHBOARD GRID -->
+  </div>  <div class="footer-note"><strong>Access model:</strong>
 
-  <div class="dashboard-grid">
+account roles define the permitted functions, while course assignments,
+registrations, departments and other school records determine which data
+each portal can access.
 
-    <!-- RECENT AUDIT -->
-
-    <section class="panel">
-
-      <div class="panel-head">
-
-        <div>
-
-          <h3>
-            Recent Audit Activity
-          </h3>
-
-          <small>
-            Latest recorded administrative actions
-          </small>
-
-        </div>
-
-        <div class="activity-tools">
-
-          <select
-            class="filter"
-            id="auditFilter"
-            aria-label="Filter audit activity"
-          >
-
-            <option value="all">
-              All actions
-            </option>
-
-            <option value="create">
-              Create
-            </option>
-
-            <option value="update">
-              Update
-            </option>
-
-            <option value="delete">
-              Delete
-            </option>
-
-            <option value="login">
-              Login
-            </option>
-
-          </select>
-
-        </div>
-
-      </div>
-
-
-      <div class="tablewrap">
-
-        <table>
-
-          <thead>
-
-            <tr>
-              <th>Time</th>
-              <th>Action</th>
-              <th>Module</th>
-              <th>Entity</th>
-              <th>Result</th>
-            </tr>
-
-          </thead>
-
-          <tbody id="audit">
-
-            <tr>
-
-              <td
-                colspan="5"
-                class="empty"
-              >
-                Loading audit activity...
-              </td>
-
-            </tr>
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-    </section>
-
-
-    <!-- QUICK ACCESS -->
-
-    <aside class="panel">
-
-      <div class="panel-head">
-
-        <div>
-
-          <h3>
-            Quick Access
-          </h3>
-
-          <small>
-            Open major administration modules
-          </small>
-
-        </div>
-
-      </div>
-
-
-      <div class="quick-grid">
-
-        <a
-          class="quick"
-          href="admin-users.html"
-        >
-          <strong>User Management</strong>
-          <span>Accounts and login access</span>
-        </a>
-
-        <a
-          class="quick"
-          href="student.html"
-        >
-          <strong>Students</strong>
-          <span>Student master records</span>
-        </a>
-
-        <a
-          class="quick"
-          href="academic-session.html"
-        >
-          <strong>Academic Sessions</strong>
-          <span>Sessions and academic periods</span>
-        </a>
-
-        <a
-          class="quick"
-          href="course-registration.html"
-        >
-          <strong>Course Registration</strong>
-          <span>Student course registration</span>
-        </a>
-
-        <a
-          class="quick"
-          href="results.html"
-        >
-          <strong>Results</strong>
-          <span>Academic result records</span>
-        </a>
-
-        <a
-          class="quick"
-          href="timetable.html"
-        >
-          <strong>Timetable</strong>
-          <span>Classes and schedules</span>
-        </a>
-
-        <a
-          class="quick"
-          href="admissions.html"
-        >
-          <strong>Admissions</strong>
-          <span>Applicant processing</span>
-        </a>
-
-        <a
-          class="quick"
-          href="admin-reports.html"
-        >
-          <strong>Reports</strong>
-          <span>Administrative reporting</span>
-        </a>
-
-      </div>
-
-
-      <!-- COLLECTION STATUS -->
-
-      <div
-        class="section-title"
-        style="margin-top:20px"
-      >
-
-        <h2 style="font-size:14px">
-          Collection Status
-        </h2>
-
-        <span>
-          Availability
-        </span>
-
-      </div>
-
-
-      <div
-        class="system-list"
-        id="collectionStatus"
-      ></div>
-
-    </aside>
-
-  </div>
-
-
-  <div class="footer-note">
-
-    <strong>Access model:</strong>
-
-    account roles define the permitted functions, while course assignments,
-    registrations, departments and other school records determine which data
-    each portal can access.
-
-  </div>
-
-</main>
-
-
-<div
+  </div></main><div
   id="toast"
   class="toast"
-></div>
-
-
-<!-- =======================================================
-     DASHBOARD JAVASCRIPT
-     ======================================================= -->
-
-<script type="module">
+></div><script type="module">
 
 const statsEl =
   document.getElementById("stats");
@@ -1629,8 +1487,6 @@ async function loadAudit(){
 }
 
 
-/* REFRESH */
-
 document
   .getElementById("refreshBtn")
   .addEventListener(
@@ -1668,21 +1524,15 @@ document
   );
 
 
-/* FILTER */
-
 auditFilter.addEventListener(
   "change",
   renderAudit
 );
 
 
-/* INITIAL LOAD */
-
 await loadCollections();
 
 await loadAudit();
 
-</script>
-
-</body>
+</script></body>
 </html>
