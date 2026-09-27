@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Finance & Fees | GGCHST Admin</title>
+<title>Finance & Fees | X.Y.Z-CHST SMS</title>
 
 <style>
 :root{
@@ -892,30 +892,25 @@ window.toast=(m)=>{
 
 <body>
 
-<!-- =======================================================
-     GUSAU THREE-PART HEADER
-======================================================= -->
-
 <header class="gusau-header">
 
-  <!-- PART 1: SCHOOL IDENTITY -->
   <div class="gusau-school-row">
     <div class="gusau-school-inner">
 
       <div class="gusau-logo">
         <img
           src="logo.png"
-          alt="Gusau College of Health Sciences & Technology logo"
-          onerror="this.style.display='none';this.parentElement.innerHTML='<span style=&quot;font-size:10px;font-weight:900;color:#087443&quot;>GGCHST</span>';"
+          alt="X.Y.Z College of Health Sciences & Technology logo"
+          onerror="this.style.display='none';this.parentElement.innerHTML='<span style=&quot;font-size:10px;font-weight:900;color:#087443&quot;>L.G</span>';"
         >
       </div>
 
       <div class="gusau-school-info">
         <div class="gusau-school-name">
-          Gusau College of Health Sciences &amp; Technology
+          X.Y.Z College of Health Sciences &amp; Technology
         </div>
         <div class="gusau-school-location">
-          Gusau, Zamfara State
+          L.G , Zamfara State
         </div>
       </div>
 
@@ -928,7 +923,6 @@ window.toast=(m)=>{
     </div>
   </div>
 
-  <!-- PART 2: PORTAL TITLE -->
   <div class="gusau-portal-row">
     <div class="gusau-portal-inner">
 
@@ -938,69 +932,32 @@ window.toast=(m)=>{
       </div>
 
       <div class="gusau-portal-school">
-        Gusau College of Health Sciences &amp; Technology
+        X.Y.Z College of Health Sciences &amp; Technology
       </div>
 
     </div>
   </div>
 
-  <!-- PART 3: NAVIGATION -->
   <nav class="gusau-nav" aria-label="Admin navigation">
     <div class="gusau-nav-inner">
 
-      <a href="admin.html">
-        Dashboard
-      </a>
-
-      <a href="admin-users.html">
-        Users
-      </a>
-
-      <a href="student.html">
-        Students
-      </a>
-
-      <a href="lecturers.html">
-        Lecturers
-      </a>
-
-      <a href="programmes.html">
-        Programmes
-      </a>
-
-      <a href="courses.html">
-        Courses
-      </a>
-
-      <a href="course-registration.html">
-        Registration
-      </a>
-
-      <a href="results.html">
-        Results
-      </a>
-
-      <a href="finance.html" class="active">
-        Finance &amp; Fees
-      </a>
-
-      <a href="admissions.html">
-        Admissions
-      </a>
-
-      <a href="timetable.html">
-        Timetable
-      </a>
-
-      <a href="admin-reports.html">
-        Reports
-      </a>
+      <a href="admin.html">Dashboard</a>
+      <a href="admin-users.html">Users</a>
+      <a href="student.html">Students</a>
+      <a href="lecturers.html">Lecturers</a>
+      <a href="programmes.html">Programmes</a>
+      <a href="courses.html">Courses</a>
+      <a href="course-registration.html">Registration</a>
+      <a href="results.html">Results</a>
+      <a href="finance.html" class="active">Finance &amp; Fees</a>
+      <a href="admissions.html">Admissions</a>
+      <a href="timetable.html">Timetable</a>
+      <a href="admin-reports.html">Reports</a>
 
     </div>
   </nav>
 
 </header>
-
 
 <main>
 
@@ -1016,7 +973,6 @@ window.toast=(m)=>{
 <div id="startup" class="startup">
   Loading students and payment records…
 </div>
-
 
 <section class="fee-banner" id="fee-management">
 
@@ -1074,54 +1030,27 @@ window.toast=(m)=>{
 
       <div>
         <label>ND I Amount (₦)</label>
-        <input
-          id="feeNd1"
-          type="number"
-          min="0"
-          step="0.01"
-          placeholder="55000"
-        >
+        <input id="feeNd1" type="number" min="0" step="0.01" placeholder="55000">
       </div>
 
       <div>
         <label>ND II Amount (₦)</label>
-        <input
-          id="feeNd2"
-          type="number"
-          min="0"
-          step="0.01"
-          placeholder="58000"
-        >
+        <input id="feeNd2" type="number" min="0" step="0.01" placeholder="58000">
       </div>
 
       <div>
         <label>HND I Amount (₦)</label>
-        <input
-          id="feeHnd1"
-          type="number"
-          min="0"
-          step="0.01"
-          placeholder=""
-        >
+        <input id="feeHnd1" type="number" min="0" step="0.01" placeholder="">
       </div>
 
       <div>
         <label>HND II Amount (₦)</label>
-        <input
-          id="feeHnd2"
-          type="number"
-          min="0"
-          step="0.01"
-          placeholder=""
-        >
+        <input id="feeHnd2" type="number" min="0" step="0.01" placeholder="">
       </div>
 
       <div>
         <label>Note / Description</label>
-        <input
-          id="feeDescription"
-          placeholder="Optional description"
-        >
+        <input id="feeDescription" placeholder="Optional description">
       </div>
 
       <label class="active-check">
@@ -1132,13 +1061,8 @@ window.toast=(m)=>{
     </div>
 
     <div class="actions">
-      <button class="btn" id="saveFeeBtn">
-        Add Fee
-      </button>
-
-      <button class="btn secondary" type="button" id="clearFeeBtn">
-        Clear
-      </button>
+      <button class="btn" id="saveFeeBtn">Add Fee</button>
+      <button class="btn secondary" type="button" id="clearFeeBtn">Clear</button>
     </div>
 
     <div id="feeMessage" class="message"></div>
@@ -1147,106 +1071,71 @@ window.toast=(m)=>{
 
 </section>
 
-
 <section class="grid stats">
 
   <div class="card">
     <div class="stat-label">Total Payment Records</div>
     <div class="stat-value blue" id="totalCount">0</div>
-    <div class="stat-note">
-      All recorded payment items
-    </div>
+    <div class="stat-note">All recorded payment items</div>
   </div>
 
   <div class="card">
     <div class="stat-label">Pending Approval</div>
     <div class="stat-value orange" id="pendingCount">0</div>
-    <div class="stat-note">
-      Awaiting bursary/admin review
-    </div>
+    <div class="stat-note">Awaiting bursary/admin review</div>
   </div>
 
   <div class="card">
     <div class="stat-label">Paid / Approved</div>
     <div class="stat-value green" id="paidCount">0</div>
-    <div class="stat-note">
-      Approved payment records
-    </div>
+    <div class="stat-note">Approved payment records</div>
   </div>
 
   <div class="card">
     <div class="stat-label">Unpaid</div>
     <div class="stat-value red" id="unpaidCount">0</div>
-    <div class="stat-note">
-      Outstanding records
-    </div>
+    <div class="stat-note">Outstanding records</div>
   </div>
 
 </section>
-
 
 <section class="card" id="record-payment">
 
   <div class="card-head">
     <h2>Create Student Fee / Payment Record</h2>
-    <span class="status Pending">
-      Admin / Bursary
-    </span>
+    <span class="status Pending">Admin / Bursary</span>
   </div>
 
   <div class="form-grid">
 
     <div>
       <label>Student ID / Matric *</label>
-      <input
-        id="studentId"
-        placeholder="Enter Student ID"
-        required
-      >
+      <input id="studentId" placeholder="Enter Student ID" required>
     </div>
 
     <div>
       <label>Admission Number</label>
-      <input
-        id="admissionNo"
-        placeholder="Admission No."
-      >
+      <input id="admissionNo" placeholder="Admission No.">
     </div>
 
     <div>
       <label>Student Name</label>
-      <input
-        id="studentName"
-        placeholder="Student name"
-      >
+      <input id="studentName" placeholder="Student name">
     </div>
 
     <div>
       <label>Fee Category *</label>
-      <input
-        id="category"
-        placeholder="Tuition / Registration / Hostel"
-        required
-      >
+      <input id="category" placeholder="Tuition / Registration / Hostel" required>
     </div>
 
     <div>
       <label>Amount (₦) *</label>
-      <input
-        id="amount"
-        type="number"
-        min="0"
-        step="0.01"
-        required
-      >
+      <input id="amount" type="number" min="0" step="0.01" required>
     </div>
 
     <div>
       <label>Academic Session</label>
-      <input
-        id="session"
-        placeholder="2026/2027"
-      >
+      <input id="session" placeholder="2026/2027">
     </div>
 
     <div>
@@ -1284,18 +1173,12 @@ window.toast=(m)=>{
 
     <div>
       <label>Reference / Receipt No.</label>
-      <input
-        id="reference"
-        placeholder="Payment reference / receipt number"
-      >
+      <input id="reference" placeholder="Payment reference / receipt number">
     </div>
 
     <div class="full">
       <label>Admin/Bursary Note</label>
-      <textarea
-        id="note"
-        placeholder="Optional note about this fee or payment..."
-      ></textarea>
+      <textarea id="note" placeholder="Optional note about this fee or payment..."></textarea>
     </div>
 
   </div>
@@ -1303,29 +1186,19 @@ window.toast=(m)=>{
   <div id="studentMatch" class="student-box"></div>
 
   <div class="actions">
-
-    <button class="btn" id="saveBtn">
-      Save Finance Record
-    </button>
-
-    <button class="btn secondary" type="button" id="clearBtn">
-      Clear
-    </button>
-
+    <button class="btn" id="saveBtn">Save Finance Record</button>
+    <button class="btn secondary" type="button" id="clearBtn">Clear</button>
   </div>
 
   <div id="formMessage" class="message"></div>
 
 </section>
 
-
 <section class="card" id="payments">
 
   <div class="card-head">
     <h2>Student Payment Approval &amp; Records</h2>
-    <span class="status Pending" id="viewCount">
-      0 records
-    </span>
+    <span class="status Pending" id="viewCount">0 records</span>
   </div>
 
   <div class="search-row">
@@ -1373,7 +1246,6 @@ window.toast=(m)=>{
 
 </section>
 
-
 <section class="card" id="student-balances">
 
   <div class="card-head">
@@ -1419,7 +1291,6 @@ window.toast=(m)=>{
 
 <div id="toast" class="toast"></div>
 
-
 <script type="module">
 
 const {
@@ -1448,12 +1319,10 @@ const $=id=>document.getElementById(id);
 const normalize=s=>
   String(s??'').trim().toLowerCase();
 
-
 function setMsg(text,type=''){
   $('formMessage').textContent=text;
   $('formMessage').className='message '+type;
 }
-
 
 function studentFields(s){
 
@@ -1497,7 +1366,6 @@ function studentFields(s){
 
 }
 
-
 function findStudent(value){
 
   const v=normalize(value);
@@ -1513,7 +1381,6 @@ function findStudent(value){
 
 }
 
-
 async function loadStudents(){
 
   const snap=await getDocs(
@@ -1526,7 +1393,6 @@ async function loadStudents(){
   }));
 
 }
-
 
 function showStudentMatch(){
 
@@ -1562,7 +1428,6 @@ function showStudentMatch(){
 
 }
 
-
 $('studentId').addEventListener(
   'blur',
   showStudentMatch
@@ -1572,7 +1437,6 @@ $('admissionNo').addEventListener(
   'blur',
   showStudentMatch
 );
-
 
 $('clearBtn').onclick=()=>{
 
@@ -1593,7 +1457,6 @@ $('clearBtn').onclick=()=>{
   setMsg('');
 
 };
-
 
 $('saveBtn').onclick=async()=>{
 
@@ -1716,7 +1579,6 @@ $('saveBtn').onclick=async()=>{
 
 };
 
-
 function feeAmountValue(v){
 
   const n=Number(v||0);
@@ -1726,7 +1588,6 @@ function feeAmountValue(v){
     : 0;
 
 }
-
 
 function feeLevelAmount(fee,level){
 
@@ -1772,7 +1633,6 @@ function feeLevelAmount(fee,level){
          0;
 
 }
-
 
 function renderFeeSchedules(){
 
@@ -1893,7 +1753,6 @@ function renderFeeSchedules(){
 
 }
 
-
 function clearFeeForm(){
 
   feeEditId=null;
@@ -1916,10 +1775,8 @@ function clearFeeForm(){
 
 }
 
-
 $('clearFeeBtn').onclick=
   clearFeeForm;
-
 
 $('saveFeeBtn').onclick=async()=>{
 
@@ -2061,7 +1918,6 @@ $('saveFeeBtn').onclick=async()=>{
 
 };
 
-
 window.editFee=id=>{
 
   const x=
@@ -2122,7 +1978,6 @@ window.editFee=id=>{
 
 };
 
-
 window.deleteFee=async id=>{
 
   const x=
@@ -2162,7 +2017,6 @@ window.deleteFee=async id=>{
   }
 
 };
-
 
 function subscribeFees(){
 
@@ -2204,7 +2058,6 @@ function subscribeFees(){
     );
 
 }
-
 
 function applyScheduledFee(){
 
@@ -2261,7 +2114,6 @@ function applyScheduledFee(){
 
 }
 
-
 $('category').addEventListener(
   'blur',
   applyScheduledFee
@@ -2271,7 +2123,6 @@ $('session').addEventListener(
   'blur',
   applyScheduledFee
 );
-
 
 function renderStats(){
 
@@ -2302,7 +2153,6 @@ function renderStats(){
     ).length;
 
 }
-
 
 function populateSessions(){
 
@@ -2340,7 +2190,6 @@ function populateSessions(){
     sel.value=current;
 
 }
-
 
 function filteredPayments(){
 
@@ -2386,7 +2235,6 @@ function filteredPayments(){
   });
 
 }
-
 
 function renderPayments(){
 
@@ -2548,7 +2396,6 @@ function renderPayments(){
 
 }
 
-
 function renderSummary(){
 
   const map=new Map();
@@ -2667,7 +2514,6 @@ function renderSummary(){
 
 }
 
-
 function renderAll(){
 
   renderStats();
@@ -2677,7 +2523,6 @@ function renderAll(){
   renderFeeSchedules();
 
 }
-
 
 window.approvePayment=async id=>{
 
@@ -2723,7 +2568,6 @@ window.approvePayment=async id=>{
 
 };
 
-
 window.markUnpaid=async id=>{
 
   if(
@@ -2763,7 +2607,6 @@ window.markUnpaid=async id=>{
   }
 
 };
-
 
 window.editPayment=async id=>{
 
@@ -2838,7 +2681,6 @@ window.editPayment=async id=>{
 
 };
 
-
 window.deletePayment=async id=>{
 
   if(
@@ -2873,7 +2715,6 @@ window.deletePayment=async id=>{
   }
 
 };
-
 
 function subscribe(){
 
@@ -2925,7 +2766,6 @@ function subscribe(){
 
 }
 
-
 $('search').addEventListener(
   'input',
   renderPayments
@@ -2940,7 +2780,6 @@ $('filterSession').addEventListener(
   'change',
   renderPayments
 );
-
 
 async function init(user){
 
@@ -2966,7 +2805,6 @@ async function init(user){
   }
 
 }
-
 
 init(auth.currentUser);
 
