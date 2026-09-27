@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Academic Calendar | GCHST Admin</title>
+<title>Academic Calendar | X.Y.Z-CHST Admin</title>
 <style>
 :root{--bg:#f3f8f5;--card:#fff;--text:#15352b;--muted:#668078;--line:#dce9e3;--brand:#087443;--brand2:#075c45;--soft:#e7f4ee;--danger:#b42318;}
 *{box-sizing:border-box} body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
@@ -20,7 +20,6 @@ table{width:100%;border-collapse:collapse;background:#fff} th,td{padding:9px;bor
 .stat{font-size:28px;font-weight:800;color:var(--brand)} .badge{display:inline-block;padding:4px 8px;border-radius:999px;background:var(--soft);color:var(--brand2);font-size:11px;font-weight:700}
 .toast{position:fixed;right:15px;bottom:15px;background:#15352b;color:#fff;padding:12px 15px;border-radius:10px;display:none;z-index:30}
 @media(max-width:650px){.fields{grid-template-columns:1fr} .head{align-items:flex-start;flex-direction:column}}
-
 
 .school-header{
   background:#fff;
@@ -92,8 +91,8 @@ table{width:100%;border-collapse:collapse;background:#fff} th,td{padding:9px;bor
   .school-name span{font-size:10px}
   .school-back{padding:8px 9px;font-size:10px}
 }
-
 </style>
+
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import {getFirestore,collection,addDoc,doc,setDoc,updateDoc,deleteDoc,onSnapshot,getDocs,query,orderBy,limit} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
@@ -108,38 +107,210 @@ const firebaseConfig = {
   appId: "1:942770190211:web:aa9a085a38aaa517b368b6"
 };
 
-const app=initializeApp(firebaseConfig); const db=getFirestore(app); const auth=getAuth(app);
-window.GG={app,db,auth,collection,addDoc,doc,setDoc,updateDoc,deleteDoc,onSnapshot,getDocs,query,orderBy,limit};
-window.toast=(m)=>{const e=document.getElementById('toast');if(!e)return;e.textContent=m;e.style.display='block';setTimeout(()=>e.style.display='none',2600)};
-window.esc=(s='')=>String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+const app=initializeApp(firebaseConfig); 
+const db=getFirestore(app); 
+const auth=getAuth(app);
+
+window.GG={
+  app,db,auth,collection,addDoc,doc,setDoc,updateDoc,deleteDoc,onSnapshot,getDocs,query,orderBy,limit
+};
+
+window.toast=(m)=>{
+  const e=document.getElementById('toast');
+  if(!e)return;
+  e.textContent=m;
+  e.style.display='block';
+  setTimeout(()=>e.style.display='none',2600)
+};
+
+window.esc=(s='')=>String(s).replace(/[&<>"']/g,m=>({
+  '&':'&amp;',
+  '<':'&lt;',
+  '>':'&gt;',
+  '"':'&quot;',
+  "'":'&#039;'
+}[m]));
 </script>
-</head><body>
+</head>
+
+<body>
+
 <header class="school-header">
   <div class="school-header-inner">
+
     <div class="school-logo">
       <img src="logo.png"
-           alt="Gusau College of Health Sciences & Technology logo"
-           onerror="this.style.display='none';this.parentElement.textContent='G';">
+           alt="X.Y.Z College of Health Sciences & Technology logo"
+           onerror="this.style.display='none';this.parentElement.textContent='X';">
     </div>
+
     <div class="school-name">
-      Gusau College of Health Sciences &amp; Technology
-      <span>Gusau, Zamfara State</span>
+      X.Y.Z College of Health Sciences &amp; Technology
+      <span>L.G , Zamfara State</span>
     </div>
+
     <a class="school-back" href="admin.html">Back to Admin</a>
+
   </div>
 </header>
+
 <main>
-<section class="hero"><h2>7. Academic Calendar</h2><p class="muted">Manage academic dates and events used to communicate sessions, registration, examinations and institutional deadlines.</p></section>
-<form id="f"><div class="fields">
-<div><label>Event title *</label><input id="title" required></div><div><label>Event type</label><select id="type"><option>Academic Session</option><option>Registration</option><option>Lecture</option><option>Examination</option><option>Holiday</option><option>Admission</option><option>Deadline</option><option>Other</option></select></div>
-<div><label>Start</label><input id="start" type="datetime-local"></div><div><label>End</label><input id="end" type="datetime-local"></div>
-<div><label>Session</label><input id="session"></div><div><label>Semester</label><input id="semester"></div><div class="full"><label>Description</label><textarea id="description"></textarea></div>
-</div><div class="actions"><button>Save Calendar Event</button></div></form>
-<div class="tablewrap"><table><thead><tr><th>Event</th><th>Type</th><th>Start</th><th>End</th><th>Session</th><th>Action</th></tr></thead><tbody id="rows"></tbody></table></div>
+
+<section class="hero">
+  <h2>7. Academic Calendar</h2>
+  <p class="muted">
+    Manage academic dates and events used to communicate sessions,
+    registration, examinations and institutional deadlines.
+  </p>
+</section>
+
+<form id="f">
+
+<div class="fields">
+
+<div>
+<label>Event title *</label>
+<input id="title" required>
+</div>
+
+<div>
+<label>Event type</label>
+<select id="type">
+<option>Academic Session</option>
+<option>Registration</option>
+<option>Lecture</option>
+<option>Examination</option>
+<option>Holiday</option>
+<option>Admission</option>
+<option>Deadline</option>
+<option>Other</option>
+</select>
+</div>
+
+<div>
+<label>Start</label>
+<input id="start" type="datetime-local">
+</div>
+
+<div>
+<label>End</label>
+<input id="end" type="datetime-local">
+</div>
+
+<div>
+<label>Session</label>
+<input id="session">
+</div>
+
+<div>
+<label>Semester</label>
+<input id="semester">
+</div>
+
+<div class="full">
+<label>Description</label>
+<textarea id="description"></textarea>
+</div>
+
+</div>
+
+<div class="actions">
+<button>Save Calendar Event</button>
+</div>
+
+</form>
+
+<div class="tablewrap">
+
+<table>
+
+<thead>
+<tr>
+<th>Event</th>
+<th>Type</th>
+<th>Start</th>
+<th>End</th>
+<th>Session</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="rows"></tbody>
+
+</table>
+
+</div>
+
 <script type="module">
-const {db,collection,addDoc,deleteDoc,doc,onSnapshot}=window.GG;f.onsubmit=async e=>{e.preventDefault();await addDoc(collection(db,'academicCalendar'),{title:title.value,type:type.value,start:start.value,end:end.value,session:session.value,semester:semester.value,description:description.value,createdAt:new Date().toISOString()});f.reset();toast('Calendar event saved')};
-onSnapshot(collection(db,'academicCalendar'),s=>{rows.innerHTML='';s.forEach(x=>{const d=x.data();rows.innerHTML+=`<tr><td>${esc(d.title)}</td><td>${esc(d.type)}</td><td>${esc(d.start)}</td><td>${esc(d.end)}</td><td>${esc(d.session)}</td><td><button class="danger" onclick="del('${x.id}')">Delete</button></td></tr>`})});
-window.del=async id=>{if(confirm('Delete event?'))await deleteDoc(doc(db,'academicCalendar',id))};
+
+const {
+  db,
+  collection,
+  addDoc,
+  deleteDoc,
+  doc,
+  onSnapshot
+}=window.GG;
+
+f.onsubmit=async e=>{
+  e.preventDefault();
+
+  await addDoc(
+    collection(db,'academicCalendar'),
+    {
+      title:title.value,
+      type:type.value,
+      start:start.value,
+      end:end.value,
+      session:session.value,
+      semester:semester.value,
+      description:description.value,
+      createdAt:new Date().toISOString()
+    }
+  );
+
+  f.reset();
+  toast('Calendar event saved');
+};
+
+onSnapshot(
+  collection(db,'academicCalendar'),
+  s=>{
+    rows.innerHTML='';
+
+    s.forEach(x=>{
+      const d=x.data();
+
+      rows.innerHTML+=`
+        <tr>
+          <td>${esc(d.title)}</td>
+          <td>${esc(d.type)}</td>
+          <td>${esc(d.start)}</td>
+          <td>${esc(d.end)}</td>
+          <td>${esc(d.session)}</td>
+          <td>
+            <button class="danger" onclick="del('${x.id}')">
+              Delete
+            </button>
+          </td>
+        </tr>
+      `;
+    });
+  }
+);
+
+window.del=async id=>{
+  if(confirm('Delete event?'))
+    await deleteDoc(
+      doc(db,'academicCalendar',id)
+    );
+};
+
 </script>
-</main><div id="toast" class="toast"></div>
-</body></html>
+
+</main>
+
+<div id="toast" class="toast"></div>
+
+</body>
+</html>
