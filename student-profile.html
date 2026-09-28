@@ -309,7 +309,7 @@ a.file-link{color:var(--green);font-weight:800;text-decoration:none}
   <!-- STUDENT PROFILE -->
   <section class="card profile-card">
     <div class="avatar-wrap">
-      <img id="photo" class="avatar" alt="Student profile photo">
+      <img id="photo" class="avatar" src="photo1.jpeg" alt="Student profile photo">
     </div>
     <h2 id="studentName" class="student-name">Loading...</h2>
     <div id="identity" class="identity">Loading student record...</div>
@@ -335,9 +335,9 @@ a.file-link{color:var(--green);font-weight:800;text-decoration:none}
 
       <div class="stat-tile">
         <div class="stat-icon">▮▮▮</div>
-        <div class="stat-label">Current GPA</div>
+        <div class="stat-label">Current CPA</div>
         <div class="stat-value" id="gpa">—</div>
-        <div class="stat-help">Current semester GPA</div>
+        <div class="stat-help">Current Performance Average</div>
       </div>
 
       <div class="stat-tile">
@@ -1475,88 +1475,109 @@ async function loadData(){
   if(examTimeReached)applyExamPrintAccess();
 }
 const PRE_FILLED_STUDENT = {
-  id:"demo-student-001",
-  studentId:"XYZ/CHST/2025/001",
-  studentID:"XYZ/CHST/2025/001",
-  admissionNumber:"ADM/2025/001",
-  admissionNo:"ADM/2025/001",
-  registrationNumber:"ADM/2025/001",
-
-  fullName:"Aisha Ibrahim",
-  studentName:"Aisha Ibrahim",
-  name:"Aisha Ibrahim",
+  id:"demo-student-001", studentId:"XYZ/CHST/2025/001", studentID:"XYZ/CHST/2025/001",
+  admissionNumber:"ADM/2025/001", admissionNo:"ADM/2025/001", registrationNumber:"ADM/2025/001",
+  fullName:"Aisha Ibrahim", studentName:"Aisha Ibrahim", name:"Aisha Ibrahim",
   email:"aisha.ibrahim@example.com",
-
-  programmeId:"him",
-  programmeName:"Health Information Management",
-  programme:"Health Information Management",
-  courseOfStudy:"Health Information Management",
-
-  levelId:"200",
-  levelName:"Level 200",
-  level:"Level 200",
-  semester:"First",
-  academicSession:"2025/2026",
-  session:"2025/2026",
-
-  department:"Health Information Management",
-  faculty:"School of Health Information Management",
-
-  status:"Active",
-  accountStatus:"Active",
-  paymentStatus:"Paid",
-
-  phone:"08000000000",
-  dateOfBirth:"2005-05-15",
-  gender:"Female",
-  stateOfOrigin:"Kano",
-  lga:"Nassarawa",
-  address:"Kano State, Nigeria",
-  guardianName:"Ibrahim Musa",
-  guardianPhone:"08000000001",
-  notes:"Pre-filled student profile",
-
-  photo:"",
-  profilePhoto:"",
-  photoURL:""
+  programmeId:"him", programmeName:"Health Information Management", programme:"Health Information Management", courseOfStudy:"Health Information Management",
+  levelId:"200", levelName:"Level 200", level:"Level 200", semester:"First", academicSession:"2025/2026", session:"2025/2026",
+  department:"Health Information Management", faculty:"School of Health & Technology",
+  status:"Active", accountStatus:"Active", paymentStatus:"Paid",
+  cgpa:3.72, gpa:3.84, cpa:3.84, attendanceRate:94,
+  phone:"08000000000", dateOfBirth:"2005-05-15", gender:"Female", stateOfOrigin:"Kano", lga:"Nassarawa",
+  address:"Kano State, Nigeria", guardianName:"Ibrahim Musa", guardianPhone:"08000000001",
+  notes:"Pre-filled demonstration student profile",
+  photo:"photo1.jpeg", profilePhoto:"photo1.jpeg", photoURL:"photo1.jpeg"
 };
+
+const DEMO_COURSES=[
+{id:"him211",courseCode:"HIM 211",courseTitle:"Health Information Systems I",courseUnit:3},
+{id:"him212",courseCode:"HIM 212",courseTitle:"Medical Terminology",courseUnit:3},
+{id:"him213",courseCode:"HIM 213",courseTitle:"Health Records Management I",courseUnit:3},
+{id:"him214",courseCode:"HIM 214",courseTitle:"Anatomy and Physiology II",courseUnit:3},
+{id:"him215",courseCode:"HIM 215",courseTitle:"Health Statistics",courseUnit:3},
+{id:"him216",courseCode:"HIM 216",courseTitle:"Computer Applications in Health",courseUnit:2},
+{id:"him217",courseCode:"HIM 217",courseTitle:"Health Information Management Practice I",courseUnit:3}
+];
+const DEMO_RESULTS=[
+{courseCode:"HIM 211",courseName:"Health Information Systems I",ca:28,exam:62,total:90,grade:"A",point:4,unit:3},
+{courseCode:"HIM 212",courseName:"Medical Terminology",ca:25,exam:61,total:86,grade:"A",point:4,unit:3},
+{courseCode:"HIM 213",courseName:"Health Records Management I",ca:24,exam:55,total:79,grade:"B",point:3,unit:3},
+{courseCode:"HIM 214",courseName:"Anatomy and Physiology II",ca:22,exam:53,total:75,grade:"B",point:3,unit:3},
+{courseCode:"HIM 215",courseName:"Health Statistics",ca:23,exam:58,total:81,grade:"A",point:4,unit:3},
+{courseCode:"HIM 216",courseName:"Computer Applications in Health",ca:24,exam:54,total:78,grade:"B",point:3,unit:2},
+{courseCode:"HIM 217",courseName:"Health Information Management Practice I",ca:27,exam:59,total:86,grade:"A",point:4,unit:3}
+];
+const DEMO_ATTENDANCE=[
+{courseCode:"HIM 211",classes:20,status:"Present"},{courseCode:"HIM 211",classes:20,status:"Present"},{courseCode:"HIM 211",classes:20,status:"Present"},{courseCode:"HIM 211",classes:20,status:"Present"},
+{courseCode:"HIM 212",classes:18,status:"Present"},{courseCode:"HIM 212",classes:18,status:"Present"},{courseCode:"HIM 212",classes:18,status:"Present"},{courseCode:"HIM 212",classes:18,status:"Absent"},
+{courseCode:"HIM 213",classes:22,status:"Present"},{courseCode:"HIM 213",classes:22,status:"Present"},{courseCode:"HIM 213",classes:22,status:"Present"},{courseCode:"HIM 213",classes:22,status:"Present"},
+{courseCode:"HIM 214",classes:19,status:"Present"},{courseCode:"HIM 214",classes:19,status:"Present"},{courseCode:"HIM 214",classes:19,status:"Present"},{courseCode:"HIM 214",classes:19,status:"Absent"},
+{courseCode:"HIM 215",classes:21,status:"Present"},{courseCode:"HIM 215",classes:21,status:"Present"},{courseCode:"HIM 215",classes:21,status:"Present"},
+{courseCode:"HIM 216",classes:16,status:"Present"},{courseCode:"HIM 216",classes:16,status:"Present"},{courseCode:"HIM 216",classes:16,status:"Present"},
+{courseCode:"HIM 217",classes:20,status:"Present"},{courseCode:"HIM 217",classes:20,status:"Present"},{courseCode:"HIM 217",classes:20,status:"Present"}
+];
+const DEMO_TIMETABLE=[
+{day:"Monday",startTime:"8:00 AM",endTime:"10:00 AM",courseCode:"HIM 211",venue:"HIM Lecture Hall 1"},
+{day:"Monday",startTime:"10:00 AM",endTime:"12:00 PM",courseCode:"HIM 212",venue:"Room B12"},
+{day:"Tuesday",startTime:"8:00 AM",endTime:"10:00 AM",courseCode:"HIM 213",venue:"HIM Lecture Hall 2"},
+{day:"Wednesday",startTime:"10:00 AM",endTime:"12:00 PM",courseCode:"HIM 214",venue:"Science Block 3"},
+{day:"Thursday",startTime:"8:00 AM",endTime:"10:00 AM",courseCode:"HIM 215",venue:"ICT Laboratory"},
+{day:"Friday",startTime:"9:00 AM",endTime:"11:00 AM",courseCode:"HIM 216",venue:"Computer Laboratory"}
+];
+const DEMO_EXAMS=[
+{date:"12 June 2026",startTime:"9:00 AM",endTime:"12:00 PM",courseCode:"HIM 211",courseTitle:"Health Information Systems I",venue:"Hall A",examinationName:"First Semester Examination"},
+{date:"15 June 2026",startTime:"9:00 AM",endTime:"12:00 PM",courseCode:"HIM 212",courseTitle:"Medical Terminology",venue:"Hall A",examinationName:"First Semester Examination"},
+{date:"17 June 2026",startTime:"1:00 PM",endTime:"4:00 PM",courseCode:"HIM 213",courseTitle:"Health Records Management I",venue:"Hall B",examinationName:"First Semester Examination"},
+{date:"19 June 2026",startTime:"9:00 AM",endTime:"12:00 PM",courseCode:"HIM 214",courseTitle:"Anatomy and Physiology II",venue:"Hall B",examinationName:"First Semester Examination"},
+{date:"22 June 2026",startTime:"9:00 AM",endTime:"12:00 PM",courseCode:"HIM 215",courseTitle:"Health Statistics",venue:"ICT Hall",examinationName:"First Semester Examination"},
+{date:"24 June 2026",startTime:"1:00 PM",endTime:"4:00 PM",courseCode:"HIM 216",courseTitle:"Computer Applications in Health",venue:"Computer Lab",examinationName:"First Semester Examination"},
+{date:"26 June 2026",startTime:"9:00 AM",endTime:"12:00 PM",courseCode:"HIM 217",courseTitle:"Health Information Management Practice I",venue:"Hall A",examinationName:"First Semester Examination"}
+];
+const DEMO_ANNOUNCEMENTS=[
+{title:"First Semester Examination Notice",message:"Students are advised to complete all academic requirements and check the examination timetable before the examination period.",date:"02 June 2026"},
+{title:"School Fees Payment Reminder",message:"All students should ensure their school fees are fully paid before the examination period.",date:"30 May 2026"},
+{title:"HIM Department Notice",message:"The Health Information Management Department has released the current Level 200 academic information.",date:"25 May 2026"},
+{title:"Student Portal Update",message:"Students can review their profile, registered courses, results, attendance and announcements from this portal.",date:"20 May 2026"}
+];
+const DEMO_NOTES=[
+{title:"Health Information Systems I — Lecture Note",courseCode:"HIM 211",description:"Introduction to health information systems, components, users and applications.",date:"May 2026"},
+{title:"Medical Terminology — Lecture Note",courseCode:"HIM 212",description:"Common medical terms, prefixes, suffixes, roots and clinical terminology.",date:"May 2026"},
+{title:"Health Records Management I — Lecture Note",courseCode:"HIM 213",description:"Principles of health records creation, storage, retrieval and management.",date:"May 2026"},
+{title:"Health Statistics — Lecture Note",courseCode:"HIM 215",description:"Basic statistical concepts used in health information management.",date:"May 2026"}
+];
+const DEMO_ASSIGNMENTS=[
+{title:"Health Information Systems Assignment",courseCode:"HIM 211",dueDate:"05 June 2026",status:"Submitted"},
+{title:"Medical Terminology Exercise",courseCode:"HIM 212",dueDate:"07 June 2026",status:"Submitted"},
+{title:"Health Statistics Practical",courseCode:"HIM 215",dueDate:"10 June 2026",status:"Pending"},
+{title:"Computer Applications Practical",courseCode:"HIM 216",dueDate:"11 June 2026",status:"Submitted"}
+];
+const DEMO_PAYMENTS=[{academicSession:"2025/2026",total:180000,paid:180000,balance:0,paymentStatus:"Paid"}];
 
 async function startPreFilledStudent(){
   student={...PRE_FILLED_STUDENT};
+  assignedCourses=[...DEMO_COURSES];
+  allResults=[...DEMO_RESULTS];
+  attendanceRecords=[...DEMO_ATTENDANCE];
 
-  // Render the profile FIRST. This prevents the page from remaining
-  // stuck on "Loading student record..." when Firebase Auth is absent.
-  try{
-    await renderProfile();
-  }catch(err){
-    console.error("Profile rendering error:",err);
-    showMessage("Could not render the pre-filled student profile.","error");
-  }
+  await renderProfile();
+  renderCourses();
+  renderResults();
+  renderAttendance();
+  renderCarryovers();
+  renderTimetable(DEMO_TIMETABLE);
+  renderExams(DEMO_EXAMS);
+  renderList("notes",DEMO_NOTES,"notes");
+  renderList("assignments",DEMO_ASSIGNMENTS,"assignments");
+  renderList("announcements",DEMO_ANNOUNCEMENTS,"announcements");
+  renderAttendanceDetail(attendanceRecords);
+  renderFees(DEMO_PAYMENTS);
+  examFeesPaid=true;
+  renderExamStudent();
+  renderExamSlip(DEMO_EXAMS);
+  startSemesterCountdown(new Date("2026-06-30T23:59:59"));
 
-  // Load optional Firestore data (courses, results, attendance, etc.).
-  // The main profile remains visible even if these reads fail.
-  try{
-    await loadData();
-  }catch(err){
-    console.warn("Optional Firestore data could not be loaded:",err);
-    renderCourses();
-    renderResults();
-    renderAttendance();
-    renderCarryovers();
-    renderExams([]);
-    renderList("notes",[],"notes");
-    renderList("assignments",[],"assignments");
-    renderList("announcements",[],"announcements");
-    renderAttendanceDetail([]);
-    renderFees([]);
-    examFeesPaid=false;
-    renderExamStudent();
-    renderExamSlip([]);
-  }
-
-  $("logout").onclick=()=>{
-    window.location.href="login_portal_selection.html";
-  };
+  $("logout").onclick=()=>{window.location.href="login_portal_selection.html";};
 }
 
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("detailsModal").classList.contains("show"))closeDetails();});
