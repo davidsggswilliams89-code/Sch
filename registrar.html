@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Registrar Portal | GGCHST SMS</title>
+<style>
+:root{
+  --bg:#f3f8f4;--card:#fff;--text:#173024;--muted:#617268;--line:#dfe9e2;
+  --brand:#16834b;--brand-dark:#0d6337;--brand-light:#e8f6ee;--gold:#c9a227;
+  --good:#087443;--warn:#a66a00;--danger:#b42318;--side:#0d3b24;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit}
+.app{display:flex;min-height:100vh}
+.sidebar{display:none;width:245px;background:var(--side);color:#fff;position:fixed;inset:0 auto 0 0;overflow:auto;padding:20px 14px;z-index:40}
+.logo{display:flex;align-items:center;gap:11px;padding:4px 8px 20px;border-bottom:1px solid #ffffff20}
+.logo-icon{width:42px;height:42px;border-radius:12px;background:var(--brand);display:grid;place-items:center;font-weight:900;font-size:21px;border:2px solid #ffffff30}
+.logo b{display:block;font-size:15px}.logo small{color:#c8d9cf;font-size:10px}
+.menu-title{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#9fc1ae;font-weight:800;margin:20px 8px 8px}
+.menu button{width:100%;display:flex;align-items:center;gap:10px;border:0;background:transparent;color:#dcece3;padding:11px 10px;border-radius:9px;text-align:left;cursor:pointer;font-size:12px;font-weight:750;margin:2px 0}
+.menu button:hover,.menu button.active{background:#ffffff14;color:#fff}
+.menu button.active{box-shadow:inset 3px 0 var(--gold)}
+.icon{width:22px;text-align:center;font-size:15px}
+.main{margin-left:0;width:100%;padding:0 22px 45px}
+.topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:0 -28px 22px;padding:14px 28px;background:#fffffff5;border-bottom:1px solid var(--line);box-shadow:0 2px 8px #1018280a}
+.titleblock{flex:1;min-width:240px}.titleblock h1{margin:0 0 3px;font-size:20px}.titleblock p{margin:0;color:var(--muted);font-size:11px}
+.top-actions{display:flex;align-items:center;gap:8px}
+.badge{display:inline-block;background:var(--brand-light);color:var(--brand-dark);border:1px solid #b7e4c8;padding:7px 10px;border-radius:999px;font-size:11px;font-weight:800}
+.logout{border:1px solid var(--line);background:#138A4A;padding:8px 12px;border-radius:8px;cursor:pointer}
+.view{display:none}.view.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.card,.panel{background:#fff;border:1px solid var(--line);border-radius:13px;box-shadow:0 1px 2px #1018280d}
+.card{padding:18px}.stat{font-size:29px;font-weight:850;margin-top:7px}.small,.mini{color:var(--muted)}.small{font-size:13px}.mini{font-size:11px}
+.section{margin-top:20px}.section-title{font-size:18px;margin:0 0 12px}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.quick button,.btn{border:0;background:var(--brand);color:#fff;padding:9px 13px;border-radius:8px;cursor:pointer;font-weight:700}
+.quick button:hover,.btn:hover{background:var(--brand-dark)}
+.panel{padding:18px}.toolbar{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-bottom:14px}
+.toolbar input,.toolbar select,.field input,.field select,.field textarea{border:1px solid #cddbd2;border-radius:8px;padding:9px 10px;background:#fff}
+.toolbar input{min-width:220px}.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{border:1px solid #cddbd2;background:#fff;padding:8px 11px;border-radius:8px;cursor:pointer;font-weight:700;font-size:12px}
+.tab.active{background:var(--brand-light);border-color:#b7e4c8;color:var(--brand-dark)}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px}
+table{width:100%;border-collapse:collapse;min-width:850px}
+th,td{padding:11px 12px;border-bottom:1px solid var(--line);text-align:left;font-size:12px}
+th{background:#f4f8f5;color:#506257;font-size:10px;text-transform:uppercase;letter-spacing:.4px}
+tr:last-child td{border-bottom:0}
+.status{display:inline-block;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:800}
+.approved,.active-status,.verified,.eligible{background:#e8f6ee;color:#087443}
+.pending,.review,.warning{background:#fff8df;color:#956300}
+.rejected,.inactive,.expired{background:#fef3f2;color:#b42318}
+.info{background:#eaf7ef;border:1px solid #b7dfc7;border-radius:9px;color:#145c36;padding:12px 14px;font-size:12px;margin-bottom:14px}
+.notice{background:#fffaf0;border:1px solid #ead89c;border-radius:9px;color:#765700;padding:12px 14px;font-size:12px}
+.action{border:1px solid #cddbd2;background:#fff;padding:6px 9px;border-radius:7px;cursor:pointer;margin-right:4px;font-size:11px}
+.action:hover{background:#f3f8f4}.approve{border-color:#b7e4c8;color:#087443}.reject{border-color:#fecdca;color:#b42318}
+.form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.field label{display:block;font-size:11px;font-weight:750;margin-bottom:5px}.field input,.field select,.field textarea{width:100%}
+.empty{text-align:center;padding:25px;color:var(--muted)}
+.profile{display:flex;gap:9px;align-items:center}.avatar{width:37px;height:37px;border-radius:50%;display:grid;place-items:center;background:#dff1e6;color:#145c36;font-weight:850}
+.progress{height:8px;background:#edf2ee;border-radius:99px;overflow:hidden}.progress span{display:block;height:100%;background:var(--brand)}
+.kpi-note{font-size:10px;color:var(--muted);margin-top:6px}
+.settings-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.check{display:flex;align-items:center;gap:9px;padding:10px 0;font-size:12px}.check input{accent-color:var(--brand)}
+.modal{position:fixed;inset:0;background:#0d3b2480;display:none;place-items:center;z-index:60;padding:18px}.modal.show{display:grid}.modalbox{background:#fff;border-radius:13px;max-width:720px;width:100%;padding:20px;max-height:90vh;overflow:auto}
+.close{border:0;background:#f2f4f7;border-radius:50%;width:32px;height:32px;cursor:pointer}
+.footer{margin-top:25px;color:var(--muted);font-size:10px;text-align:center}
+@media(max-width:1050px){.sidebar{width:205px}.main{margin-left:205px;width:calc(100% - 205px)}.grid{grid-template-columns:repeat(2,1fr)}.quick{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){.sidebar{position:relative;width:100%;height:auto;max-height:none}.app{display:block}.main{margin-left:0;width:100%;padding:0 14px 30px}.topbar{margin:0 -14px 18px;padding:12px 14px}.grid,.quick,.form-grid,.settings-grid{grid-template-columns:1fr}.menu{display:grid;grid-template-columns:1fr 1fr}.menu-title{grid-column:1/-1}.titleblock h1{font-size:18px}.top-actions .badge{display:none}}
+
+.gusau-header{background:#fff;border-bottom:1px solid var(--line);box-shadow:0 2px 10px #10182812;position:sticky;top:0;z-index:50}
+.gusau-top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:11px 22px;background:#fff}
+.gusau-brand{display:flex;align-items:center;gap:11px;min-width:0}.gusau-brand img{width:46px;height:46px;object-fit:contain;border-radius:10px;flex:0 0 46px}.gusau-brand b{display:block;font-size:15px;color:var(--side)}.gusau-brand small{display:block;font-size:10px;color:var(--muted);margin-top:2px}.gusau-action{display:flex;align-items:center;gap:8px}.gusau-portal{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:10px 22px;background:#0d6337;color:#fff}.gusau-portal strong{display:block;font-size:16px}.gusau-portal small{display:block;color:#d7eee1;font-size:10px;margin-top:2px}.gusau-school{font-size:10px;font-weight:700;color:#d7eee1}.gusau-nav{display:flex;gap:5px;overflow-x:auto;padding:8px 16px;background:#0d3b24}.gusau-nav a{color:#dcece3;text-decoration:none;white-space:nowrap;padding:8px 10px;border-radius:7px;font-size:11px;font-weight:750}.gusau-nav a:hover,.gusau-nav a.active{background:#ffffff18;color:#fff;box-shadow:inset 0 -2px var(--gold)}
+@media(max-width:700px){.gusau-top{padding:9px 12px}.gusau-brand img{width:40px;height:40px;flex-basis:40px}.gusau-brand b{font-size:12px}.gusau-brand small{font-size:8px}.gusau-action .badge{font-size:9px;padding:6px 7px}.gusau-action .logout{font-size:9px;padding:7px 8px}.gusau-portal{padding:9px 12px}.gusau-portal strong{font-size:13px}.gusau-portal small,.gusau-school{font-size:8px}.gusau-nav{padding:7px 10px}.gusau-nav a{font-size:9px;padding:7px 8px}.main{padding:0 11px 35px}}
+</style>
+
+<style id="complete-registrar-css">
+.detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}.detail-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px}.detail-card h3{margin:0 0 10px;font-size:14px}.detail-card h4{margin:13px 0 7px;font-size:11px;text-transform:uppercase;color:var(--muted);letter-spacing:.4px}.detail-list{display:grid;gap:7px}.detail-row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px dashed var(--line);font-size:11px}.detail-row:last-child{border-bottom:0}.detail-row b{font-weight:800}.full{grid-column:1/-1}.checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.checkitem{padding:8px;border:1px solid var(--line);border-radius:8px;font-size:11px;background:#fbfdfb}.checkitem input{accent-color:var(--brand);margin-right:6px}.workflow{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.step{padding:7px 9px;border-radius:8px;background:#f2f6f3;font-size:10px;font-weight:800}.step.done{background:#e8f6ee;color:#087443}.danger-btn{border:1px solid #fecdca;background:#fff5f4;color:#b42318;padding:7px 10px;border-radius:8px;cursor:pointer}.muted-btn{border:1px solid var(--line);background:#fff;padding:7px 10px;border-radius:8px;cursor:pointer}.detail-card .btn{font-size:11px}.mini-table{width:100%;min-width:0}.mini-table th,.mini-table td{font-size:10px;padding:8px}.metric-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-top:12px}.metric{border:1px solid var(--line);border-radius:10px;padding:10px;background:#fbfdfb}.metric b{font-size:19px;display:block}.metric span{font-size:9px;color:var(--muted)}
+@media(max-width:900px){.detail-grid{grid-template-columns:1fr 1fr}.metric-strip{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.detail-grid{grid-template-columns:1fr}.full{grid-column:auto}.checklist{grid-template-columns:1fr}}
+</style>
+
+<style>
+.tm-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:14px}.tm-toolbar .field{min-width:145px;flex:1}.tm-toolbar .field label{display:block}.tm-actions{display:flex;gap:6px;flex-wrap:wrap}.tm-pill{display:inline-flex;padding:5px 9px;border-radius:999px;background:var(--brand-light);color:var(--brand-dark);font-size:12px;font-weight:700}.tm-conflict{background:#fff0f0!important}.tm-ok{background:#eefaf2!important}.tm-grid{display:grid;grid-template-columns:repeat(7,minmax(125px,1fr));gap:8px;overflow:auto}.tm-day{min-width:125px;background:#f7faf8;border:1px solid #dfe9e3;border-radius:10px;padding:8px}.tm-day h4{margin:0 0 8px;color:var(--brand-dark);font-size:13px}.tm-slot{background:white;border-left:4px solid var(--brand);border-radius:8px;padding:8px;margin-bottom:8px;box-shadow:0 2px 8px #0000000b}.tm-slot strong{display:block;font-size:13px}.tm-slot small{display:block;color:#68756e;margin-top:3px}.tm-slot.conflict{border-left-color:#c0392b;background:#fff4f4}.tm-status{font-size:11px;font-weight:800;text-transform:uppercase}.tm-legend{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.tm-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px}.tm-kpi{padding:13px;border:1px solid #e2ebe5;border-radius:10px;background:#fff}.tm-kpi b{display:block;font-size:22px;color:var(--brand-dark)}.tm-kpi span{font-size:12px;color:#6b776f}@media(max-width:1000px){.tm-grid{grid-template-columns:repeat(3,minmax(170px,1fr));}.tm-kpis{grid-template-columns:repeat(3,1fr)}}@media(max-width:650px){.tm-grid{grid-template-columns:1fr}.tm-kpis{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+<style id="hod-topbar-format">
+.app{display:block;min-height:100vh}.main{width:100%;margin-left:0;padding:0 28px 45px}.topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:0 -28px 22px;padding:14px 28px;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);box-shadow:0 2px 8px #1018280a}.brand{display:flex;gap:10px;align-items:center;flex:0 0 auto}.brand-icon{width:40px;height:40px;border-radius:11px;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;font-size:20px}.brand-title{font-weight:800;font-size:17px;line-height:1}.brand small{color:var(--muted);font-size:10px}.nav{display:flex;align-items:center;justify-content:center;gap:6px;flex:1;min-width:0;overflow-x:auto;padding:2px}.nav-label{display:none}.nav a,.nav button{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;color:#475467;text-decoration:none;padding:9px 11px;border-radius:8px;font-size:12px;font-weight:700;border:1px solid transparent;background:transparent;cursor:pointer}.nav a:hover,.nav a.active,.nav button:hover,.nav button.active{background:var(--brand-light);color:var(--brand-dark);border-color:#bfe5cd}.topbar .titleblock{min-width:190px;flex:0 0 auto}.topbar h1{margin:0 0 3px;font-size:20px}.topbar p{margin:0;color:var(--muted);font-size:11px}.top-actions{display:flex;align-items:center;gap:6px;flex:0 0 auto}.top-actions .logout{margin-left:8px}.badge{display:inline-block;background:#e8f6ee;color:#087443;border:1px solid #b7e4c8;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:700}.logout{border:1px solid var(--line);background:#fff;padding:8px 12px;border-radius:8px;cursor:pointer}@media(max-width:1000px){.main{width:100%}}@media(max-width:720px){.main{padding:0 14px 30px}.topbar{margin:0 -14px 18px;padding:12px 14px;gap:10px}.nav{order:3;flex-basis:100%;justify-content:flex-start}.topbar .titleblock{order:4;flex:1 1 100%!important}.top-actions{order:2;margin-left:auto}.top-actions .badge{display:none}.nav a,.nav button{padding:8px 9px;font-size:11px}.topbar h1{font-size:18px}}
+</style>
+
+<style id="uniform-registrar-logo">
+.topbar .brand-logo{width:40px;height:40px;border-radius:11px;object-fit:contain;background:#fff;display:block}
+</style>
+
+<style id="registrar-course-css">
+.course-section{margin-top:24px}
+.course-box{background:#fff;border:1px solid #dce7e1;border-radius:18px;padding:24px;box-shadow:0 4px 14px rgba(18,64,45,.06)}
+.course-head{display:flex;align-items:center;gap:14px;margin-bottom:20px}.course-head-icon{width:46px;height:46px;border-radius:12px;background:#0d8b57;color:#fff;display:grid;place-items:center;font-size:23px}.course-head h2{margin:0 0 4px;color:#163c2c}.course-head p{margin:0;color:#66756f}
+.course-form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.course-field label{display:block;font-weight:700;color:#27483b;margin-bottom:7px;font-size:14px}.course-field input,.course-field select{width:100%;box-sizing:border-box;padding:12px 13px;border:1px solid #cfddd6;border-radius:9px;background:#fff;font:inherit;color:#243a32}.course-field select:disabled{background:#f3f6f4;color:#8a9791}
+.course-actions{display:flex;gap:10px;margin-top:18px}.course-btn{border:0;border-radius:9px;padding:11px 20px;font-weight:700;cursor:pointer}.course-btn.primary{background:#0d8b57;color:#fff}.course-btn.secondary{background:#eef4f1;color:#29463a}.course-btn:disabled{opacity:.6;cursor:not-allowed}
+.course-list{margin-top:22px;border-top:1px solid #e5ece8;padding-top:20px}.course-list-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.course-list-head h3{margin:0;color:#163c2c}.course-search{width:280px;max-width:100%;padding:10px 12px;border:1px solid #cfddd6;border-radius:9px;box-sizing:border-box}.course-table-wrap{overflow:auto;border:1px solid #e0e8e4;border-radius:10px}.course-table{width:100%;border-collapse:collapse;min-width:850px}.course-table th,.course-table td{padding:11px 10px;border-bottom:1px solid #e8eeeb;text-align:left;font-size:13px}.course-table th{background:#f3f7f5;color:#345347}.course-table tr:last-child td{border-bottom:0}.course-edit-btn,.course-delete-btn{border:0;border-radius:7px;padding:7px 10px;font-size:12px;font-weight:700;cursor:pointer}.course-edit-btn{background:#0d8b57;color:#fff}.course-delete-btn{background:#dc3545;color:#fff;margin-left:5px}.course-status{margin:14px 0 0;padding:10px 12px;border-radius:8px;background:#f4f8f6;color:#496058;font-size:13px}.course-status.error{background:#fff4e5;color:#8a5a00}
+.course-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:9999;align-items:center;justify-content:center;padding:18px}.course-modal.show{display:flex}.course-modal-box{width:min(760px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:15px;padding:22px}.course-modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.course-modal-head h3{margin:0;color:#163c2c}.course-modal-close{border:0;background:#eef4f1;border-radius:8px;padding:8px 11px;cursor:pointer}.course-modal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.course-modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
+@media(max-width:800px){.course-form-grid{grid-template-columns:1fr}.course-list-head{align-items:stretch;flex-direction:column}.course-search{width:100%}.course-modal-grid{grid-template-columns:1fr}.course-box{padding:18px}}
+</style>
+
+<style>
+.lecturer-manager{margin-top:18px;background:#fff;border:1px solid #d9e9e2;border-radius:16px;padding:20px;box-shadow:0 5px 18px #0f493a08}
+.lecturer-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:16px}.lecturer-head-left{display:flex;gap:12px;align-items:flex-start}.lecturer-icon{width:44px;height:44px;border-radius:12px;background:#e9f7f1;color:#087f5b;display:grid;place-items:center;font-size:21px;flex:0 0 44px}.lecturer-head h2{margin:0;color:#075c45;font-size:18px}.lecturer-head p{margin:4px 0 0;color:#668078;font-size:12px}.lecturer-count{font-size:11px;color:#668078;background:#e9f7f1;padding:7px 10px;border-radius:999px;white-space:nowrap}
+.lecturer-form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.lecturer-field label{display:block;font-weight:700;font-size:12px;margin-bottom:6px;color:#31534a}.lecturer-field input,.lecturer-field select{width:100%;padding:11px 12px;border:1px solid #d9e9e2;border-radius:9px;background:#fff;color:#12352d;outline:none}.lecturer-field input:focus,.lecturer-field select:focus{border-color:#087f5b;box-shadow:0 0 0 3px #087f5b12}.lecturer-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:16px}.lecturer-btn{border:0;border-radius:9px;padding:10px 15px;font-weight:750;cursor:pointer}.lecturer-btn.clear{background:#fff;border:1px solid #d9e9e2;color:#536a65}.lecturer-btn.save{background:#087f5b;color:#fff}.lecturer-btn.save:hover{background:#075c45}
+.lecturer-list{margin-top:22px;border-top:1px solid #e5eee9;padding-top:18px}.lecturer-tools{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:12px}.lecturer-tools input,.lecturer-tools select{padding:10px 11px;border:1px solid #d9e9e2;border-radius:9px;background:#fff;min-width:180px}.lecturer-tools input{flex:1;min-width:240px}.lecturer-table-wrap{overflow:auto;border:1px solid #dfeae5;border-radius:10px}.lecturer-table{width:100%;border-collapse:collapse;min-width:980px}.lecturer-table th{background:#f1f6f4;color:#526b64;text-align:left;font-size:11px;padding:11px 9px}.lecturer-table td{padding:10px 9px;border-top:1px solid #edf2ef;font-size:11px;vertical-align:middle}.lecturer-actions-cell{white-space:nowrap}.lt-view,.lt-edit,.lt-delete{border:0;border-radius:7px;padding:7px 9px;font-size:10px;font-weight:750;cursor:pointer;margin-right:4px}.lt-view{background:#edf5ff;color:#1d5d93}.lt-edit{background:#e9f7f1;color:#087f5b}.lt-delete{background:#fff0ef;color:#a61b16}.lt-status{display:inline-block;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:700}.lt-active{background:#e7f7ee;color:#087f5b}.lt-inactive{background:#f2f2f2;color:#6b7471}.lt-avatar{width:30px;height:30px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:7px}.lt-placeholder{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#e9f7f1;color:#087f5b;font-weight:800;margin-right:7px;vertical-align:middle}.lecturer-empty{padding:28px;text-align:center;color:#758782;font-size:12px}.lecturer-modal{position:fixed;inset:0;background:#05251e66;display:none;align-items:center;justify-content:center;padding:18px;z-index:5000}.lecturer-modal.show{display:flex}.lecturer-modal-box{width:min(720px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:15px;padding:20px;box-shadow:0 20px 60px #05251e40}.lecturer-modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.lecturer-modal-head h3{margin:0;color:#075c45}.lecturer-close{border:0;background:#f0f5f3;width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:18px}.lecturer-detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.lecturer-detail{border:1px solid #dfe9e4;border-radius:9px;padding:10px}.lecturer-detail small{display:block;color:#668078;margin-bottom:4px}.lecturer-detail b{font-size:12px}
+@media(max-width:800px){.lecturer-form-grid{grid-template-columns:1fr 1fr}}@media(max-width:550px){.lecturer-form-grid,.lecturer-detail-grid{grid-template-columns:1fr}.lecturer-head{flex-direction:column}.lecturer-tools input{min-width:100%}}
+</style></head>
+<body>
+<div class="app">
+
+
+<main class="main">
+<header class="gusau-header">
+  <div class="gusau-top">
+    <div class="gusau-brand">
+      <img src="logo.png" alt="Gusau College of Health Sciences & Technology">
+      <div><b>GGCHST SMS</b><small>Gusau College of Health Sciences & Technology</small></div>
+    </div>
+    <div class="gusau-action"><span class="badge">REGISTRAR</span><button class="logout" id="logoutBtn">Back to Portal</button></div>
+  </div>
+  <div class="gusau-portal"><div><strong>Registrar Portal</strong><small>Student records, admissions, academics, registry and compliance</small></div><div class="gusau-school">Gusau, Zamfara State</div></div>
+  <nav class="gusau-nav" id="menu">
+    <a class="active" href="#" data-view="dashboard">▦ Dashboard</a>
+    <a href="#" data-view="admissions">🎓 Admissions</a>
+    <a href="#" data-view="students">👥 Students</a>
+    <a href="#" data-view="academics">📚 Academics</a>
+    <a href="#" data-view="graduation">🏅 Graduation</a>
+    <a href="#" data-view="staff">👨‍🏫 Staff</a>
+    <a href="#" data-view="registry">📁 Registry</a>
+    <a href="#" data-view="accreditation">✓ Accreditation</a>
+    <a href="#" data-view="reports">▧ Reports</a>
+    <a href="#" data-view="audit">⌕ Audit Log</a>
+    <a href="#" data-view="settings">⚙ Settings</a>
+    <a href="#" data-view="timetable">🗓 Timetable</a>
+  </nav>
+</header>
+
+<section id="timetable" class="view">
+  <div class="section detail-grid">
+    <div class="detail-card full">
+      <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
+        <div><h3 style="margin-bottom:4px">Timetable Management</h3><div class="small">Institution-wide timetable planning, conflict detection, approval and publication.</div></div>
+        <div class="tm-actions"><button class="btn" id="tmAdd">+ Add Timetable Entry</button><button class="muted-btn" id="tmPrint">Print Timetable</button><button class="muted-btn" id="tmPublish">Publish Current Timetable</button></div>
+      </div>
+      <div class="tm-kpis" style="margin-top:15px">
+        <div class="tm-kpi"><b id="tmTotal">0</b><span>Total entries</span></div><div class="tm-kpi"><b id="tmDraft">0</b><span>Draft</span></div><div class="tm-kpi"><b id="tmReview">0</b><span>Under review</span></div><div class="tm-kpi"><b id="tmApproved">0</b><span>Approved</span></div><div class="tm-kpi"><b id="tmConflicts">0</b><span>Conflicts</span></div>
+      </div>
+      <div class="notice"><b>Workflow:</b> HOD/Timetable Officer prepares → conflict check → Registrar reviews → Approve → Publish. Published timetables are visible to students and staff.</div>
+      <br>
+      <div class="tm-toolbar">
+        <div class="field"><label>Session</label><select id="tmSession"></select></div>
+        <div class="field"><label>Semester</label><select id="tmSemester"><option>First</option><option>Second</option></select></div>
+        <div class="field"><label>Programme</label><select id="tmProgramme"><option value="">All programmes</option></select></div>
+        <div class="field"><label>Level</label><select id="tmLevel"><option value="">All levels</option><option>100</option><option>200</option><option>300</option></select></div>
+        <div class="field"><label>Day</label><select id="tmDay"><option value="">All days</option><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option></select></div>
+        <div class="field"><label>Room</label><select id="tmRoom"><option value="">All rooms</option></select></div>
+        <div class="field"><label>Status</label><select id="tmStatus"><option value="">All statuses</option><option>Draft</option><option>Under Review</option><option>Approved</option><option>Published</option></select></div>
+      </div>
+      <div class="tm-legend"><span class="tm-pill">✓ No conflict</span><span class="tm-pill">⚠ Conflict detected</span><span class="tm-pill">Registrar approval required</span></div>
+      <div class="table-wrap"><table class="mini-table"><thead><tr><th>Day</th><th>Time</th><th>Course</th><th>Programme</th><th>Level</th><th>Lecturer</th><th>Venue</th><th>Type</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tmRows"></tbody></table></div>
+    </div>
+    <div class="detail-card full"><h3>Weekly Timetable View</h3><div id="tmWeek" class="tm-grid"></div></div>
+    <div class="detail-card"><h3>Conflict & Resource Checks</h3><div id="tmChecks"></div></div>
+    <div class="detail-card"><h3>Timetable Governance</h3><div class="detail-list"><div class="detail-row"><b>Prepared by</b><span>Timetable Officer / HOD</span></div><div class="detail-row"><b>Reviewed by</b><span>Registrar</span></div><div class="detail-row"><b>Publication</b><span>Registrar only</span></div><div class="detail-row"><b>Change control</b><span>All edits logged</span></div><div class="detail-row"><b>Student access</b><span>Published only</span></div><div class="detail-row"><b>Staff access</b><span>Published + assigned teaching</span></div></div></div>
+  </div>
+</section>
+<section id="dashboard" class="view active">
+  <div class="grid">
+    <div class="card"><div class="small">Total Students</div><div class="stat">0</div><div class="kpi-note">Active institutional records</div></div>
+    <div class="card"><div class="small">New Applications</div><div class="stat">0</div><div class="kpi-note">Awaiting processing</div></div>
+    <div class="card"><div class="small">Registered Students</div><div class="stat">0</div><div class="kpi-note">Current academic session</div></div>
+    <div class="card"><div class="small">Graduation Candidates</div><div class="stat">0</div><div class="kpi-note">Clearance in progress</div></div>
+  </div>
+  <div class="section"><h2 class="section-title">Quick Access</h2><div class="quick">
+    <div class="card"><h3>Admissions</h3><p class="small">Review applications, verify applicants and issue admission letters.</p><button data-go="admissions">Open Admissions</button></div>
+    <div class="card"><h3>Student Registry</h3><p class="small">Search institutional student records and manage registration.</p><button data-go="students">Open Students</button></div>
+    <div class="card"><h3>Academic Records</h3><p class="small">Manage programmes, sessions, courses and result records.</p><button data-go="academics">Open Academics</button></div>
+    <div class="card"><h3>Graduation</h3><p class="small">Review final-year candidates, clearance and certificates.</p><button data-go="graduation">Open Graduation</button></div>
+    <div class="card"><h3>Registry Requests</h3><p class="small">Process student requests and official registry documents.</p><button data-go="registry">Open Registry</button></div>
+    <div class="card"><h3>Reports</h3><p class="small">Institution-wide admission, student and academic reports.</p><button data-go="reports">Open Reports</button></div>
+  </div></div>
+
+  <div class="section course-section" id="registrarCourseSection">
+    <div class="course-box">
+      <div class="course-head">
+        <div class="course-head-icon">📋</div>
+        <div><h2>Course Creation</h2><p>Create and manage courses from the Registrar portal.</p></div>
+      </div>
+      <form id="registrarCourseForm">
+        <div class="course-form-grid">
+          <div class="course-field"><label for="rcCourseName">Course Name *</label><input id="rcCourseName" required placeholder="e.g. Health Information Systems"></div>
+          <div class="course-field"><label for="rcCourseCode">Course Code *</label><input id="rcCourseCode" required placeholder="e.g. HIM 201"></div>
+          <div class="course-field"><label for="rcCreditUnit">Credit Unit *</label><input id="rcCreditUnit" type="number" min="1" max="12" step="1" required placeholder="e.g. 3"></div>
+          <div class="course-field"><label for="rcProgramme">Programme *</label><select id="rcProgramme" required><option value="">Select programme</option></select></div>
+          <div class="course-field"><label for="rcSemester">Semester *</label><select id="rcSemester" required><option value="">Select semester</option><option>First</option><option>Second</option></select></div>
+          <div class="course-field"><label for="rcLevel">Level *</label><select id="rcLevel" required><option value="">Select level</option><option>100 Level</option><option>200 Level</option><option>300 Level</option><option>400 Level</option><option>500 Level</option></select></div>
+          <div class="course-field"><label for="rcSession">Academic Session *</label><select id="rcSession" required><option value="">Select session</option></select></div>
+        </div>
+        <div class="course-actions"><button class="course-btn secondary" type="reset">Clear</button><button class="course-btn primary" id="rcSaveBtn" type="submit">Save Course</button></div>
+      </form>
+      <div class="course-status" id="rcStatus">Pre-filled course database</div>
+      <div class="course-list">
+        <div class="course-list-head"><div><h3>Course List</h3><p class="small">Courses created here are shared with the standalone Course Registration page.</p></div><input class="course-search" id="rcSearch" type="search" placeholder="Search course name or code"></div>
+        <div class="course-table-wrap"><table class="course-table"><thead><tr><th>#</th><th>Course Name</th><th>Code</th><th>Unit</th><th>Programme</th><th>Level</th><th>Semester</th><th>Session</th><th>Actions</th></tr></thead><tbody id="rcRows"><tr><td colspan="9">Loading courses…</td></tr></tbody></table></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section panel"><h2>Attention Required</h2><div class="info" id="attentionRequired">Registrar alerts and pending actions are shown below.</div>
+    <div class="notice">8 student registry requests are awaiting action. 2 graduation candidates have outstanding clearance items. 3 applications are awaiting verification.</div>
+  </div>
+</section>
+
+<section id="admissions" class="view">
+  <div class="panel"><h2>Admissions</h2><div class="small">Application processing, verification, admission lists and letters.</div><br>
+  <div class="tabs"><button class="tab active" data-adm="applications">Applications</button><button class="tab" data-adm="verification">Verification</button><button class="tab" data-adm="admitted">Admission List</button></div>
+  <div id="admApplications" class="subview"><br><div class="toolbar"><input id="admSearch" placeholder="Search application no., name or programme"><select id="admStatus"><option value="">All statuses</option><option>Pending</option><option>Under Review</option><option>Verified</option><option>Admitted</option><option>Rejected</option></select></div>
+  <div class="table-wrap"><table><thead><tr><th>Application No.</th><th>Applicant</th><th>Programme</th><th>Phone</th><th>O'Level</th><th>Applied</th><th>Status</th><th>Action</th></tr></thead><tbody id="admRows"></tbody></table></div></div>
+  <div id="admVerification" class="subview" style="display:none"><br><div class="info">Verify applicant documents before admission approval. Verification actions are recorded in the audit log.</div><div class="table-wrap"><table><thead><tr><th>Applicant</th><th>Programme</th><th>Passport</th><th>O'Level</th><th>Birth Document</th><th>Overall</th><th>Action</th></tr></thead><tbody id="verifyRows"></tbody></table></div></div>
+  <div id="admAdmitted" class="subview" style="display:none"><br><div class="toolbar"><select></select><button class="btn" onclick="alert('Admission list prepared for printing.')">Print Admission List</button></div><div class="table-wrap"><table><thead><tr><th>Admission No.</th><th>Student</th><th>Programme</th><th>Session</th><th>Letter</th><th>Status</th></tr></thead><tbody id="admittedRows"></tbody></table></div></div>
+  </div>
+</section>
+
+<section id="students" class="view">
+  <div style="display:flex;justify-content:flex-end;margin:0 0 12px"><a class="btn" href="student.html" style="text-decoration:none">🎓 Open Central Student Management</a></div>
+<div class="panel"><h2>Student Registry</h2><div class="small">Institution-wide student biodata, registration, documents and status.</div><br>
+<div class="toolbar"><input id="studentSearch" placeholder="Search matric no., name, programme..."><select id="studentProgramme"><option value="">All programmes</option><option>Health Information Management</option><option>Community Health Extension Worker</option><option>Medical Laboratory Technician</option><option>Dental Therapy</option><option>Dental Surgery Technology</option><option>Pharmacy Technician</option></select><select id="studentStatus"><option value="">All status</option><option>Active</option><option>Graduating</option><option>Deferred</option></select><button class="btn" id="addStudent">+ Register Student</button></div>
+<div class="table-wrap"><table><thead><tr><th>Matric No.</th><th>Student</th><th>Programme</th><th>Level</th><th>Session</th><th>Phone</th><th>Status</th><th>Action</th></tr></thead><tbody id="studentRows"></tbody></table></div>
+<div class="panel registrar-sync-panel" style="margin-top:16px;border:1px solid #d9e9e2">
+  <h3 style="margin-bottom:4px;color:#075c45">Course Registration &amp; Lecturer Portal Sync</h3>
+  <div class="small">Register a student for one or more courses. Demo registration records are pre-filled for the current academic session.</div>
+  <br>
+  <div class="form-grid">
+    <div class="field"><label>Student</label><select id="syncStudentSelect"><option value="">Loading students…</option></select></div>
+    <div class="field"><label>Academic Session</label><select id="syncSession"></select></div>
+  </div>
+  <div style="margin-top:12px">
+    <label style="display:block;font-weight:700;font-size:12px;margin-bottom:7px">Courses</label>
+    <div id="syncCourseChecks" class="grid" style="grid-template-columns:repeat(2,minmax(0,1fr));gap:8px"><div class="info">Loading courses…</div></div>
+  </div>
+  <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px">
+    <button class="btn" type="button" id="syncLoadExisting">Load Existing Registration</button>
+    <button class="btn" type="button" id="syncSaveRegistration">Save Course Registration</button>
+  </div>
+  <div id="syncRegistrationStatus" class="small" style="margin-top:9px;color:#087f5b"></div>
+</div>
+</div>
+</section>
+
+<section id="academics" class="view">
+<div class="panel"><h2>Academics</h2><div class="small">Programmes, departments, sessions, courses, results and academic records.</div><br>
+<div class="tabs"><button class="tab active" data-ac="programmes">Programmes</button><button class="tab" data-ac="departments">Departments</button><button class="tab" data-ac="sessions">Sessions</button><button class="tab" data-ac="courses">Courses</button><button class="tab" data-ac="results">Results</button></div>
+<div id="acProgrammes" class="subview"><br><div class="table-wrap"><table><thead><tr><th>Programme</th><th>Code</th><th>Duration</th><th>Department</th><th>Regulatory Body</th><th>Status</th></tr></thead><tbody id="programmeRows"></tbody></table></div></div>
+<div id="acDepartments" class="subview" style="display:none"><br><div class="table-wrap"><table><thead><tr><th>Department</th><th>HOD</th><th>Programmes</th><th>Students</th><th>Staff</th><th>Status</th></tr></thead><tbody id="departmentRows"></tbody></table></div></div>
+<div id="acSessions" class="subview" style="display:none"><br><div id="dynamicSessionCards" class="grid"></div></div> <div id="acCourses" class="subview" style="display:none"><br><div class="table-wrap"><table><thead><tr><th>Code</th><th>Course Title</th><th>Unit</th><th>Level</th><th>Programme</th><th>Semester</th></tr></thead><tbody id="courseRows"></tbody></table></div></div>
+<div id="acResults" class="subview" style="display:none"><br><div class="info">Results flow from departmental/HOD verification. Registrar finalization should be auditable.</div><div class="table-wrap"><table><thead><tr><th>Student</th><th>Matric</th><th>Course</th><th>Score</th><th>Grade</th><th>HOD Status</th><th>Registrar Status</th></tr></thead><tbody id="academicResultRows"></tbody></table></div></div>
+</div>
+</section>
+
+<section id="graduation" class="view">
+<div class="panel"><h2>Graduation</h2><div class="small">Final-year review, clearance, graduation list, certificates and transcripts.</div><br>
+<div class="grid"><div class="card"><div class="small">Candidates</div><div class="stat">0</div></div><div class="card"><div class="small">Eligible</div><div class="stat">0</div></div><div class="card"><div class="small">Pending Clearance</div><div class="stat">0</div></div><div class="card"><div class="small">Not Eligible</div><div class="stat">0</div></div></div>
+<br><div class="toolbar"><input id="gradSearch" placeholder="Search graduating student..."><select id="gradStatus"><option value="">All</option><option>Eligible</option><option>Pending Clearance</option><option>Not Eligible</option></select><button class="btn" onclick="alert('Graduation list prepared.')">Generate Graduation List</button></div>
+<div class="table-wrap"><table><thead><tr><th>Matric No.</th><th>Student</th><th>Programme</th><th>CGPA</th><th>Academic</th><th>Bursary</th><th>Library</th><th>Overall</th><th>Action</th></tr></thead><tbody id="gradRows"></tbody></table></div>
+</div>
+</section>
+
+<section id="staff" class="view">
+<div class="panel"><h2>Staff Registry</h2><div class="small">Academic and non-academic staff records.</div><br>
+<div class="tabs"><button class="tab active" data-st="academic">Academic Staff</button><button class="tab" data-st="nonacademic">Non-Academic Staff</button><button class="tab" data-st="establishment">Establishment</button></div>
+<div id="staffAcademic" class="subview">
+<div class="lecturer-manager" id="lecturerManagement">
+  <div class="lecturer-head">
+    <div class="lecturer-head-left"><div class="lecturer-icon">👨‍🏫</div><div><h2>Manage Lecturers</h2><p>Create, edit, delete and view lecturer profiles in the Registrar workspace.</p></div></div>
+    <span class="lecturer-count" id="lecturerCount">0 LECTURERS</span>
+  </div>
+  <form id="lecturerCreateForm">
+    <div class="lecturer-form-grid">
+      <div class="lecturer-field"><label>Full Name *</label><input id="lecName" required placeholder="e.g. Dr. Ibrahim Musa"></div>
+      <div class="lecturer-field"><label>Staff ID *</label><input id="lecStaffId" required placeholder="e.g. GGCHST/001"></div>
+      <div class="lecturer-field"><label>Email Address *</label><input id="lecEmail" type="email" required placeholder="e.g. ibrahim.musa@ggchst.edu.ng"></div>
+      <div class="lecturer-field"><label>Phone Number *</label><input id="lecPhone" required placeholder="e.g. 08012345678"></div>
+      <div class="lecturer-field"><label>Department *</label><select id="lecDepartment" required><option value="">Select department</option></select></div>
+      <div class="lecturer-field"><label>Academic Rank *</label><select id="lecRank" required><option value="">Select rank</option><option>Assistant Lecturer</option><option>Lecturer II</option><option>Lecturer I</option><option>Senior Lecturer</option><option>Principal Lecturer</option><option>Chief Lecturer</option></select></div>
+      <div class="lecturer-field"><label>Qualification *</label><select id="lecQualification" required><option value="">Select qualification</option><option>ND</option><option>HND</option><option>BSc</option><option>BA</option><option>BTech</option><option>MBBS</option><option>MPH</option><option>MSc</option><option>MA</option><option>MTech</option><option>PhD</option><option>Other</option></select></div>
+      <div class="lecturer-field"><label>Gender *</label><select id="lecGender" required><option value="">Select gender</option><option>Male</option><option>Female</option></select></div>
+      <div class="lecturer-field"><label>Specialization</label><input id="lecSpecialization" placeholder="e.g. Health Information Management"></div>
+      <div class="lecturer-field"><label>Employment Status *</label><select id="lecStatus" required><option value="">Select status</option><option>Active</option><option>Inactive</option><option>On Leave</option></select></div>
+      <div class="lecturer-field"><label>Profile Picture</label><input id="lecPicture" type="file" accept="image/*"></div>
+    </div>
+    <div class="lecturer-actions"><button class="lecturer-btn clear" type="reset" id="lecClear">Clear</button><button class="lecturer-btn save" type="submit" id="lecSave">＋ Save Lecturer</button></div>
+  </form>
+  <div id="lecturerMessage" style="margin-top:10px;font-size:12px;color:#087f5b"></div>
+  <div class="lecturer-list">
+    <div class="lecturer-head" style="margin-bottom:10px"><div class="lecturer-head-left"><div class="lecturer-icon">👥</div><div><h2>Lecturer List</h2><p>View, edit or delete lecturer profiles from the shared database.</p></div></div></div>
+    <div class="lecturer-tools"><input id="lecturerSearch" placeholder="Search by name, staff ID or department..."><select id="lecturerDeptFilter"><option value="">All Departments</option></select></div>
+    <div class="lecturer-table-wrap"><table class="lecturer-table"><thead><tr><th>#</th><th>Name</th><th>Staff ID</th><th>Department</th><th>Rank</th><th>Email</th><th>Phone</th><th>Status</th><th>Actions</th></tr></thead><tbody id="lecturerRows"><tr><td colspan="9" class="lecturer-empty">Loading lecturers...</td></tr></tbody></table></div>
+  </div>
+</div>
+<div class="lecturer-modal" id="lecturerEditModal" aria-hidden="true"><div class="lecturer-modal-box"><div class="lecturer-modal-head"><h3 id="lecturerModalTitle">Edit Lecturer</h3><button class="lecturer-close" id="lecturerModalClose" type="button">×</button></div><div id="lecturerEditContent"></div></div></div>
+<div class="lecturer-modal" id="lecturerViewModal" aria-hidden="true"><div class="lecturer-modal-box"><div class="lecturer-modal-head"><h3>Lecturer Details</h3><button class="lecturer-close" id="lecturerViewClose" type="button">×</button></div><div id="lecturerViewContent"></div></div></div>
+<br><div class="toolbar"><input id="staffSearch" placeholder="Search staff name, ID or department"><button class="btn" id="addStaff">+ Add Staff</button></div><div class="table-wrap"><table><thead><tr><th>Staff ID</th><th>Staff</th><th>Department</th><th>Rank</th><th>Qualification</th><th>Phone</th><th>Status</th></tr></thead><tbody id="staffRows"></tbody></table></div></div>
+<div id="staffNonacademic" class="subview" style="display:none"><br><div class="table-wrap"><table><thead><tr><th>Staff ID</th><th>Name</th><th>Unit</th><th>Role</th><th>Phone</th><th>Status</th></tr></thead><tbody id="nonStaffRows"></tbody></table></div></div>
+<div id="staffEstablishment" class="subview" style="display:none"><br><div class="grid"><div class="card"><div class="small">Academic Staff</div><div class="stat">0</div></div><div class="card"><div class="small">Non-Academic</div><div class="stat">0</div></div><div class="card"><div class="small">Vacancies</div><div class="stat">0</div></div><div class="card"><div class="small">On Leave</div><div class="stat">0</div></div></div></div>
+</div></section>
+
+<section id="registry" class="view">
+<div class="panel"><h2>Registry</h2><div class="small">Official documents, student requests, clearance and announcements.</div><br>
+<div class="tabs"><button class="tab active" data-rg="requests">Requests</button><button class="tab" data-rg="letters">Official Letters</button><button class="tab" data-rg="documents">Documents</button><button class="tab" data-rg="clearance">Clearance</button><button class="tab" data-rg="announcements">Announcements</button></div>
+<div id="rgRequests" class="subview"><br><div class="toolbar"><input id="requestSearch" placeholder="Search request or student"><select id="requestStatus"><option value="">All statuses</option><option>Pending</option><option>Under Review</option><option>Approved</option><option>Completed</option><option>Rejected</option></select></div><div class="table-wrap"><table><thead><tr><th>Request ID</th><th>Student</th><th>Request Type</th><th>Date</th><th>Status</th><th>Action</th></tr></thead><tbody id="requestRows"></tbody></table></div></div>
+<div id="rgLetters" class="subview" style="display:none"><br><div class="grid"><div class="card"><h3>Admission Letter</h3><p class="small">Generate from approved admission.</p><button class="btn" onclick="alert('Template ready.')">Generate</button></div><div class="card"><h3>Student Confirmation</h3><p class="small">Official confirmation of student status.</p><button class="btn" onclick="alert('Template ready.')">Generate</button></div><div class="card"><h3>Good Standing</h3><p class="small">Registry confirmation letter.</p><button class="btn" onclick="alert('Template ready.')">Generate</button></div><div class="card"><h3>Statement of Result</h3><p class="small">Generate verified academic statement.</p><button class="btn" onclick="alert('Template ready.')">Generate</button></div></div></div>
+<div id="rgDocuments" class="subview" style="display:none"><br><div class="table-wrap"><table><thead><tr><th>Document</th><th>Student</th><th>Type</th><th>Uploaded</th><th>Verification</th><th>Action</th></tr></thead><tbody id="documentRows"></tbody></table></div></div>
+<div id="rgClearance" class="subview" style="display:none"><br><div class="info">Clearance can be tracked across Registrar, HOD, Bursary, Library and other required units.</div><div class="table-wrap"><table><thead><tr><th>Student</th><th>HOD</th><th>Bursary</th><th>Library</th><th>Registrar</th><th>Overall</th></tr></thead><tbody id="clearanceRows"></tbody></table></div></div>
+<div id="rgAnnouncements" class="subview" style="display:none"><br><div id="liveRegistryAnnouncements" class="empty">4 registrar announcements are available in the current session.</div></div>
+</div></section>
+
+<section id="accreditation" class="view">
+<div class="panel"><h2>Accreditation & Compliance</h2><div class="small">Programme accreditation records, regulatory bodies, documents and review dates.</div><br>
+<div class="info">Accreditation and compliance records are pre-filled for the current programmes.</div>
+<div class="table-wrap"><table><thead><tr><th>Programme</th><th>Regulatory Body</th><th>Status</th><th>Last Review</th><th>Next Review</th><th>Documents</th><th>Compliance</th></tr></thead><tbody id="accreditationRows"></tbody></table></div>
+</div></section>
+
+<section id="reports" class="view">
+<div class="panel"><h2>Registrar Reports</h2><div class="small">Institution-wide reports and statistical summaries.</div><br>
+<div class="toolbar"><select id="reportSession"></select><select id="reportType"><option>Student Summary</option><option>Admissions</option><option>Programme Enrollment</option><option>Graduation</option><option>Academic Results</option><option>Registry Requests</option></select><button class="btn" onclick="alert('Report generated for preview.')">Generate Report</button><button class="action" onclick="window.print()">Print</button></div>
+<div class="grid"><div class="card"><div class="small">Students</div><div class="stat">0</div></div><div class="card"><div class="small">Applications</div><div class="stat">0</div></div><div class="card"><div class="small">Programmes</div><div class="stat">0</div></div><div class="card"><div class="small">Staff</div><div class="stat">0</div></div></div>
+<br><div class="table-wrap"><table><thead><tr><th>Programme</th><th>Students</th><th>New Admissions</th><th>Registered</th><th>Graduating</th></tr></thead><tbody id="reportProgrammeRows"></tbody></table></div>
+</div></section>
+
+<section id="audit" class="view">
+<div class="panel"><h2>Audit Log</h2><div class="small">A record of important registry and academic-administration actions.</div><br>
+<div class="toolbar"><input id="auditSearch" placeholder="Search user, action, record..."><select id="auditModule"><option value="">All modules</option><option>Admissions</option><option>Students</option><option>Academics</option><option>Graduation</option><option>Registry</option></select></div>
+<div class="table-wrap"><table><thead><tr><th>Date/Time</th><th>User</th><th>Module</th><th>Action</th><th>Record</th><th>Result</th></tr></thead><tbody id="auditRows"></tbody></table></div>
+</div></section>
+
+<section id="settings" class="view">
+<div class="panel"><h2>Registrar Settings</h2><div class="small">Configure registry rules, sessions, numbering, templates and notifications.</div><br>
+<div class="settings-grid">
+<div class="card"><h3>Academic Session</h3><div class="field"><label>Current Session</label><select></select></div><br><div class="field"><label>Current Semester</label><select></select></div></div>
+<div class="card"><h3>Registration Control</h3><label class="check"><input type="checkbox" checked> Student registration enabled</label><label class="check"><input type="checkbox" checked> Course registration enabled</label><label class="check"><input type="checkbox"> Require Registrar approval</label></div>
+<div class="card"><h3>Numbering</h3><div class="field"><label>Matric Prefix</label><input value="GGCHST"></div><br><div class="field"><label>Admission Prefix</label><input value="GGCHST/ADM"></div></div>
+<div class="card"><h3>Notifications</h3><label class="check"><input type="checkbox" checked> Admission notifications</label><label class="check"><input type="checkbox" checked> Registration reminders</label><label class="check"><input type="checkbox" checked> Graduation alerts</label></div>
+<div class="card"><h3>Document Templates</h3><p class="small">Admission letters, confirmation letters, statements of result, transcripts and certificates.</p><button class="btn" onclick="alert('Template manager placeholder.')">Manage Templates</button></div>
+<div class="card"><h3>Security</h3><p class="small">Registrar actions should require authenticated staff accounts and role permissions.</p><button class="btn" onclick="alert('Security settings placeholder.')">Review Permissions</button></div>
+</div><br><button class="btn" onclick="alert('Settings saved for this prototype.')">Save Settings</button>
+</div>
+</section>
+
+<script id="complete-registrar-data">
+(function(){
+const D={
+ registration:`<div class="section detail-grid"><div class="detail-card full"><h3>Student Registration</h3><div class="info">Current student registration records for 2025/2026 are pre-filled below.</div><div id="liveRegistrationPanel" class="empty">Loading live registration records…</div></div></div>`,
+ sessions:`<div class="section detail-grid"><div class="detail-card full"><h3>Academic Sessions</h3><div id="liveSessionPanel" class="empty">Loading live academic sessions…</div></div></div>`,
+ courseReg:`<div class="section detail-grid"><div class="detail-card full"><h3>Course Registration</h3><div id="liveCourseRegPanel" class="empty">Loading live course-registration records…</div></div></div>`,
+ results:`<div class="section detail-grid"><div class="detail-card full"><h3>Results & Academic Records</h3><div id="liveResultsPanel" class="empty">Loading live result records…</div></div></div>`,
+ transcripts:`<div class="section detail-grid"><div class="detail-card full"><h3>Transcripts & Certificates</h3><div id="liveTranscriptPanel" class="empty">Sample transcript and certificate records are pre-filled below.</div></div></div>`,
+ establishment:`<div class="section detail-grid"><div class="detail-card full"><h3>Staff Establishment</h3><div id="liveEstablishmentPanel" class="empty">Loading live staff records…</div></div></div>`,
+ letters:`<div class="section detail-grid"><div class="detail-card full"><h3>Official Letters</h3><div id="liveLettersPanel" class="empty">Official registrar letters are pre-filled below.</div></div></div>`,
+ documents:`<div class="section detail-grid"><div class="detail-card full"><h3>Document Management</h3><div id="liveDocumentsPanel" class="empty">Loading live document records…</div></div></div>`,
+ clearance:`<div class="section detail-grid"><div class="detail-card full"><h3>Clearance Management</h3><div id="liveClearancePanel" class="empty">Loading live clearance records…</div></div></div>`,
+ calendar:`<div class="section detail-grid"><div class="detail-card full"><h3>Academic Calendar</h3><div id="liveCalendarPanel" class="empty">The current academic calendar is pre-filled below.</div></div></div>`,
+ announcements:`<div class="section detail-grid"><div class="detail-card full"><h3>Registrar Announcements</h3><div id="liveAnnouncementsPanel" class="empty">Current registrar announcements are pre-filled below.</div></div></div>`
+};
+function inject(id,key){const el=document.getElementById(id);if(!el||!D[key])return;const wrap=document.createElement('div');wrap.innerHTML=D[key];el.appendChild(wrap)}
+// Core Registrar sections are rendered from live Firebase collections; no prototype records are injected.
+// Add the remaining dedicated sub-pages as extra Registrar navigation buttons.
+const menu=document.getElementById('menu');
+const extras=[['registration','📝','Student Registration'],['sessions','🗓️','Academic Sessions'],['courseReg','📋','Course Registration'],['results','📊','Results & Academic Records'],['transcripts','📜','Transcripts & Certificates'],['establishment','🏢','Staff Establishment'],['letters','✉️','Official Letters'],['documents','🗂️','Document Management'],['clearance','☑️','Clearance Management'],['calendar','📅','Academic Calendar'],['announcements','📢','Announcements']];
+const titleMap={registration:'Student Registration',sessions:'Academic Sessions',courseReg:'Course Registration',results:'Results & Academic Records',transcripts:'Transcripts & Certificates',establishment:'Staff Establishment',letters:'Official Letters',documents:'Document Management',clearance:'Clearance Management',calendar:'Academic Calendar',announcements:'Announcements'};
+const main=document.querySelector('.main');
+extras.forEach(([id,ic,label])=>{const b=document.createElement('a');b.href='#';b.dataset.view=id;b.innerHTML=`${ic} ${label}`;menu.appendChild(b);const sec=document.createElement('section');sec.id=id;sec.className='view';sec.innerHTML=`<div class="panel"><h2>${label}</h2><div class="small">Registrar administration and controls.</div></div>`;main.insertBefore(sec,main.querySelector('.footer'));const temp=document.createElement('div');temp.innerHTML=D[id]||'';sec.appendChild(temp);});
+Object.assign(pageNames,titleMap);
+document.querySelectorAll('#menu [data-view]').forEach(b=>{b.onclick=()=>show(b.dataset.view)});
+document.querySelectorAll('[data-go2]').forEach(b=>b.onclick=()=>show(b.dataset.go2));
+})();
+</script>
+
+<div class="footer">GGCHST SMS • Registrar Portal • Pre-filled demonstration data</div>
+<div style="margin:25px 0;text-align:center;"><a href="registrar-attendance.html">📋 Attendance</a></div></main>
+</div>
+
+<div class="modal" id="modal"><div class="modalbox"><div style="display:flex;justify-content:space-between;align-items:center"><h2 id="modalTitle">Register</h2><button class="close" id="closeModal">×</button></div><div id="modalContent"></div></div></div>
+
+<script>
+var programmes=[];
+var students=[];
+var applications=[];
+var staff=[];
+var nonStaff=[];
+var requests=[];
+var docs=[];
+var audits=[];
+var grad=[];
+var courses=[];
+var academicResults=[];
+var clearances=[];
+var acc=[];
+
+const $=id=>document.getElementById(id);
+const esc=v=>String(v).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+function status(s){let c={"Active":"active-status","Approved":"approved","Verified":"verified","Eligible":"eligible","Pending":"pending","Under Review":"review","Pending Clearance":"warning","Rejected":"rejected","Not Eligible":"rejected","Completed":"approved","Admitted":"approved","On Leave":"pending"}[s]||"pending";return `<span class="status ${c}">${esc(s)}</span>`}
+
+const pageNames={dashboard:"Registrar Dashboard",admissions:"Admissions",students:"Student Registry",academics:"Academics",graduation:"Graduation",staff:"Staff Registry",registry:"Registry",accreditation:"Accreditation & Compliance",reports:"Registrar Reports",audit:"Audit Log",settings:"Registrar Settings"};
+function show(v){
+ document.querySelectorAll(".view").forEach(x=>x.classList.remove("active")); $(v).classList.add("active");
+ document.querySelectorAll("#menu [data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===v));
+ $("pageTitle").textContent=pageNames[v];
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll("#menu [data-view]").forEach(b=>b.onclick=()=>show(b.dataset.view));
+document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>show(b.dataset.go));
+
+function renderApplications(){
+ let q=$("admSearch").value.toLowerCase(),s=$("admStatus").value;
+ let r=applications.filter(x=>(!q||x.join(" ").toLowerCase().includes(q))&&(!s||x[6]===s));
+ $("admRows").innerHTML=r.map((x,i)=>`<tr><td><b>${x[0]}</b></td><td>${esc(x[1])}</td><td>${esc(x[2])}</td><td>${x[3]}</td><td>${x[4]}</td><td>${x[5]}</td><td>${status(x[6])}</td><td><button class="action" onclick="reviewApplication(${i})">Review</button></td></tr>`).join("")||`<tr><td colspan="8" class="empty">No applications found.</td></tr>`;
+ $("verifyRows").innerHTML=applications.filter(x=>["Under Review","Verified"].includes(x[6])).map((x,i)=>`<tr><td>${esc(x[1])}</td><td>${esc(x[2])}</td><td>${status("Verified")}</td><td>${x[4].includes("5")||x[4].includes("6")?status("Verified"):status("Pending")}</td><td>${status("Verified")}</td><td>${status(x[6])}</td><td><button class="action approve" onclick="alert('Applicant verification saved.')">Verify</button></td></tr>`).join("");
+ $("admittedRows").innerHTML=applications.filter(x=>x[6]==="Admitted").map(x=>`<tr><td>${x[0]}</td><td>${esc(x[1])}</td><td>${esc(x[2])}</td><td>${esc(x[4]||"")}</td><td><button class="action" onclick="alert('Admission letter preview opened.')">Preview</button></td><td>${status("Admitted")}</td></tr>`).join("");
+}
+function reviewApplication(i){openModal("Application Review",`<div class="info"><b>${esc(applications[i][1])}</b><br>${esc(applications[i][2])}<br>${applications[i][0]}</div><div class="form-grid"><div class="field"><label>Decision</label><select id="appDecision"><option>Under Review</option><option>Verified</option><option>Admitted</option><option>Rejected</option></select></div><div class="field"><label>Note</label><input id="appNote" value="Documents reviewed by Registrar"></div></div><br><button class="btn" onclick="applications[${i}][6]=$('appDecision').value;renderApplications();addAudit('Admissions','Updated application status',applications[${i}][0]);closeModal()">Save Decision</button>`)}
+
+function renderStudents(){
+ let q=$("studentSearch").value.toLowerCase(),p=$("studentProgramme").value,s=$("studentStatus").value;
+ let r=students.filter(x=>(!q||x.join(" ").toLowerCase().includes(q))&&(!p||x[2]===p)&&(!s||x[6]===s));
+ $("studentRows").innerHTML=r.map((x,i)=>`<tr><td><b>${x[0]}</b></td><td><div class="profile"><div class="avatar">${x[1].split(" ").map(a=>a[0]).slice(0,2).join("")}</div><div><b>${esc(x[1])}</b><div class="mini">Registry record</div></div></div></td><td>${esc(x[2])}</td><td>${x[3]}</td><td>${x[4]}</td><td>${x[5]}</td><td>${status(x[6])}</td><td><button class="action" onclick="viewStudent(${i})">View</button><button class="action" onclick="printStudent(${i})">Print</button></td></tr>`).join("")||`<tr><td colspan="8" class="empty">No students found.</td></tr>`;
+}
+function viewStudent(i){let x=students[i];openModal("Student Profile",`<div class="profile"><div class="avatar">${x[1].split(" ").map(a=>a[0]).slice(0,2).join("")}</div><div><h3 style="margin:0">${esc(x[1])}</h3><div class="small">${x[0]}</div></div></div><br><div class="form-grid"><div class="field"><label>Programme</label><input value="${esc(x[2])}" readonly></div><div class="field"><label>Level</label><input value="${x[3]}" readonly></div><div class="field"><label>Session</label><input value="${x[4]}" readonly></div><div class="field"><label>Phone</label><input value="${x[5]}" readonly></div><div class="field"><label>Status</label><input value="${x[6]}" readonly></div></div>`)}
+function printStudent(i){alert("Student registry record prepared for printing: "+students[i][0])}
+
+function renderAcademics(){
+ $("programmeRows").innerHTML=programmes.map(x=>`<tr><td>${esc(x[0])}</td><td>${esc(x[1])}</td><td>${esc(x[2])}</td><td>${esc(x[3])}</td><td>${esc(x[4])}</td><td>${status(x[5]||"")}</td></tr>`).join("")||`<tr><td colspan="6" class="empty">No programme records found in Firebase.</td></tr>`;
+ $("departmentRows").innerHTML=(window.__GGCHST_departments||[]).map(x=>`<tr><td>${esc(x.name||"")}</td><td>${esc(x.hodName||"")}</td><td>${esc(x.programmes||"")}</td><td>${esc(x.students||"")}</td><td>${esc(x.staff||"")}</td><td>${status(x.status||"")}</td></tr>`).join("")||`<tr><td colspan="6" class="empty">No department records found in Firebase.</td></tr>`;
+ $("courseRows").innerHTML=courses.map(x=>`<tr><td><b>${esc(x[0])}</b></td><td>${esc(x[1])}</td><td>${esc(x[2])}</td><td>${esc(x[3])}</td><td>${esc(x[4])}</td><td>${esc(x[5])}</td></tr>`).join("")||`<tr><td colspan="6" class="empty">No course records found in Firebase.</td></tr>`;
+ $("academicResultRows").innerHTML=academicResults.map(x=>`<tr><td>${esc(x[0])}</td><td>${esc(x[1])}</td><td>${esc(x[2])}</td><td>${esc(x[3])}</td><td><b>${esc(x[4])}</b></td><td>${status(x[5]||"")}</td><td>${status(x[6]||"")}</td></tr>`).join("")||`<tr><td colspan="7" class="empty">No result records found in Firebase.</td></tr>`;
+}
+
+function renderGraduation(){
+ let q=$("gradSearch").value.toLowerCase(),s=$("gradStatus").value;
+ let r=grad.filter(x=>(!q||x.join(" ").toLowerCase().includes(q))&&(!s||x[7]===s));
+ $("gradRows").innerHTML=r.map((x,i)=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td><b>${x[3]}</b></td><td>${x[4]}</td><td>${x[5]}</td><td>${x[6]}</td><td>${status(x[7])}</td><td><button class="action" onclick="alert('Graduation candidate reviewed.')">Review</button></td></tr>`).join("");
+}
+
+function renderStaff(){
+ let q=$("staffSearch").value.toLowerCase();
+ let r=staff.filter(x=>!q||x.join(" ").toLowerCase().includes(q));
+ $("staffRows").innerHTML=r.map(x=>`<tr><td>${x[0]}</td><td><b>${x[1]}</b></td><td>${x[2]}</td><td>${x[3]}</td><td>${x[4]}</td><td>${x[5]}</td><td>${status(x[6])}</td></tr>`).join("");
+ $("nonStaffRows").innerHTML=nonStaff.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td>${x[4]}</td><td>${status(x[5])}</td></tr>`).join("");
+}
+
+function renderRegistry(){
+ let q=$("requestSearch").value.toLowerCase(),s=$("requestStatus").value;
+ let r=requests.filter(x=>(!q||x.join(" ").toLowerCase().includes(q))&&(!s||x[4]===s));
+ $("requestRows").innerHTML=r.map((x,i)=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td>${status(x[4])}</td><td><button class="action" onclick="alert('Request opened.')">Open</button></td></tr>`).join("");
+ $("documentRows").innerHTML=docs.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td>${status(x[4])}</td><td><button class="action" onclick="alert('Document preview opened.')">View</button></td></tr>`).join("");
+ $("clearanceRows").innerHTML=clearances.map(x=>`<tr><td>${x[0]}</td><td>${status(x[1])}</td><td>${status(x[2])}</td><td>${status(x[3])}</td><td>${status(x[4])}</td><td>${status(x[5])}</td></tr>`).join("");
+}
+function renderAcc(){ $("accreditationRows").innerHTML=acc.map(x=>`<tr><td><b>${x[0]}</b></td><td>${x[1]}</td><td>${status(x[2])}</td><td>${x[3]}</td><td>${x[4]}</td><td>${x[5]}</td><td>${status(x[6])}</td></tr>`).join("");}
+function renderReports(){
+ const by={};
+ students.forEach(x=>{const p=x[2]||"Unknown";by[p]??={students:0,admissions:0,registered:0,graduating:0};by[p].students++;if(String(x[6]).toLowerCase().includes("graduat"))by[p].graduating++;});
+ applications.forEach(x=>{const p=x[2]||"Unknown";by[p]??={students:0,admissions:0,registered:0,graduating:0};by[p].admissions++;});
+ $("reportProgrammeRows").innerHTML=Object.entries(by).map(([p,v])=>`<tr><td>${esc(p)}</td><td>${v.students}</td><td>${v.admissions}</td><td>${v.registered}</td><td>${v.graduating}</td></tr>`).join("")||`<tr><td colspan="5" class="empty">No report data found in Firebase.</td></tr>`;
+}
+function renderAudit(){let q=$("auditSearch").value.toLowerCase(),m=$("auditModule").value;let r=audits.filter(x=>(!q||x.join(" ").toLowerCase().includes(q))&&(!m||x[2]===m));$("auditRows").innerHTML=r.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td>${x[4]}</td><td>${status(x[5]==="Success"?"Approved":"Pending")}</td></tr>`).join("");}
+function addAudit(module,action,record){audits.unshift([new Date().toLocaleString(),"Registrar",module,action,record,"Success"]);renderAudit();}
+
+function setupTabs(){
+ document.querySelectorAll("[data-adm]").forEach(b=>b.onclick=()=>switchGroup("[data-adm]","adm",b.dataset.adm));
+ document.querySelectorAll("[data-ac]").forEach(b=>b.onclick=()=>switchGroup("[data-ac]","ac",b.dataset.ac));
+ document.querySelectorAll("[data-st]").forEach(b=>b.onclick=()=>switchGroup("[data-st]","staff",b.dataset.st));
+ document.querySelectorAll("[data-rg]").forEach(b=>b.onclick=()=>switchGroup("[data-rg]","rg",b.dataset.rg));
+}
+function switchGroup(selector,prefix,name){
+ document.querySelectorAll(selector).forEach(b=>b.classList.toggle("active",b.dataset[prefix==="staff"?"st":prefix]===name));
+ document.querySelectorAll(`[id^="${prefix}"]`).forEach(x=>{if(x.classList.contains("subview"))x.style.display="none"});
+ const el=$(prefix+name.charAt(0).toUpperCase()+name.slice(1));if(el)el.style.display="block";
+}
+const modal=$("modal");
+function openModal(title,content){$("modalTitle").textContent=title;$("modalContent").innerHTML=content;modal.classList.add("show")}
+function closeModal(){modal.classList.remove("show")}
+$("closeModal").onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};
+$("logoutBtn").onclick=()=>location.href="login_portal_selection.html";
+
+$("admSearch").oninput=renderApplications;$("admStatus").onchange=renderApplications;
+$("studentSearch").oninput=renderStudents;$("studentProgramme").onchange=renderStudents;$("studentStatus").onchange=renderStudents;
+$("gradSearch").oninput=renderGraduation;$("gradStatus").onchange=renderGraduation;
+$("staffSearch").oninput=renderStaff;$("requestSearch").oninput=renderRegistry;$("requestStatus").onchange=renderRegistry;
+$("auditSearch").oninput=renderAudit;$("auditModule").onchange=renderAudit;
+
+$("addStudent").onclick=()=>{location.href="student.html"};
+function legacyAddStudentModal(){openModal("Register New Student",`<div class="form-grid"><div class="field"><label>Full Name</label><input id="newName" required></div><div class="field"><label>Matric No.</label><input id="newMatric" required></div><div class="field"><label>Programme</label><select id="newProgramme"></select></div><div class="field"><label>Level</label><select id="newLevel"><option value="">Select level</option><option>100</option><option>200</option><option>300</option><option>400</option><option>500</option></select></div><div class="field"><label>Session</label><input id="newSession" readonly placeholder="Active session from Firebase"></div><div class="field"><label>Phone</label><input id="newPhone"></div></div><br><button class="btn" onclick="saveStudent()">Create Student Record</button>`);}
+function saveStudent(){alert("Demo mode: student registration is pre-filled here. Use the Admin Student Management page for the production master record.");}
+
+$("addStaff").onclick=()=>openModal("Add Staff",`<div class="form-grid"><div class="field"><label>Full Name</label><input id="staffName"></div><div class="field"><label>Staff ID</label><input id="staffId" value="GGCHST/STAFF/"></div><div class="field"><label>Department</label><input id="staffDept"></div><div class="field"><label>Rank / Role</label><input id="staffRank"></div><div class="field"><label>Qualification</label><input id="staffQual"></div><div class="field"><label>Phone</label><input id="staffPhone"></div></div><br><button class="btn" onclick="saveStaff()">Save Staff</button>`);
+function saveStaff(){staff.push([$("staffId").value+String(staff.length+1).padStart(3,"0"),$("staffName").value||"New Staff",$("staffDept").value||"Unassigned",$("staffRank").value||"Staff",$("staffQual").value||"Not provided",$("staffPhone").value||"Not provided","Active"]);closeModal();renderStaff();addAudit("Registry","Created staff record",staff[staff.length-1][0]);alert("Staff record saved.");}
+
+window.__GGCHST_getStudents=()=>students;
+setupTabs();renderApplications();renderStudents();renderAcademics();renderGraduation();renderStaff();renderRegistry();renderAcc();renderReports();renderAudit();
+</script>
+
+<script>
+(function(){
+ const dayOrder=['Monday','Tuesday','Wednesday','Thursday','Friday'];
+ var tmData=[];
+ const $=id=>document.getElementById(id);
+ const esc2=v=>String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+ function overlaps(a,b){return a.day===b.day && a.start<b.end && b.start<a.end;}
+ function conflicts(x){return tmData.filter(y=>y.id!==x.id && y.session===x.session && y.semester===x.semester && overlaps(x,y) && (y.room===x.room || y.lecturer===x.lecturer || (y.programme===x.programme && y.level===x.level))).map(y=>y.id);}
+ function conflictReason(x){let c=tmData.filter(y=>y.id!==x.id && y.session===x.session && y.semester===x.semester && overlaps(x,y));let r=[];if(c.some(y=>y.room===x.room))r.push('room');if(c.some(y=>y.lecturer===x.lecturer))r.push('lecturer');if(c.some(y=>y.programme===x.programme&&y.level===x.level))r.push('same class');return r;}
+ function fillFilters(){
+  $('tmProgramme').innerHTML='<option value="">All programmes</option>'+programmes.map(x=>`<option>${esc2(x[0])}</option>`).join('');
+  const rooms=[...new Set(tmData.map(x=>x.room))];$('tmRoom').innerHTML='<option value="">All rooms</option>'+rooms.map(x=>`<option>${esc2(x)}</option>`).join('');
+ }
+ function renderTM(){
+  const f={session:$('tmSession').value,semester:$('tmSemester').value,programme:$('tmProgramme').value,level:$('tmLevel').value,day:$('tmDay').value,room:$('tmRoom').value,status:$('tmStatus').value};
+  const rows=tmData.filter(x=>x.session===f.session&&x.semester===f.semester&&(!f.programme||x.programme===f.programme)&&(!f.level||x.level===f.level)&&(!f.day||x.day===f.day)&&(!f.room||x.room===f.room)&&(!f.status||x.status===f.status));
+  $('tmRows').innerHTML=rows.map(x=>{let c=conflicts(x);return `<tr class="${c.length?'tm-conflict':'tm-ok'}"><td>${x.day}</td><td><b>${x.start}–${x.end}</b></td><td>${esc2(x.course)}</td><td>${esc2(x.programme)}</td><td>${x.level}</td><td>${esc2(x.lecturer)}</td><td>${esc2(x.room)}</td><td>${x.type}</td><td>${status(x.status)}${c.length?'<br><span class="status tm-status" style="color:#b33">⚠ conflict</span>':''}</td><td><button class="action" onclick="tmEdit('${x.id}')">Edit</button> <button class="action" onclick="tmApprove('${x.id}')">Approve</button> <button class="action reject" onclick="tmDelete('${x.id}')">Delete</button></td></tr>`}).join('')||'<tr><td colspan="10" class="empty">No timetable entries match the selected filters.</td></tr>';
+  $('tmTotal').textContent=tmData.length;$('tmDraft').textContent=tmData.filter(x=>x.status==='Draft').length;$('tmReview').textContent=tmData.filter(x=>x.status==='Under Review').length;$('tmApproved').textContent=tmData.filter(x=>x.status==='Approved').length;$('tmConflicts').textContent=tmData.filter(x=>conflicts(x).length).length;
+  $('tmWeek').innerHTML=dayOrder.map(d=>`<div class="tm-day"><h4>${d}</h4>${rows.filter(x=>x.day===d).sort((a,b)=>a.start.localeCompare(b.start)).map(x=>{let c=conflicts(x);return `<div class="tm-slot ${c.length?'conflict':''}"><strong>${x.start}–${x.end}</strong><span>${esc2(x.course.split(' — ')[0])}</span><small>${esc2(x.programme)} • L${x.level}</small><small>${esc2(x.room)} • ${esc2(x.lecturer)}</small><small class="tm-status">${esc2(x.status)}${c.length?' • CONFLICT':''}</small></div>`}).join('')||'<div class="small">No classes</div>'}</div>`).join('');
+  $('tmChecks').innerHTML=tmData.filter(x=>conflicts(x).length).map(x=>`<div class="notice" style="margin-bottom:8px"><b>${esc2(x.id)}</b> — ${esc2(x.course)}<br><span class="mini">${conflictReason(x).join(', ')} conflict at ${x.day} ${x.start}–${x.end}.</span></div>`).join('')||'<div class="notice">✓ No room, lecturer or same-class timetable conflicts detected.</div>';
+ }
+ function modalForm(item={}){
+  const vals={day:'Monday',start:'08:00',end:'10:00',type:'Lecture',status:'Draft',...item};
+  return `<div class="form-grid"><div class="field"><label>Session</label><select id="tmFSession"></select></div><div class="field"><label>Semester</label><select id="tmFSem"><option>First</option><option>Second</option></select></div><div class="field"><label>Course</label><input id="tmFCourse" value="${esc2(vals.course||'')}"></div><div class="field"><label>Programme</label><select id="tmFProg">${programmes.map(x=>`<option ${x[0]===vals.programme?'selected':''}>${esc2(x[0])}</option>`).join('')}</select></div><div class="field"><label>Level</label><select id="tmFLevel">${['100','200','300'].map(x=>`<option ${x===vals.level?'selected':''}>${x}</option>`).join('')}</select></div><div class="field"><label>Day</label><select id="tmFDay">${dayOrder.map(x=>`<option ${x===vals.day?'selected':''}>${x}</option>`).join('')}</select></div><div class="field"><label>Start</label><input type="time" id="tmFStart" value="${vals.start}"></div><div class="field"><label>End</label><input type="time" id="tmFEnd" value="${vals.end}"></div><div class="field"><label>Lecturer</label><input id="tmFLect" value="${esc2(vals.lecturer||'')}"></div><div class="field"><label>Venue / Room</label><input id="tmFRoom" value="${esc2(vals.room||'')}"></div><div class="field"><label>Class Type</label><select id="tmFType">${['Lecture','Practical','Clinical','Seminar','Examination'].map(x=>`<option ${x===vals.type?'selected':''}>${x}</option>`).join('')}</select></div><div class="field"><label>Status</label><select id="tmFStatus"><option>Draft</option><option>Under Review</option><option>Approved</option><option>Published</option></select></div></div><br><div class="info">Conflict detection checks room, lecturer and same programme/level overlaps before saving.</div><br><button class="btn" onclick="tmSave('${vals.id||''}')">Save Timetable Entry</button>`;
+ }
+ window.tmAdd=()=>openModal('Add Timetable Entry',modalForm());
+ window.tmEdit=id=>{let x=tmData.find(y=>y.id===id);openModal('Edit Timetable Entry',modalForm(x));setTimeout(()=>{$('tmFSession').value=x.session;$('tmFSem').value=x.semester;$('tmFStatus').value=x.status},0)};
+ window.tmSave=id=>{let x={id:id||'TT-'+String(Date.now()).slice(-6),session:$('tmFSession').value,semester:$('tmFSem').value,course:$('tmFCourse').value.trim(),programme:$('tmFProg').value,level:$('tmFLevel').value,day:$('tmFDay').value,start:$('tmFStart').value,end:$('tmFEnd').value,lecturer:$('tmFLect').value.trim(),room:$('tmFRoom').value.trim(),type:$('tmFType').value,status:$('tmFStatus').value};if(!x.course||!x.lecturer||!x.room||!x.start||!x.end){alert('Please complete course, lecturer, venue and time.');return}if(x.start>=x.end){alert('End time must be later than start time.');return}let old=tmData.find(y=>y.id===id);if(old)Object.assign(old,x);else tmData.push(x);let c=conflicts(x);if(c.length)alert('Saved with a conflict warning. Review the conflict panel before approval.');else alert('Timetable entry saved successfully.');closeModal();fillFilters();renderTM();addAudit('Timetable',id?'Edited timetable entry':'Created timetable entry',x.id)};
+ window.tmApprove=id=>{let x=tmData.find(y=>y.id===id);let c=conflicts(x);if(c.length){alert('Cannot approve this entry until timetable conflicts are resolved.');return}x.status='Approved';renderTM();addAudit('Timetable','Approved timetable entry',id);alert('Timetable entry approved.');};
+ window.tmDelete=id=>{if(!confirm('Delete this timetable entry?'))return;let i=tmData.findIndex(x=>x.id===id);if(i>=0){tmData.splice(i,1);renderTM();addAudit('Timetable','Deleted timetable entry',id)}};
+ $('tmAdd').onclick=window.tmAdd;$('tmPrint').onclick=()=>window.print();$('tmPublish').onclick=()=>{let filtered=tmData.filter(x=>x.session===$('tmSession').value&&x.semester===$('tmSemester').value);let bad=filtered.filter(x=>conflicts(x).length);if(bad.length){alert('Publishing blocked: resolve '+bad.length+' conflict(s) first.');return}filtered.forEach(x=>x.status='Published');renderTM();addAudit('Timetable','Published timetable',$('tmSession').value+' '+$('tmSemester').value);alert('Current timetable published successfully.');};
+ ['tmSession','tmSemester','tmProgramme','tmLevel','tmDay','tmRoom','tmStatus'].forEach(id=>$(id).onchange=renderTM);
+ fillFilters();renderTM();
+ window.__GGCHST_getTmData=()=>tmData;
+})();
+</script>
+<script>document.addEventListener('DOMContentLoaded',function(){var m=document.getElementById('menu');if(m&&!document.querySelector('#menu button[data-view=\"timetable\"]')){var b=document.createElement('button');b.dataset.view='timetable';b.innerHTML='<span class=\"icon\">🗓</span>Timetable';m.insertBefore(b,m.children[4]||null);b.onclick=function(){show('timetable')};} pageNames.timetable='Timetable Management';});</script>
+
+<div class="course-modal" id="rcModal" aria-hidden="true">
+  <div class="course-modal-box">
+    <div class="course-modal-head"><h3>Edit Course</h3><button class="course-modal-close" type="button" id="rcCloseModal">✕</button></div>
+    <form id="rcEditForm"><input type="hidden" id="rcEditId">
+      <div class="course-modal-grid">
+        <div class="course-field"><label for="rcEditName">Course Name *</label><input id="rcEditName" required></div>
+        <div class="course-field"><label for="rcEditCode">Course Code *</label><input id="rcEditCode" required></div>
+        <div class="course-field"><label for="rcEditUnit">Credit Unit *</label><input id="rcEditUnit" type="number" min="1" max="12" required></div>
+        <div class="course-field"><label for="rcEditFaculty">Faculty *</label><select id="rcEditFaculty" required></select></div>
+        <div class="course-field"><label for="rcEditDepartment">Department *</label><select id="rcEditDepartment" required></select></div>
+        <div class="course-field"><label for="rcEditLevel">Level *</label><select id="rcEditLevel" required></select></div>
+        <div class="course-field"><label for="rcEditSession">Academic Session *</label><select id="rcEditSession" required></select></div>
+      </div>
+      <div class="course-modal-actions"><button class="course-btn secondary" type="button" id="rcCancelEdit">Cancel</button><button class="course-btn primary" type="submit" id="rcUpdateBtn">Update Course</button></div>
+    </form>
+  </div>
+</div>
+
+
+
+<script>
+/* GGCHST REGISTRAR DEMO DATA — self-contained, no authentication or Firebase required. */
+(function(){
+  const demo={
+    programmes:[
+      ["Health Information Management","HIM","2 Years","Department of Health Information Management","NBTE","Active"],
+      ["Community Health","CHE","3 Years","Department of Community Health","NBTE","Active"],
+      ["Medical Laboratory Technician","MLT","3 Years","Department of Medical Laboratory","NBTE","Active"],
+      ["Pharmacy Technician","PHT","3 Years","Department of Pharmacy Technology","NBTE","Active"]
+    ],
+    students:[
+      ["GCHST/HIM/25/001","Aisha Ibrahim","Health Information Management","200 Level","2025/2026","08000000001","Active"],
+      ["GCHST/HIM/25/002","Maryam Musa","Health Information Management","200 Level","2025/2026","08000000002","Active"],
+      ["GCHST/HIM/25/003","Sadiq Bello","Health Information Management","200 Level","2025/2026","08000000003","Active"],
+      ["GCHST/HIM/25/004","Fatima Abdullahi","Health Information Management","100 Level","2025/2026","08000000004","Active"],
+      ["GCHST/CHE/24/011","Hauwa Yusuf","Community Health","300 Level","2025/2026","08000000011","Graduating"],
+      ["GCHST/CHE/24/012","Abdullahi Umar","Community Health","300 Level","2025/2026","08000000012","Graduating"],
+      ["GCHST/MLT/25/021","Zainab Lawal","Medical Laboratory Technician","200 Level","2025/2026","08000000021","Active"],
+      ["GCHST/MLT/25/022","Usman Ibrahim","Medical Laboratory Technician","200 Level","2025/2026","08000000022","Active"],
+      ["GCHST/PHT/24/031","Aminu Garba","Pharmacy Technician","300 Level","2025/2026","08000000031","Graduating"],
+      ["GCHST/PHT/25/032","Khadija Sule","Pharmacy Technician","100 Level","2025/2026","08000000032","Active"],
+      ["GCHST/HIM/24/010","Nafisa Ahmad","Health Information Management","300 Level","2025/2026","08000000010","Graduating"],
+      ["GCHST/CHE/25/019","Musa Ibrahim","Community Health","200 Level","2025/2026","08000000019","Active"]
+    ],
+    applications:[
+      ["APP/2026/001","Safiya Mohammed","Health Information Management","08000001001","6 credits","01/09/2026","Pending"],
+      ["APP/2026/002","Bashir Ahmad","Community Health","08000001002","7 credits","01/09/2026","Under Review"],
+      ["APP/2026/003","Amina Sani","Health Information Management","08000001003","8 credits","02/09/2026","Verified"],
+      ["APP/2026/004","Kabiru Ali","Medical Laboratory Technician","08000001004","7 credits","02/09/2026","Admitted"],
+      ["APP/2026/005","Hajara Ibrahim","Pharmacy Technician","08000001005","8 credits","03/09/2026","Verified"],
+      ["APP/2026/006","Salman Yusuf","Community Health","08000001006","5 credits","03/09/2026","Admitted"]
+    ],
+    courses:[
+      ["HIM 211","Health Information Systems I","3","200 Level","Health Information Management","First"],
+      ["HIM 212","Medical Terminology","3","200 Level","Health Information Management","First"],
+      ["HIM 213","Health Records Management I","3","200 Level","Health Information Management","First"],
+      ["HIM 214","Anatomy and Physiology II","3","200 Level","Health Information Management","First"],
+      ["HIM 215","Health Statistics","3","200 Level","Health Information Management","First"],
+      ["HIM 216","Computer Applications in Health","2","200 Level","Health Information Management","First"],
+      ["HIM 217","Health Information Management Practice I","3","200 Level","Health Information Management","First"],
+      ["CHE 211","Community Health Practice I","3","200 Level","Community Health","First"],
+      ["CHE 212","Maternal and Child Health I","3","200 Level","Community Health","First"],
+      ["CHE 213","Environmental Health","2","200 Level","Community Health","First"],
+      ["CHE 214","Nutrition and Dietetics","2","200 Level","Community Health","First"],
+      ["CHE 215","Communicable Diseases","3","200 Level","Community Health","First"],
+      ["CHE 216","Health Promotion","2","200 Level","Community Health","First"],
+      ["CHE 217","Community Mobilization","2","200 Level","Community Health","First"]
+    ],
+    results:[
+      ["Aisha Ibrahim","GCHST/HIM/25/001","HIM 211","90","A","Verified","Finalized"],
+      ["Aisha Ibrahim","GCHST/HIM/25/001","HIM 212","86","A","Verified","Finalized"],
+      ["Aisha Ibrahim","GCHST/HIM/25/001","HIM 213","79","B","Verified","Finalized"],
+      ["Aisha Ibrahim","GCHST/HIM/25/001","HIM 214","75","B","Verified","Finalized"],
+      ["Aisha Ibrahim","GCHST/HIM/25/001","HIM 215","81","A","Verified","Finalized"],
+      ["Maryam Musa","GCHST/HIM/25/002","HIM 211","84","A","Verified","Finalized"],
+      ["Maryam Musa","GCHST/HIM/25/002","HIM 212","77","B","Verified","Finalized"],
+      ["Sadiq Bello","GCHST/HIM/25/003","HIM 211","72","B","Verified","Finalized"],
+      ["Hauwa Yusuf","GCHST/CHE/24/011","CHE 211","88","A","Verified","Finalized"],
+      ["Aminu Garba","GCHST/PHT/24/031","PHT 311","80","A","Verified","Finalized"]
+    ],
+    graduation:[
+      ["GCHST/CHE/24/011","Hauwa Yusuf","Community Health","3.68","Cleared","Cleared","Cleared","Eligible"],
+      ["GCHST/CHE/24/012","Abdullahi Umar","Community Health","3.41","Cleared","Cleared","Pending","Pending Clearance"],
+      ["GCHST/PHT/24/031","Aminu Garba","Pharmacy Technician","3.76","Cleared","Cleared","Cleared","Eligible"],
+      ["GCHST/HIM/24/010","Nafisa Ahmad","Health Information Management","3.82","Cleared","Pending","Cleared","Pending Clearance"],
+      ["GCHST/MLT/24/008","Rukayya Ibrahim","Medical Laboratory Technician","3.55","Cleared","Cleared","Cleared","Eligible"]
+    ],
+    staff:[
+      ["STAFF/001","Dr. Ibrahim Musa","Health Information Management","HOD","MSc Health Informatics","08000010001","Active"],
+      ["STAFF/002","Mrs. Maryam Bello","Health Information Management","Lecturer","BSc Health Information Management","08000010002","Active"],
+      ["STAFF/003","Mr. Sani Abdullahi","Community Health","HOD","MPH","08000010003","Active"],
+      ["STAFF/004","Mrs. Hauwa Umar","Community Health","Lecturer","BSc Public Health","08000010004","Active"],
+      ["STAFF/005","Mr. Kabiru Yusuf","Medical Laboratory Technician","Lecturer","BMLS","08000010005","Active"],
+      ["STAFF/006","Mrs. Aisha Lawal","Pharmacy Technician","Lecturer","BPharm","08000010006","Active"]
+    ],
+    nonStaff:[
+      ["NST/001","Ahmed Musa","Registry","Registry Officer","08000020001","Active"],
+      ["NST/002","Zainab Bello","ICT Unit","ICT Officer","08000020002","Active"],
+      ["NST/003","Fatima Umar","Bursary","Accounts Officer","08000020003","Active"],
+      ["NST/004","Sani Ali","Library","Library Assistant","08000020004","Active"]
+    ],
+    requests:[
+      ["REQ/001","Aisha Ibrahim","Transcript Request","05/09/2026","Pending"],
+      ["REQ/002","Maryam Musa","Student ID Replacement","04/09/2026","Approved"],
+      ["REQ/003","Hauwa Yusuf","Graduation Clearance","03/09/2026","Pending Clearance"],
+      ["REQ/004","Sadiq Bello","Change of Address","03/09/2026","Completed"],
+      ["REQ/005","Fatima Abdullahi","Course Registration Correction","02/09/2026","Approved"],
+      ["REQ/006","Aminu Garba","Certificate Verification","01/09/2026","Verified"],
+      ["REQ/007","Nafisa Ahmad","Final Transcript","01/09/2026","Pending"],
+      ["REQ/008","Musa Ibrahim","Statement of Result","31/08/2026","Completed"]
+    ],
+    docs:[
+      ["DOC/001","Aisha Ibrahim","Student ID","05/09/2026","Verified"],
+      ["DOC/002","Maryam Musa","Admission Letter","04/09/2026","Verified"],
+      ["DOC/003","Hauwa Yusuf","O'Level Result","03/09/2026","Verified"],
+      ["DOC/004","Aminu Garba","Certificate","02/09/2026","Verified"],
+      ["DOC/005","Nafisa Ahmad","Birth Certificate","02/09/2026","Pending"],
+      ["DOC/006","Sadiq Bello","Student ID","01/09/2026","Verified"]
+    ],
+    clearances:[
+      ["Hauwa Yusuf","Cleared","Cleared","Cleared","Cleared","Cleared"],
+      ["Abdullahi Umar","Cleared","Cleared","Cleared","Pending","Pending Clearance"],
+      ["Aminu Garba","Cleared","Cleared","Cleared","Cleared","Cleared"],
+      ["Nafisa Ahmad","Cleared","Pending","Cleared","Cleared","Pending Clearance"],
+      ["Rukayya Ibrahim","Cleared","Cleared","Cleared","Cleared","Completed"]
+    ],
+    accreditation:[
+      ["Health Information Management","NBTE","Accredited","2025","2028","12","Compliant"],
+      ["Community Health","NBTE","Accredited","2024","2027","10","Compliant"],
+      ["Medical Laboratory Technician","NBTE","Accredited","2025","2028","11","Compliant"],
+      ["Pharmacy Technician","NBTE","Accredited","2024","2027","9","Compliant"]
+    ],
+    audits:[
+      ["05/09/2026 10:30","Registrar","Student Registry","Updated student record","GCHST/HIM/25/001","Success"],
+      ["05/09/2026 10:05","Registrar","Admissions","Verified application","APP/2026/003","Success"],
+      ["04/09/2026 16:20","Registrar","Results","Finalized result","HIM 211","Success"],
+      ["04/09/2026 14:10","HOD","Academics","Submitted results","HIM 211","Success"],
+      ["03/09/2026 12:15","Registrar","Registry","Approved request","REQ/002","Success"],
+      ["03/09/2026 11:40","Registrar","Graduation","Reviewed clearance","GCHST/CHE/24/011","Success"],
+      ["02/09/2026 15:00","Registrar","Staff Registry","Updated staff record","STAFF/002","Success"],
+      ["02/09/2026 09:30","Admin","Course Registration","Published course","HIM 211","Success"]
+    ],
+    departments:[
+      {name:"Health Information Management",hodName:"Dr. Ibrahim Musa",programmes:1,students:5,staff:2,status:"Active"},
+      {name:"Community Health",hodName:"Mr. Sani Abdullahi",programmes:1,students:4,staff:2,status:"Active"},
+      {name:"Medical Laboratory",hodName:"Dr. Kabiru Yusuf",programmes:1,students:2,staff:1,status:"Active"},
+      {name:"Pharmacy Technology",hodName:"Mrs. Aisha Lawal",programmes:1,students:2,staff:1,status:"Active"}
+    ],
+    sessions:[
+      {name:"2025/2026",description:"Current academic session",status:"Active"},
+      {name:"2024/2025",description:"Previous academic session",status:"Completed"}
+    ],
+    semesters:[
+      {name:"First Semester",sessionName:"2025/2026",status:"Active"},
+      {name:"Second Semester",sessionName:"2025/2026",status:"Pending"}
+    ],
+    timetable:[
+      {id:"TT001",session:"2025/2026",semester:"First",course:"HIM 211 — Health Information Systems I",programme:"Health Information Management",level:"200",day:"Monday",start:"08:00",end:"10:00",lecturer:"Mrs. Maryam Bello",room:"HIM Hall 1",type:"Lecture",status:"Published"},
+      {id:"TT002",session:"2025/2026",semester:"First",course:"HIM 212 — Medical Terminology",programme:"Health Information Management",level:"200",day:"Tuesday",start:"10:00",end:"12:00",lecturer:"Mrs. Maryam Bello",room:"Room B12",type:"Lecture",status:"Approved"},
+      {id:"TT003",session:"2025/2026",semester:"First",course:"HIM 213 — Health Records Management I",programme:"Health Information Management",level:"200",day:"Wednesday",start:"08:00",end:"10:00",lecturer:"Dr. Ibrahim Musa",room:"HIM Hall 2",type:"Lecture",status:"Published"},
+      {id:"TT004",session:"2025/2026",semester:"First",course:"HIM 216 — Computer Applications in Health",programme:"Health Information Management",level:"200",day:"Thursday",start:"09:00",end:"11:00",lecturer:"Mr. Sani Abdullahi",room:"ICT Laboratory",type:"Practical",status:"Under Review"},
+      {id:"TT005",session:"2025/2026",semester:"First",course:"CHE 211 — Community Health Practice I",programme:"Community Health",level:"200",day:"Friday",start:"08:00",end:"10:00",lecturer:"Mrs. Hauwa Umar",room:"CHE Hall 1",type:"Lecture",status:"Published"}
+    ]
+  };
+
+  window.__GGCHST_DEMO=demo;
+  programmes=demo.programmes; students=demo.students; applications=demo.applications; staff=demo.staff; nonStaff=demo.nonStaff; requests=demo.requests; docs=demo.docs; audits=demo.audits; grad=demo.graduation; courses=demo.courses; academicResults=demo.results; clearances=demo.clearances; acc=demo.accreditation;
+  window.__GGCHST_departments=demo.departments;
+
+  function setVal(id,v){const e=document.getElementById(id);if(e)e.value=v;}
+  function setHTML(id,v){const e=document.getElementById(id);if(e)e.innerHTML=v;}
+
+  function renderCourseList(){
+    const rows=demo.courses.map((x,i)=>`<tr><td>${i+1}</td><td><b>${esc(x[1])}</b></td><td>${esc(x[0])}</td><td>${esc(x[2])}</td><td>${esc(x[4])}</td><td>${esc(x[3])}</td><td>${esc(x[5])}</td><td>2025/2026</td><td><button class="action" onclick="alert('Course ${esc(x[0])} opened for review.')">View</button></td></tr>`).join('');setHTML('rcRows',rows);
+    const ps=document.getElementById('rcProgramme'); if(ps)ps.innerHTML='<option value="">Select programme</option>'+demo.programmes.map(x=>`<option>${esc(x[0])}</option>`).join('');
+    const ss=document.getElementById('rcSession'); if(ss)ss.innerHTML='<option>2025/2026</option><option>2024/2025</option>';
+  }
+  function fillDashboard(){const s=document.querySelectorAll('#dashboard .grid:first-child .stat');if(s[0])s[0].textContent=students.length;if(s[1])s[1].textContent=applications.filter(x=>['Pending','Under Review','Verified'].includes(x[6])).length;if(s[2])s[2].textContent=students.filter(x=>x[4]==='2025/2026').length;if(s[3])s[3].textContent=grad.length;setHTML('attentionRequired','<b>3 applications</b> need verification. <b>8 registry requests</b> are in the queue. <b>2 graduation candidates</b> have outstanding clearance items.');}
+  function start(){
+    renderApplications();renderStudents();renderAcademics();renderGraduation();renderStaff();renderRegistry();renderAcc();renderReports();renderAudit();fillDashboard();renderCourseList();
+    setHTML('liveRegistrationPanel','<div class="table-wrap"><table><thead><tr><th>Student</th><th>Matric</th><th>Programme</th><th>Level</th><th>Session</th><th>Status</th></tr></thead><tbody>'+students.slice(0,8).map(x=>`<tr><td>${esc(x[1])}</td><td>${esc(x[0])}</td><td>${esc(x[2])}</td><td>${esc(x[3])}</td><td>${esc(x[4])}</td><td>${status(x[6])}</td></tr>`).join('')+'</tbody></table></div>');
+    setHTML('liveSessionPanel','<div class="grid">'+demo.sessions.map(x=>`<div class="card"><b>${esc(x.name)}</b><p class="small">${esc(x.description)}</p>${status(x.status)}</div>`).join('')+'</div>');
+    setHTML('liveCourseRegPanel','<div class="table-wrap"><table><thead><tr><th>Student</th><th>Programme</th><th>Level</th><th>Registered Courses</th><th>Session</th></tr></thead><tbody>'+students.slice(0,5).map((x,i)=>`<tr><td>${esc(x[1])}</td><td>${esc(x[2])}</td><td>${esc(x[3])}</td><td>${i<3?'7':'5'}</td><td>2025/2026</td></tr>`).join('')+'</tbody></table></div>');
+    setHTML('liveResultsPanel','<div class="table-wrap"><table><thead><tr><th>Student</th><th>Course</th><th>Score</th><th>Grade</th><th>Registrar Status</th></tr></thead><tbody>'+academicResults.map(x=>`<tr><td>${esc(x[0])}</td><td>${esc(x[2])}</td><td>${esc(x[3])}</td><td><b>${esc(x[4])}</b></td><td>${status(x[6])}</td></tr>`).join('')+'</tbody></table></div>');
+    setHTML('liveTranscriptPanel','<div class="grid"><div class="card"><b>Aisha Ibrahim</b><p class="small">GCHST/HIM/25/001 • Health Information Management</p><p><b>CGPA:</b> 3.72</p><button class="btn" onclick="alert(\'Transcript preview prepared.\')">Preview Transcript</button></div><div class="card"><b>Aminu Garba</b><p class="small">GCHST/PHT/24/031 • Pharmacy Technician</p><p><b>CGPA:</b> 3.76</p><button class="btn" onclick="alert(\'Certificate preview prepared.\')">Preview Certificate</button></div></div>');
+    setHTML('liveEstablishmentPanel','<div class="table-wrap"><table><thead><tr><th>Staff ID</th><th>Name</th><th>Department</th><th>Role</th><th>Status</th></tr></thead><tbody>'+staff.concat(nonStaff).map(x=>`<tr><td>${esc(x[0])}</td><td>${esc(x[1])}</td><td>${esc(x[2])}</td><td>${esc(x[3])}</td><td>${status(x[x.length-1])}</td></tr>`).join('')+'</tbody></table></div>');
+    setHTML('liveLettersPanel','<div class="grid"><div class="card"><b>Admission Letter</b><p class="small">APP/2026/004 • Kabiru Ali • Admitted</p><button class="btn" onclick="alert(\'Admission letter preview opened.\')">Preview</button></div><div class="card"><b>Confirmation Letter</b><p class="small">GCHST/HIM/25/001 • Aisha Ibrahim</p><button class="btn" onclick="alert(\'Confirmation letter preview opened.\')">Preview</button></div><div class="card"><b>Statement of Result</b><p class="small">GCHST/HIM/25/001 • 2025/2026 First Semester</p><button class="btn" onclick="alert(\'Statement of result preview opened.\')">Preview</button></div></div>');
+    setHTML('liveDocumentsPanel','<div class="table-wrap"><table><thead><tr><th>Reference</th><th>Student</th><th>Document</th><th>Date</th><th>Status</th></tr></thead><tbody>'+docs.map(x=>`<tr><td>${esc(x[0])}</td><td>${esc(x[1])}</td><td>${esc(x[2])}</td><td>${esc(x[3])}</td><td>${status(x[4])}</td></tr>`).join('')+'</tbody></table></div>');
+    setHTML('liveClearancePanel','<div class="table-wrap"><table><thead><tr><th>Student</th><th>Academic</th><th>Finance</th><th>Library</th><th>Registry</th><th>Overall</th></tr></thead><tbody>'+clearances.map(x=>`<tr><td>${esc(x[0])}</td><td>${status(x[1])}</td><td>${status(x[2])}</td><td>${status(x[3])}</td><td>${status(x[4])}</td><td>${status(x[5])}</td></tr>`).join('')+'</tbody></table></div>');
+    setHTML('liveCalendarPanel','<div class="grid"><div class="card"><b>First Semester</b><p class="small">Registration: 06 Jan – 17 Jan 2026</p><p class="small">Lectures: 19 Jan – 17 Apr 2026</p></div><div class="card"><b>Examinations</b><p class="small">First Semester Exams: 12 Jun – 26 Jun 2026</p></div><div class="card"><b>Second Semester</b><p class="small">Lectures commence: 06 Jul 2026</p></div><div class="card"><b>Registry Dates</b><p class="small">Result processing and clearance continue throughout the session.</p></div></div>');
+    setHTML('liveAnnouncementsPanel','<div class="grid"><div class="card"><b>First Semester Examination Notice</b><p class="small">Students should confirm registration and clearance before examinations.</p><span class="mini">02 June 2026</span></div><div class="card"><b>Result Finalization</b><p class="small">Departments should submit verified results to the Registrar for finalization.</p><span class="mini">28 May 2026</span></div><div class="card"><b>Graduation Clearance</b><p class="small">Final-year students should complete academic, finance, library and registry clearance.</p><span class="mini">20 May 2026</span></div><div class="card"><b>Student Registry Update</b><p class="small">Students are advised to keep biodata and contact information up to date.</p><span class="mini">15 May 2026</span></div></div>');
+    const ds=document.getElementById('dynamicSessionCards');if(ds)ds.innerHTML=demo.sessions.concat(demo.semesters).map(x=>`<div class="card"><b>${esc(x.name)}</b><p class="small">${esc(x.description||x.sessionName||'')}</p>${status(x.status)}</div>`).join('');
+    const ss=document.getElementById('syncStudentSelect');if(ss)ss.innerHTML=students.map((x,i)=>`<option value="${i}">${esc(x[1])} — ${esc(x[0])}</option>`).join('');
+    const ses=document.getElementById('syncSession');if(ses)ses.innerHTML='<option>2025/2026</option><option>2024/2025</option>';
+    const checks=document.getElementById('syncCourseChecks');if(checks)checks.innerHTML=demo.courses.filter(x=>x[4]==='Health Information Management').map((x,i)=>`<label class="card" style="padding:9px;display:flex;gap:7px;align-items:center"><input type="checkbox" ${i<4?'checked':''}> <span><b>${esc(x[0])}</b><br><span class="mini">${esc(x[1])}</span></span></label>`).join('');
+    // Timetable data from the existing timetable manager.
+    setTimeout(()=>{if(window.__GGCHST_getTmData){const a=window.__GGCHST_getTmData();a.splice(0,a.length,...demo.timetable);const sel=document.getElementById('tmSession');if(sel){sel.innerHTML='<option>2025/2026</option><option>2024/2025</option>';sel.value='2025/2026';}document.getElementById('tmSemester').value='First';document.getElementById('tmProgramme').value='Health Information Management';document.getElementById('tmStatus').value='';document.getElementById('tmStatus').dispatchEvent(new Event('change'));}},100);
+    const logout=document.getElementById('logoutBtn');if(logout)logout.onclick=()=>location.href='login_portal_selection.html';
+    const form=document.getElementById('registrarCourseForm');if(form)form.onsubmit=e=>{e.preventDefault();const n=document.getElementById('rcCourseName').value.trim(),c=document.getElementById('rcCourseCode').value.trim(),u=document.getElementById('rcCreditUnit').value,p=document.getElementById('rcProgramme').value,l=document.getElementById('rcLevel').value,s=document.getElementById('rcSemester').value,se=document.getElementById('rcSession').value;if(!n||!c||!u||!p||!l||!s||!se){alert('Please complete all course fields.');return}demo.courses.push([c,n,u,l,p,s]);courses=demo.courses;renderAcademics();renderCourseList();document.getElementById('rcStatus').textContent='Course saved successfully in the demo Registrar workspace.';form.reset();};
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+})();
+</script>
+</body>
+</html>
