@@ -281,13 +281,27 @@ a.file-link{color:var(--green);font-weight:800;text-decoration:none}
   a{color:inherit;text-decoration:none}
 }
 
+
+.direct-access-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-top:8px;
+  padding:7px 11px;
+  border-radius:999px;
+  background:#e5f7ec;
+  color:#08783d;
+  font-size:12px;
+  font-weight:800;
+}
+
 </style>
 </head>
 <body>
 <main>
   <div class="top-title">
     <h1>Student Profile</h1>
-    <p>Pre-filled student academic and personal information</p>
+    <p>Your academic and student information</p>
   </div>
 
   <div id="message" class="message"></div>
@@ -656,60 +670,38 @@ async function rows(name){
     return [];
   }
 }
-async function findStudent(){
-  /*
-    DEMO / PRE-FILLED STUDENT MODE
-    No Firebase Authentication is required on this page.
-    The portal opens directly with this sample student record.
-    Replace these values later with the student's real data.
-  */
-  return {
-    id:"demo-student-001",
-    studentId:"XYZ/CHST/2025/001",
-    studentID:"XYZ/CHST/2025/001",
-    schoolId:"XYZ/CHST/2025/001",
-    admissionNumber:"ADM/2025/001",
-    admissionNo:"ADM/2025/001",
-    registrationNumber:"ADM/2025/001",
+async function findStudent(user){
+  const uid=String(user?.uid||"").trim();
+  const email=norm(user?.email);
 
-    fullName:"Aisha Ibrahim",
-    studentName:"Aisha Ibrahim",
-    name:"Aisha Ibrahim",
-    email:"aisha.ibrahim@example.com",
+  // PRIMARY LINK: Firebase UID -> users.profileId -> exact students document.
+  // We also keep the users record so programme/level can be recovered if an
+  // older student document does not contain the mirrored display fields.
+  try{
+    const userRows=await rows("users");
+    const userRecord=userRows.find(x=>String(x.uid||x.authUid||x.firebaseUid||"").trim()===uid)
+      || userRows.find(x=>norm(x.email||x.authEmail)===email);
 
-    programmeId:"him",
-    programmeName:"Health Information Management",
-    programme:"Health Information Management",
-    courseOfStudy:"Health Information Management",
+    const profileId=String(userRecord?.profileId||"").trim();
+    if(profileId){
+      const snap=await getDoc(doc(db,"students",profileId));
+      if(snap.exists()) return {...userProfileFallback(userRecord),id:snap.id,...snap.data(),_userRecord:userRecord};
+    }
 
-    levelId:"200",
-    levelName:"Level 200",
-    level:"Level 200",
-    semester:"First",
-    academicSession:"2025/2026",
-    session:"2025/2026",
+    const list=await rows("students");
+    const byUid=list.find(s=>[s.studentUid,s.authUid,s.firebaseUid,s.uid].some(x=>String(x||"").trim()===uid));
+    if(byUid)return {...userProfileFallback(userRecord),...byUid,_userRecord:userRecord};
 
-    department:"Health Information Management",
-    faculty:"School of Health Information Management",
+    const byEmail=list.find(s=>norm(s.email||s.authEmail)===email);
+    if(byEmail)return {...userProfileFallback(userRecord),...byEmail,_userRecord:userRecord};
+  }catch(err){
+    console.warn("Primary student profile link failed; using direct student lookup:",err);
+  }
 
-    status:"Active",
-    accountStatus:"Active",
-    paymentStatus:"Paid",
-
-    phone:"08000000000",
-    dateOfBirth:"2005-05-15",
-    gender:"Female",
-    stateOfOrigin:"Kano",
-    lga:"Nassarawa",
-    address:"Kano State, Nigeria",
-    guardianName:"Ibrahim Musa",
-    guardianPhone:"08000000001",
-    notes:"Demo student profile",
-
-    photo:"",
-    profilePhoto:"",
-    photoURL:""
-  };
+  const list=await rows("students");
+  const found=list.find(s=>[s.studentUid,s.authUid,s.firebaseUid,s.uid].some(x=>String(x||"").trim()===uid))
+      || list.find(s=>norm(s.email||s.authEmail)===email);
+  return found||null;
 }
 
 function userProfileFallback(u){
@@ -926,123 +918,49 @@ async function uploadStudentPhoto(file){
   if(!res.ok||!data.secure_url)throw new Error(data.error?.message||"Profile picture upload failed.");
   return data.secure_url;
 }
+
 async function saveMyDetails(e){
   e.preventDefault();
-  if(!student||profileEditLocked())return;
-  const btn=$("saveDetails");btn.disabled=true;btn.textContent="Saving...";
+
   try{
-    let photo=photoUrl(student);
-    if(detailsPhotoChanged&&detailsPhotoData){
-      showDetailsStatus("Uploading profile picture...","ok");
-      photo=await uploadStudentPhoto(detailsPhotoData);
-    }
-
-    const now=new Date().toISOString();
-    const fullName=$("dFullName").value.trim();
-    const studentId=$("dStudentId").value.trim();
-    const admissionNumber=$("dAdmissionNo").value.trim();
-    const email=$("dEmail").value.trim();
-    const programme=$("dProgramme").value.trim();
-    const level=$("dLevel").value.trim();
-    const semester=$("dSemester").value;
-    const academicSession=$("dAcademicSession").value.trim();
-    const status=$("dStatus").value;
-    const paymentStatus=$("dPaymentStatus").value;
-
-    if(!fullName)throw new Error("Full Name is required.");
-
-    // Save the same field set used by the Admin Student Edit page.
-    // Aliases are kept so the existing Student List/Profile readers continue
-    // to recognize the record without any schema break.
-    const data={
-      fullName,
-      studentName:fullName,
-      name:fullName,
-
-      studentId,
-      studentID:studentId,
-      matricNo:studentId,
-      schoolId:studentId,
-
-      admissionNumber,
-      admissionNo:admissionNumber,
-      registrationNumber:admissionNumber,
-
-      email,
-      programme,
-      programmeName:programme,
-      courseOfStudy:programme,
-
-      level,
-      levelName:level,
-
-      semester,
-      academicSession,
-      session:academicSession,
-
-      status,
-      accountStatus:status,
-      paymentStatus,
-
-      phone:$("dPhone").value.trim(),
-      dateOfBirth:$("dDob").value,
-      gender:$("dGender").value.trim(),
-      stateOfOrigin:$("dState").value.trim(),
-      lga:$("dLga").value.trim(),
-      address:$("dAddress").value.trim(),
-      guardianName:$("dGuardianName").value.trim(),
-      guardianPhone:$("dGuardianPhone").value.trim(),
-      notes:$("dNotes").value.trim(),
-
-      profilePhoto:photo,
-      photo,
-      photoURL:photo,
-      photoUrl:photo,
-
-      profileLastUpdatedAt:now,
-      profileLastUpdatedISO:now,
-      updatedAt:now,
-      updatedBy:"Student"
+    const form=new FormData($("detailsForm"));
+    const updated={
+      fullName:String(form.get("fullName")||"").trim(),
+      phone:String(form.get("phone")||"").trim(),
+      email:String(form.get("email")||"").trim(),
+      dateOfBirth:String(form.get("dateOfBirth")||"").trim(),
+      gender:String(form.get("gender")||"").trim(),
+      stateOfOrigin:String(form.get("stateOfOrigin")||"").trim(),
+      lga:String(form.get("lga")||"").trim(),
+      address:String(form.get("address")||"").trim(),
+      guardianName:String(form.get("guardianName")||"").trim(),
+      guardianPhone:String(form.get("guardianPhone")||"").trim(),
+      notes:String(form.get("notes")||"").trim()
     };
 
-    await updateDoc(doc(db,"students",student.id),data);
+    Object.assign(student,updated);
 
-    // Keep the users mirror in sync where the matching account record exists.
-    // The profileId remains unchanged, so login will continue to open this
-    // exact students document.
-    try{
-      const userRows=await rows("users");
-      const userRecord=userRows.find(x=String(x.uid||x.authUid||x.firebaseUid||"").trim()===String(student.studentUid||student.authUid||student.firebaseUid||student.uid||"").trim())
-        || userRows.find(x=String(x.profileId||"").trim()===String(student.id))
-        || userRows.find(x=>norm(x.email||x.authEmail)===norm(student.email||""));
-      if(userRecord?.id){
-        await updateDoc(doc(db,"users",userRecord.id),{
-          name:fullName,email,
-          authEmail:val(userRecord,["authEmail"],email),
-          studentId,admissionNumber,
-          schoolId:studentId,
-          programmeId:val(student,["programmeId"],""),
-          programmeName:programme,
-          levelId:val(student,["levelId"],""),
-          levelName:level,
-          status,
-          profileCompleted:true,
-          updatedAt:now
-        });
-      }
-    }catch(syncErr){
-      console.warn("Users mirror sync skipped:",syncErr);
+    if(detailsPhotoChanged && detailsPhotoData){
+      const reader=new FileReader();
+      await new Promise((resolve,reject)=>{
+        reader.onload=()=>{
+          student.photo=reader.result;
+          student.photoURL=reader.result;
+          student.profilePhoto=reader.result;
+          resolve();
+        };
+        reader.onerror=reject;
+        reader.readAsDataURL(detailsPhotoData);
+      });
     }
 
-    student={...student,...data};
-    await renderProfile();renderProfileUpdateDate();
-    showDetailsStatus("Your student details have been saved successfully. The same record is now available to the Admin Student List/Edit page.","ok");
-    btn.disabled=false;btn.textContent="Save My Details";
-    setTimeout(closeDetails,1200);
+    await renderProfile();
+    renderProfileUpdateDate();
+    showDetailsStatus("Your details have been updated for this demo profile.","ok");
+    setTimeout(closeDetails,900);
   }catch(err){
     console.error(err);
     showDetailsStatus(err.message||"Could not save your details.","err");
-    btn.disabled=false;btn.textContent="Save My Details";
   }
 }
 
@@ -1556,54 +1474,94 @@ async function loadData(){
   renderExamSlip(examRecords);
   if(examTimeReached)applyExamPrintAccess();
 }
-async function start(user){
-  student=await findStudent(user);
-  if(!student){
-    showMessage("Your Firebase account is logged in, but no student record is linked to this Firebase UID/profileId. Ask the administrator to check the student's users and students records.","error");
-    $("studentName").textContent="Student record not found";
-    $("identity").textContent=user.email||"";
-    $("status").textContent="NOT LINKED";
-    return;
-  }
-  renderProfile();
-  await loadData();
-}
-$("logout").onclick=async()=>{try{await signOut(auth)}finally{location.href="login.html"}};
-$("printExamSlip").onclick=()=>{
-  if(!examPrintReady||!examFeesPaid||!examTimeReached)return;
-  window.print();
+const PRE_FILLED_STUDENT = {
+  id:"demo-student-001",
+  studentId:"XYZ/CHST/2025/001",
+  studentID:"XYZ/CHST/2025/001",
+  admissionNumber:"ADM/2025/001",
+  admissionNo:"ADM/2025/001",
+  registrationNumber:"ADM/2025/001",
+
+  fullName:"Aisha Ibrahim",
+  studentName:"Aisha Ibrahim",
+  name:"Aisha Ibrahim",
+  email:"aisha.ibrahim@example.com",
+
+  programmeId:"him",
+  programmeName:"Health Information Management",
+  programme:"Health Information Management",
+  courseOfStudy:"Health Information Management",
+
+  levelId:"200",
+  levelName:"Level 200",
+  level:"Level 200",
+  semester:"First",
+  academicSession:"2025/2026",
+  session:"2025/2026",
+
+  department:"Health Information Management",
+  faculty:"School of Health Information Management",
+
+  status:"Active",
+  accountStatus:"Active",
+  paymentStatus:"Paid",
+
+  phone:"08000000000",
+  dateOfBirth:"2005-05-15",
+  gender:"Female",
+  stateOfOrigin:"Kano",
+  lga:"Nassarawa",
+  address:"Kano State, Nigeria",
+  guardianName:"Ibrahim Musa",
+  guardianPhone:"08000000001",
+  notes:"Pre-filled student profile",
+
+  photo:"",
+  profilePhoto:"",
+  photoURL:""
 };
-$("myDetailsBtn").onclick=openDetails;
-$("closeDetails").onclick=closeDetails;
-$("cancelDetails").onclick=closeDetails;
-$("detailsModal").addEventListener("click",e=>{if(e.target===$("detailsModal"))closeDetails();});
-$("detailsForm").addEventListener("submit",saveMyDetails);
-$("detailsPhoto").addEventListener("change",e=>{
-  const file=e.target.files?.[0];if(!file)return;
-  detailsPhotoData=file;detailsPhotoChanged=true;
-  const preview=$("detailsPhotoPreview");
-  const reader=new FileReader();
-  reader.onload=()=>{preview.src=reader.result;preview.classList.remove("photo-fallback");};
-  reader.readAsDataURL(file);
-});
+
+async function startPreFilledStudent(){
+  student={...PRE_FILLED_STUDENT};
+
+  // Render the profile FIRST. This prevents the page from remaining
+  // stuck on "Loading student record..." when Firebase Auth is absent.
+  try{
+    await renderProfile();
+  }catch(err){
+    console.error("Profile rendering error:",err);
+    showMessage("Could not render the pre-filled student profile.","error");
+  }
+
+  // Load optional Firestore data (courses, results, attendance, etc.).
+  // The main profile remains visible even if these reads fail.
+  try{
+    await loadData();
+  }catch(err){
+    console.warn("Optional Firestore data could not be loaded:",err);
+    renderCourses();
+    renderResults();
+    renderAttendance();
+    renderCarryovers();
+    renderExams([]);
+    renderList("notes",[],"notes");
+    renderList("assignments",[],"assignments");
+    renderList("announcements",[],"announcements");
+    renderAttendanceDetail([]);
+    renderFees([]);
+    examFeesPaid=false;
+    renderExamStudent();
+    renderExamSlip([]);
+  }
+
+  $("logout").onclick=()=>{
+    window.location.href="login_portal_selection.html";
+  };
+}
+
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("detailsModal").classList.contains("show"))closeDetails();});
 
-let started=false;
-async function initializeStudentPortal(){
-  try{
-    student = await findStudent();
-
-    if(!student){
-      showMessage("No pre-filled student record is available.","error");
-      return;
-    }
-
-    await renderProfile();
-    await loadAll();
-  }catch(err){
-    console.error(err);
-    showMessage("Unable to load the student profile.","error");
-  }
-}
-
-initializeStudentPortal();
+startPreFilledStudent();
+</script>
+</body>
+</html>
