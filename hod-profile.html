@@ -7,22 +7,23 @@
 <style>
 :root{--bg:#f3f8f4;--card:#fff;--text:#172033;--muted:#667085;--line:#dfe9e2;--green:#078447;--dark:#056b3a;--soft:#dff7e9;--red:#b42318;--amber:#a15c00}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
-button,input,select{font:inherit}.top{background:#fff;border-bottom:1px solid var(--line);box-shadow:0 2px 12px #0d3b2410}.topbar{max-width:1000px;margin:auto;padding:12px 18px;display:flex;align-items:center;gap:12px}.logo{width:52px;height:52px;object-fit:contain;border-radius:10px}.brand{font-weight:900;color:var(--dark);font-size:16px}.top small{color:var(--muted);font-size:11px;display:block;margin-top:3px}.top-actions{margin-left:auto;display:flex;gap:8px;align-items:center}.badge{padding:7px 10px;border-radius:999px;background:var(--soft);color:var(--dark);font-size:11px;font-weight:800}.logout{border:0;border-radius:9px;background:var(--green);color:#fff;padding:9px 14px;font-weight:800;cursor:pointer}
-.title{max-width:1000px;margin:auto;padding:20px 18px}.title h1{margin:0;color:var(--dark);font-size:25px}.title p{margin:6px 0 0;color:var(--muted);font-size:13px}
+button,input,select{font:inherit}.top{background:#fff;border-bottom:1px solid var(--line);box-shadow:0 2px 12px #0d3b2410}.topbar{max-width:1000px;margin:auto;padding:10px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:54px}.logo{width:52px;height:52px;object-fit:contain;border-radius:10px}.brand{font-weight:900;color:var(--dark);font-size:15px;line-height:1.2}.top small{color:var(--muted);font-size:11px;display:block;margin-top:3px}.top-actions{margin-left:auto;display:flex;gap:8px;align-items:center;justify-content:flex-end}.badge{padding:7px 10px;border-radius:999px;background:var(--soft);color:var(--dark);font-size:11px;font-weight:800}.logout{border:0;border-radius:8px;background:var(--green);color:#fff;padding:7px 11px;font-weight:800;font-size:11px;cursor:pointer;white-space:nowrap}
+.title{max-width:1000px;margin:auto;padding:14px 18px}.title h1{margin:0;color:var(--dark);font-size:22px}.title p{margin:6px 0 0;color:var(--muted);font-size:13px}
 main{max-width:1000px;margin:auto;padding:0 18px 40px}.section{background:var(--card);border:1px solid var(--line);border-radius:18px;margin:16px 0;overflow:hidden;box-shadow:0 5px 20px #1730240d}.section-head{padding:17px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}.section-head h2{margin:0;color:var(--dark);font-size:18px}.section-head small{display:block;color:var(--muted);margin-top:4px;font-size:11px}.count{background:var(--soft);color:var(--dark);font-weight:900;padding:7px 10px;border-radius:999px;font-size:11px;white-space:nowrap}.body{padding:16px 18px}.profile{padding:30px;text-align:center}.photo{width:145px;height:145px;border-radius:50%;object-fit:cover;border:4px solid #fff;box-shadow:0 4px 18px #0d3b2430}.profile h2{font-size:30px;margin:15px 0 6px}.profile-sub{color:var(--muted);font-size:14px;margin-bottom:15px}.pills{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}.pill{padding:9px 14px;border-radius:999px;background:var(--soft);color:var(--dark);font-size:12px;font-weight:900}.status{padding:5px 9px;border-radius:999px;background:var(--soft);color:var(--green);font-size:10px;font-weight:900}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:20px}.stat{border:1px solid var(--line);border-radius:12px;padding:14px;background:#fbfdfb}.stat b{display:block;font-size:24px;color:var(--dark)}.stat span{font-size:11px;color:var(--muted)}
-.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.filters input,.filters select{border:1px solid var(--line);border-radius:9px;padding:9px 10px;background:#fff;color:var(--text);font-size:12px;flex:1;min-width:150px}.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:720px}.table th{background:#f3f8f4;color:var(--dark);font-size:10px;text-align:left;padding:10px;border-bottom:1px solid var(--line)}.table td{padding:10px;border-bottom:1px solid #edf2ee;font-size:11px;vertical-align:top}.table tr:last-child td{border-bottom:0}.muted{color:var(--muted)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.filters input,.filters select{border:1px solid var(--line);border-radius:9px;padding:9px 10px;background:#fff;color:var(--text);font-size:12px;flex:1;min-width:150px}.table-wrap{width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:12px}.table{width:100%;border-collapse:collapse;min-width:760px;background:#fff}.table th:first-child,.table td:first-child{width:48px;text-align:center}.table th{background:#f3f8f4;color:var(--dark);font-size:10px;text-align:left;padding:10px;border-bottom:1px solid var(--line)}.table td{padding:10px;border-bottom:1px solid #edf2ee;font-size:11px;vertical-align:top}.table tr:last-child td{border-bottom:0}.muted{color:var(--muted)}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.card{border:1px solid var(--line);border-radius:12px;padding:14px;background:#fff}.card h3{margin:0 0 6px;color:var(--dark);font-size:14px}.card p{margin:4px 0;color:var(--muted);font-size:11px;line-height:1.5}.course-code{font-weight:900;color:var(--green)}.result-card{border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden}.result-head{padding:13px;display:flex;justify-content:space-between;gap:10px;align-items:center}.actions{display:flex;gap:7px;flex-wrap:wrap}.btn{border:0;border-radius:8px;padding:8px 10px;font-size:10px;font-weight:900;cursor:pointer}.approve{background:var(--green);color:#fff}.return{background:#fff0ef;color:var(--red);border:1px solid #f3c5c1}.neutral{background:#eef5f1;color:var(--dark)}
 .day{margin-bottom:15px}.day h3{margin:0 0 7px;color:var(--dark);font-size:13px}.time{display:grid;grid-template-columns:120px 1fr 170px;gap:10px;padding:10px;border:1px solid var(--line);border-radius:9px;margin:6px 0;font-size:11px;background:#fbfdfb}.report-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.report{padding:16px;border:1px solid var(--line);border-radius:12px;text-align:center}.report b{display:block;font-size:25px;color:var(--dark)}.report span{font-size:11px;color:var(--muted)}.footer{text-align:center;color:var(--muted);font-size:10px;padding:18px}.notice{padding:10px 12px;background:#f3f8f4;border-left:4px solid var(--green);border-radius:8px;font-size:11px;color:var(--muted);margin-bottom:10px}
-@media(max-width:700px){.topbar{padding:10px 12px}.logo{width:44px;height:44px}.brand{font-size:13px}.badge{display:none}.title{padding:16px 12px}.title h1{font-size:21px}main{padding:0 12px 30px}.section-head{align-items:flex-start}.section-head h2{font-size:16px}.stats{grid-template-columns:repeat(2,1fr)}.profile{padding:25px 15px}.profile h2{font-size:25px}.grid{grid-template-columns:1fr}.report-grid{grid-template-columns:repeat(2,1fr)}.time{grid-template-columns:1fr}.logout{padding:8px 10px;font-size:11px}}
+@media(max-width:700px){.topbar{padding:9px 12px;min-height:48px}.logo{width:44px;height:44px}.brand{font-size:13px}.badge{display:none}.title{padding:12px}.title h1{font-size:20px}main{padding:0 12px 30px}.section-head{align-items:flex-start}.section-head h2{font-size:16px}.stats{grid-template-columns:repeat(2,1fr)}.profile{padding:25px 15px}.profile h2{font-size:25px}.grid{grid-template-columns:1fr}.report-grid{grid-template-columns:repeat(2,1fr)}.time{grid-template-columns:1fr}.logout{padding:8px 10px;font-size:11px}}
 </style>
 </head>
 <body>
 
 <header class="top">
-    </div>
+  <div class="topbar">
+    <div class="brand">Head of Department Portal</div>
     <div class="top-actions">
-      <h2>Head of Department Portal</h2>
-  <button class="logout" onclick="location.href='index.html'">Logout</button>
+      <button class="logout" onclick="location.href='index.html'">Logout</button>
+    </div>
   </div>
 </header>
 <main>
@@ -48,8 +49,21 @@ main{max-width:1000px;margin:auto;padding:0 18px 40px}.section{background:var(--
 <section class="section" id="students">
   <div class="section-head"><div><h2>Students List</h2><small>Students registered under Health Information Management.</small></div><span class="count">12 Students</span></div>
   <div class="body">
-    <div class="filters"><input id="studentSearch" placeholder="Search student..."><select id="studentLevel"><option>All levels</option><option>Level 100</option><option>Level 200</option><option>Level 300</option></select></div>
-    <div class="table-wrap"><table class="table"><thead><tr><th>Student</th><th>Student ID</th><th>Admission No.</th><th>Level</th><th>Semester</th><th>Status</th></tr></thead><tbody id="students"></tbody></table></div>
+    <div class="filters">
+      <input id="studentSearch" placeholder="Search student...">
+      <select id="studentLevel" aria-label="Filter students by level">
+        <option>All levels</option>
+        <option>Level 100</option>
+        <option>Level 200</option>
+        <option>Level 300</option>
+      </select>
+    </div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>No.</th><th>Student</th><th>Student ID</th><th>Admission No.</th><th>Level</th><th>Semester</th><th>Status</th></tr></thead>
+        <tbody id="students"></tbody>
+      </table>
+    </div>
   </div>
 </section>
 
@@ -57,7 +71,12 @@ main{max-width:1000px;margin:auto;padding:0 18px 40px}.section{background:var(--
   <div class="section-head"><div><h2>Lecturer List</h2><small>Lecturers assigned to the department and its courses.</small></div><span class="count">14 Lecturers</span></div>
   <div class="body">
     <div class="filters"><input id="lecturerSearch" placeholder="Search lecturer..."></div>
-    <div class="table-wrap"><table class="table"><thead><tr><th>Lecturer</th><th>Staff ID</th><th>Email</th><th>Qualification</th><th>Courses</th><th>Status</th></tr></thead><tbody id="lecturers"></tbody></table></div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>No.</th><th>Lecturer</th><th>Staff ID</th><th>Email</th><th>Qualification</th><th>Courses</th><th>Status</th></tr></thead>
+        <tbody id="lecturers"></tbody>
+      </table>
+    </div>
   </div>
 </section>
 
@@ -162,13 +181,29 @@ const exams=[
 ];
 
 function renderStudents(){
- const q=document.getElementById("studentSearch").value.toLowerCase();
+ const q=document.getElementById("studentSearch").value.trim().toLowerCase();
  const level=document.getElementById("studentLevel").value;
- document.getElementById("students").innerHTML=students.filter(x=>(!q||x.join(" ").toLowerCase().includes(q))&&(level==="All levels"||x[3]===level)).map(x=>`<tr><td><b>${x[0]}</b></td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td>${x[4]}</td><td><span class="status">${x[5]}</span></td></tr>`).join("");
+ const levelOrder={"Level 100":1,"Level 200":2,"Level 300":3};
+ const filtered=students
+   .filter(x=>(!q||x.join(" ").toLowerCase().includes(q))&&(level==="All levels"||x[3]===level))
+   .sort((a,b)=>(levelOrder[a[3]]||99)-(levelOrder[b[3]]||99)||a[0].localeCompare(b[0]));
+ document.getElementById("students").innerHTML=filtered.length
+   ? filtered.map((x,i)=>`<tr><td><b>${i+1}</b></td><td><b>${x[0]}</b></td><td>${x[1]}</td><td>${x[2]}</td><td><b>${x[3]}</b></td><td>${x[4]}</td><td><span class="status">${x[5]}</span></td></tr>`).join("")
+   : `<tr><td colspan="7" class="muted" style="text-align:center;padding:22px">No students found for this search or level.</td></tr>`;
+ document.querySelector("#students").closest(".table-wrap").previousElementSibling;
+ const count=document.querySelector("#students").closest(".section").querySelector(".count");
+ if(count) count.textContent=`${filtered.length} Student${filtered.length===1?"":"s"}`;
 }
 function renderLecturers(){
- const q=document.getElementById("lecturerSearch").value.toLowerCase();
- document.getElementById("lecturers").innerHTML=lecturers.filter(x=>!q||x.join(" ").toLowerCase().includes(q)).map(x=>`<tr><td><b>${x[0]}</b></td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td>${x[4]}</td><td><span class="status">${x[5]}</span></td></tr>`).join("");
+ const q=document.getElementById("lecturerSearch").value.trim().toLowerCase();
+ const filtered=lecturers
+   .filter(x=>!q||x.join(" ").toLowerCase().includes(q))
+   .sort((a,b)=>a[0].localeCompare(b[0]));
+ document.getElementById("lecturers").innerHTML=filtered.length
+   ? filtered.map((x,i)=>`<tr><td><b>${i+1}</b></td><td><b>${x[0]}</b></td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td>${x[4]}</td><td><span class="status">${x[5]}</span></td></tr>`).join("")
+   : `<tr><td colspan="7" class="muted" style="text-align:center;padding:22px">No lecturers found.</td></tr>`;
+ const count=document.querySelector("#lecturers").closest(".section").querySelector(".count");
+ if(count) count.textContent=`${filtered.length} Lecturer${filtered.length===1?"":"s"}`;
 }
 document.getElementById("coursesGrid").innerHTML=courses.map(x=>`<div class="card"><div class="course-code">${x[0]}</div><h3>${x[1]}</h3><p><b>Units:</b> ${x[2]} · <b>Level:</b> ${x[3]} · <b>Semester:</b> ${x[4]}</p><p><b>Lecturer:</b> ${x[5]}</p></div>`).join("");
 function renderResults(){
