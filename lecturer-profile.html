@@ -537,11 +537,58 @@ main{max-width:1200px!important;margin:0 auto!important;padding:24px 18px 40px!i
 .profile h2{margin-left:auto !important;margin-right:auto !important;}
 .profile-meta,.profile-actions,.details-date{text-align:left !important;}
 </style>
+
+<style id="final-requested-header-only">
+/* ONLY requested changes: keep lecturer profile photo centered; adjust top header. */
+.topbar.student-style-header .header-top-layer{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  width:100% !important;
+  padding:12px 18px !important;
+  gap:12px !important;
+}
+.topbar.student-style-header .header-top-layer > h1{
+  margin:0 !important;
+  color:#14532d !important;
+  font-size:20px !important;
+  line-height:1.2 !important;
+  font-weight:800 !important;
+  text-align:left !important;
+}
+.topbar.student-style-header .header-top-layer .logout{
+  flex:0 0 auto !important;
+  width:auto !important;
+  min-width:0 !important;
+  padding:7px 11px !important;
+  font-size:12px !important;
+  line-height:1 !important;
+  border-radius:7px !important;
+}
+/* Restore the original centered lecturer profile layout. */
+.profile{
+  grid-template-columns:1fr !important;
+  gap:14px !important;
+}
+.profile > div:first-child{
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+}
+.profile > div:nth-child(2){text-align:center !important;}
+.profile h2{margin-left:auto !important;margin-right:auto !important;}
+.profile-meta,.profile-actions,.details-date{text-align:left !important;}
+@media(max-width:600px){
+  .topbar.student-style-header .header-top-layer{padding:10px 12px !important;}
+  .topbar.student-style-header .header-top-layer > h1{font-size:17px !important;}
+  .topbar.student-style-header .header-top-layer .logout{padding:6px 9px !important;font-size:11px !important;}
+}
+</style>
 </head>
 <body>
 <header class="topbar student-style-header">
   <div class="header-top-layer">
-      <h1>Lecturer Profile</h1>
+      <h1>Lecturer Portal</h1>
       <button class="logout" onclick="location.href='index.html'">Logout</button>
   </div>
 </header>
